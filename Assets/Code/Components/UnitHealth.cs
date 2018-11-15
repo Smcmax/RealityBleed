@@ -31,12 +31,9 @@ public class UnitHealth : MonoBehaviour {
 
 	private void SetHealth(float p_value) {
 		float value = p_value;
-		float hp = GetHealth();
 
-		if(value + hp > m_maxHealth.Value)
-			value = m_maxHealth - hp;
-		else if(value + hp < 0)
-			value = hp;
+		if(value > m_maxHealth.Value) value = m_maxHealth;
+		else if(value < 0) value = 0;
 
 		if(m_refHealth) m_refHealth.Value = value;
 		else m_health = value;
@@ -46,8 +43,8 @@ public class UnitHealth : MonoBehaviour {
 		return Time.time * 1000 < m_lastHit + m_immunityWindow * 1000;
 	}
 
-	public void Damage(float p_amount) {
-		if(IsImmune()) return;
+	public void Damage(float p_amount, bool p_bypassImmunityWindow) {
+		if(!p_bypassImmunityWindow && IsImmune()) return;
 
 		SetHealth(GetHealth() - p_amount);
 		m_lastHit = Time.time * 1000;

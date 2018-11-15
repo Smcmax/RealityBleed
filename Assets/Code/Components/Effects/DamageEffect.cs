@@ -7,6 +7,6 @@ public class DamageEffect : Effect {
 	[Range(0, 100)] public float m_damage;
 
 	public override void Tick(Entity p_target){ 
-		p_target.Damage(m_damage, true);
+		p_target.Damage(m_damage, true, true);
 	}
 }

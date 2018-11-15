@@ -58,16 +58,17 @@ public class Entity : MonoBehaviour {
 	}
 
 	private void TickEffects() {
-		foreach(Effect effect in m_effectsActive.Keys) {
+		foreach(Effect effect in new List<Effect>(m_effectsActive.Keys)) {
 			effect.Tick(this);
 
 			bool remove = false;
 
 			if(effect.m_duration > 0) {
 				float activationTime = 0f;
+
 				m_effectsActive.TryGetValue(effect, out activationTime);
 
-				if(activationTime + effect.m_duration * 1000 > Time.time * 1000)
+				if(Time.time * 1000 > activationTime + effect.m_duration * 1000)
 					remove = true;
 			} else remove = true;
 
@@ -86,7 +87,7 @@ public class Entity : MonoBehaviour {
 		m_effectsActive.Add(p_effect, Time.time * 1000);
 	}
 
-	public void Damage(float p_damage, bool p_bypassDefense){
+	public void Damage(float p_damage, bool p_bypassDefense, bool p_bypassImmunityWindow){
 		if(m_health) {
 			float finalDamage = p_damage;
 
@@ -96,7 +97,7 @@ public class Entity : MonoBehaviour {
 				finalDamage -= defense;
 			}
 
-			if(finalDamage > 0) m_health.Damage(finalDamage);
+			if(finalDamage > 0) m_health.Damage(finalDamage, p_bypassImmunityWindow);
 		}
 	}
 
