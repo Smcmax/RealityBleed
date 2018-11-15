@@ -30,9 +30,6 @@ public class Projectile : MonoBehaviour {
 	[Tooltip("The behaviours this projectile will use throughout its lifetime")]
 	public List<ProjectileBehaviour> m_behaviours;
 
-	[Tooltip("The projectile pooler associated with this projectile")]
-	public ProjectilePooler m_projectilePooler;
-
 	[HideInInspector] public Shooter m_shooter;
 	[HideInInspector] public Projectile m_original;
 	[HideInInspector] public Vector2 m_start;
@@ -125,6 +122,6 @@ public class Projectile : MonoBehaviour {
 		m_target = Vector2.zero;
 		m_shooter = null;
 
-		m_projectilePooler.Remove(gameObject);
+		ProjectilePooler.m_projectilePooler.Remove(gameObject);
 	}
 }

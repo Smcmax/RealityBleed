@@ -16,27 +16,87 @@ public class Entity : MonoBehaviour {
 	[Tooltip("Every inventory carried by this entity")]
 	public List<Inventory> m_inventories; // TODO: do something better for extra bags and shit? maybe just a simple wrapper for it
 
-	[Tooltip("The shot pattern fired when this entity uses left click")]
-	public ShotPattern m_leftClickPattern; // replace these with class patterns instead? or just keep defaults in class and copy? idk
-
-	[Tooltip("The shot pattern fired when this entity uses right click")]
-	public ShotPattern m_rightClickPattern;
-
+	// check for duplicate effects maybe not stacking? unsure if it will happen but needs to be tested
+	[HideInInspector] public Dictionary<Effect, float> m_effectsActive; // float = application time
+	[HideInInspector] public Class m_class;
 	[HideInInspector] public UnitHealth m_health;
-	protected Shooter m_shooter;
+	[HideInInspector] public UnitStats m_stats;
+	[HideInInspector] public Shooter m_shooter;
 
 	void Awake() {
+		m_effectsActive = new Dictionary<Effect, float>();
 		m_health = GetComponent<UnitHealth>();
+		m_stats = GetComponent<UnitStats>();
 		m_shooter = GetComponent<Shooter>();
 
 		if(m_shooter) m_shooter.Init(this);
+		if(m_equipment) m_equipment.SetEntity(this);
 
 		if(!(this is Player)) {
-			ShotPattern[] patterns = GetComponents<CirclePattern>();
+			//ShotPattern[] patterns = GetComponents<CirclePattern>();
 
-			if (patterns.Length > 0)
-				for (int i = 0; i < patterns.Length; ++i)
-					patterns[i].StartPattern(GetComponent<Shooter>());
+			//if(patterns.Length > 0)
+				//for(int i = 0; i < patterns.Length; ++i)
+					//patterns[i].StartPattern(GetComponent<Shooter>());
+		}
+
+		InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
+	}
+
+	public bool AddToInventory(Item p_item){ 
+		foreach(Inventory inventory in m_inventories)
+			if(inventory.Add(p_item)) return true;
+		
+		return false;
+	}
+
+	public bool RemoveFromInventory(Item p_item){
+		foreach(Inventory inventory in m_inventories)
+			if(inventory.Remove(p_item)) return true;
+
+		return false;
+	}
+
+	private void TickEffects() {
+		foreach(Effect effect in m_effectsActive.Keys) {
+			effect.Tick(this);
+
+			bool remove = false;
+
+			if(effect.m_duration > 0) {
+				float activationTime = 0f;
+				m_effectsActive.TryGetValue(effect, out activationTime);
+
+				if(activationTime + effect.m_duration * 1000 > Time.time * 1000)
+					remove = true;
+			} else remove = true;
+
+			if(remove) m_effectsActive.Remove(effect);
+		}
+	}
+
+	public void ApplyEffects(List<Effect> p_effects) { 
+		foreach(Effect effect in p_effects)
+			ApplyEffect(effect);
+	}
+
+	public void ApplyEffect(Effect p_effect) {
+		// effects are ticked in the repeating tick loop FIRST to sync it up with everything else
+		// otherwise you could have a 1ms delay between 2 effect ticks
+		m_effectsActive.Add(p_effect, Time.time * 1000);
+	}
+
+	public void Damage(float p_damage, bool p_bypassDefense){
+		if(m_health) {
+			float finalDamage = p_damage;
+
+			if(!p_bypassDefense) {
+				float defense = m_stats ? m_stats.m_defense : 0f;
+
+				finalDamage -= defense;
+			}
+
+			if(finalDamage > 0) m_health.Damage(finalDamage);
 		}
 	}
 

@@ -8,17 +8,17 @@ public class WavyBehaviour : ProjectileBehaviour {
 	[Tooltip("How granular and fast the wave is, how fine it is, lower value means more choppiness but also a faster speed")]
 	[Range(1, 250)] public int m_steps;
 
-	private void LoadData(BehaviourData p_data, out float p_distance, out bool p_reverse) {
-		p_distance = p_data.Has("m_distance") ? p_data.Get("m_distance") : m_range / 2;
-		p_reverse = p_data.Get("m_reverse") == 1f;
+	private void LoadData(DataHolder p_data, out float p_distance, out bool p_reverse) {
+		p_distance = p_data.Has("m_distance") ? (float) p_data.Get("m_distance") : m_range / 2;
+		p_reverse = (bool) p_data.Get("m_reverse");
 	}
 
-	private void SaveData(BehaviourData p_data, float p_distance, bool p_reverse) {
+	private void SaveData(DataHolder p_data, float p_distance, bool p_reverse) {
 		p_data.Set("m_distance", p_distance);
-		p_data.Set("m_reverse", p_reverse ? 1f : 0f);
+		p_data.Set("m_reverse", p_reverse);
 	}
 
-	public override void Move(Projectile p_projectile, BehaviourData p_data) {
+	public override void Move(Projectile p_projectile, DataHolder p_data) {
 		float distance = 0f;
 		bool reverse = false;
 		Vector3 moveVector = p_projectile.m_direction * p_projectile.m_speed * Time.deltaTime;

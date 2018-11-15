@@ -3,15 +3,21 @@
 public class Player : Entity {
 
 	void Update() {
-		ShotPattern toFire = null;
+		bool leftClick = true;
+		bool fire = false;
 
-		if(Input.GetButton("Fire1")) toFire = m_leftClickPattern;
-		else if(Input.GetButton("Fire2")) toFire = m_rightClickPattern;
+		if(Input.GetButton("Fire1")) fire = true;
+		else if(Input.GetButton("Fire2")){ fire = true; leftClick = false; }
 
-		if(toFire) {
-			toFire.m_forcedTarget = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		if(fire) {
+			Weapon weapon = m_equipment.GetWeaponHandlingClick(leftClick);
 
-			m_shooter.Shoot(toFire);
+			if(weapon == null) return;
+
+			ShotPattern toFire = leftClick ? weapon.m_leftClickPattern : weapon.m_rightClickPattern;
+			m_shooter.SetPatternInfo(toFire, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+			weapon.Use(new string[]{ leftClick.ToString() }); // using weapon in case it has specific code to execute
 		}
 	}
 

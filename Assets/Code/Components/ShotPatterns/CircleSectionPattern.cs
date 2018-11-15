@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[CreateAssetMenu(menuName = "Shot Patterns/Circle Section")]
 public class CircleSectionPattern : ShotPattern {
 
 	[Tooltip("The angle range of the circle section to shoot into")]
@@ -10,24 +11,27 @@ public class CircleSectionPattern : ShotPattern {
 
 	[Tooltip("Whether or not the range should center itself on the entity's direction")]
 	public bool m_centeredOnDirection;
-
-	private float m_angleStart;
-	private float m_angle;
 	
-	public override void Init() {
-		m_angleStart = m_centeredOnDirection ? m_angleOffset - m_angleRange / 2 : m_angleOffset;
-		m_angle = m_angleStart;
+	public override void Init(Shooter p_shooter) {
+		float angleStart = m_centeredOnDirection ? m_angleOffset - m_angleRange / 2 : m_angleOffset;
+		
+		p_shooter.SetPatternInfo(this, "angleStart", angleStart);
+		p_shooter.SetPatternInfo(this, "angle", angleStart);
 	}
 
-	public override void Step(){
-		Projectile proj = SpawnProjectile();
-		Vector2 target = FetchTarget(proj);
+	public override void Step(Shooter p_shooter) {
+		Projectile proj = SpawnProjectile(p_shooter);
+		Vector2 target = FetchTarget(p_shooter, proj);
 		Vector2 direction = (target - (Vector2) proj.transform.position).normalized;
+		float angle = (float) p_shooter.GetPatternInfo(this, "angle");
+		float angleStart = (float) p_shooter.GetPatternInfo(this, "angleStart");
 
-		direction = direction.Rotate(m_angle);
-		proj.Shoot(m_shooter, target, direction);
+		direction = direction.Rotate(angle);
+		proj.Shoot(p_shooter, target, direction);
 
-		if(m_shots > 1) m_angle += m_angleRange / (m_shots - 1);
-		if(m_angle > m_angleStart + m_angleRange) m_angle = m_angleStart;
+		if(m_shots > 1) angle += m_angleRange / (m_shots - 1);
+		if(angle > angleStart + m_angleRange) angle = angleStart;
+
+		p_shooter.SetPatternInfo(this, "angle", angle);
 	}
 }
