@@ -25,8 +25,12 @@ public class UnitHealth : MonoBehaviour {
 	[Tooltip("Event called when the entity dies.")]
 	public UnityEvent m_deathEvent;
 
-	private float GetHealth() {
+	public float GetHealth() {
 		return (m_refHealth) ? m_refHealth.Value : m_health;
+	}
+
+	public float GetMaxHealth() { 
+		return m_maxHealth.Value;
 	}
 
 	private void SetHealth(float p_value) {

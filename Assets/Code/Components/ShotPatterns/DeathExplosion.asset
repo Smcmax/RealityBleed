@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 638cfabc96f5ad24da7fa947d473f597, type: 3}
   m_Name: DeathExplosion
   m_EditorClassIdentifier: 
-  m_projectile: {fileID: 114145373191524222, guid: 8ad9103905720be47a9884ba2198205c,
+  m_projectile: {fileID: 114344458456478976, guid: 8ad9103905720be47a9884ba2198205c,
     type: 2}
   m_shots: 8
   m_manaPerStep: 0
@@ -22,7 +22,4 @@ MonoBehaviour:
   m_stepDelay: 0
   m_nextPatterns: []
   m_nextPatternSwitchDelay: 0
-  m_forcedTarget: {x: 0, y: 0}
-  m_active: 0
-  m_lastLoopTime: 0
   m_angleOffset: 0

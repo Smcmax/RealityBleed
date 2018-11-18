@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a618f95f0483df49b4a6ff3ca5d8098, type: 3}
+  m_Name: HalfTargetHealthCondition
+  m_EditorClassIdentifier: 
+  m_healthPercentThreshold:
+    m_useConstant: 1
+    m_constantValue: 50
+    m_variable: {fileID: 0}

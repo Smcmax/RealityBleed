@@ -74,10 +74,11 @@ public class Shooter : MonoBehaviour {
 
 		if(!m_patterns.ContainsKey(p_pattern)) m_patterns.Add(p_pattern, new DataHolder());
 
-		p_pattern.Init(this);
 		SetPatternInfo(p_pattern, "shotsFired", 0);
 		SetPatternInfo(p_pattern, "loops", 0);
+		p_pattern.Init(this);
 		SetPatternInfo(p_pattern, "active", true);
+
 		StartCoroutine(PatternStep(p_pattern));
 	}
 
@@ -128,6 +129,6 @@ public class Shooter : MonoBehaviour {
 
 	// TODO: add damage modifiers/stats to this
 	public void Damage(Projectile p_projectile, Entity p_entity) {
-		p_entity.Damage(p_projectile.m_damage, false, false);
+		p_entity.Damage(m_entity, p_projectile.m_damage, false, false);
 	}
 }

@@ -10,7 +10,7 @@ public class WavyBehaviour : ProjectileBehaviour {
 
 	private void LoadData(DataHolder p_data, out float p_distance, out bool p_reverse) {
 		p_distance = p_data.Has("m_distance") ? (float) p_data.Get("m_distance") : m_range / 2;
-		p_reverse = (bool) p_data.Get("m_reverse");
+		p_reverse = p_data.Has("m_reverse") ? (bool) p_data.Get("m_reverse") : false;
 	}
 
 	private void SaveData(DataHolder p_data, float p_distance, bool p_reverse) {

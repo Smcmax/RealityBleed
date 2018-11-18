@@ -5,7 +5,7 @@ public class EffectGiver : MonoBehaviour {
 
 	public List<Effect> m_effectsGiven;
 
-	void OnCollisionEnter2D(Collision2D p_collision){ 
+	void OnCollisionEnter2D(Collision2D p_collision) { 
 		Collider2D collider = p_collision.collider;
 		Entity entity = collider.GetComponent<Entity>();
 

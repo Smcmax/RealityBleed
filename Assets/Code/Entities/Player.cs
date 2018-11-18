@@ -7,7 +7,7 @@ public class Player : Entity {
 		bool fire = false;
 
 		if(Input.GetButton("Fire1")) fire = true;
-		else if(Input.GetButton("Fire2")){ fire = true; leftClick = false; }
+		else if(Input.GetButton("Fire2")) { fire = true; leftClick = false; }
 
 		if(fire) {
 			Weapon weapon = m_equipment.GetWeaponHandlingClick(leftClick);
