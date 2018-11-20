@@ -14,7 +14,7 @@ MonoBehaviour:
   m_projectile: {fileID: 114566076151377164, guid: 8ad9103905720be47a9884ba2198205c,
     type: 2}
   m_shots: 1
-  m_manaPerStep: 0
+  m_manaPerStep: 1
   m_instant: 1
   m_loop: 0
   m_loopsBeforeSwitch: 0
@@ -22,9 +22,6 @@ MonoBehaviour:
   m_stepDelay: 0
   m_nextPatterns: []
   m_nextPatternSwitchDelay: 0
-  m_forcedTarget: {x: 2.2706895, y: 51.233788}
-  m_active: 0
-  m_lastLoopTime: 0
   m_angleRange: 0
   m_angleOffset: 0
   m_centeredOnDirection: 1

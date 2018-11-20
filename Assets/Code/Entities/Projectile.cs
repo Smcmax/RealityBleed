@@ -37,7 +37,7 @@ public class Projectile : MonoBehaviour {
 	[HideInInspector] public Vector2 m_direction;
 	private bool m_shot;
 
-	void Update() {
+	void FixedUpdate() {
 		if(!m_shot) return;
 		if(Vector2.Distance(transform.position, m_start) >= m_range) {
 			Disable();
@@ -62,7 +62,9 @@ public class Projectile : MonoBehaviour {
 		if(m_faceAtTarget)
 			transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(m_direction.y, m_direction.x) * Mathf.Rad2Deg + m_spriteRotation, Vector3.forward);
 
-		Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), m_shooter.GetComponent<BoxCollider2D>());
+		CollisionRelay relay = m_shooter.m_entity.m_collisionRelay;
+		if(relay) Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), relay.GetComponent<BoxCollider2D>());
+
 		gameObject.SetActive(true);
 	}
 
@@ -70,7 +72,6 @@ public class Projectile : MonoBehaviour {
 	public void Clone(Projectile p_projectile) {
 		SpriteRenderer otherRender = p_projectile.GetComponent<SpriteRenderer>();
 		BoxCollider2D otherCollider = p_projectile.GetComponent<BoxCollider2D>();
-
 		SpriteRenderer render = GetComponent<SpriteRenderer>();
 		BoxCollider2D collider = GetComponent<BoxCollider2D>();
 
@@ -100,10 +101,10 @@ public class Projectile : MonoBehaviour {
 		bool hitEntity = false;
 
 		if(collider.gameObject.name != gameObject.name) {
-			Entity entity = collider.GetComponent<Entity>();
+			CollisionRelay relay = collider.GetComponent<CollisionRelay>();
 
-			if(entity != null) {
-				m_shooter.Damage(this, entity);
+			if(relay != null) {
+				m_shooter.Damage(this, relay.m_entity);
 
 				hitEntity = true;
 			}

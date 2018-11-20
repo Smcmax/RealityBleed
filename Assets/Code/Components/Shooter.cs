@@ -14,6 +14,9 @@ public class Shooter : MonoBehaviour {
 	[Tooltip("Unit's mana")]
 	[ConditionalField("m_useSharedMana", true)] public FloatVariable m_refMana;
 
+	[Tooltip("Should mana be reset to maximum health on awake?")]
+	public bool m_resetMana;
+
 	[Tooltip("Unit's max mana")]
 	public FloatReference m_maxMana;
 
@@ -24,12 +27,14 @@ public class Shooter : MonoBehaviour {
 	[Tooltip("Event called when the entity shoots.")]
 	public UnityEvent m_shotEvent;
 
+	[HideInInspector] public Entity m_entity;
 	private Dictionary<ShotPattern, DataHolder> m_patterns;
-	private Entity m_entity;
 
 	public void Init(Entity p_entity) {
 		m_entity = p_entity;
 		m_patterns = new Dictionary<ShotPattern, DataHolder>();
+
+		if(m_resetMana) SetMana(m_maxMana.Value);
 	}
 
 	private float GetMana() {

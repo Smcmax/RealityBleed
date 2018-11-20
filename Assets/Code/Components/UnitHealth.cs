@@ -12,6 +12,9 @@ public class UnitHealth : MonoBehaviour {
 	[Tooltip("Unit's health")]
 	[ConditionalField("m_useSharedHealth", true)] public FloatVariable m_refHealth;
 
+	[Tooltip("Should health be reset to maximum health on awake?")]
+	[ConditionalField("m_useSharedHealth", true)] public bool m_resetHealth;
+
 	[Tooltip("Unit's max health")]
 	public FloatReference m_maxHealth;
 
@@ -24,6 +27,10 @@ public class UnitHealth : MonoBehaviour {
 
 	[Tooltip("Event called when the entity dies.")]
 	public UnityEvent m_deathEvent;
+
+	void Awake() { 
+		if(m_resetHealth) SetHealth(m_maxHealth.Value);
+	}
 
 	public float GetHealth() {
 		return (m_refHealth) ? m_refHealth.Value : m_health;

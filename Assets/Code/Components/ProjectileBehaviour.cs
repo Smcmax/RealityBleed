@@ -14,7 +14,7 @@ public abstract class ProjectileBehaviour : MonoBehaviour {
 
 	public void PreMove(Projectile p_projectile, DataHolder p_data) {
 		if(p_projectile.m_rotate)
-			p_projectile.transform.Rotate(0, 0, p_projectile.m_rotationSpeed * Time.deltaTime);
+			p_projectile.transform.Rotate(0, 0, p_projectile.m_rotationSpeed * Time.fixedDeltaTime);
 
 		Move(p_projectile);
 	}

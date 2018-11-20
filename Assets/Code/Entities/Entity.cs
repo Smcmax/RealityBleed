@@ -6,6 +6,8 @@ public class Entity : MonoBehaviour {
 	[Tooltip("The movement controller")]
 	public CharController m_controller;
 
+	[HideInInspector] public CollisionRelay m_collisionRelay;
+
 	[Tooltip("If this entity can die")]
 	public bool m_canDie;
 	protected bool m_isDead;
@@ -30,7 +32,7 @@ public class Entity : MonoBehaviour {
 	[HideInInspector] public Shooter m_shooter;
 	[HideInInspector] public StateController m_ai;
 
-	void Awake() {
+	public virtual void Awake() {
 		m_effectsActive = new Dictionary<Effect, float>();
 		m_health = GetComponent<UnitHealth>();
 		m_stats = GetComponent<UnitStats>();

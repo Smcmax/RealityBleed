@@ -2,6 +2,14 @@
 
 public class Player : Entity {
 
+	[HideInInspector] public PlayerController m_playerController;
+
+	public override void Awake() { 
+		base.Awake();
+
+		m_playerController = GetComponent<PlayerController>();
+	}
+
 	void Update() {
 		bool leftClick = true;
 		bool fire = false;
