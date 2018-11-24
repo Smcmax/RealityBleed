@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114139349985475106}
   - component: {fileID: 114241594169349478}
   - component: {fileID: 114924461057312282}
-  - component: {fileID: 114456998198727912}
+  - component: {fileID: 114071987786881558}
   - component: {fileID: 114018483739704796}
   - component: {fileID: 114173102224703342}
   - component: {fileID: 114043605804268206}
@@ -126,7 +126,7 @@ Transform:
   m_GameObject: {fileID: 1166184856407220}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 4042752928476190}
   m_RootOrder: 0
@@ -268,7 +268,7 @@ BoxCollider2D:
     oldSize: {x: 2.5, y: 2.5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
-    drawMode: 1
+    drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
@@ -292,7 +292,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 4
-  m_Range: 15
+  m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -330,51 +330,124 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_items:
-  - m_id: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
-  - m_id: 0
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
     m_durability: 0
+    m_outlineSprite: {fileID: 0}
     m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
+    m_durability: 0
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  m_itemDestroyModal: {fileID: 0}
+  m_onInventoryActionEvent: {fileID: 11400000, guid: a4f56fa06604b3b48959b37344914f6c,
+    type: 2}
+  m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
+    type: 2}
+  m_entity: {fileID: 0}
 --- !u!114 &114043605804268206
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -391,6 +464,94 @@ MonoBehaviour:
   m_smoothTime: 0.1
   m_speed: 3
   m_diagonalSpeedPercentage: 0.75
+--- !u!114 &114071987786881558
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099763796712776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38dfbaef71d653544949f5ebd4c69c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_items:
+  - m_amount: 1
+    m_durability: 100
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 11400000, guid: bfe26f13dd4ed1c4daa5962a2cb1f5ea, type: 2}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 1
+    m_durability: 100
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 11400000, guid: 24ff97419409e1c4abb561aed9f675ca, type: 2}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
+    m_durability: 0
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
+    m_durability: 0
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
+    m_durability: 0
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
+    m_durability: 0
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
+    m_durability: 0
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
+    m_durability: 0
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
+    m_durability: 0
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  - m_amount: 0
+    m_durability: 0
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  m_itemDestroyModal: {fileID: 0}
+  m_onInventoryActionEvent: {fileID: 11400000, guid: a4f56fa06604b3b48959b37344914f6c,
+    type: 2}
+  m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
+    type: 2}
+  m_entity: {fileID: 0}
 --- !u!114 &114139349985475106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -422,11 +583,11 @@ MonoBehaviour:
     m_useConstant: 1
     m_constantValue: 0
     m_variable: {fileID: 0}
-  m_constitution:
+  m_speed:
     m_useConstant: 1
     m_constantValue: 0
     m_variable: {fileID: 0}
-  m_wisdom:
+  m_constitution:
     m_useConstant: 1
     m_constantValue: 0
     m_variable: {fileID: 0}
@@ -434,7 +595,7 @@ MonoBehaviour:
     m_useConstant: 1
     m_constantValue: 0
     m_variable: {fileID: 0}
-  m_speed:
+  m_wisdom:
     m_useConstant: 1
     m_constantValue: 0
     m_variable: {fileID: 0}
@@ -488,7 +649,18 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   m_deathEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: c288a4328fb16af4296e799e703e24fc, type: 2}
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114332108090814936
@@ -505,10 +677,9 @@ MonoBehaviour:
   m_controller: {fileID: 0}
   m_collisionRelay: {fileID: 0}
   m_canDie: 0
-  m_equipment: {fileID: 114456998198727912}
+  m_equipment: {fileID: 114071987786881558}
   m_look: {fileID: 0}
-  m_inventories:
-  - {fileID: 114018483739704796}
+  m_inventory: {fileID: 114018483739704796}
   m_runtimeSets:
   - {fileID: 11400000, guid: 0a26465c1ba21624095d0535607d7b8a, type: 2}
   m_class: {fileID: 0}
@@ -529,46 +700,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_entity: {fileID: 114332108090814936}
---- !u!114 &114456998198727912
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1099763796712776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38dfbaef71d653544949f5ebd4c69c1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_items:
-  - m_id: 0
-    m_durability: 100
-    m_item: {fileID: 11400000, guid: bfe26f13dd4ed1c4daa5962a2cb1f5ea, type: 2}
-  - m_id: 0
-    m_durability: 0
-    m_item: {fileID: 0}
-  - m_id: 0
-    m_durability: 0
-    m_item: {fileID: 0}
-  - m_id: 0
-    m_durability: 0
-    m_item: {fileID: 0}
-  - m_id: 0
-    m_durability: 0
-    m_item: {fileID: 0}
-  - m_id: 0
-    m_durability: 0
-    m_item: {fileID: 0}
-  - m_id: 0
-    m_durability: 0
-    m_item: {fileID: 0}
-  - m_id: 0
-    m_durability: 0
-    m_item: {fileID: 0}
-  - m_id: 0
-    m_durability: 0
-    m_item: {fileID: 0}
-  m_entity: {fileID: 0}
 --- !u!114 &114924461057312282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -621,7 +752,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 36125c9df715574489a80418231212b0, type: 2}
+  - {fileID: 2100000, guid: 0249c0b3666ed3546985024070de25be, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -640,7 +771,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 292d340215f227e48bc9ae63d0ecd828, type: 3}
   m_Color: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
   m_FlipX: 0
@@ -686,12 +817,12 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 732c35b7b1cdd344abb15d34abf5c864, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 1
+  m_DrawMode: 0
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0

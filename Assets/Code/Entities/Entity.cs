@@ -19,7 +19,7 @@ public class Entity : MonoBehaviour {
 	public Look m_look;
 
 	[Tooltip("Every inventory carried by this entity")]
-	public List<Inventory> m_inventories; // TODO: do something better for extra bags and shit? maybe just a simple wrapper for it
+	public Inventory m_inventory;
 
 	[Tooltip("All runtime sets this entity is a part of")]
 	public List<EntityRuntimeSet> m_runtimeSets;
@@ -52,20 +52,6 @@ public class Entity : MonoBehaviour {
 	void OnDisable() {
 		foreach (EntityRuntimeSet set in m_runtimeSets)
 			set.Remove(this);
-	}
-
-	public bool AddToInventory(Item p_item){ 
-		foreach(Inventory inventory in m_inventories)
-			if(inventory.Add(p_item)) return true;
-		
-		return false;
-	}
-
-	public bool RemoveFromInventory(Item p_item){
-		foreach(Inventory inventory in m_inventories)
-			if(inventory.Remove(p_item)) return true;
-
-		return false;
 	}
 
 	private void TickEffects() {

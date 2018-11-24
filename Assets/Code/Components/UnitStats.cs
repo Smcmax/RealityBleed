@@ -12,10 +12,10 @@ public class UnitStats : MonoBehaviour {
 	public FloatReference m_strength;     // STR - Damage with melee-type items/weapons
 	public FloatReference m_dexterity;    // DEX - Firing speed
 	public FloatReference m_intellect;    // INT - Damage with caster-type items/weapons
-	public FloatReference m_constitution; // CON - Affects health regen
-	public FloatReference m_wisdom;       // WIS - Affects mana regen
-	public FloatReference m_defense;      // DEF - Reduces incoming damage
 	public FloatReference m_speed;        // SPD - Character speed
+	public FloatReference m_constitution; // CON - Affects health regen
+	public FloatReference m_defense;      // DEF - Reduces incoming damage
+	public FloatReference m_wisdom;       // WIS - Affects mana regen
 	
 	// calculate these at runtime based on gear and such
 	private float[] m_modifiers;
@@ -35,10 +35,10 @@ public class UnitStats : MonoBehaviour {
 			case Stats.STR: return m_strength;
 			case Stats.DEX: return m_dexterity;
 			case Stats.INT: return m_intellect;
-			case Stats.CON: return m_constitution;
-			case Stats.WIS: return m_wisdom;
-			case Stats.DEF: return m_defense;
 			case Stats.SPD: return m_speed;
+			case Stats.CON: return m_constitution;
+			case Stats.DEF: return m_defense;
+			case Stats.WIS: return m_wisdom;
 			default: return null;
 		}
 	}
@@ -79,5 +79,5 @@ public class UnitStats : MonoBehaviour {
 }
 
 public enum Stats { 
-	HP, MP, STR, DEX, INT, CON, WIS, DEF, SPD	
+	HP, MP, STR, DEX, INT, SPD, CON, DEF, WIS	
 }

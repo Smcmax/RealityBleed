@@ -24,6 +24,9 @@ public abstract class ShotPattern : ScriptableObject {
 	[Tooltip("Time in seconds to wait between pattern loops/restarts")]
 	[Range(0, 10)] public float m_patternCooldown;
 
+	[Tooltip("Should this shot pattern be allowed to shoot regardless of the shooter's shot cooldown?")]
+	public bool m_bypassShooterCooldown;
+
 	[Tooltip("Time in seconds before the next pattern update (next shot in the pattern)")]
 	[Range(0, 10)] public float m_stepDelay;
 

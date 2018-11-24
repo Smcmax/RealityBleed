@@ -66,6 +66,9 @@ public class Projectile : MonoBehaviour {
 		if(relay) Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), relay.GetComponent<BoxCollider2D>());
 
 		gameObject.SetActive(true);
+
+		foreach(ProjectileBehaviour behaviour in m_behaviours)
+			behaviour.Init(this);
 	}
 
 	// it is assumed the current projectile is a generic projectile with an empty reference behaviour to fill up

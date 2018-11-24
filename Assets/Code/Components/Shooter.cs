@@ -57,10 +57,13 @@ public class Shooter : MonoBehaviour {
 	}
 
 	public bool CanShoot(ShotPattern p_pattern) {
+		if(Time.timeScale == 0f) return false;
+
 		object active = GetPatternInfo(p_pattern, "active");
 		if(m_patterns.ContainsKey(p_pattern) && active != null && (bool) active) return false;
 		if(m_patternCooldown == 0) return true;
 		if(!CanLoop(p_pattern)) return false;
+		if(p_pattern.m_bypassShooterCooldown) return true;
 
 		return Time.time * 1000 >= m_lastShot + m_patternCooldown * 1000;
 	}

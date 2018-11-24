@@ -8,6 +8,9 @@ public abstract class ProjectileBehaviour : MonoBehaviour {
 		m_data = new DataHolder();
 	}
 
+	public virtual void Init(Projectile p_projectile) { }
+	public virtual void Init(Projectile p_projectile, DataHolder p_data) { }
+
 	public void PreMove(Projectile p_projectile) {
 		PreMove(p_projectile, m_data);
 	}
