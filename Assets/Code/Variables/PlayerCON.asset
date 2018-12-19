@@ -8,8 +8,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d54216f78faff94095a2da3129eeeaf, type: 3}
-  m_Name: PlayerMaxMana
+  m_Script: {fileID: 11500000, guid: aa3a4ad6a14bfcf4d845f086e0c43774, type: 3}
+  m_Name: PlayerCON
   m_EditorClassIdentifier: 
   m_developerDescription: 
-  m_value: 100
+  m_value: 10

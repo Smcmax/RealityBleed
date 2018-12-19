@@ -40,7 +40,8 @@ public class ItemTooltip : MonoBehaviour {
 		if(mouse.x + (Screen.width * offsetPercentX) + tooltipWorldWidth / 2 > Screen.width) 
 			offsetPercentX = -offsetPercentX;
 
-		float calcX = adjustedMouse.x + m_canvasRect.sizeDelta.x * offsetPercentX;
+		// just don't change the canvas' reference res please
+		float calcX = adjustedMouse.x + m_canvasRect.sizeDelta.x * offsetPercentX * (1065f / m_canvasRect.sizeDelta.x);
 		float calcY = adjustedMouse.y + m_canvasRect.sizeDelta.y * offsetPercentY;
 
 		// if the tooltip is too far down, cap it to the bottom of the screen

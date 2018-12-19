@@ -23,7 +23,7 @@ public class Inventory : MonoBehaviour {
 	[HideInInspector] public Entity m_entity;
 	[HideInInspector] public UIItem[] m_uiItems; // updates itself, null if inventory not shown on screen
 
-	void Awake() { 
+	protected virtual void Awake() { 
 		for(int i = 0; i < m_items.Length; ++i) { 
 			Item item = m_items[i];
 
@@ -252,5 +252,9 @@ public class Inventory : MonoBehaviour {
 
 	public void SetEntity(Item p_item) {
 		p_item.m_holder = m_entity ? m_entity : null;
+	}
+
+	public virtual void RaiseInventoryEvent(bool p_raise) { 
+		if(p_raise) m_onInventoryActionEvent.Raise();
 	}
 }

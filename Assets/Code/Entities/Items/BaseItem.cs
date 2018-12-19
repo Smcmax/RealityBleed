@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public abstract class BaseItem : ScriptableObject {
+public class BaseItem : ScriptableObject {
 
 	[Tooltip("The item's id, SHOULD BE UNIQUE")]
 	public int m_id;
@@ -31,5 +31,5 @@ public abstract class BaseItem : ScriptableObject {
 	[Multiline] public string m_description;
 
 	// this can be null
-	public abstract void Use(Entity p_entity, string[] p_args);
+	public virtual void Use(Entity p_entity, string[] p_args) { }
 }

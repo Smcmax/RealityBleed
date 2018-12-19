@@ -25,10 +25,10 @@ public class Class : MonoBehaviour {
 		//m_entity.m_class = this;
 	}
 
-	public void LevelUp() { 
-		foreach(Stats stat in Enum.GetValues(typeof(Stats)))
-			m_stats.GetStat(stat).Value += m_statGains.Random(stat);
-	}
+	//public void LevelUp() { 
+	//	foreach(Stats stat in Enum.GetValues(typeof(Stats)))
+	//		m_stats.GetStat(stat).Value += m_statGains.Random(stat);
+	//}
 }
 
 public enum Classes { 

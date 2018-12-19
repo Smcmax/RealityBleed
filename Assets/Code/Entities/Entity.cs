@@ -39,6 +39,7 @@ public class Entity : MonoBehaviour {
 		m_shooter = GetComponent<Shooter>();
 
 		if(m_shooter) m_shooter.Init(this);
+		if(m_health) m_health.m_entity = this;
 		if(m_inventory) m_inventory.m_entity = this;
 		if(m_equipment) m_equipment.m_entity = this;
 
@@ -51,7 +52,7 @@ public class Entity : MonoBehaviour {
 	}
 
 	void OnDisable() {
-		foreach (EntityRuntimeSet set in m_runtimeSets)
+		foreach(EntityRuntimeSet set in m_runtimeSets)
 			set.Remove(this);
 	}
 
@@ -87,19 +88,15 @@ public class Entity : MonoBehaviour {
 		m_effectsActive.Add(p_effect, Time.time * 1000);
 	}
 
-	public void Damage(Entity p_entity, float p_damage, bool p_bypassDefense, bool p_bypassImmunityWindow){
+	public void Damage(Entity p_entity, int p_damage, bool p_bypassDefense, bool p_bypassImmunityWindow){
 		if(m_health) {
-			float finalDamage = p_damage;
+			int finalDamage = p_damage;
 
-			if(!p_bypassDefense) {
-				float defense = m_stats ? m_stats.m_defense : 0f;
-
-				finalDamage -= defense;
-			}
-
+			if(!p_bypassDefense) finalDamage -= m_stats.GetStatEffect(Stats.DEF);
 			if(finalDamage > 0) m_health.Damage(finalDamage, p_bypassImmunityWindow);
 		}
 
+		// make sure the AI starts targeting its last damager
 		if(m_ai && p_entity) m_ai.m_target = p_entity;
 	}
 

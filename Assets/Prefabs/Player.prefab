@@ -449,6 +449,7 @@ MonoBehaviour:
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
     type: 2}
   m_entity: {fileID: 0}
+  m_uiItems: []
 --- !u!114 &114043605804268206
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -554,6 +555,7 @@ MonoBehaviour:
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
     type: 2}
   m_entity: {fileID: 0}
+  m_uiItems: []
 --- !u!114 &114139349985475106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -566,41 +568,95 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxHP:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: e3538356aa38ce14c92ec0c7544a9e6f, type: 2}
   m_maxMP:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 4030c317a0d8ea24bb49a3f38ae96089, type: 2}
   m_strength:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 2c0c5f12a95db0d4fbb7f97c0aad29e9, type: 2}
   m_dexterity:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 17796e7431020764783434f2fae78186, type: 2}
   m_intellect:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 0c15b8fbc39a99f4bbc0fcb1a899e077, type: 2}
   m_speed:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 42717be548cfa1f4b98511060026a29a, type: 2}
   m_constitution:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: c1f46239d783984479c2d42a51aa46ce, type: 2}
   m_defense:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 59f3f809540dc554ea14477ac0a833cf, type: 2}
   m_wisdom:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 7508c619d59ec6d4d897593e52fd265b, type: 2}
+  m_gearUpdateEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 14c553c70ac91be4b995a1b8b411d02e, type: 2}
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: b9ae62d2df1907347b68c537fea95a8c, type: 2}
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  m_regenUpdateEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 14c553c70ac91be4b995a1b8b411d02e, type: 2}
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: b9ae62d2df1907347b68c537fea95a8c, type: 2}
+        m_MethodName: Raise
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114173102224703342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -624,14 +680,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cee66cd3e162e4cbb66c230bd6d12b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_useSharedHealth: 1
-  m_health: 100
-  m_refHealth: {fileID: 11400000, guid: 09b3386012bbddb4e9b6fd143f68045d, type: 2}
-  m_resetHealth: 1
-  m_maxHealth:
-    m_useConstant: 0
-    m_constantValue: 100
-    m_variable: {fileID: 11400000, guid: 25bc1cee233506b4197247caa946249c, type: 2}
   m_immunityWindow: 0
   m_damageEvent:
     m_PersistentCalls:
@@ -665,6 +713,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  m_entity: {fileID: 0}
 --- !u!114 &114332108090814936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -684,7 +733,6 @@ MonoBehaviour:
   m_inventory: {fileID: 114018483739704796}
   m_runtimeSets:
   - {fileID: 11400000, guid: 0a26465c1ba21624095d0535607d7b8a, type: 2}
-  m_class: {fileID: 0}
   m_health: {fileID: 0}
   m_stats: {fileID: 0}
   m_shooter: {fileID: 0}
@@ -713,14 +761,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15bd225fda18e643938a5149b35c976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_useSharedMana: 1
-  m_mana: 0
-  m_refMana: {fileID: 11400000, guid: 4030c317a0d8ea24bb49a3f38ae96089, type: 2}
-  m_resetMana: 1
-  m_maxMana:
-    m_useConstant: 0
-    m_constantValue: 0
-    m_variable: {fileID: 11400000, guid: 147808df76ced7a4c8ab7ba53da7b304, type: 2}
   m_patternCooldown: 0.5
   m_shotEvent:
     m_PersistentCalls:

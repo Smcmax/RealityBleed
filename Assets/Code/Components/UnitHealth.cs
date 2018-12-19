@@ -3,21 +3,6 @@ using UnityEngine.Events;
 
 public class UnitHealth : MonoBehaviour {
 
-	[Tooltip("The health mode that should be used")]
-	public bool m_useSharedHealth;
-
-	[Tooltip("Unit's health")]
-	[ConditionalField("m_useSharedHealth", false)][Range(0, 1000)] public float m_health;
-
-	[Tooltip("Unit's health")]
-	[ConditionalField("m_useSharedHealth", true)] public FloatVariable m_refHealth;
-
-	[Tooltip("Should health be reset to maximum health on awake?")]
-	[ConditionalField("m_useSharedHealth", true)] public bool m_resetHealth;
-
-	[Tooltip("Unit's max health")]
-	public FloatReference m_maxHealth;
-
 	[Tooltip("The time after taking damage where the unit is immune to damage.")]
 	[Range(0, 2)] public float m_immunityWindow;
 	private float m_lastHit;
@@ -28,41 +13,37 @@ public class UnitHealth : MonoBehaviour {
 	[Tooltip("Event called when the entity dies.")]
 	public UnityEvent m_deathEvent;
 
-	void Awake() { 
-		if(m_resetHealth) SetHealth(m_maxHealth.Value);
+	[HideInInspector] public Entity m_entity;
+
+	public int GetHealth() {
+		return m_entity.m_stats.GetStat(Stats.HP);
 	}
 
-	public float GetHealth() {
-		return (m_refHealth) ? m_refHealth.Value : m_health;
+	public int GetMaxHealth() { 
+		return m_entity.m_stats.GetBaseStatWithGear(Stats.HP);
 	}
 
-	public float GetMaxHealth() { 
-		return m_maxHealth.Value;
-	}
+	private void SetHealth(int p_value) {
+		int value = p_value;
 
-	private void SetHealth(float p_value) {
-		float value = p_value;
-
-		if(value > m_maxHealth.Value) value = m_maxHealth;
+		if(value > GetMaxHealth()) value = GetMaxHealth();
 		else if(value < 0) value = 0;
 
-		if(m_refHealth) m_refHealth.Value = value;
-		else m_health = value;
+		m_entity.m_stats.AddModifier(Stats.HP, p_value - GetHealth(), 0);
 	}
 
 	public bool IsImmune() {
 		return Time.time * 1000 < m_lastHit + m_immunityWindow * 1000;
 	}
 
-	public void Damage(float p_amount, bool p_bypassImmunityWindow) {
+	public void Damage(int p_amount, bool p_bypassImmunityWindow) {
 		if(!p_bypassImmunityWindow && IsImmune()) return;
 
-		SetHealth(GetHealth() - p_amount);
+		m_entity.m_stats.AddModifier(Stats.HP, -p_amount, 0);
 		m_lastHit = Time.time * 1000;
-
 		m_damageEvent.Invoke();
 
-		if(GetHealth() <= 0.0f) {
+		if(GetHealth() <= 0) {
 			GetComponent<Entity>().Kill();
 			m_deathEvent.Invoke();
 		}

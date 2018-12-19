@@ -4,7 +4,10 @@ using System.Collections.Generic;
 public class Projectile : MonoBehaviour {
 
 	[Tooltip("The damage dealt by this projectile")]
-	[Range(0, 100)] public float m_damage;
+	[Range(0, 100)] public int m_damage;
+
+	[Tooltip("The stat applied to the damage dealt")]
+	public Stats m_statApplied;
 
 	[Tooltip("Whether or not this projectile pierces opponents")]
 	public bool m_piercing;
@@ -51,7 +54,7 @@ public class Projectile : MonoBehaviour {
 			behaviour.PreMove(this);
 	}
 
-	public void SetDamage(float p_damage) {
+	public void SetDamage(int p_damage) {
 		m_damage = p_damage;
 	}
 

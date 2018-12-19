@@ -56,6 +56,9 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 				if(success && entityInventory.m_uiItems.Length > 0) SwapInfo(entityInventory.m_uiItems[m_item.m_inventoryIndex]);
 				else if(success) HideInfo(entityEquipment.m_items[index]);
 				else if(!success) { entityEquipment.SetAtIndex(m_item, index); return; }
+
+				entityInventory.RaiseInventoryEvent(true);
+				entityEquipment.RaiseInventoryEvent(false);
 			} else if(m_item.m_inventory.m_entity) { // if it's a normal inventory, we want to equip
 				HideTooltip();
 				List<EquipmentSlot> possibleSlots = new List<EquipmentSlot>();
@@ -74,10 +77,11 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 					SwapInfo(entityEquipment.m_uiItems[m_item.m_inventoryIndex]);
 				else if(success) HideInfo(entityInventory.m_items[index]);
 				else if(!success) { entityInventory.SetAtIndex(m_item, index); return; }
+
+				entityEquipment.RaiseInventoryEvent(true);
+				entityInventory.RaiseInventoryEvent(false);
 			}
 		}
-
-		m_item.m_inventory.m_onInventoryActionEvent.Raise();
 	}
 
 	public void OnBeginDrag(PointerEventData p_eventData) {
@@ -145,7 +149,8 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 				GetComponentInChildren<Text>().text = m_item.m_amount.ToString();
 
-				m_item.m_inventory.m_onInventoryActionEvent.Raise();
+				m_item.m_inventory.RaiseInventoryEvent(true);
+				dragged.m_item.m_inventory.RaiseInventoryEvent(false);
 			}
 
 			return;
@@ -155,7 +160,8 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 		if(swapSuccess) {
 			SwapInfo(dragged);
-			m_item.m_inventory.m_onInventoryActionEvent.Raise();
+			m_item.m_inventory.RaiseInventoryEvent(true);
+			dragged.m_item.m_inventory.RaiseInventoryEvent(false);
 		}
 	}
 

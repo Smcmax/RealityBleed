@@ -410,7 +410,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a42432b93173d44a89e63b45b23bd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 25
+  m_damage: 5
+  m_statApplied: 4
   m_piercing: 0
   m_armorPiercing: 0
   m_range: 7.5
@@ -461,7 +462,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a42432b93173d44a89e63b45b23bd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 10
+  m_damage: 2
+  m_statApplied: 2
   m_piercing: 0
   m_armorPiercing: 0
   m_range: 5
@@ -499,7 +501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a42432b93173d44a89e63b45b23bd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 5
+  m_damage: 1
+  m_statApplied: 4
   m_piercing: 0
   m_armorPiercing: 0
   m_range: 2
@@ -537,7 +540,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a42432b93173d44a89e63b45b23bd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 15
+  m_damage: 2
+  m_statApplied: 4
   m_piercing: 1
   m_armorPiercing: 1
   m_range: 5
@@ -588,7 +592,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a42432b93173d44a89e63b45b23bd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 25
+  m_damage: 5
+  m_statApplied: 2
   m_piercing: 1
   m_armorPiercing: 0
   m_range: 4
@@ -616,7 +621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a42432b93173d44a89e63b45b23bd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 10
+  m_damage: 5
+  m_statApplied: 3
   m_piercing: 0
   m_armorPiercing: 0
   m_range: 10
