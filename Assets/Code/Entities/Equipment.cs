@@ -1,25 +1,28 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 
 public class Equipment : Inventory {
 
-	public const int EQUIPMENT_SIZE = 9;
-
-	void Awake() {
-		// stops tampering from the editor
-		if(m_items.Length != EQUIPMENT_SIZE)
-			m_items = new Item[EQUIPMENT_SIZE];
+	public Item Get(EquipmentSlot p_slot) {
+		return m_items[(int) p_slot];
 	}
 
-	public Item Get(string p_pieceName) {
-		foreach(string name in Enum.GetNames(typeof(EquipmentSlot)))
-			if(name.ToLower() == p_pieceName.ToLower())
-				return m_items[(int) Enum.Parse(typeof(EquipmentSlot), name, false)];
+	public Weapon GetWeaponHandlingClick(bool p_leftClick) { 
+		Weapon mainHand = (Weapon) Get(EquipmentSlot.MainHand).m_item;
 
-		return null;
+		if(mainHand.m_rightClickPattern || p_leftClick) return mainHand;
+
+		return (Weapon) Get(EquipmentSlot.OffHand).m_item;
+	}
+
+	public ShotPattern GetShotPatternHandlingClick(bool p_leftClick) {
+		Weapon mainHand = (Weapon) Get(EquipmentSlot.MainHand).m_item;
+
+		if(p_leftClick) return mainHand.m_leftClickPattern;
+
+		return mainHand.m_rightClickPattern ? mainHand.m_rightClickPattern : ((Weapon) Get(EquipmentSlot.OffHand).m_item).m_leftClickPattern;
 	}
 }
 
 public enum EquipmentSlot {
-	MainHand, OffHand, Helmet, Chestpiece, Leggings, Boots, Trinket, Ring1, Ring2
+	MainHand, OffHand, Helmet, Chestpiece, Leggings, Boots, Trinket1, Trinket2, Ring1, Ring2
 }

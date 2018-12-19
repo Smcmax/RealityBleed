@@ -28,4 +28,8 @@ public abstract class CharController : MonoBehaviour {
 	protected abstract void OnAwake();
 
 	public abstract void Move(Vector2 p_move);
+
+	public void Stop() {
+		m_rigidbody2D.velocity = Vector2.zero;
+	}
 }

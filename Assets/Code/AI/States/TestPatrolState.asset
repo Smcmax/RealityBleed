@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7c66fe177f8334fa51bf6ac6f42660, type: 3}
+  m_Name: TestPatrolState
+  m_EditorClassIdentifier: 
+  m_actions:
+  - {fileID: 11400000, guid: b0c2cf628d525c347848b9124d71e932, type: 2}
+  - {fileID: 11400000, guid: c931a512fb5429f479faa00492ac0972, type: 2}
+  m_transitions:
+  - m_condition: {fileID: 11400000, guid: 570964d84eeb61b4f989e0e71822f341, type: 2}
+    m_trueState: {fileID: 11400000, guid: f4c1dea498b9ae34f90d6b013c2efbd7, type: 2}
+    m_falseState: {fileID: 11400000}
+  - m_condition: {fileID: 11400000, guid: 7caa17922f457e74a84e86070086467b, type: 2}
+    m_trueState: {fileID: 11400000, guid: 06398f23380288b4fab7d1e290e5f0da, type: 2}
+    m_falseState: {fileID: 11400000}
+  m_sceneGizmoColor: {r: 0, g: 1, b: 0, a: 1}

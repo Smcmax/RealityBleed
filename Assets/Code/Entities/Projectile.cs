@@ -9,6 +9,9 @@ public class Projectile : MonoBehaviour {
 	[Tooltip("Whether or not this projectile pierces opponents")]
 	public bool m_piercing;
 
+	[Tooltip("Whether or not this projectile passes through armor")]
+	public bool m_armorPiercing;
+
 	[Tooltip("The range the projectile will travel before being removed")]
 	[Range(0, 50)] public float m_range;
 
@@ -30,9 +33,6 @@ public class Projectile : MonoBehaviour {
 	[Tooltip("The behaviours this projectile will use throughout its lifetime")]
 	public List<ProjectileBehaviour> m_behaviours;
 
-	[Tooltip("The projectile pooler associated with this projectile")]
-	public ProjectilePooler m_projectilePooler;
-
 	[HideInInspector] public Shooter m_shooter;
 	[HideInInspector] public Projectile m_original;
 	[HideInInspector] public Vector2 m_start;
@@ -40,7 +40,7 @@ public class Projectile : MonoBehaviour {
 	[HideInInspector] public Vector2 m_direction;
 	private bool m_shot;
 
-	void Update() {
+	void FixedUpdate() {
 		if(!m_shot) return;
 		if(Vector2.Distance(transform.position, m_start) >= m_range) {
 			Disable();
@@ -65,15 +65,19 @@ public class Projectile : MonoBehaviour {
 		if(m_faceAtTarget)
 			transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(m_direction.y, m_direction.x) * Mathf.Rad2Deg + m_spriteRotation, Vector3.forward);
 
-		Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), m_shooter.GetComponent<BoxCollider2D>());
+		CollisionRelay relay = m_shooter.m_entity.m_collisionRelay;
+		if(relay) Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), relay.GetComponent<BoxCollider2D>());
+
 		gameObject.SetActive(true);
+
+		foreach(ProjectileBehaviour behaviour in m_behaviours)
+			behaviour.Init(this);
 	}
 
 	// it is assumed the current projectile is a generic projectile with an empty reference behaviour to fill up
 	public void Clone(Projectile p_projectile) {
 		SpriteRenderer otherRender = p_projectile.GetComponent<SpriteRenderer>();
 		BoxCollider2D otherCollider = p_projectile.GetComponent<BoxCollider2D>();
-
 		SpriteRenderer render = GetComponent<SpriteRenderer>();
 		BoxCollider2D collider = GetComponent<BoxCollider2D>();
 
@@ -103,10 +107,10 @@ public class Projectile : MonoBehaviour {
 		bool hitEntity = false;
 
 		if(collider.gameObject.name != gameObject.name) {
-			Entity entity = collider.GetComponent<Entity>();
+			CollisionRelay relay = collider.GetComponent<CollisionRelay>();
 
-			if(entity != null) {
-				m_shooter.Damage(this, entity);
+			if(relay != null) {
+				m_shooter.Damage(this, relay.m_entity, m_armorPiercing);
 
 				hitEntity = true;
 			}
@@ -125,6 +129,6 @@ public class Projectile : MonoBehaviour {
 		m_target = Vector2.zero;
 		m_shooter = null;
 
-		m_projectilePooler.Remove(gameObject);
+		ProjectilePooler.m_projectilePooler.Remove(gameObject);
 	}
 }

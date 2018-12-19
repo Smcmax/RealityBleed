@@ -12,6 +12,9 @@ public class UnitHealth : MonoBehaviour {
 	[Tooltip("Unit's health")]
 	[ConditionalField("m_useSharedHealth", true)] public FloatVariable m_refHealth;
 
+	[Tooltip("Should health be reset to maximum health on awake?")]
+	[ConditionalField("m_useSharedHealth", true)] public bool m_resetHealth;
+
 	[Tooltip("Unit's max health")]
 	public FloatReference m_maxHealth;
 
@@ -25,18 +28,23 @@ public class UnitHealth : MonoBehaviour {
 	[Tooltip("Event called when the entity dies.")]
 	public UnityEvent m_deathEvent;
 
-	private float GetHealth() {
+	void Awake() { 
+		if(m_resetHealth) SetHealth(m_maxHealth.Value);
+	}
+
+	public float GetHealth() {
 		return (m_refHealth) ? m_refHealth.Value : m_health;
+	}
+
+	public float GetMaxHealth() { 
+		return m_maxHealth.Value;
 	}
 
 	private void SetHealth(float p_value) {
 		float value = p_value;
-		float hp = GetHealth();
 
-		if(value + hp > m_maxHealth.Value)
-			value = m_maxHealth - hp;
-		else if(value + hp < 0)
-			value = hp;
+		if(value > m_maxHealth.Value) value = m_maxHealth;
+		else if(value < 0) value = 0;
 
 		if(m_refHealth) m_refHealth.Value = value;
 		else m_health = value;
@@ -46,8 +54,8 @@ public class UnitHealth : MonoBehaviour {
 		return Time.time * 1000 < m_lastHit + m_immunityWindow * 1000;
 	}
 
-	public void Damage(float p_amount) {
-		if(IsImmune()) return;
+	public void Damage(float p_amount, bool p_bypassImmunityWindow) {
+		if(!p_bypassImmunityWindow && IsImmune()) return;
 
 		SetHealth(GetHealth() - p_amount);
 		m_lastHit = Time.time * 1000;

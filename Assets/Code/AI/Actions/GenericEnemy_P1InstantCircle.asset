@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d8fe3e891ac9644b9b2554b90c8377, type: 3}
+  m_Name: GenericEnemy_P1InstantCircle
+  m_EditorClassIdentifier: 
+  m_patternToShoot: {fileID: 11400000, guid: c5f6a40a19bac8a47ad59983fd7c0f89, type: 2}
+  m_forceTarget: 0
+  m_stopShootingOnTransition: 1

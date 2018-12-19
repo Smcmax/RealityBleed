@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: PlayerHP
   m_EditorClassIdentifier: 
   m_developerDescription: 
-  m_value: -99990
+  m_value: 650

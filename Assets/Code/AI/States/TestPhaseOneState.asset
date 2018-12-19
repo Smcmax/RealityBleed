@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7c66fe177f8334fa51bf6ac6f42660, type: 3}
+  m_Name: TestPhaseOneState
+  m_EditorClassIdentifier: 
+  m_actions:
+  - {fileID: 11400000, guid: abfbf0b500f41834189a1582bfd7d7ec, type: 2}
+  - {fileID: 11400000, guid: a53b793adf16cec4a8bd2c578eb2b0df, type: 2}
+  m_transitions:
+  - m_condition: {fileID: 11400000, guid: f847e31071045bd47badc9c962bee09e, type: 2}
+    m_trueState: {fileID: 11400000, guid: 37795a2444c53254b9107568616885d7, type: 2}
+    m_falseState: {fileID: 11400000}
+  - m_condition: {fileID: 11400000, guid: 570964d84eeb61b4f989e0e71822f341, type: 2}
+    m_trueState: {fileID: 11400000}
+    m_falseState: {fileID: 11400000, guid: 40ca357e82abb2146aa1f2747faaf665, type: 2}
+  m_sceneGizmoColor: {r: 1, g: 0, b: 0, a: 1}

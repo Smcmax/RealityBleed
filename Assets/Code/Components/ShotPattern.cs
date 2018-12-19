@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public abstract class ShotPattern : MonoBehaviour {
+public abstract class ShotPattern : ScriptableObject {
 
 	[Tooltip("Projectile to shoot in this pattern")]
 	public Projectile m_projectile;
@@ -24,6 +24,9 @@ public abstract class ShotPattern : MonoBehaviour {
 	[Tooltip("Time in seconds to wait between pattern loops/restarts")]
 	[Range(0, 10)] public float m_patternCooldown;
 
+	[Tooltip("Should this shot pattern be allowed to shoot regardless of the shooter's shot cooldown?")]
+	public bool m_bypassShooterCooldown;
+
 	[Tooltip("Time in seconds before the next pattern update (next shot in the pattern)")]
 	[Range(0, 10)] public float m_stepDelay;
 
@@ -33,54 +36,21 @@ public abstract class ShotPattern : MonoBehaviour {
 	[Tooltip("The delay in seconds before this pattern switches to the next one")]
 	[Range(0, 10)] public float m_nextPatternSwitchDelay;
 
-	[HideInInspector] public Vector2 m_forcedTarget;
-	private bool m_active;
-	private int m_shotsFired;
-	private int m_loops;
-	private float m_lastLoopTime;
-	protected Shooter m_shooter;
-	protected Vector3 m_spawnLocation;
+	[Tooltip("Add in special effects to display in tooltip like 'Fires multiple projectiles'")]
+	public string m_extraTooltipInfo;
 
-	public void StartPattern(Shooter p_shooter) {
-		StartPattern(p_shooter, transform.position);
+	protected Vector2 FetchTarget(Shooter p_shooter, Projectile p_projectile) {
+		object forcedTarget = p_shooter.GetPatternInfo(this, "forcedTarget");
+
+		return forcedTarget == null || (Vector2) forcedTarget == Vector2.zero ? (Vector2) p_projectile.transform.up : (Vector2) forcedTarget;
 	}
 
-	public void StartPattern(Shooter p_shooter, Vector3 p_spawnLocation) {
-		m_spawnLocation = p_spawnLocation;
-		m_shooter = p_shooter;
-		m_active = true;
-		m_shotsFired = 0;
-		m_loops = 0;
-
-		Init();
-
-		if(m_instant) {
-			if (m_patternCooldown == 0) InvokeRepeating("Instant", 0f, m_stepDelay);
-			else Invoke("Instant", 0f);
-		} else InvokeRepeating("PreStep", 0f, m_stepDelay);
-	}
-
-	public void StopPattern() {
-		m_active = false;
-
-		CancelInvoke();
-
-		if(m_nextPatterns.Count > 0) TransitionToPattern();
-	}
-
-	public bool CanLoop() {
-		return Time.time * 1000 >= m_lastLoopTime + m_patternCooldown * 1000;
-	}
-
-	protected Vector2 FetchTarget(Projectile p_projectile) {
-		return m_forcedTarget == Vector2.zero ? (Vector2) transform.up : m_forcedTarget;
-	}
-
-	protected Projectile SpawnProjectile() {
-		GameObject proj = m_projectile.m_projectilePooler.Get();
+	protected Projectile SpawnProjectile(Shooter p_shooter) {
+		GameObject proj = ProjectilePooler.m_projectilePooler.Get();
 		Projectile projectile = proj.GetComponent<Projectile>();
+		object spawnLocation = p_shooter.GetPatternInfo(this, "spawnLocation");
 
-		proj.transform.position = m_spawnLocation;
+		proj.transform.position = spawnLocation == null ? p_shooter.transform.position : (Vector3) spawnLocation;
 		proj.transform.rotation = m_projectile.transform.rotation;
 
 		projectile.Clone(m_projectile);
@@ -88,73 +58,69 @@ public abstract class ShotPattern : MonoBehaviour {
 		return projectile;
 	}
 
-	private void TransitionToPattern() {
-		Invoke("Transition", m_nextPatternSwitchDelay);
-	}
-
-	private void Transition() {
-		m_shooter.StopShooting(this);
-
+	public void Transition(Shooter p_shooter) {
 		for(int i = 0; i < m_nextPatterns.Count; ++i)
-			m_shooter.Shoot(m_nextPatterns[i]);
+			p_shooter.Shoot(m_nextPatterns[i]);
 	}
 
-	private void Instant() {
-		if (!m_shooter.ConsumeMana(this)){
-			m_shooter.StopShooting(this);
-			return;
+	public float Instant(Shooter p_shooter) {
+		if (!p_shooter.ConsumeMana(this)){
+			p_shooter.StopShooting(this);
+			return -1;
 		}
 
-		for(int i = 0; i < m_shots; ++i) PreStep();
+		for(int i = 0; i < m_shots; ++i) PreStep(p_shooter);
+		if((int) p_shooter.GetPatternInfo(this, "shotsFired") == m_shots) AddLoop(p_shooter);
+		if(!p_shooter.CanLoop(this)) return (Time.time * 1000 - ((float) p_shooter.GetPatternInfo(this, "lastLoopTime") + m_patternCooldown * 1000)) / 1000;
 
-		if(m_shotsFired == m_shots) AddLoop();
-
-		if(!CanLoop()){
-			Invoke("Instant", m_lastLoopTime + m_patternCooldown * 1000);
-			return;
-		}
+		return m_patternCooldown;
 	}
 
-	public void PreStep() {
-		if(!m_active) return;
+	public float PreStep(Shooter p_shooter) {
+		if(!((bool) p_shooter.GetPatternInfo(this, "active"))) return -1;
 
-		if(m_shotsFired == m_shots)
-			if(AddLoop()) return;
+		int shotsFired = (int) p_shooter.GetPatternInfo(this, "shotsFired");
 
-		if(!CanLoop()) {
-			CancelInvoke();
-			InvokeRepeating("PreStep", (Time.time * 1000 - (m_lastLoopTime + m_patternCooldown * 1000)) / 1000, m_stepDelay);
-			return;
+		if(shotsFired == m_shots)
+			if(AddLoop(p_shooter)) return -1;
+
+		if(!p_shooter.CanLoop(this)) return (Time.time * 1000 - ((float) p_shooter.GetPatternInfo(this, "lastLoopTime") + m_patternCooldown * 1000)) / 1000;
+
+		if(!m_instant && !p_shooter.ConsumeMana(this)) {
+			p_shooter.StopShooting(this);
+			return -1;
 		}
 
-		if(!m_instant && !m_shooter.ConsumeMana(this)) {
-			m_shooter.StopShooting(this);
-			return;
-		}
+		Step(p_shooter);
 
-		Step();
+		shotsFired++;
+		p_shooter.SetPatternInfo(this, "shotsFired", shotsFired);
 
-		m_shotsFired++;
+		return m_stepDelay;
 	}
 
-	private bool AddLoop() {
-		m_shotsFired = 0;
-		m_loops++;
-		m_lastLoopTime = Time.time * 1000;
+	private bool AddLoop(Shooter p_shooter) {
+		p_shooter.SetPatternInfo(this, "shotsFired", 0);
+		p_shooter.SetPatternInfo(this, "loops", (int) p_shooter.GetPatternInfo(this, "loops") + 1);
+		p_shooter.SetPatternInfo(this, "lastLoopTime", Time.time * 1000);
 
-		if(IsDoneLooping()) {
-			m_shooter.StopShooting(this);
+		if(IsDoneLooping(p_shooter)) {
+			p_shooter.StopShooting(this);
 			return true;
 		}
+
+		Init(p_shooter);
 
 		return false;
 	}
 
-	private bool IsDoneLooping() {
-		return (m_loop && m_loops >= m_loopsBeforeSwitch && m_loopsBeforeSwitch != 0) || (!m_loop && m_loops >= 1);
+	private bool IsDoneLooping(Shooter p_shooter) {
+		int loops = (int) p_shooter.GetPatternInfo(this, "loops");
+
+		return (m_loop && loops >= m_loopsBeforeSwitch && m_loopsBeforeSwitch != 0) || (!m_loop && loops >= 1);
 	}
 
-	public abstract void Init();
+	public abstract void Init(Shooter p_shooter);
 
-	public abstract void Step();
+	public abstract void Step(Shooter p_shooter);
 }
