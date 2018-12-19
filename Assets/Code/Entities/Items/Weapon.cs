@@ -3,6 +3,9 @@
 [CreateAssetMenu(menuName = "Items/Weapon")]
 public class Weapon : BaseItem {
 
+	[Tooltip("The type of weapon this item is")]
+	public WeaponType m_weaponType;
+
 	[Tooltip("Stats gained when this item is equipped")]
 	public int[] m_statGainValues;
 
@@ -23,4 +26,8 @@ public class Weapon : BaseItem {
 
 		if(pattern) p_entity.m_shooter.Shoot(pattern);
 	}
+}
+
+public enum WeaponType { 
+	Sword, Dagger, Axe, Polearm, Mace, Staff, Wand, Crossbow, Bow
 }

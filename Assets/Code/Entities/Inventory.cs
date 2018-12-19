@@ -11,6 +11,9 @@ public class Inventory : MonoBehaviour {
 	[Tooltip("The modal used when destroying an item")]
 	public Modal m_itemDestroyModal;
 
+	[Tooltip("The tooltip used by this inventory")]
+	public ItemTooltip m_itemTooltip;
+
 	[Tooltip("The event called when items are moved around/used")]
 	public GameEvent m_onInventoryActionEvent;
 

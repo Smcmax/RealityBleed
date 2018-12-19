@@ -36,6 +36,9 @@ public abstract class ShotPattern : ScriptableObject {
 	[Tooltip("The delay in seconds before this pattern switches to the next one")]
 	[Range(0, 10)] public float m_nextPatternSwitchDelay;
 
+	[Tooltip("Add in special effects to display in tooltip like 'Fires multiple projectiles'")]
+	public string m_extraTooltipInfo;
+
 	protected Vector2 FetchTarget(Shooter p_shooter, Projectile p_projectile) {
 		object forcedTarget = p_shooter.GetPatternInfo(this, "forcedTarget");
 

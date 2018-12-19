@@ -19,9 +19,11 @@ MonoBehaviour:
   m_loop: 0
   m_loopsBeforeSwitch: 5
   m_patternCooldown: 0.5
+  m_bypassShooterCooldown: 0
   m_stepDelay: 0.5
   m_nextPatterns: []
   m_nextPatternSwitchDelay: 0
+  m_extraTooltipInfo: Test Right Click Extra
   m_symmetrical: 1
   m_shiftAngle: 135
   m_shiftAngleIncrement: 0

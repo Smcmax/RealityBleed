@@ -10,21 +10,37 @@ public class UIItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 	[Tooltip("The duplicate image used for dragging the item around instead of the original")]
 	public Image m_ghost;
 
-	private Canvas m_hoveredCanvas;
 	private bool m_validDrop;
 
 	void Awake() {
 		m_ghost.raycastTarget = false;
 		m_ghost.enabled = false;
-		m_hoveredCanvas = GetComponentInParent<Canvas>();
+	}
+
+	void OnDisable() { 
+		if(m_item.m_inventory.m_itemTooltip.gameObject.activeSelf)
+			HideTooltip();
+	}
+
+	public void ShowTooltip() {
+		if(!m_item.m_item) return;
+
+		m_item.m_inventory.m_itemTooltip.SetItem(m_item);
+		m_item.m_inventory.m_itemTooltip.Show();
+	}
+
+	public void HideTooltip() {
+		if (!m_item.m_item) return;
+
+		m_item.m_inventory.m_itemTooltip.Hide();
 	}
 
 	public void OnBeginDrag(PointerEventData p_eventData) {
 		if(!m_item.m_item) return;
 
-		m_ghost.transform.position = transform.position;
+		m_ghost.transform.position = Input.mousePosition;
 		m_ghost.enabled = true;
-		m_ghost.transform.SetParent(m_hoveredCanvas.transform);
+		m_ghost.transform.SetParent(GetComponentInParent<Canvas>().transform);
 	}
 
 	public void OnDrag(PointerEventData p_eventData) {
@@ -35,12 +51,8 @@ public class UIItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 		foreach(GameObject hovered in p_eventData.hovered)
 			if(hovered.name.Contains("Canvas")) {
 				Canvas hover = hovered.GetComponent<Canvas>();
-				
-				if(hovered != m_hoveredCanvas) m_hoveredCanvas.sortingOrder = 0;
 
-				hover.sortingOrder = 1;
 				m_ghost.transform.SetParent(hover.transform);
-				m_hoveredCanvas = hover;
 
 				break;
 			}

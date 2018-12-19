@@ -443,6 +443,7 @@ MonoBehaviour:
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   m_itemDestroyModal: {fileID: 0}
+  m_itemTooltip: {fileID: 0}
   m_onInventoryActionEvent: {fileID: 11400000, guid: a4f56fa06604b3b48959b37344914f6c,
     type: 2}
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
@@ -547,6 +548,7 @@ MonoBehaviour:
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   m_itemDestroyModal: {fileID: 0}
+  m_itemTooltip: {fileID: 0}
   m_onInventoryActionEvent: {fileID: 11400000, guid: a4f56fa06604b3b48959b37344914f6c,
     type: 2}
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,

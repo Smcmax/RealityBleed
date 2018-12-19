@@ -9,6 +9,9 @@ public class Projectile : MonoBehaviour {
 	[Tooltip("Whether or not this projectile pierces opponents")]
 	public bool m_piercing;
 
+	[Tooltip("Whether or not this projectile passes through armor")]
+	public bool m_armorPiercing;
+
 	[Tooltip("The range the projectile will travel before being removed")]
 	[Range(0, 50)] public float m_range;
 
@@ -107,7 +110,7 @@ public class Projectile : MonoBehaviour {
 			CollisionRelay relay = collider.GetComponent<CollisionRelay>();
 
 			if(relay != null) {
-				m_shooter.Damage(this, relay.m_entity);
+				m_shooter.Damage(this, relay.m_entity, m_armorPiercing);
 
 				hitEntity = true;
 			}

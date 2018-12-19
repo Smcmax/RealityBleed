@@ -15,8 +15,13 @@ MonoBehaviour:
   m_name: Test Sword v2
   m_sprite: {fileID: 21300000, guid: 9a88efda61ffe0d48ba4d56b18ecc1b3, type: 3}
   m_maxStackSize: 1
+  m_sellPrice: 0
   m_levelRequired: 0
   m_equipmentSlots: 0000000001000000
+  m_nameColor: {r: 0.5568628, g: 0.3254902, b: 0.6784314, a: 1}
+  m_description: Sample Description
+  m_weaponType: 0
+  m_statGainValues: 000000000000000000000000000000000100000002000000040000000300000001000000
   m_leftClickPattern: {fileID: 11400000, guid: 7274aebdc6b95e24c8822b492866fda3, type: 2}
   m_rightClickPattern: {fileID: 11400000, guid: 5c75a91e731cbdd4080d06a1d786f0eb,
     type: 2}

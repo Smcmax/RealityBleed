@@ -412,6 +412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_damage: 25
   m_piercing: 0
+  m_armorPiercing: 0
   m_range: 7.5
   m_speed: 8.5
   m_rotate: 1
@@ -462,6 +463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_damage: 10
   m_piercing: 0
+  m_armorPiercing: 0
   m_range: 5
   m_speed: 3
   m_rotate: 0
@@ -499,6 +501,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_damage: 5
   m_piercing: 0
+  m_armorPiercing: 0
   m_range: 2
   m_speed: 7
   m_rotate: 0
@@ -536,6 +539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_damage: 15
   m_piercing: 1
+  m_armorPiercing: 1
   m_range: 5
   m_speed: 7
   m_rotate: 0
@@ -586,6 +590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_damage: 25
   m_piercing: 1
+  m_armorPiercing: 0
   m_range: 4
   m_speed: 3
   m_rotate: 0
@@ -613,6 +618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_damage: 10
   m_piercing: 0
+  m_armorPiercing: 0
   m_range: 10
   m_speed: 3
   m_rotate: 0

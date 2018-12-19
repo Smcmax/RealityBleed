@@ -136,7 +136,7 @@ public class Shooter : MonoBehaviour {
 	}
 
 	// TODO: add damage modifiers/stats to this
-	public void Damage(Projectile p_projectile, Entity p_entity) {
-		p_entity.Damage(m_entity, p_projectile.m_damage, false, false);
+	public void Damage(Projectile p_projectile, Entity p_entity, bool p_armorPiercing) {
+		p_entity.Damage(m_entity, p_projectile.m_damage, p_armorPiercing, false);
 	}
 }
