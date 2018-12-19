@@ -96846,6 +96846,7 @@ GameObject:
   - component: {fileID: 1610949172}
   - component: {fileID: 1610949174}
   - component: {fileID: 1610949170}
+  - component: {fileID: 1610949176}
   m_Layer: 11
   m_Name: GenericEnemy
   m_TagString: Untagged
@@ -96982,7 +96983,6 @@ MonoBehaviour:
   m_look: {fileID: 11400000, guid: f213fe302a30e9d4a8c65ddcc055f562, type: 2}
   m_inventory: {fileID: 0}
   m_runtimeSets: []
-  m_class: {fileID: 0}
   m_health: {fileID: 0}
   m_stats: {fileID: 0}
   m_shooter: {fileID: 0}
@@ -97053,6 +97053,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1610949176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1610949167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf4586fdec44ea54498c740e7755769b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxHP:
+    m_useConstant: 1
+    m_constantValue: 0
+    m_variable: {fileID: 0}
+  m_maxMP:
+    m_useConstant: 1
+    m_constantValue: 0
+    m_variable: {fileID: 0}
+  m_strength:
+    m_useConstant: 1
+    m_constantValue: 0
+    m_variable: {fileID: 0}
+  m_dexterity:
+    m_useConstant: 1
+    m_constantValue: 0
+    m_variable: {fileID: 0}
+  m_intellect:
+    m_useConstant: 1
+    m_constantValue: 0
+    m_variable: {fileID: 0}
+  m_speed:
+    m_useConstant: 1
+    m_constantValue: 0
+    m_variable: {fileID: 0}
+  m_constitution:
+    m_useConstant: 1
+    m_constantValue: 0
+    m_variable: {fileID: 0}
+  m_defense:
+    m_useConstant: 1
+    m_constantValue: 0
+    m_variable: {fileID: 0}
+  m_wisdom:
+    m_useConstant: 1
+    m_constantValue: 0
+    m_variable: {fileID: 0}
 --- !u!114 &1610949180
 MonoBehaviour:
   m_ObjectHideFlags: 0

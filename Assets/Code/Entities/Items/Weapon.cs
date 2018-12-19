@@ -12,7 +12,7 @@ public class Weapon : BaseItem {
 	// Main hands are split into two categories, two-handers and one-handers
 	// Two-handers have 2 shots, a left-click and a right-click
 	// One-handers on the other hand (haha get it?), only have a left-click while the off-hand has the right-click
-	[Tooltip("The shot pattern fired when this weapon's left click is used, if it has one")]
+	[Tooltip("The shot pattern fired when this weapon's left click is used, if it has one. A weapon's FIRST shot is always left-click")]
 	public ShotPattern m_leftClickPattern;
 
 	[Tooltip("The shot pattern fired when this weapon's right click is used, if it has one")]
@@ -26,6 +26,8 @@ public class Weapon : BaseItem {
 
 		if(pattern) p_entity.m_shooter.Shoot(pattern);
 	}
+
+	public bool IsTwoHanded() { return m_leftClickPattern && m_rightClickPattern; }
 }
 
 public enum WeaponType { 

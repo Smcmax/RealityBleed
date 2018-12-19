@@ -21,6 +21,7 @@ public class Inventory : MonoBehaviour {
 	public GameEvent m_onItemDestroyEvent;
 
 	[HideInInspector] public Entity m_entity;
+	[HideInInspector] public UIItem[] m_uiItems; // updates itself, null if inventory not shown on screen
 
 	void Awake() { 
 		for(int i = 0; i < m_items.Length; ++i) { 
@@ -46,10 +47,14 @@ public class Inventory : MonoBehaviour {
 		return Get(p_id).m_item.m_maxStackSize;
 	}
 
-	public bool Add(Item p_item) {
-		SetEntity(p_item);
-		p_item.m_inventory = this;
+	public bool IsFull() { 
+		foreach(Item item in m_items)
+			if(!item.m_item) return false;
+		
+		return true;
+	}
 
+	public bool Add(Item p_item) {
 		// if we can fill up existing stacks, we do it
 		if(p_item.m_item && ContainsNonFull(p_item.m_item.m_id)) {
 			foreach(Item item in GetAll(p_item.m_item.m_id)) { 
@@ -60,8 +65,11 @@ public class Inventory : MonoBehaviour {
 		}
 
 		for(int i = 0; i < m_items.Length; ++i)
-			if(m_items[i].m_item == null) {
+			if(!m_items[i].m_item) {
 				m_items[i] = p_item;
+				SetEntity(m_items[i]);
+				m_items[i].m_inventory = this;
+				m_items[i].m_inventoryIndex = i;
 
 				return true;
 			}
@@ -87,9 +95,6 @@ public class Inventory : MonoBehaviour {
 
 	public bool SetAtIndex(Item p_item, int p_index) { 
 		Item atIndex = m_items[p_index];
-
-		SetEntity(p_item);
-		p_item.m_inventory = this;
 		
 		if(atIndex.m_item == null) {
 			m_items[p_index] = p_item;
@@ -99,7 +104,9 @@ public class Inventory : MonoBehaviour {
 			atIndex.m_amount += p_item.m_amount;
 		} else return false;
 
-		p_item.m_inventoryIndex = p_index;
+		SetEntity(m_items[p_index]);
+		m_items[p_index].m_inventoryIndex = p_index;
+		m_items[p_index].m_inventory = this;
 
 		return true;
 	}

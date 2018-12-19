@@ -37,10 +37,13 @@ public class InventoryLoader : MonoBehaviour {
 
 		for(int i = children - 1; i >= 0; --i)
 			Destroy(transform.GetChild(i).gameObject);
+
+		m_inventory.m_uiItems = new UIItem[0];
 	}
 
 	public void Load() {
 		Item[] items = m_inventory.m_items;
+		if(m_inventory.m_uiItems.Length == 0) m_inventory.m_uiItems = new UIItem[items.Length];
 
 		if(m_endIndex > 0) {
 			items = new Item[m_endIndex + 1 - m_startIndex];
@@ -81,6 +84,8 @@ public class InventoryLoader : MonoBehaviour {
 				if(item.m_item && item.m_amount > 0) LoadItem(uiItem, item);
 				else if(item.m_outlineSprite) LoadOutline(uiItem, item);
 				else LoadEmptyItem(uiItem, item);
+
+				m_inventory.m_uiItems[row * cols + col + m_startIndex] = uiItem;
 			}
 		}
 	}

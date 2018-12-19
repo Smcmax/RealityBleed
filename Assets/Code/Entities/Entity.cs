@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(Equipment), typeof(Inventory), typeof(UnitStats))]
 public class Entity : MonoBehaviour {
 
 	[Tooltip("The movement controller")]
@@ -18,7 +19,7 @@ public class Entity : MonoBehaviour {
 	[Tooltip("The entity's viewing variables, only set if this entity uses AI, otherwise leave it empty")]
 	public Look m_look;
 
-	[Tooltip("Every inventory carried by this entity")]
+	[Tooltip("The inventory carried by this entity")]
 	public Inventory m_inventory;
 
 	[Tooltip("All runtime sets this entity is a part of")]
@@ -26,7 +27,6 @@ public class Entity : MonoBehaviour {
 
 	// check for duplicate effects maybe not stacking? unsure if it will happen but needs to be tested
 	[HideInInspector] public Dictionary<Effect, float> m_effectsActive; // float = application time
-	[HideInInspector] public Class m_class;
 	[HideInInspector] public UnitHealth m_health;
 	[HideInInspector] public UnitStats m_stats;
 	[HideInInspector] public Shooter m_shooter;
@@ -39,7 +39,8 @@ public class Entity : MonoBehaviour {
 		m_shooter = GetComponent<Shooter>();
 
 		if(m_shooter) m_shooter.Init(this);
-		if(m_equipment) m_equipment.SetEntity(this);
+		if(m_inventory) m_inventory.m_entity = this;
+		if(m_equipment) m_equipment.m_entity = this;
 
 		InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
 	}

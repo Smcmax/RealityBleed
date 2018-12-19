@@ -22,7 +22,7 @@ public class Class : MonoBehaviour {
 		m_stats = GetComponent<UnitStats>();
 		m_entity = GetComponent<Entity>();
 
-		m_entity.m_class = this;
+		//m_entity.m_class = this;
 	}
 
 	public void LevelUp() { 

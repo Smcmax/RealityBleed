@@ -2,24 +2,8 @@
 
 public class Equipment : Inventory {
 
-	public void SetEntity(Entity p_entity) { 
-		m_entity = p_entity;
-
-		foreach(Item item in m_items)
-			if(item.m_item != null) item.m_holder = p_entity;
-	}
-
-	private int GetSlotId(EquipmentSlot p_slot) {
-		foreach(EquipmentSlot slot in Enum.GetValues(typeof(EquipmentSlot)))
-			if(p_slot == slot) return (int) slot;
-
-		return -1;
-	}
-
 	public Item Get(EquipmentSlot p_slot) {
-		int slotId = GetSlotId(p_slot);
-
-		return slotId == -1 ? null : m_items[slotId];
+		return m_items[(int) p_slot];
 	}
 
 	public Weapon GetWeaponHandlingClick(bool p_leftClick) { 
@@ -28,6 +12,14 @@ public class Equipment : Inventory {
 		if(mainHand.m_rightClickPattern || p_leftClick) return mainHand;
 
 		return (Weapon) Get(EquipmentSlot.OffHand).m_item;
+	}
+
+	public ShotPattern GetShotPatternHandlingClick(bool p_leftClick) {
+		Weapon mainHand = (Weapon) Get(EquipmentSlot.MainHand).m_item;
+
+		if(p_leftClick) return mainHand.m_leftClickPattern;
+
+		return mainHand.m_rightClickPattern ? mainHand.m_rightClickPattern : ((Weapon) Get(EquipmentSlot.OffHand).m_item).m_leftClickPattern;
 	}
 }
 

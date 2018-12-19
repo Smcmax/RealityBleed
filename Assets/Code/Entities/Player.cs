@@ -31,12 +31,12 @@ public class Player : Entity {
 
 		if(fire && !mouseOverGameObject) {
 			Weapon weapon = m_equipment.GetWeaponHandlingClick(leftClick);
+			ShotPattern toFire = m_equipment.GetShotPatternHandlingClick(leftClick);
 
 			if(weapon == null) return;
+			if(toFire == null) return;
 
-			ShotPattern toFire = leftClick ? weapon.m_leftClickPattern : weapon.m_rightClickPattern;
 			m_shooter.SetPatternInfo(toFire, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition));
-
 			weapon.Use(this, new string[]{ leftClick.ToString() }); // using weapon in case it has specific code to execute
 		}
 	}
