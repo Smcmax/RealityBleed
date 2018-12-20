@@ -26,15 +26,9 @@ public class UnitStats : MonoBehaviour {
 	[Tooltip("Whether or not the entity is allowed to regen mana")]
 	public bool m_manaRegen;
 
-	[Tooltip("Events called when any of these stats update based on gear updates")]
-	public UnityEvent m_gearUpdateEvent;
+	[Tooltip("Stat update events called whenever a stat changes. Same order as stats, null = no call")]
+	public GameEvent[] m_statEvents;
 
-	[Tooltip("Event called when health regenerates")]
-	public GameEvent m_hpRegenEvent;
-
-	[Tooltip("Event called when mana regenerates")]
-	public GameEvent m_mpRegenEvent;
-	
 	private int[] m_gearModifiers;
 	private int[] m_modifiers;
 
@@ -48,7 +42,7 @@ public class UnitStats : MonoBehaviour {
 	}
 
 	public int GetBaseStat(Stats p_stat) { 
-		switch(p_stat){
+		switch(p_stat) {
 			case Stats.HP: return m_maxHP;
 			case Stats.MP: return m_maxMP;
 			case Stats.STR: return m_strength;
@@ -82,6 +76,10 @@ public class UnitStats : MonoBehaviour {
 		return m_modifiers[(int) p_stat];
 	}
 
+	public int GetGearModifier(Stats p_stat) {
+		return m_gearModifiers[(int) p_stat];
+	}
+
 	public void SetModifier(Stats p_stat, int p_value) { 
 		m_modifiers[(int) p_stat] = p_value;
 	}
@@ -91,20 +89,35 @@ public class UnitStats : MonoBehaviour {
 	}
 
 	public void UpdateGearModifiers(int[] p_newModifiers) {
+		int[] oldModifiers = m_gearModifiers;
 		m_gearModifiers = p_newModifiers;
-		m_gearUpdateEvent.Invoke();
+
+		CallStatUpdateEvents(oldModifiers, m_gearModifiers);
+	}
+
+	private void CallStatUpdateEvents(int[] oldModifiers, int[] newModifiers) {
+		for(int i = 0; i < STAT_AMOUNT; i++)
+			if(oldModifiers[i] != newModifiers[i])
+				CallStatUpdateEvent((Stats) i);
+	}
+
+	private void CallStatUpdateEvent(Stats p_stat) {
+		if(m_statEvents.Length > (int) p_stat && m_statEvents[(int) p_stat])
+			m_statEvents[(int) p_stat].Raise();
 	}
 
 	// a ttl of 0 = permanent (can still be manually removed)
 	// NOTE: HP and MP work in reduction of the stat!!!
 	public void AddModifier(Stats p_stat, int p_value, float p_ttl) { 
 		m_modifiers[(int) p_stat] += p_value;
+		CallStatUpdateEvent(p_stat);
 
 		if(p_ttl > 0) StartCoroutine(RemoveModifierCoroutine(p_stat, p_value, p_ttl));
 	}
 
 	public void RemoveModifier(Stats p_stat, int p_value) {
-		m_modifiers[(int)p_stat] -= p_value;
+		m_modifiers[(int) p_stat] -= p_value;
+		CallStatUpdateEvent(p_stat);
 	}
 
 	// for use with the ttl-enabled AddModifier only
@@ -118,7 +131,7 @@ public class UnitStats : MonoBehaviour {
 		while(m_healthRegen) {
 			if (GetBaseStatWithGear(Stats.HP) - (GetStat(Stats.HP) + 1) >= 0) {
 				AddModifier(Stats.HP, 1, 0);
-				if(m_hpRegenEvent) m_hpRegenEvent.Raise();
+				CallStatUpdateEvent(Stats.HP);
 			}
 
 			yield return new WaitForSeconds(1f / GetStatEffectFloat(Stats.CON));
@@ -129,7 +142,7 @@ public class UnitStats : MonoBehaviour {
 		while(m_manaRegen) {
 			if(GetBaseStatWithGear(Stats.MP) - (GetStat(Stats.MP) + 1) >= 0) {
 				AddModifier(Stats.MP, 1, 0);
-				if(m_mpRegenEvent) m_mpRegenEvent.Raise();
+				CallStatUpdateEvent(Stats.MP);
 			}
 
 			yield return new WaitForSeconds(1f / GetStatEffectFloat(Stats.WIS));

@@ -464,7 +464,7 @@ MonoBehaviour:
   m_directionX: 0
   m_directionY: 0
   m_smoothTime: 0.1
-  m_speed: 3
+  m_speed: 2
   m_diagonalSpeedPercentage: 0.75
 --- !u!114 &114071987786881558
 MonoBehaviour:
@@ -603,60 +603,18 @@ MonoBehaviour:
     m_useConstant: 0
     m_constantValue: 0
     m_variable: {fileID: 11400000, guid: 7508c619d59ec6d4d897593e52fd265b, type: 2}
-  m_gearUpdateEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 14c553c70ac91be4b995a1b8b411d02e, type: 2}
-        m_MethodName: Raise
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: b9ae62d2df1907347b68c537fea95a8c, type: 2}
-        m_MethodName: Raise
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  m_regenUpdateEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 14c553c70ac91be4b995a1b8b411d02e, type: 2}
-        m_MethodName: Raise
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: b9ae62d2df1907347b68c537fea95a8c, type: 2}
-        m_MethodName: Raise
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  m_healthRegen: 1
+  m_manaRegen: 1
+  m_statEvents:
+  - {fileID: 11400000, guid: 14c553c70ac91be4b995a1b8b411d02e, type: 2}
+  - {fileID: 11400000, guid: b9ae62d2df1907347b68c537fea95a8c, type: 2}
+  - {fileID: 11400000, guid: 03b4cf7c1c5b8894bb84f38e1acd7583, type: 2}
+  - {fileID: 11400000, guid: 4f66bbcf7cfbd9a4d833fc09c2b28fdc, type: 2}
+  - {fileID: 11400000, guid: ab4dc84983a2dac4a8ec15e759988f45, type: 2}
+  - {fileID: 11400000, guid: 695acb0d5eafa054f9d215fd66c7223d, type: 2}
+  - {fileID: 11400000, guid: 2899fc60f8b6ff941b5c1a41794980e9, type: 2}
+  - {fileID: 11400000, guid: 65534cc0fadf5464098f0322b2ff307f, type: 2}
+  - {fileID: 11400000, guid: 08202257dc70a1c4c96ef1a1be39d092, type: 2}
 --- !u!114 &114173102224703342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -725,7 +683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c3056166bcccb0429dc66c3a3443e5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_controller: {fileID: 0}
+  m_controller: {fileID: 114043605804268206}
   m_collisionRelay: {fileID: 0}
   m_canDie: 0
   m_equipment: {fileID: 114071987786881558}

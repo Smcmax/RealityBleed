@@ -5,6 +5,8 @@ public class Equipment : Inventory {
 	public void Init(Entity p_entity) {
 		m_entity = p_entity;
 		m_entity.m_stats.UpdateGearModifiers(CalculateStatModifiers());
+
+		base.Awake();
 	}
 
 	public Item Get(EquipmentSlot p_slot) {

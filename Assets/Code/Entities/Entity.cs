@@ -44,6 +44,7 @@ public class Entity : MonoBehaviour {
 		if(m_equipment) m_equipment.Init(this);
 
 		InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
+		InvokeRepeating("UpdateCharacterSpeed", Constants.CHARACTER_SPEED_UPDATE_RATE, Constants.CHARACTER_SPEED_UPDATE_RATE);
 	}
 
 	void OnEnable() { 
@@ -54,6 +55,10 @@ public class Entity : MonoBehaviour {
 	void OnDisable() {
 		foreach(EntityRuntimeSet set in m_runtimeSets)
 			set.Remove(this);
+	}
+
+	private void UpdateCharacterSpeed() { 
+		m_controller.m_speed = m_stats.GetStatEffectFloat(Stats.SPD);
 	}
 
 	private void TickEffects() {

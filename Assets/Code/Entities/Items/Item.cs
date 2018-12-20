@@ -23,6 +23,7 @@ public class Item {
 	[HideInInspector] public int m_inventoryIndex;
 
 	public Item(Inventory p_inventory, int p_index) { 
+		m_holder = p_inventory.m_entity;
 		m_inventory = p_inventory;
 		m_inventoryIndex = p_index;
 	}

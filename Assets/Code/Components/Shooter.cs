@@ -47,8 +47,10 @@ public class Shooter : MonoBehaviour {
 
 	public bool CanLoop(ShotPattern p_pattern) {
 		object lastLoopTimeObj = GetPatternInfo(p_pattern, "lastLoopTime");
-		// TODO: apply stat effect to pattern cooldown
-		return lastLoopTimeObj == null ? true : Time.time * 1000 >= (float) lastLoopTimeObj + p_pattern.m_patternCooldown * 1000;
+		Stats statApplied = p_pattern.m_projectile.m_statApplied;
+		float patternCooldown = p_pattern.m_patternCooldown * statApplied.GetAlternateEffect(m_entity.m_stats.GetStat(statApplied));
+
+		return lastLoopTimeObj == null ? true : Time.time * 1000 >= (float) lastLoopTimeObj + patternCooldown * 1000;
 	}
 
 	public void Shoot(ShotPattern p_pattern) {
