@@ -11,7 +11,7 @@ public class ExplodeOnDeathBehaviour : ProjectileBehaviour {
 	public override void Move(Projectile p_projectile, DataHolder p_data) {}
 
 	public override void Die(Projectile p_projectile) {
-		if(Random.Range(0f, 100f) <= m_chanceToExplode) {
+		if(Random.Range(0f, 100f) <= m_chanceToExplode && !p_projectile.m_shooter.m_entity.m_isDead) {
 			p_projectile.m_shooter.SetPatternInfo(m_explosionPattern, "spawnLocation", p_projectile.transform.position);
 			p_projectile.m_shooter.Shoot(m_explosionPattern);
 		}

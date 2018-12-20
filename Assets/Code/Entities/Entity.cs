@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using System;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Equipment), typeof(Inventory), typeof(UnitStats))]
@@ -11,7 +13,7 @@ public class Entity : MonoBehaviour {
 
 	[Tooltip("If this entity can die")]
 	public bool m_canDie;
-	protected bool m_isDead;
+	[HideInInspector] public bool m_isDead;
 
 	[Tooltip("This entity's equipment")]
 	public Equipment m_equipment;
@@ -24,6 +26,9 @@ public class Entity : MonoBehaviour {
 
 	[Tooltip("All runtime sets this entity is a part of")]
 	public List<EntityRuntimeSet> m_runtimeSets;
+
+	[Tooltip("This entity's feedback template")]
+	public GameObject m_feedbackTemplate;
 
 	// check for duplicate effects maybe not stacking? unsure if it will happen but needs to be tested
 	[HideInInspector] public Dictionary<Effect, float> m_effectsActive; // float = application time
@@ -98,16 +103,30 @@ public class Entity : MonoBehaviour {
 			int finalDamage = p_damage;
 
 			if(!p_bypassDefense) finalDamage -= m_stats.GetStatEffect(Stats.DEF);
-			if(finalDamage > 0) m_health.Damage(finalDamage, p_bypassImmunityWindow);
+			if(finalDamage > 0) {
+				GenerateFeedback(-finalDamage, p_bypassDefense ? Constants.PURPLE : Constants.RED);
+				m_health.Damage(finalDamage, p_bypassImmunityWindow);
+			}
 		}
 
 		// make sure the AI starts targeting its last damager
 		if(m_ai && p_entity) m_ai.m_target = p_entity;
 	}
 
+	public void GenerateFeedback(int p_amount, Color p_displayColor) {
+		GameObject feedback = Instantiate(m_feedbackTemplate, GetComponentInChildren<Canvas>().transform);
+		Text feedbackText = feedback.GetComponent<Text>();
+
+		feedbackText.text = p_amount > 0 ? ("+" + p_amount) : ("-" + Mathf.Abs(p_amount));
+		feedbackText.color = p_displayColor;
+
+		feedback.SetActive(true);
+	}
+
 	public void Kill() {
 		if (m_canDie) {
 			m_isDead = true;
+			
 			Die();
 		}
 	}
