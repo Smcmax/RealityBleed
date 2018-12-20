@@ -41,7 +41,7 @@ public class Entity : MonoBehaviour {
 		if(m_shooter) m_shooter.Init(this);
 		if(m_health) m_health.m_entity = this;
 		if(m_inventory) m_inventory.m_entity = this;
-		if(m_equipment) m_equipment.m_entity = this;
+		if(m_equipment) m_equipment.Init(this);
 
 		InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
 	}

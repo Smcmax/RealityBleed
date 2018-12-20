@@ -2,8 +2,8 @@
 
 public class Equipment : Inventory {
 
-	protected override void Awake() {
-		base.Awake();
+	public void Init(Entity p_entity) {
+		m_entity = p_entity;
 		m_entity.m_stats.UpdateGearModifiers(CalculateStatModifiers());
 	}
 

@@ -593,16 +593,16 @@ public class Reporter : MonoBehaviour
 		selectedLog = null;
 	}
 
-	Rect screenRect;
-	Rect toolBarRect;
+	Rect screenRect = new Rect();
+	Rect toolBarRect = new Rect();
 	Rect logsRect;
 	Rect stackRect;
 	Rect graphRect;
 	Rect graphMinRect;
 	Rect graphMaxRect;
-	Rect buttomRect;
+	Rect buttomRect = new Rect();
 	Vector2 stackRectTopLeft;
-	Rect detailRect;
+	Rect detailRect = new Rect();
 
 	Vector2 scrollPosition;
 	Vector2 scrollPosition2;
@@ -686,7 +686,7 @@ public class Reporter : MonoBehaviour
 		}
 	}
 
-	Rect countRect;
+	Rect countRect = new Rect();
 	Rect timeRect;
 	Rect timeLabelRect;
 	Rect sceneRect;

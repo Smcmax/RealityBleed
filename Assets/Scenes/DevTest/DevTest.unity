@@ -655,6 +655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_target: {fileID: 2144596872}
   m_smoothTime: 0.15
+  m_cameraLocationPrecision: 2
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -689,7 +690,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -708,6 +709,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &600285731 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114043605804268206, guid: c8f178c0b7b80014a9b1557be1e060ce,
+    type: 2}
+  m_PrefabInternal: {fileID: 896065330}
+  m_Script: {fileID: 11500000, guid: c1dca9504c152f34f9c88efbff1db9e0, type: 3}
 --- !u!114 &600285736 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114332108090814936, guid: c8f178c0b7b80014a9b1557be1e060ce,
@@ -927,6 +934,11 @@ Prefab:
       propertyPath: m_manaRegen
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114332108090814936, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_controller
+      value: 
+      objectReference: {fileID: 600285731}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8f178c0b7b80014a9b1557be1e060ce, type: 2}
   m_IsPrefabAsset: 0
