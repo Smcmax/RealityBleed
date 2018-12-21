@@ -77,6 +77,7 @@ public class ItemTooltip : MonoBehaviour {
 	}
 
 	public void SetItem(Item p_item) {
+		Entity holder = p_item.m_holder ? p_item.m_holder : p_item.m_inventory.m_interactor;
 		if(m_modifiableInfo.Count == 0) FillModifiableInfo();
 
 		foreach(TooltipInfo info in m_modifiableInfo)
@@ -126,11 +127,11 @@ public class ItemTooltip : MonoBehaviour {
 				Text statComparisonOneText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Comparison 1").Get<Text>();
 				Text statComparisonTwoText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Comparison 2").Get<Text>();
 				int[] comparisonOne = item.m_equipmentSlots.Count >= 1 ?
-										  BaseItem.GetStatGainDifferences(item, p_item.m_holder.m_equipment, item.m_equipmentSlots[0]) : new int[UnitStats.STAT_AMOUNT];
+										  BaseItem.GetStatGainDifferences(item, holder.m_equipment, item.m_equipmentSlots[0]) : new int[UnitStats.STAT_AMOUNT];
 				int[] comparisonTwo = item.m_equipmentSlots.Count == 2 ? 
-										  BaseItem.GetStatGainDifferences(item, p_item.m_holder.m_equipment, item.m_equipmentSlots[1]) : new int[UnitStats.STAT_AMOUNT];
+										  BaseItem.GetStatGainDifferences(item, holder.m_equipment, item.m_equipmentSlots[1]) : new int[UnitStats.STAT_AMOUNT];
 				
-				if(p_item.m_inventory == p_item.m_holder.m_equipment) { 
+				if(p_item.m_inventory == holder.m_equipment) { 
 					comparisonOne = new int[UnitStats.STAT_AMOUNT];
 					comparisonTwo = new int[UnitStats.STAT_AMOUNT];
 				}

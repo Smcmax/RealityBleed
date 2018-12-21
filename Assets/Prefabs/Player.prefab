@@ -489,6 +489,7 @@ MonoBehaviour:
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
     type: 2}
   m_entity: {fileID: 0}
+  m_interactor: {fileID: 0}
   m_uiItems: []
 --- !u!114 &114043605804268206
 MonoBehaviour:
@@ -616,6 +617,7 @@ MonoBehaviour:
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
     type: 2}
   m_entity: {fileID: 0}
+  m_interactor: {fileID: 0}
   m_uiItems: []
 --- !u!114 &114130031167086976
 MonoBehaviour:

@@ -39,48 +39,33 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	protected override void OnLeftDoubleClick(GameObject p_clicked) { 
 		if(!m_item.m_item) return;
 
-		if(!m_item.m_inventory) { // if it's on the floor we want to pick it up
+		Inventory targetInventory;
+		Inventory currentInventory;
+
+		if(!m_item.m_holder) { // from container
+			targetInventory = m_item.m_inventory.m_interactor.m_inventory; 
+			currentInventory = m_item.m_inventory; 
+		} else if(m_item.m_inventory is Equipment) { // unequip
+			targetInventory = m_item.m_holder.m_inventory;
+			currentInventory = m_item.m_holder.m_equipment;
+		} else { // equip
+			targetInventory = m_item.m_holder.m_equipment;
+			currentInventory = m_item.m_holder.m_inventory;
+		}
+
+		if(!targetInventory.IsFull()) {
 			HideTooltip();
-			// TODO: double clicking an item from the floor
-		} else {
-			Equipment entityEquipment = m_item.m_holder.m_equipment;
-			Inventory entityInventory = m_item.m_holder.m_inventory;
 
-			if (m_item.m_inventory is Equipment) { // we want to unequip
-				if(entityInventory.IsFull()) return;
-				HideTooltip();
+			int index = m_item.m_inventoryIndex;
+			int targetIndex = targetInventory.FindFirstEmpty();
+			bool success = targetInventory.Swap(targetInventory.m_items[targetIndex], m_item);
 
-				int index = m_item.m_inventoryIndex;
-				bool success = entityInventory.Add(entityEquipment.Take(m_item, m_item.m_amount));
+			if(success && targetInventory.m_uiItems.Length > 0) SwapInfo(targetInventory.m_uiItems[targetIndex]);
+			else if(success) HideInfo(currentInventory.m_items[index]);
+			else if(!success) { currentInventory.SetAtIndex(m_item, index); return; }
 
-				if(success && entityInventory.m_uiItems.Length > 0) SwapInfo(entityInventory.m_uiItems[m_item.m_inventoryIndex]);
-				else if(success) HideInfo(entityEquipment.m_items[index]);
-				else if(!success) { entityEquipment.SetAtIndex(m_item, index); return; }
-
-				entityInventory.RaiseInventoryEvent(true);
-				entityEquipment.RaiseInventoryEvent(false);
-			} else if(m_item.m_inventory.m_entity) { // if it's a normal inventory, we want to equip
-				HideTooltip();
-				List<EquipmentSlot> possibleSlots = new List<EquipmentSlot>();
-
-				foreach(EquipmentSlot slotID in m_item.m_item.m_equipmentSlots)
-					if(!entityEquipment.Get(slotID).m_item) possibleSlots.Add(slotID);
-
-				bool success = false;
-				int index = m_item.m_inventoryIndex;
-
-				if(possibleSlots.Count > 0) 
-					success = entityEquipment.SetAtIndex(m_item.m_inventory.Take(m_item, m_item.m_amount), (int)possibleSlots[0]);
-				else success = entityEquipment.Swap(entityEquipment.Get(m_item.m_item.m_equipmentSlots[0]), m_item);
-
-				if(success && entityEquipment.m_uiItems.Length > 0)
-					SwapInfo(entityEquipment.m_uiItems[m_item.m_inventoryIndex]);
-				else if(success) HideInfo(entityInventory.m_items[index]);
-				else if(!success) { entityInventory.SetAtIndex(m_item, index); return; }
-
-				entityEquipment.RaiseInventoryEvent(true);
-				entityInventory.RaiseInventoryEvent(false);
-			}
+			targetInventory.RaiseInventoryEvent(true);
+			currentInventory.RaiseInventoryEvent(false);
 		}
 	}
 
@@ -136,32 +121,36 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		UIItem dragged = draggedItem.GetComponent<UIItem>();
 		if(!dragged || !dragged.m_item.m_inventory || !dragged.m_item.m_item) return;
 
+		Swap(dragged);
+	}
+
+	private void Swap(UIItem p_dragged) {
 		// if stacking items together
-		if(m_item.m_item && dragged.m_item.m_item.m_id == m_item.m_item.m_id && m_item.m_item.m_maxStackSize - m_item.m_amount > 0) { 
-			bool addSuccess = m_item.m_inventory.AddToItem(dragged.m_item, m_item);
+		if(m_item.m_item && p_dragged.m_item.m_item.m_id == m_item.m_item.m_id && m_item.m_item.m_maxStackSize - m_item.m_amount > 0) {
+			bool addSuccess = m_item.m_inventory.AddToItem(p_dragged.m_item, m_item);
 
 			if(addSuccess) {
-				if(dragged.m_item.m_amount == 0) {
-					int index = dragged.m_item.m_inventoryIndex;
-					dragged.m_item.m_inventory.Remove(dragged.m_item);
-					dragged.m_item = new Item(dragged.m_item.m_inventory, index);
+				if(p_dragged.m_item.m_amount == 0) {
+					int index = p_dragged.m_item.m_inventoryIndex;
+					p_dragged.m_item.m_inventory.Remove(p_dragged.m_item);
+					p_dragged.m_item = new Item(p_dragged.m_item.m_inventory, index);
 				}
 
 				GetComponentInChildren<Text>().text = m_item.m_amount.ToString();
 
 				m_item.m_inventory.RaiseInventoryEvent(true);
-				dragged.m_item.m_inventory.RaiseInventoryEvent(false);
+				p_dragged.m_item.m_inventory.RaiseInventoryEvent(false);
 			}
 
 			return;
 		}
 
-		bool swapSuccess = dragged.m_item.m_inventory.Swap(dragged.m_item, m_item);
+		bool swapSuccess = p_dragged.m_item.m_inventory.Swap(p_dragged.m_item, m_item);
 
 		if(swapSuccess) {
-			SwapInfo(dragged);
+			SwapInfo(p_dragged);
 			m_item.m_inventory.RaiseInventoryEvent(true);
-			dragged.m_item.m_inventory.RaiseInventoryEvent(false);
+			p_dragged.m_item.m_inventory.RaiseInventoryEvent(false);
 		}
 	}
 
@@ -200,6 +189,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 		image.color = new Color(255, 255, 255, 0);
 		amount.enabled = false;
+
 		m_item = p_swapped;
 	}
 }

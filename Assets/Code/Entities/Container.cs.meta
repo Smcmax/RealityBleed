@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: d6a99ff609dc84a4eb96239a0f55cba8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_interactBounds: {instanceID: 0}
+  - m_tooltipRenderer: {instanceID: 0}
+  - m_onInteractEvent: {instanceID: 0}
+  - m_menuHandler: {instanceID: 0}
+  - m_menu: {instanceID: 0}
+  - m_inventory: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
