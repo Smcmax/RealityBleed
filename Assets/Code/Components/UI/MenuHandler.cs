@@ -38,7 +38,7 @@ public class MenuHandler : MonoBehaviour {
 		bool isPaused = m_currentMenu;
 
 		if(Input.GetButtonDown("Cancel")) { 
-			if(m_openedMenus.Count > 0) ClearMenu();
+			if(m_openedMenus.Count > 0 && !(m_openedMenus.Count == 1 && isPaused)) ClearMenu();
 			else if(isPaused) {
 				if(m_previousMenu) OpenMenu(m_previousMenu, true);
 				else m_resumeEvent.Raise();
