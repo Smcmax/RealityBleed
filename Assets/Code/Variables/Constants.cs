@@ -11,5 +11,6 @@ public static class Constants {
 	public static Color RED = new Color(255f / 255f, 0f / 255f, 0f / 255f);
 	public static Color MANA_BLUE = new Color(97f / 255f, 131f / 255f, 222f / 255f);
 	public static Color PURPLE = new Color(173f / 255f, 85f / 255f, 255f / 255f);
+	public static Color WHITE = new Color(255f / 255f, 255f / 255f, 255f / 255f);
 
 }

@@ -60,7 +60,7 @@ public class MenuHandler : MonoBehaviour {
 	public void OpenMenu(GameObject p_menu, bool p_pause) {
 		if(p_pause) {
 			if(m_currentMenu) m_currentMenu.SetActive(false);
-			if(m_previousMenu == p_menu) m_previousMenu = null;
+			if(m_previousMenu == p_menu) { m_openedMenus.Remove(m_currentMenu); m_previousMenu = null; }
 			else m_previousMenu = m_currentMenu;
 
 			m_currentMenu = p_menu;
