@@ -17,6 +17,9 @@ public class Option : MonoBehaviour {
 	[Tooltip("Int, Float, String or Bool")]
 	public string m_type;
 
+	[Tooltip("Time in seconds before the post-startup event is called")]
+	[Range(0, 2.5f)] public float m_postStartupDelay;
+
 	[Header("Startup/Update Events")]
 
 	public UnityIntEvent m_intEvent;
@@ -28,8 +31,17 @@ public class Option : MonoBehaviour {
 
 	void Start() {
 		if(m_control && HasKey()) { 
-			if(m_control is Slider) ((Slider) m_control).value = GetFloatValue();
-			else if(m_control is Toggle) { 
+			if(m_control is Slider) {
+				Slider slider = (Slider) m_control;
+
+				slider.value = GetFloatValue(slider.value);
+				if(slider.value != GetFloatValue()) Save(slider.value); // save if the default is used (and it's different from 0)
+			} else if(m_control is AdaptativeSliderText) { 
+				AdaptativeSliderText slider = (AdaptativeSliderText) m_control;
+
+				slider.m_value = GetFloatValue(slider.m_value);
+				if(slider.m_value != GetFloatValue()) Save(slider.m_value); // save if the default is used (and it's different from 0)
+			} else if(m_control is Toggle) { 
 				Toggle toggle = ((Toggle) m_control);
 
 				toggle.isOn = GetBoolValue(toggle.isOn);
@@ -38,12 +50,11 @@ public class Option : MonoBehaviour {
 		}
 
 		CallEvents();
-		LateStart(1f);
+		StartCoroutine(LateStart(m_postStartupDelay));
 	}
 
-	IEnumerator LateStart(float p_wait) { 
+	IEnumerator LateStart(float p_wait) {
 		yield return new WaitForSeconds(p_wait);
-
 		m_postStartupEvent.Invoke();
 	}
 

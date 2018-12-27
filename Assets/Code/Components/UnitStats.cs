@@ -20,6 +20,7 @@ public class UnitStats : MonoBehaviour {
 	public IntReference m_defense;      // DEF - Reduces incoming damage
 	public IntReference m_wisdom;        // WIS - Affects mana regen and MP gained/level
 
+	// TODO: does this really go here?
 	[Tooltip("Whether or not the entity is allowed to regen health")]
 	public bool m_healthRegen;
 

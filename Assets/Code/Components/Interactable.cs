@@ -12,11 +12,11 @@ public abstract class Interactable : MonoBehaviour {
 	[Tooltip("Event called when interacting with an object")]
 	public GameEvent m_onInteractEvent;
 
-	private List<Entity> m_interacters;
+	private List<Entity> m_interactors;
 	private bool m_interactable = false;
 
-	protected virtual void Awake() { 
-		m_interacters = new List<Entity>();
+	protected virtual void Awake() {
+		m_interactors = new List<Entity>();
 		if(!m_interactBounds) m_interactBounds = GetComponent<Collider2D>();
 
 		if(m_interactBounds != null)
@@ -24,16 +24,16 @@ public abstract class Interactable : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D p_collider) { 
-		if(p_collider.gameObject.tag == "Player") { 
-			m_interacters.Add(p_collider.gameObject.GetComponent<Entity>());
+		if(p_collider.gameObject.tag == "Player") {
+			m_interactors.Add(p_collider.gameObject.GetComponent<Entity>());
 			m_tooltipRenderer.enabled = true;
 			m_interactable = true;
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D p_collider) { 
-		if(p_collider.gameObject.tag == "Player") { 
-			m_interacters.Remove(p_collider.gameObject.GetComponent<Entity>());
+		if(p_collider.gameObject.tag == "Player") {
+			m_interactors.Remove(p_collider.gameObject.GetComponent<Entity>());
 			m_tooltipRenderer.enabled = false;
 			m_interactable = false;
 		}
@@ -42,7 +42,7 @@ public abstract class Interactable : MonoBehaviour {
 	void Update() {
 		if(m_interactable && Input.GetButtonDown("Interact")) {
 			m_onInteractEvent.Raise();
-			Interact(m_interacters[0]);
+			Interact(m_interactors[0]);
 		}
 	}
 

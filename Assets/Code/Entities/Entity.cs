@@ -131,6 +131,7 @@ public class Entity : MonoBehaviour {
 		}
 	}
 
+	// TODO: not destroy
 	protected virtual void Die() {
 		Destroy(gameObject);
 	}

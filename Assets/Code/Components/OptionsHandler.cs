@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class OptionsHandler : MonoBehaviour {
 
 	[Tooltip("The dropdown handling the resolutions")]
 	public Dropdown m_resolutionDropdown;
 
-	// load these from db one day?
 	[Tooltip("The fullscreen toggle")]
 	public Toggle m_fullscreenToggle;
 
@@ -16,24 +17,23 @@ public class OptionsHandler : MonoBehaviour {
 	[Tooltip("The slider handling the framerate")]
 	public AdaptativeSliderText m_refreshRateSlider;
 
-	[Tooltip("The game's frame rate")]
-	[Range(1, 240)] public int m_framerate;
-
 	public Toggle m_enemyHealthBars;
 	public Dropdown m_qualityDropdown;
 
+	private int m_framerate;
 	private int m_qualityLevel;
 	private Resolution m_resolution;
 	private Resolution[] m_resolutions;
 
 	void Start() {
+		QualitySettings.vSyncCount = 0;
 		m_qualityLevel = QualitySettings.GetQualityLevel();
-		m_framerate = Application.targetFrameRate;
+		//m_framerate = Application.targetFrameRate;
 
 		m_fullscreenToggle.isOn = Screen.fullScreen;
 		m_refreshRateSlider.m_unlimited = -1;
-		m_refreshRateSlider.m_value = m_framerate;
-		m_enemyHealthBars.isOn = Camera.main.cullingMask == (Camera.main.cullingMask | (1 << LayerMask.NameToLayer("Health Bars")));
+		m_refreshRateSlider.m_value = Screen.currentResolution.refreshRate;
+		//m_enemyHealthBars.isOn = true;
 		m_qualityDropdown.value = m_qualityLevel;
 
 		PopulateResolutions();
@@ -41,24 +41,52 @@ public class OptionsHandler : MonoBehaviour {
 
 	private void PopulateResolutions() {
 		m_resolutions = Screen.resolutions;
+		List<Resolution> availableResolutions = new List<Resolution>();
 
 		for(int i = 0; i < m_resolutions.Length; i++) {
+			if(Screen.currentResolution.refreshRate != m_resolutions[i].refreshRate) continue;
+
 			Dropdown.OptionData data = new Dropdown.OptionData(ResolutionToString(m_resolutions[i]));
 			m_resolutionDropdown.options.Add(data);
 
-			if(Screen.currentResolution.Equals(m_resolutions[i])) {
+			availableResolutions.Add(m_resolutions[i]);
+
+			if(!Screen.fullScreen) { 
+				if(Screen.width == m_resolutions[i].width && Screen.height == m_resolutions[i].height) {
+					Debug.Log("wh " + Screen.width + ", " + Screen.height + " ir " + ResolutionToString(m_resolutions[i]));
+					m_resolutionDropdown.value = i;
+					m_resolution = m_resolutions[i];
+				}
+			} else if(Screen.currentResolution.Equals(m_resolutions[i])) {
+				Debug.Log("cr " + ResolutionToString(Screen.currentResolution) + " ir " + ResolutionToString(m_resolutions[i]));
 				m_resolutionDropdown.value = i;
 				m_resolution = m_resolutions[i];
 			}
 		}
+
+		m_resolutions = new Resolution[availableResolutions.Count];
+
+		for(int i = 0; i < availableResolutions.Count; i++) 
+			m_resolutions[i] = availableResolutions[i];
+	}
+
+	private IEnumerator UpdateResolution() { 
+		yield return new WaitForSeconds(1f);
+
+		m_fullscreenToggle.isOn = Screen.fullScreen;
+		m_resolutionDropdown.ClearOptions();
+		PopulateResolutions();
 	}
 
 	public void ApplyOptions() {
 		SetResolution();
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = m_framerate;
+
 		ApplyResolution();
 		QualitySettings.SetQualityLevel(m_qualityLevel, true);
+		
+		StartCoroutine(UpdateResolution());
 	}
 
 	public void SetResolution() { 
@@ -69,6 +97,9 @@ public class OptionsHandler : MonoBehaviour {
 		if(m_resolution.width == m_resolutions[m_resolutions.Length - 1].width && !m_fullscreen) {
 			SetFullscreen(true);
 			m_fullscreenToggle.isOn = true; // TODO: check if this updates the actual value
+		} else if(m_resolution.width != m_resolutions[m_resolutions.Length - 1].width && m_fullscreen) { 
+			SetFullscreen(false);
+			m_fullscreenToggle.isOn = false;
 		}
 
 		ApplyResolution(m_resolution.width,
@@ -92,6 +123,10 @@ public class OptionsHandler : MonoBehaviour {
 		m_framerate = (int) p_framerate;
 	}
 
+	public void ApplyFramerate() { 
+		Application.targetFrameRate = m_framerate;
+	}
+
 	public string ResolutionToString(Resolution p_resolution) { 
 		return p_resolution.width + "x" + p_resolution.height + "@" + p_resolution.refreshRate + "hz";
 	}
@@ -100,7 +135,10 @@ public class OptionsHandler : MonoBehaviour {
 		m_qualityLevel = p_quality;
 	}
 
-	public void ToggleEnemyHealthBars(bool p_toggle) { 
-		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Health Bars");
+	public void SetEnemyHealthBars(bool p_toggle) { 
+		int layerBit = 1 << LayerMask.NameToLayer("Health Bars");
+		bool currentlySet = (Camera.main.cullingMask & layerBit) != 0;
+
+		if(currentlySet != p_toggle) Camera.main.cullingMask ^= layerBit;
 	}
 }
