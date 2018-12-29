@@ -53,12 +53,10 @@ public class OptionsHandler : MonoBehaviour {
 
 			if(!Screen.fullScreen) { 
 				if(Screen.width == m_resolutions[i].width && Screen.height == m_resolutions[i].height) {
-					Debug.Log("wh " + Screen.width + ", " + Screen.height + " ir " + ResolutionToString(m_resolutions[i]));
 					m_resolutionDropdown.value = i;
 					m_resolution = m_resolutions[i];
 				}
 			} else if(Screen.currentResolution.Equals(m_resolutions[i])) {
-				Debug.Log("cr " + ResolutionToString(Screen.currentResolution) + " ir " + ResolutionToString(m_resolutions[i]));
 				m_resolutionDropdown.value = i;
 				m_resolution = m_resolutions[i];
 			}

@@ -43,6 +43,21 @@ public class Projectile : MonoBehaviour {
 	[HideInInspector] public Vector2 m_direction;
 	private bool m_shot;
 
+	private SpriteRenderer m_render;
+	private PolygonCollider2D m_polyCollider;
+	private BoxCollider2D m_boxCollider;
+
+	void Start() { 
+		LoadComponents();
+	}
+
+	private void LoadComponents() { 
+		// preload to improve performance by doing less GetComponent calls
+		if(!m_render) m_render = GetComponent<SpriteRenderer>();
+		if(!m_polyCollider) m_polyCollider = GetComponent<PolygonCollider2D>();
+		if(!m_boxCollider) m_boxCollider = GetComponent<BoxCollider2D>();
+	}
+
 	void FixedUpdate() {
 		if(!m_shot) return;
 		if(Vector2.Distance(transform.position, m_start) >= m_range) {
@@ -79,17 +94,25 @@ public class Projectile : MonoBehaviour {
 
 	// it is assumed the current projectile is a generic projectile with an empty reference behaviour to fill up
 	public void Clone(Projectile p_projectile) {
-		SpriteRenderer otherRender = p_projectile.GetComponent<SpriteRenderer>();
-		BoxCollider2D otherCollider = p_projectile.GetComponent<BoxCollider2D>();
-		SpriteRenderer render = GetComponent<SpriteRenderer>();
-		BoxCollider2D collider = GetComponent<BoxCollider2D>();
+		p_projectile.LoadComponents();
+		LoadComponents();
 
-		render.sprite = otherRender.sprite;
-		collider.size = otherCollider.size;
-		collider.offset = otherCollider.offset;
+		SpriteRenderer render = m_render;
+		PolygonCollider2D polyCollider = m_polyCollider;
+		BoxCollider2D collider = m_boxCollider;
+
+		render.sprite = p_projectile.m_render.sprite;
+		polyCollider.points = p_projectile.m_polyCollider.points;
+		polyCollider.offset = p_projectile.m_polyCollider.offset;
+		collider.size = p_projectile.m_boxCollider.size;
+		collider.offset = p_projectile.m_boxCollider.offset;
 
 		// this will overwrite any assignment done to this projectile beforehand
 		p_projectile.Copy(typeof(Projectile), gameObject);
+
+		m_render = render;
+		m_polyCollider = polyCollider;
+		m_boxCollider = collider;
 
 		// take p_projectile's behaviours and clone them over to a generic projectile from the pooler
 		ReferenceBehaviour reference = GetComponent<ReferenceBehaviour>();
