@@ -13,10 +13,7 @@ public class CompositeColliderExtruder : Extruder {
 			Vector2[] pathVertices = new Vector2[m_compositeCollider2D.GetPathPointCount(i)];
 			m_compositeCollider2D.GetPath(i, pathVertices);
 
-			List<Vector2> sortedVertices = new List<Vector2>();
-			sortedVertices.AddRange(pathVertices);
-
-			Create3DMeshObject(sortedVertices.ToArray(), transform, gameObject.name + "Extrusion");
+			Create3DMeshObject(pathVertices, transform, gameObject.name + "Extrusion");
 		}
 	}
 }

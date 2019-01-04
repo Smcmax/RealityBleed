@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 50532337669514052}
   - component: {fileID: 61202634623878206}
   - component: {fileID: 60168268185509350}
-  - component: {fileID: 114498233544006420}
+  - component: {fileID: 114858179233455946}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -425,7 +425,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.2
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -443,8 +443,8 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3840
-  m_Lightmapping: 4
+    m_Bits: 20224
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -891,24 +891,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_entity: {fileID: 114332108090814936}
---- !u!114 &114498233544006420
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1099763796712776}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ab537fc5a9d2c54c90337d91baedabc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_meshMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_extrusionDepth: 0.2
-  m_extrusionHeight: 0
-  m_offset: {x: 0, y: 0}
-  m_layer: Walls
-  m_extrudeOnStart: 1
-  m_collider: {fileID: 60168268185509350}
 --- !u!114 &114714679824825112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -970,6 +952,25 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: +5
+--- !u!114 &114858179233455946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099763796712776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84bf8263d17000243b13a75e3da7d6bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_meshMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_extrusionDepth: 0.1
+  m_extrusionHeight: 0
+  m_offset: {x: -0.05, y: -0.4}
+  m_layer: EntityLights
+  m_extrudeOnStart: 1
+  m_radius: 0.2
+  m_precision: 10
 --- !u!114 &114908084585777026
 MonoBehaviour:
   m_ObjectHideFlags: 1
