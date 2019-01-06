@@ -23,7 +23,7 @@ public class MenuHandler : MonoBehaviour {
 	public GameEvent m_onCharacterEvent;
 	
 	private GameObject m_previousMenu; // The previously opened menu, for use with the pause menu only
-	private List<GameObject> m_openedMenus;
+	[HideInInspector] public List<GameObject> m_openedMenus;
 
 	void OnEnable() {
 		m_openedMenus = new List<GameObject>();

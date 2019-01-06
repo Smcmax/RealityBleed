@@ -33,9 +33,13 @@ public abstract class Interactable : MonoBehaviour {
 
 	void OnTriggerExit2D(Collider2D p_collider) { 
 		if(p_collider.gameObject.tag == "Player") {
-			m_interactors.Remove(p_collider.gameObject.GetComponent<Entity>());
+			Entity entity = p_collider.gameObject.GetComponent<Entity>();
+
+			m_interactors.Remove(entity);
 			m_tooltipRenderer.enabled = false;
 			m_interactable = false;
+
+			OutOfRange(entity);
 		}
 	}
 
@@ -47,4 +51,5 @@ public abstract class Interactable : MonoBehaviour {
 	}
 
 	public abstract void Interact(Entity p_entity);
+	public abstract void OutOfRange(Entity p_entity);
 }

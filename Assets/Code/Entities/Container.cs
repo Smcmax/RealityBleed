@@ -21,4 +21,9 @@ public class Container : Interactable {
 
 		m_menuHandler.OpenMenu(m_menu);
 	}
+
+	public override void OutOfRange(Entity p_entity) {
+		if(m_menuHandler.m_openedMenus.Contains(m_menu)) 
+			m_menuHandler.OpenMenu(m_menu);
+	}
 }
