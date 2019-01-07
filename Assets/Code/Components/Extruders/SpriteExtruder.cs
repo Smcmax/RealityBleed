@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +15,18 @@ public class SpriteExtruder : Extruder {
 	private bool m_done;
 
 	public override void Extrude() {
-		if (!CanExtrude()) return;
+		if(!CanExtrude()) return;
+
+		/*Sprite sprite = m_spriteRenderer.sprite;
+		Mesh mesh = new Mesh();
+
+		mesh.SetVertices(Array.ConvertAll(sprite.vertices, i => (Vector3) i).ToList());
+		mesh.SetUVs(0, sprite.uv.ToList());
+		mesh.SetTriangles(Array.ConvertAll(sprite.triangles, i => (int) i), 0);
+
+		GameObject extruded = CreateGameObjectFromMesh(mesh, transform, gameObject.name + "Extrusion");
+		extruded.transform.position += transform.position;
+		extruded.transform.localScale = new Vector3(1, 1, 1);*/
 
 		m_done = false;
 

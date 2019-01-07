@@ -46,10 +46,16 @@ public class AdaptativeSliderText : MonoBehaviour {
 
 		ColorThreshold closest = null;
 
-		foreach(ColorThreshold ct in m_colorThresholds)
+		foreach(ColorThreshold ct in m_colorThresholds) {
 			if(ct.m_threshold >= value) 
 				if(closest == null || ct.m_threshold < closest.m_threshold) 
 					closest = ct;
+		}
+
+		if(closest == null) { // over all thresholds
+			m_value = m_unlimited;
+			return m_colorThresholds[m_colorThresholds.Count - 1];
+		}
 		
 		return closest;
 	}

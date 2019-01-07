@@ -11,6 +11,7 @@ public class Player : Entity {
 		base.Awake();
 
 		m_playerController = GetComponent<PlayerController>();
+		m_feedbackColor = Constants.TRANSPARENT;
 	}
 
 	void Update() {

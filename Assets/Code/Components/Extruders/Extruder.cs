@@ -88,17 +88,21 @@ public abstract class Extruder : MonoBehaviour {
 		mesh.RecalculateNormals();
 		mesh.RecalculateBounds();
 
+		return CreateGameObjectFromMesh(mesh, p_parent, p_name);
+	}
+
+	protected GameObject CreateGameObjectFromMesh(Mesh p_mesh, Transform p_parent, string p_name) {
 		GameObject meshObject = new GameObject(p_name);
-		MeshRenderer renderer = (MeshRenderer) meshObject.AddComponent(typeof(MeshRenderer));
+		MeshRenderer renderer = (MeshRenderer)meshObject.AddComponent(typeof(MeshRenderer));
 		MeshFilter filter = meshObject.AddComponent(typeof(MeshFilter)) as MeshFilter;
 
 		meshObject.transform.SetParent(p_parent);
 		meshObject.layer = LayerMask.NameToLayer(m_layer);
-		meshObject.transform.position += (Vector3) m_offset;
+		meshObject.transform.position += (Vector3)m_offset;
 		renderer.material = m_meshMaterial;
 		renderer.receiveShadows = false;
 		renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
-		filter.mesh = mesh;
+		filter.mesh = p_mesh;
 
 		return meshObject;
 	}

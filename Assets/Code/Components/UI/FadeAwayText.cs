@@ -10,18 +10,27 @@ public class FadeAwayText : MonoBehaviour {
 	[Range(0, 5)] public float m_maxTime;
 
 	private float m_startTime;
+	private UIWorldSpaceFollower m_follower;
+	private Text m_text;
 
 	void Awake() {
 		m_startTime = Time.time * 1000;
+		m_follower = GetComponent<UIWorldSpaceFollower>();
+		m_text = GetComponent<Text>();
+
+		if(m_follower) m_follower.m_freezePosition = m_follower.m_parent.position;
 	}
 
 	void LateUpdate() {
+		if(Time.timeScale == 0f) return;
 		if(m_maxTime * 1000 + m_startTime < Time.time * 1000) Destroy(gameObject);
 
-		transform.Translate(new Vector3(0, m_speed / 100f));
+		Vector3 move = new Vector3(0, m_speed / 100f);
+
+		if(m_follower) m_follower.m_freezePosition += move;
+		else transform.Translate(move);
 
 		float alphaPercentage = ((Time.time * 1000 - m_startTime) / (m_maxTime * 1000));
-		Text text = GetComponent<Text>();
-		text.color = new Color(text.color.r, text.color.g, text.color.b, 1 - alphaPercentage);
+		m_text.color = new Color(m_text.color.r, m_text.color.g, m_text.color.b, 1 - alphaPercentage);
 	}
 }

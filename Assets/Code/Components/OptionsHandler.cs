@@ -119,6 +119,9 @@ public class OptionsHandler : MonoBehaviour {
 
 	public void SetFramerate(float p_framerate) {
 		m_framerate = (int) p_framerate;
+
+		if(m_refreshRateSlider.m_value != p_framerate)
+			m_refreshRateSlider.m_value = p_framerate;
 	}
 
 	public void ApplyFramerate() { 
