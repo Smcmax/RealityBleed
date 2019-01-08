@@ -1,5 +1,4 @@
-﻿using Prime31;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UIWorldSpaceFollower : MonoBehaviour {
 	
@@ -13,13 +12,6 @@ public class UIWorldSpaceFollower : MonoBehaviour {
 	public bool m_destroyWithObject;
 
 	[HideInInspector] public Vector3 m_freezePosition;
-	private Canvas m_canvas;
-	private RectTransform m_rect;
-
-	void Awake() {
-		m_canvas = GetComponentInParent<Canvas>();
-		m_rect = GetComponent<RectTransform>();
-	}
 
 	void LateUpdate() {
 		if(m_freezePosition != Vector3.zero)

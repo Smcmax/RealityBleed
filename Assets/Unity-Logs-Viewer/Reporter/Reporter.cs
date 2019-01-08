@@ -295,11 +295,13 @@ public class Reporter : MonoBehaviour
 	{
 		if (logs.Count == 0)//if recompile while in play mode
 			clear();
+
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
 	}
 
 	void OnDisable()
 	{
-
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
 	void addSample()
@@ -1955,14 +1957,14 @@ public class Reporter : MonoBehaviour
 	}
 
 	//new scene is loaded
-	void OnLevelWasLoaded()
+	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
 		if (clearOnNewSceneLoaded)
 			clear();
 
 #if UNITY_CHANGE3
-		currentScene = SceneManager.GetActiveScene().name ;
-		Debug.Log( "Scene " + SceneManager.GetActiveScene().name + " is loaded");
+		currentScene = scene.name ;
+		Debug.Log( "Scene " + scene.name + " is loaded");
 #else
 		currentScene = Application.loadedLevelName;
 		Debug.Log("Scene " + Application.loadedLevelName + " is loaded");
