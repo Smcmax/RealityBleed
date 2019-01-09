@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using System;
+using System.Linq;
 using System.Collections.Generic;
 
-public abstract class BaseItem : ScriptableObject {
+public class BaseItem : ScriptableObject {
 
 	[Tooltip("The item's id, SHOULD BE UNIQUE")]
 	public int m_id;
@@ -30,6 +32,35 @@ public abstract class BaseItem : ScriptableObject {
 	[Tooltip("The item's description, shows up in the tooltip")]
 	[Multiline] public string m_description;
 
+	public string GetEquipmentSlotsText() { 
+		if(m_equipmentSlots.Count == 0) return "";
+
+		string text = m_equipmentSlots[0].ToString();
+
+		if(m_equipmentSlots.Contains(EquipmentSlot.MainHand) && m_equipmentSlots.Contains(EquipmentSlot.OffHand))
+			return ((Weapon) this).IsTwoHanded() ? "Two-Hand" : "One-Hand";
+
+		if(text.EndsWith("1") || text.EndsWith("2")) text = text.Substring(0, text.Length - 1);
+
+		return string.Concat(text.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+	}
+
 	// this can be null
-	public abstract void Use(Entity p_entity, string[] p_args);
+	public virtual void Use(Entity p_entity, string[] p_args) { }
+
+	// vs equipped
+	public static int[] GetStatGainDifferences(BaseItem p_item, Equipment p_equipment, EquipmentSlot p_slot) {
+		Item item = p_equipment.Get(p_slot);
+		if(item.m_item == p_item) return new int[UnitStats.STAT_AMOUNT];
+
+		int[] statGainValues = GetStatGainValues(p_item);
+
+		if(item.m_item) return statGainValues.Compare(GetStatGainValues(item.m_item));
+		return statGainValues;
+	}
+
+	public static int[] GetStatGainValues(BaseItem p_item) {
+		return p_item is Weapon ? ((Weapon)p_item).m_statGainValues :
+				(p_item is Armor ? ((Armor)p_item).m_statGainValues : new int[UnitStats.STAT_AMOUNT]);
+	}
 }

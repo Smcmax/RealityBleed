@@ -30,6 +30,8 @@ GameObject:
   - component: {fileID: 212086667593845604}
   - component: {fileID: 50532337669514052}
   - component: {fileID: 61202634623878206}
+  - component: {fileID: 60168268185509350}
+  - component: {fileID: 114858179233455946}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -82,7 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4302760322789484}
   - component: {fileID: 108019090160871096}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,16 +171,16 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 10
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4864
-  m_RenderingPath: 0
+  m_RenderingPath: 1
   m_TargetTexture: {fileID: 8400000, guid: 57b2d34666a21d046a85d41723b71cca, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 0
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -224,6 +226,98 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!60 &60168268185509350
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099763796712776}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 0.2, y: 0.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.094095066, y: 0.24986649}
+      - {x: 0.09396825, y: 0.28100967}
+      - {x: -0.12514389, y: 0.28113937}
+      - {x: -0.1251455, y: 0.2499733}
+      - {x: -0.18742162, y: 0.25025558}
+      - {x: -0.18747765, y: 0.1877594}
+      - {x: -0.21872762, y: 0.1875}
+      - {x: -0.218561, y: 0.031051636}
+      - {x: -0.18763371, y: 0.031013489}
+      - {x: -0.18781891, y: 0.000049591064}
+      - {x: -0.15610038, y: 0.0001411438}
+      - {x: -0.15633067, y: -0.031051636}
+      - {x: -0.12489189, y: -0.031337738}
+      - {x: -0.12509303, y: -0.062404633}
+      - {x: -0.15650266, y: -0.06253433}
+      - {x: -0.15637806, y: -0.0934639}
+      - {x: -0.21878722, y: -0.09358215}
+      - {x: -0.21882047, y: -0.124988556}
+      - {x: -0.24970101, y: -0.12485123}
+      - {x: -0.24980672, y: -0.28113937}
+      - {x: -0.18712339, y: -0.2810402}
+      - {x: -0.18770516, y: -0.25019455}
+      - {x: -0.1563694, y: -0.25037384}
+      - {x: -0.15644766, y: -0.34362411}
+      - {x: -0.18751675, y: -0.34350967}
+      - {x: -0.1883019, y: -0.43789673}
+      - {x: -0.15644284, y: -0.437706}
+      - {x: -0.15685304, y: -0.49998474}
+      - {x: -0.09375, y: -0.5}
+      - {x: -0.09375, y: -0.46875}
+      - {x: -0.125, y: -0.46875}
+      - {x: -0.125, y: -0.4375}
+      - {x: -0.09375, y: -0.4375}
+      - {x: -0.09375, y: -0.40625}
+      - {x: -0.0625, y: -0.40625}
+      - {x: -0.0625, y: -0.34375}
+      - {x: -0.03125, y: -0.34375}
+      - {x: -0.03125, y: -0.4375}
+      - {x: 0, y: -0.4375}
+      - {x: 0, y: -0.5}
+      - {x: 0.062694944, y: -0.5001755}
+      - {x: 0.06260077, y: -0.4688034}
+      - {x: 0.031333532, y: -0.46878052}
+      - {x: 0.031332828, y: -0.43755722}
+      - {x: 0.062494412, y: -0.43746567}
+      - {x: 0.06268552, y: -0.21874619}
+      - {x: 0.21877375, y: -0.21875}
+      - {x: 0.21879685, y: -0.15629578}
+      - {x: 0.18740503, y: -0.15625}
+      - {x: 0.18762383, y: -0.124858856}
+      - {x: 0.15618958, y: -0.12490082}
+      - {x: 0.15628797, y: -0.15622711}
+      - {x: 0.09370433, y: -0.15611267}
+      - {x: 0.09379993, y: -0.12490082}
+      - {x: 0.062449887, y: -0.125103}
+      - {x: 0.062346898, y: -0.093818665}
+      - {x: 0.031283543, y: -0.09366989}
+      - {x: 0.031231783, y: -0.062503815}
+      - {x: 0.000018637627, y: -0.062488556}
+      - {x: 0.000082230195, y: -0.03107071}
+      - {x: 0.031243742, y: -0.031105042}
+      - {x: 0.031234194, y: -0.00009918213}
+      - {x: 0.062476, y: -0.00005340576}
+      - {x: 0.062880106, y: 0.1873169}
+      - {x: 0.09398408, y: 0.18720627}
+      - {x: 0.09414728, y: 0.21881485}
+      - {x: 0.15643257, y: 0.21863174}
+      - {x: 0.15622763, y: 0.2501793}
 --- !u!61 &61202634623878206
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -236,7 +330,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.012349427, y: -0.10291076}
+  m_Offset: {x: -0.015625, y: -0.1095825}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -247,7 +341,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4813298, y: 0.7941785}
+  m_Size: {x: 0.468125, y: 0.7808325}
   m_EdgeRadius: 0
 --- !u!61 &61380825275091818
 BoxCollider2D:
@@ -291,12 +385,12 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 4
+  m_Intensity: 0.2
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -309,8 +403,8 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 4
+    m_Bits: 20224
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -449,6 +543,8 @@ MonoBehaviour:
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
     type: 2}
   m_entity: {fileID: 0}
+  m_interactor: {fileID: 0}
+  m_uiItems: []
 --- !u!114 &114043605804268206
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -463,7 +559,7 @@ MonoBehaviour:
   m_directionX: 0
   m_directionY: 0
   m_smoothTime: 0.1
-  m_speed: 3
+  m_speed: 2
   m_diagonalSpeedPercentage: 0.75
 --- !u!114 &114071987786881558
 MonoBehaviour:
@@ -554,6 +650,8 @@ MonoBehaviour:
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
     type: 2}
   m_entity: {fileID: 0}
+  m_interactor: {fileID: 0}
+  m_uiItems: []
 --- !u!114 &114139349985475106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -566,41 +664,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxHP:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: e3538356aa38ce14c92ec0c7544a9e6f, type: 2}
   m_maxMP:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 4030c317a0d8ea24bb49a3f38ae96089, type: 2}
   m_strength:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 2c0c5f12a95db0d4fbb7f97c0aad29e9, type: 2}
   m_dexterity:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 17796e7431020764783434f2fae78186, type: 2}
   m_intellect:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 0c15b8fbc39a99f4bbc0fcb1a899e077, type: 2}
   m_speed:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 42717be548cfa1f4b98511060026a29a, type: 2}
   m_constitution:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: c1f46239d783984479c2d42a51aa46ce, type: 2}
   m_defense:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 59f3f809540dc554ea14477ac0a833cf, type: 2}
   m_wisdom:
-    m_useConstant: 1
+    m_useConstant: 0
     m_constantValue: 0
-    m_variable: {fileID: 0}
+    m_variable: {fileID: 11400000, guid: 7508c619d59ec6d4d897593e52fd265b, type: 2}
+  m_healthRegen: 1
+  m_manaRegen: 1
+  m_statEvents:
+  - {fileID: 11400000, guid: 14c553c70ac91be4b995a1b8b411d02e, type: 2}
+  - {fileID: 11400000, guid: b9ae62d2df1907347b68c537fea95a8c, type: 2}
+  - {fileID: 11400000, guid: 03b4cf7c1c5b8894bb84f38e1acd7583, type: 2}
+  - {fileID: 11400000, guid: 4f66bbcf7cfbd9a4d833fc09c2b28fdc, type: 2}
+  - {fileID: 11400000, guid: ab4dc84983a2dac4a8ec15e759988f45, type: 2}
+  - {fileID: 11400000, guid: 695acb0d5eafa054f9d215fd66c7223d, type: 2}
+  - {fileID: 11400000, guid: 2899fc60f8b6ff941b5c1a41794980e9, type: 2}
+  - {fileID: 11400000, guid: 65534cc0fadf5464098f0322b2ff307f, type: 2}
+  - {fileID: 11400000, guid: 08202257dc70a1c4c96ef1a1be39d092, type: 2}
 --- !u!114 &114173102224703342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -624,14 +734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cee66cd3e162e4cbb66c230bd6d12b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_useSharedHealth: 1
-  m_health: 100
-  m_refHealth: {fileID: 11400000, guid: 09b3386012bbddb4e9b6fd143f68045d, type: 2}
-  m_resetHealth: 1
-  m_maxHealth:
-    m_useConstant: 0
-    m_constantValue: 100
-    m_variable: {fileID: 11400000, guid: 25bc1cee233506b4197247caa946249c, type: 2}
   m_immunityWindow: 0
   m_damageEvent:
     m_PersistentCalls:
@@ -665,6 +767,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  m_entity: {fileID: 0}
 --- !u!114 &114332108090814936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -676,19 +779,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c3056166bcccb0429dc66c3a3443e5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_controller: {fileID: 0}
+  m_controller: {fileID: 114043605804268206}
   m_collisionRelay: {fileID: 0}
   m_canDie: 0
+  m_isDead: 0
   m_equipment: {fileID: 114071987786881558}
   m_look: {fileID: 0}
   m_inventory: {fileID: 114018483739704796}
   m_runtimeSets:
   - {fileID: 11400000, guid: 0a26465c1ba21624095d0535607d7b8a, type: 2}
-  m_class: {fileID: 0}
+  m_feedbackCanvas: {fileID: 0}
+  m_feedbackTemplate: {fileID: 0}
+  m_feedbackPositionRandomness: {x: 0.25, y: 1}
   m_health: {fileID: 0}
   m_stats: {fileID: 0}
   m_shooter: {fileID: 0}
   m_ai: {fileID: 0}
+  m_feedbackColor: {r: 0, g: 0, b: 0, a: 0}
   m_playerController: {fileID: 0}
 --- !u!114 &114406825266347702
 MonoBehaviour:
@@ -702,6 +809,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_entity: {fileID: 114332108090814936}
+--- !u!114 &114858179233455946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099763796712776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84bf8263d17000243b13a75e3da7d6bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_meshMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_extrusionDepth: 0.1
+  m_extrusionHeight: 0
+  m_offset: {x: -0.05, y: -0.4}
+  m_layer: EntityLights
+  m_extrudeOnStart: 1
+  m_isProjectileExtrusion: 0
+  m_optionsHandler: {fileID: 0}
+  m_extrusions: []
+  m_radius: 0.2
+  m_precision: 10
 --- !u!114 &114924461057312282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -713,14 +842,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15bd225fda18e643938a5149b35c976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_useSharedMana: 1
-  m_mana: 0
-  m_refMana: {fileID: 11400000, guid: 4030c317a0d8ea24bb49a3f38ae96089, type: 2}
-  m_resetMana: 1
-  m_maxMana:
-    m_useConstant: 0
-    m_constantValue: 0
-    m_variable: {fileID: 11400000, guid: 147808df76ced7a4c8ab7ba53da7b304, type: 2}
   m_patternCooldown: 0.5
   m_shotEvent:
     m_PersistentCalls:
@@ -746,7 +867,7 @@ SpriteRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1099763796712776}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1

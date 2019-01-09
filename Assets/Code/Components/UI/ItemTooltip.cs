@@ -40,7 +40,8 @@ public class ItemTooltip : MonoBehaviour {
 		if(mouse.x + (Screen.width * offsetPercentX) + tooltipWorldWidth / 2 > Screen.width) 
 			offsetPercentX = -offsetPercentX;
 
-		float calcX = adjustedMouse.x + m_canvasRect.sizeDelta.x * offsetPercentX;
+		// just don't change the canvas' reference res please
+		float calcX = adjustedMouse.x + m_canvasRect.sizeDelta.x * offsetPercentX * (1065f / m_canvasRect.sizeDelta.x);
 		float calcY = adjustedMouse.y + m_canvasRect.sizeDelta.y * offsetPercentY;
 
 		// if the tooltip is too far down, cap it to the bottom of the screen
@@ -65,7 +66,8 @@ public class ItemTooltip : MonoBehaviour {
 		gameObject.SetActive(false);
 		m_canvas.gameObject.SetActive(false);
 
-		m_rectTransform.anchoredPosition = new Vector3(-5000, -5000, 0); // throw it out of the screen to avoid flashing...
+		if(m_rectTransform) 
+			m_rectTransform.anchoredPosition = new Vector3(-5000, -5000, 0); // throw it out of the screen to avoid flashing...
 	}
 
 	private void FillModifiableInfo() { 
@@ -75,6 +77,7 @@ public class ItemTooltip : MonoBehaviour {
 	}
 
 	public void SetItem(Item p_item) {
+		Entity holder = p_item.m_holder ? p_item.m_holder : p_item.m_inventory.m_interactor;
 		if(m_modifiableInfo.Count == 0) FillModifiableInfo();
 
 		foreach(TooltipInfo info in m_modifiableInfo)
@@ -99,7 +102,7 @@ public class ItemTooltip : MonoBehaviour {
 		}
 
 		Text slot = m_modifiableInfo.Find(ti => ti.m_name == "Slot Info Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		if(item.m_equipmentSlots.Count > 0) slot.text = item.m_equipmentSlots[0].ToString();
+		if(item.m_equipmentSlots.Count > 0) slot.text = item.GetEquipmentSlotsText();
 		else slot.text = item.GetType().Name;
 		
 		ShowSeparator(1);
@@ -121,22 +124,44 @@ public class ItemTooltip : MonoBehaviour {
 
 			if(statGains.Length == UnitStats.STAT_AMOUNT) {
 				Text statGainText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Gain Text").Get<Text>();
+				Text statComparisonOneText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Comparison 1").Get<Text>();
+				Text statComparisonTwoText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Comparison 2").Get<Text>();
+				int[] comparisonOne = item.m_equipmentSlots.Count >= 1 ?
+										  BaseItem.GetStatGainDifferences(item, holder.m_equipment, item.m_equipmentSlots[0]) : new int[UnitStats.STAT_AMOUNT];
+				int[] comparisonTwo = item.m_equipmentSlots.Count == 2 ? 
+										  BaseItem.GetStatGainDifferences(item, holder.m_equipment, item.m_equipmentSlots[1]) : new int[UnitStats.STAT_AMOUNT];
+				
+				if(p_item.m_inventory == holder.m_equipment) { 
+					comparisonOne = new int[UnitStats.STAT_AMOUNT];
+					comparisonTwo = new int[UnitStats.STAT_AMOUNT];
+				}
 
 				for(int i = 0; i < statGains.Length; ++i) { 
-					if(statGains[i] == 0) continue;
+					if(statGains[i] == 0 && comparisonOne[i] == 0 && comparisonTwo[i] == 0) continue;
+					if(!m_modifiableInfo.Exists(ti => ti.m_name == ((Stats) i).ToString() + " Gain Text"))
+						InstantiateStatText(((Stats) i).ToString() + " Gain Text", statGainText, transform);
 
-					Text stat;
+					Text statGain = m_modifiableInfo.Find(ti => ti.m_name == ((Stats) i).ToString() + " Gain Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+					if(!m_modifiableInfo.Exists(ti => ti.m_name == ((Stats) i).ToString() + " Comparison 1"))
+						InstantiateStatText(((Stats) i).ToString() + " Comparison 1", statComparisonOneText, statGain.transform);
+					if(!m_modifiableInfo.Exists(ti => ti.m_name == ((Stats) i).ToString() + " Comparison 2"))
+						InstantiateStatText(((Stats) i).ToString() + " Comparison 2", statComparisonTwoText, statGain.transform);
 
-					try {
-						stat = m_modifiableInfo.Find(ti => ti.m_name == ((Stats)i).ToString() + " Gain Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-					} catch (NullReferenceException) {
-						stat = Instantiate(statGainText, transform);
-						stat.name = ((Stats)i).ToString() + " Gain Text";
-						m_modifiableInfo.Add(new TooltipInfo(stat.name, stat.gameObject, stat.GetComponent<RectTransform>()));
-						stat = m_modifiableInfo.Find(ti => ti.m_name == stat.name).Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-					}
+					Text statComparisonOne = m_modifiableInfo.Find(ti => ti.m_name == ((Stats) i).ToString() + " Comparison 1").Get<Text>();
+					Text statComparisonTwo = m_modifiableInfo.Find(ti => ti.m_name == ((Stats) i).ToString() + " Comparison 2").Get<Text>();
 
-					stat.text = "+" + statGains[i] + " " + ((Stats) i).ToString();
+					statGain.color = statGains[i] > 0 ? Constants.GREEN : (statGains[i] == 0 ? Constants.YELLOW : Constants.RED);
+					statGain.text = (statGains[i] > 0 ? "+" : "") + statGains[i] + " " + ((Stats) i).ToString();
+
+					if(comparisonOne[i] != 0) {
+						statComparisonOne.color = comparisonOne[i] > 0 ? Constants.GREEN : Constants.RED;
+						statComparisonOne.text = "(" + (comparisonOne[i] > 0 ? "+" : "") + comparisonOne[i] + ")";
+					} else statComparisonOne.text = "";
+
+					if (comparisonTwo[i] != 0) {
+						statComparisonTwo.color = comparisonTwo[i] > 0 ? Constants.GREEN : Constants.RED;
+						statComparisonTwo.text = "(" + (comparisonTwo[i] > 0 ? "+" : "") + comparisonTwo[i] + ")";
+					} else statComparisonTwo.text = "";
 				}
 			}
 		}
@@ -144,17 +169,29 @@ public class ItemTooltip : MonoBehaviour {
 		m_modifiableInfo.Find(ti => ti.m_name == "Durability Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		Text durability = m_modifiableInfo.Find(ti => ti.m_name == "Current Durability").Get<Text>();
 		durability.text = p_item.m_durability + "%";
+		durability.color = Constants.YELLOW;
 
 		m_modifiableInfo.Find(ti => ti.m_name == "Level Required Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		Text levelRequired = m_modifiableInfo.Find(ti => ti.m_name == "Level Required").Get<Text>();
 		levelRequired.text = item.m_levelRequired.ToString();
+		levelRequired.color = Constants.YELLOW;
 
 		m_modifiableInfo.Find(ti => ti.m_name == "Sell Price Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		Text sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price").Get<Text>();
 		sellPrice.text = item.m_sellPrice + "g";
+		sellPrice.color = Constants.YELLOW;
 
-		Text description = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+		Text description = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text").Get<Text>();
 		description.text = item.m_description;
+		description.color = Constants.YELLOW;
+		description = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+	}
+
+	private void InstantiateStatText(string p_name, Text p_original, Transform p_parent) {
+		Text text = Instantiate(p_original, p_parent);
+
+		text.name = p_name;
+		m_modifiableInfo.Add(new TooltipInfo(text.name, text.gameObject, text.GetComponent<RectTransform>()));
 	}
 
 	private void ShowSeparator(float p_separatorNumber) {
@@ -171,11 +208,12 @@ public class ItemTooltip : MonoBehaviour {
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " CD Label").GetAligned<Text>(ref m_tooltipInfoOffset);
 		Text cd = m_modifiableInfo.Find(ti => ti.m_name == shot + " CD").Get<Text>();
 		cd.text = p_pattern.m_patternCooldown + "s";
+		cd.color = Constants.YELLOW;
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
 
 		if(p_pattern.m_projectile.m_piercing) {
-			m_modifiableInfo.Find(ti => ti.m_name == shot + " Piercing Text").GetAligned<Text>(ref m_tooltipInfoOffset);
+			m_modifiableInfo.Find(ti => ti.m_name == shot + " Piercing Text").GetAligned<Text>(ref m_tooltipInfoOffset).color = Constants.PURPLE;
 		}
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Background").GetAligned<Image>(ref m_tooltipInfoOffset);
@@ -185,25 +223,30 @@ public class ItemTooltip : MonoBehaviour {
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Shots Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		Text shots = m_modifiableInfo.Find(ti => ti.m_name == shot + " Shots").Get<Text>();
 		shots.text = p_pattern.m_shots.ToString();
+		shots.color = Constants.YELLOW;
 
 		if(p_pattern.m_projectile.m_armorPiercing) {
-			m_modifiableInfo.Find(ti => ti.m_name == shot + " Armor Piercing Text").GetAligned<Text>(ref m_tooltipInfoOffset);
+			m_modifiableInfo.Find(ti => ti.m_name == shot + " Armor Piercing Text").GetAligned<Text>(ref m_tooltipInfoOffset).color = Constants.RED;
 		}
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		Text damage = m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage").Get<Text>();
 		damage.text = p_pattern.m_projectile.m_damage.ToString();
+		damage.color = Constants.YELLOW;
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana Label").GetAligned<Text>(ref m_tooltipInfoOffset);
 		Text mana = m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana").Get<Text>();
 		mana.text = p_pattern.m_manaPerStep.ToString();
+		mana.color = Constants.MANA_BLUE;
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Range Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		Text range = m_modifiableInfo.Find(ti => ti.m_name == shot + " Range").Get<Text>();
 		range.text = p_pattern.m_projectile.m_range.ToString();
+		range.color = Constants.YELLOW;
 
 		Text extra = m_modifiableInfo.Find(ti => ti.m_name == shot + " Extra Text").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		extra.text = p_pattern.m_extraTooltipInfo;
+		extra.color = Constants.YELLOW;
 	}
 }
 

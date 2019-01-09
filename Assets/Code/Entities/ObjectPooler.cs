@@ -42,6 +42,10 @@ public class ObjectPooler : MonoBehaviour {
 	}
 
 	public virtual void Remove(GameObject p_obj) {
+		if(p_obj.transform.childCount > 0)
+			for(int i = 0; i < p_obj.transform.childCount; i++)
+				Destroy(p_obj.transform.GetChild(i).gameObject);
+
 		p_obj.transform.position = Vector3.zero;
 		p_obj.SetActive(false);
 

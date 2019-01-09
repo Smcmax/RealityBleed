@@ -5,21 +5,6 @@ using System.Collections.Generic;
 
 public class Shooter : MonoBehaviour {
 
-	[Tooltip("The mana mode that should be used")]
-	public bool m_useSharedMana;
-
-	[Tooltip("Unit's mana")]
-	[ConditionalField("m_useSharedMana", false)][Range(0, 1000)] public float m_mana;
-
-	[Tooltip("Unit's mana")]
-	[ConditionalField("m_useSharedMana", true)] public FloatVariable m_refMana;
-
-	[Tooltip("Should mana be reset to maximum health on awake?")]
-	public bool m_resetMana;
-
-	[Tooltip("Unit's max mana")]
-	public FloatReference m_maxMana;
-
 	[Tooltip("The minimum delay between pattern starts/loops")]
 	[Range(0, 2)] public float m_patternCooldown;
 	private float m_lastShot;
@@ -33,24 +18,16 @@ public class Shooter : MonoBehaviour {
 	public void Init(Entity p_entity) {
 		m_entity = p_entity;
 		m_patterns = new Dictionary<ShotPattern, DataHolder>();
-
-		if(m_resetMana) SetMana(m_maxMana.Value);
 	}
 
 	private float GetMana() {
-		return (m_refMana) ? m_refMana.Value : m_mana;
-	}
-
-	private void SetMana(float p_value) {
-		if(m_refMana) m_refMana.Value = p_value;
-		else m_mana = p_value;
+		return m_entity.m_stats.GetStat(Stats.MP);
 	}
 
 	public bool ConsumeMana(ShotPattern p_pattern) {
 		if(GetMana() - p_pattern.m_manaPerStep < 0) return false;
 
-		SetMana(GetMana() - p_pattern.m_manaPerStep);
-
+		m_entity.m_stats.AddModifier(Stats.MP, (int) -p_pattern.m_manaPerStep, 0);
 		m_shotEvent.Invoke();
 
 		return true;
@@ -70,8 +47,10 @@ public class Shooter : MonoBehaviour {
 
 	public bool CanLoop(ShotPattern p_pattern) {
 		object lastLoopTimeObj = GetPatternInfo(p_pattern, "lastLoopTime");
+		Stats statApplied = p_pattern.m_projectile.m_statApplied;
+		float patternCooldown = p_pattern.m_patternCooldown * statApplied.GetAlternateEffect(m_entity.m_stats.GetStat(statApplied));
 
-		return lastLoopTimeObj == null ? true : Time.time * 1000 >= (float) lastLoopTimeObj + p_pattern.m_patternCooldown * 1000;
+		return lastLoopTimeObj == null ? true : Time.time * 1000 >= (float) lastLoopTimeObj + patternCooldown * 1000;
 	}
 
 	public void Shoot(ShotPattern p_pattern) {
@@ -135,8 +114,11 @@ public class Shooter : MonoBehaviour {
 		p_pattern.Transition(this);
 	}
 
-	// TODO: add damage modifiers/stats to this
+	// this is the pure event, with no modifications applied prior
 	public void Damage(Projectile p_projectile, Entity p_entity, bool p_armorPiercing) {
-		p_entity.Damage(m_entity, p_projectile.m_damage, p_armorPiercing, false);
+		int finalDamage = p_projectile.m_damage;
+
+		finalDamage += m_entity.m_stats.GetStatEffect(p_projectile.m_statApplied);
+		p_entity.Damage(m_entity, finalDamage, p_armorPiercing, false);
 	}
 }

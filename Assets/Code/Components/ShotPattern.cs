@@ -10,7 +10,7 @@ public abstract class ShotPattern : ScriptableObject {
 	[Range(1, 100)] public int m_shots;
 
 	[Tooltip("Mana taken per pattern step, instant makes this a single step per loop")]
-	[Range(0, 100)] public float m_manaPerStep;
+	[Range(0, 100)] public int m_manaPerStep;
 
 	[Tooltip("If the shot happens instantly")]
 	public bool m_instant;
@@ -54,6 +54,7 @@ public abstract class ShotPattern : ScriptableObject {
 		proj.transform.rotation = m_projectile.transform.rotation;
 
 		projectile.Clone(m_projectile);
+		projectile.GetComponent<PolygonColliderExtruder>().Extrude();
 
 		return projectile;
 	}

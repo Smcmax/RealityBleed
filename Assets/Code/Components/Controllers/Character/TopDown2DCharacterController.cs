@@ -29,8 +29,8 @@ public class TopDown2DCharacterController : CharController {
 
 		m_rigidbody2D.velocity = Vector3.SmoothDamp(m_rigidbody2D.velocity, targetVelocity, ref m_velocity, m_smoothTime);
 
-		if ((p_move.x > 0 && !m_directionX) || (p_move.x < 0 && m_directionX)) Flip(true, false);
-		if ((p_move.y > 0 && !m_directionY) || (p_move.y < 0 && m_directionY)) Flip(false, true);
+		if((p_move.x > 0 && !m_directionX) || (p_move.x < 0 && m_directionX)) Flip(true, false);
+		if((p_move.y > 0 && !m_directionY) || (p_move.y < 0 && m_directionY)) Flip(false, true);
 	}
 
 	/*

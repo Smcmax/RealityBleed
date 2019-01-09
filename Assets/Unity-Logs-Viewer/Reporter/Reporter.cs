@@ -295,11 +295,13 @@ public class Reporter : MonoBehaviour
 	{
 		if (logs.Count == 0)//if recompile while in play mode
 			clear();
+
+		SceneManager.sceneLoaded += OnLevelFinishedLoading;
 	}
 
 	void OnDisable()
 	{
-
+		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
 	void addSample()
@@ -593,16 +595,16 @@ public class Reporter : MonoBehaviour
 		selectedLog = null;
 	}
 
-	Rect screenRect;
-	Rect toolBarRect;
+	Rect screenRect = new Rect();
+	Rect toolBarRect = new Rect();
 	Rect logsRect;
 	Rect stackRect;
 	Rect graphRect;
 	Rect graphMinRect;
 	Rect graphMaxRect;
-	Rect buttomRect;
+	Rect buttomRect = new Rect();
 	Vector2 stackRectTopLeft;
-	Rect detailRect;
+	Rect detailRect = new Rect();
 
 	Vector2 scrollPosition;
 	Vector2 scrollPosition2;
@@ -686,7 +688,7 @@ public class Reporter : MonoBehaviour
 		}
 	}
 
-	Rect countRect;
+	Rect countRect = new Rect();
 	Rect timeRect;
 	Rect timeLabelRect;
 	Rect sceneRect;
@@ -1955,14 +1957,14 @@ public class Reporter : MonoBehaviour
 	}
 
 	//new scene is loaded
-	void OnLevelWasLoaded()
+	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
 		if (clearOnNewSceneLoaded)
 			clear();
 
 #if UNITY_CHANGE3
-		currentScene = SceneManager.GetActiveScene().name ;
-		Debug.Log( "Scene " + SceneManager.GetActiveScene().name + " is loaded");
+		currentScene = scene.name ;
+		Debug.Log( "Scene " + scene.name + " is loaded");
 #else
 		currentScene = Application.loadedLevelName;
 		Debug.Log("Scene " + Application.loadedLevelName + " is loaded");

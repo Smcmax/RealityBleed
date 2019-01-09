@@ -10,7 +10,7 @@ public abstract class CharController : MonoBehaviour {
 	[Range(0, 1f)] [SerializeField] protected float m_smoothTime = 0.3f;
 
 	[Tooltip("The speed the character moves at")]
-	[Range(0, 10f)] [SerializeField] protected float m_speed = 1f;
+	[Range(0, 10f)] [SerializeField] public float m_speed = 1f;
 
 	[Tooltip("Percentage of max speed the character can move at in a given direction while moving in two directions")]
 	[Range(0, 1f)] public float m_diagonalSpeedPercentage = 0.75f;

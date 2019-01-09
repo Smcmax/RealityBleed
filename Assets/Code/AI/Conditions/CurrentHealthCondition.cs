@@ -9,6 +9,6 @@ public class CurrentHealthCondition : Condition {
 	public override bool Test(StateController p_controller) {
 		UnitHealth health = p_controller.m_entity.m_health;
 
-		return health && (health.GetHealth() / health.GetMaxHealth()) * 100 <= m_healthPercentThreshold;
+		return health && ((float) health.GetHealth() / (float) health.GetMaxHealth()) * 100 <= m_healthPercentThreshold;
 	}
 }

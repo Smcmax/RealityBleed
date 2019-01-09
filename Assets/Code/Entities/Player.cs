@@ -11,6 +11,7 @@ public class Player : Entity {
 		base.Awake();
 
 		m_playerController = GetComponent<PlayerController>();
+		m_feedbackColor = Constants.TRANSPARENT;
 	}
 
 	void Update() {
@@ -37,7 +38,7 @@ public class Player : Entity {
 			if(toFire == null) return;
 
 			m_shooter.SetPatternInfo(toFire, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition));
-			weapon.Use(this, new string[]{ leftClick.ToString() }); // using weapon in case it has specific code to execute
+			weapon.Use(this, new string[]{ weapon.m_leftClickPattern == toFire ? "true" : "false" }); // using weapon in case it has specific code to execute
 		}
 	}
 

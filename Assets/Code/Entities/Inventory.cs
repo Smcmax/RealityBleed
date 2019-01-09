@@ -21,16 +21,11 @@ public class Inventory : MonoBehaviour {
 	public GameEvent m_onItemDestroyEvent;
 
 	[HideInInspector] public Entity m_entity;
+	[HideInInspector] public Entity m_interactor;
 	[HideInInspector] public UIItem[] m_uiItems; // updates itself, null if inventory not shown on screen
 
-	void Awake() { 
-		for(int i = 0; i < m_items.Length; ++i) { 
-			Item item = m_items[i];
-
-			item.m_inventory = this;
-			item.m_inventoryIndex = i;
-			SetEntity(item);
-		}
+	protected virtual void Awake() { 
+		UpdateItemInfo();
 	}
 
 	public Item Get(int p_id) {
@@ -64,17 +59,27 @@ public class Inventory : MonoBehaviour {
 			}
 		}
 
-		for(int i = 0; i < m_items.Length; ++i)
-			if(!m_items[i].m_item) {
-				m_items[i] = p_item;
-				SetEntity(m_items[i]);
-				m_items[i].m_inventory = this;
-				m_items[i].m_inventoryIndex = i;
+		int index = FindFirstEmpty();
 
-				return true;
-			}
+		if(index >= 0) {
+			m_items[index] = p_item;
+			SetEntity(m_items[index]);
+			m_items[index].m_inventory = this;
+			m_items[index].m_inventoryIndex = index;
+
+			return true;
+		}
 
 		return false;
+	}
+
+	public int FindFirstEmpty() {
+		for(int i = 0; i < m_items.Length; ++i)
+			if(!m_items[i].m_item) {
+				return i;
+			}
+
+		return -1;
 	}
 
 	public bool AddToItem(Item p_item, Item p_itemToAddTo) { 
@@ -93,7 +98,7 @@ public class Inventory : MonoBehaviour {
 		} else return false;
 	}
 
-	public bool SetAtIndex(Item p_item, int p_index) { 
+	public bool SetAtIndex(Item p_item, int p_index) {
 		Item atIndex = m_items[p_index];
 		
 		if(atIndex.m_item == null) {
@@ -134,11 +139,11 @@ public class Inventory : MonoBehaviour {
 		int firstIndex = p_first.m_inventoryIndex;
 		int secondIndex = p_second.m_inventoryIndex;
 
-		if (firstIndex == -1 || secondIndex == -1) return false;
+		if(firstIndex == -1 || secondIndex == -1) return false;
 
 		// check if items are compatible in their respective slots
-		if (isFirstEquipped && (p_second.m_item && !p_second.m_item.m_equipmentSlots.Contains((EquipmentSlot) firstIndex))) return false;
-		if (isSecondEquipped && (p_first.m_item && !p_first.m_item.m_equipmentSlots.Contains((EquipmentSlot) secondIndex))) return false;
+		if(isFirstEquipped && (p_second.m_item && !p_second.m_item.m_equipmentSlots.Contains((EquipmentSlot) firstIndex))) return false;
+		if(isSecondEquipped && (p_first.m_item && !p_first.m_item.m_equipmentSlots.Contains((EquipmentSlot) secondIndex))) return false;
 
 		p_first.m_inventory.RemoveAt(firstIndex);
 		p_second.m_inventory.RemoveAt(secondIndex);
@@ -252,5 +257,19 @@ public class Inventory : MonoBehaviour {
 
 	public void SetEntity(Item p_item) {
 		p_item.m_holder = m_entity ? m_entity : null;
+	}
+
+	public void UpdateItemInfo() {
+		for(int i = 0; i < m_items.Length; ++i) {
+			Item item = m_items[i];
+
+			item.m_inventory = this;
+			item.m_inventoryIndex = i;
+			SetEntity(item);
+		}
+	}
+
+	public virtual void RaiseInventoryEvent(bool p_raise) { 
+		if(p_raise) m_onInventoryActionEvent.Raise();
 	}
 }
