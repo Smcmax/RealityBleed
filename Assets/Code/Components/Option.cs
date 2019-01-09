@@ -41,11 +41,15 @@ public class Option : MonoBehaviour {
 
 				slider.m_value = GetFloatValue(slider.m_value);
 				if(slider.m_value != GetFloatValue()) Save(slider.m_value); // save if the default is used (and it's different from 0)
+			} else if(m_control is TextualSliderText) { 
+				TextualSliderText slider = (TextualSliderText) m_control;
+
+				slider.m_value = GetIntValue(slider.m_value);
+				if(slider.m_value != GetIntValue()) Save(slider.m_value); // save if the default is used (and it's different from 0)
 			} else if(m_control is Toggle) { 
 				Toggle toggle = ((Toggle) m_control);
 
 				toggle.isOn = GetBoolValue(toggle.isOn);
-				if(toggle.isOn != GetBoolValue()) Save(toggle.isOn); // save if the default is used (and it's different from false)
 			}
 		}
 

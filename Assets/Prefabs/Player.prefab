@@ -826,6 +826,9 @@ MonoBehaviour:
   m_offset: {x: -0.05, y: -0.4}
   m_layer: EntityLights
   m_extrudeOnStart: 1
+  m_isProjectileExtrusion: 0
+  m_optionsHandler: {fileID: 0}
+  m_extrusions: []
   m_radius: 0.2
   m_precision: 10
 --- !u!114 &114924461057312282

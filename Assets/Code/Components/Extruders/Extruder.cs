@@ -21,14 +21,25 @@ public abstract class Extruder : MonoBehaviour {
 	[Tooltip("Whether or not the extrusion should happen automatically on start")]
 	public bool m_extrudeOnStart;
 
+	[Tooltip("Is this an extrusion for a projectile?")]
+	public bool m_isProjectileExtrusion;
+
+	[Tooltip("Used to know whether or not the extrusion should be done")]
+	public OptionsHandler m_optionsHandler;
+
+	[HideInInspector] public List<GameObject> m_extrusions;
+
 	void Start() {
+		m_extrusions = new List<GameObject>();
+		m_optionsHandler.AddExtruder(this);
+
 		if(!m_extrudeOnStart || !CanExtrude()) return; // if low or under, we don't want to do this
 
 		Extrude();
 	}
 
 	public bool CanExtrude() { 
-		return QualitySettings.GetQualityLevel() > 1;
+		return m_optionsHandler.CanExtrude(m_isProjectileExtrusion);
 	}
 
 	public abstract void Extrude();
@@ -103,6 +114,7 @@ public abstract class Extruder : MonoBehaviour {
 		renderer.receiveShadows = false;
 		renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
 		filter.mesh = p_mesh;
+		m_extrusions.Add(meshObject);
 
 		return meshObject;
 	}

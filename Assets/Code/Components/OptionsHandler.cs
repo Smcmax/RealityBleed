@@ -11,29 +11,34 @@ public class OptionsHandler : MonoBehaviour {
 	[Tooltip("The fullscreen toggle")]
 	public Toggle m_fullscreenToggle;
 
-	[Tooltip("Whether or not the game is in fullscreen mode")]
-	public bool m_fullscreen;
+	[Tooltip("The toggle for vsync")]
+	public Toggle m_vsyncToggle;
 
 	[Tooltip("The slider handling the framerate")]
-	public AdaptativeSliderText m_refreshRateSlider;
+	public AdaptativeSliderText m_framerateSlider;
 
-	public Toggle m_enemyHealthBars;
+	[Tooltip("The dropdown handling the quality settings")]
 	public Dropdown m_qualityDropdown;
 
+	[HideInInspector] public List<Extruder> m_extruders;
+
 	private int m_framerate;
+	private bool m_fullscreen;
+	private bool m_vsync;
 	private int m_qualityLevel;
+	private int m_shadows;
+	private int m_originalShadows = -1;
 	private Resolution m_resolution;
 	private Resolution[] m_resolutions;
 
 	void Start() {
-		QualitySettings.vSyncCount = 0;
+		m_extruders = new List<Extruder>();
 		m_qualityLevel = QualitySettings.GetQualityLevel();
-		//m_framerate = Application.targetFrameRate;
 
 		m_fullscreenToggle.isOn = Screen.fullScreen;
-		m_refreshRateSlider.m_unlimited = -1;
-		m_refreshRateSlider.m_value = Screen.currentResolution.refreshRate;
-		//m_enemyHealthBars.isOn = true;
+		m_vsyncToggle.isOn = QualitySettings.vSyncCount > 0;
+		m_framerateSlider.m_unlimited = -1;
+		m_framerateSlider.m_value = Screen.currentResolution.refreshRate;
 		m_qualityDropdown.value = m_qualityLevel;
 
 		PopulateResolutions();
@@ -78,12 +83,18 @@ public class OptionsHandler : MonoBehaviour {
 
 	public void ApplyOptions() {
 		SetResolution();
-		QualitySettings.vSyncCount = 0;
-		Application.targetFrameRate = m_framerate;
+		ApplyVSync();
+		ApplyFramerate();
 
 		ApplyResolution();
 		QualitySettings.SetQualityLevel(m_qualityLevel, true);
-		
+
+		if((m_originalShadows >= 1 && m_shadows == 0) || 
+			(m_originalShadows == 0 && m_shadows >= 1)) {
+			m_originalShadows = m_shadows;
+			ReExtrusion();
+		}
+
 		StartCoroutine(UpdateResolution());
 	}
 
@@ -117,11 +128,19 @@ public class OptionsHandler : MonoBehaviour {
 		m_fullscreen = p_fullscreen;
 	}
 
+	public void SetVSync(bool p_vsync) { 
+		m_vsync = p_vsync;
+	}
+
+	public void ApplyVSync() { 
+		QualitySettings.vSyncCount = m_vsync ? 1 : 0;
+	}
+
 	public void SetFramerate(float p_framerate) {
 		m_framerate = (int) p_framerate;
 
-		if(m_refreshRateSlider.m_value != p_framerate)
-			m_refreshRateSlider.m_value = p_framerate;
+		if(m_framerateSlider.m_value != p_framerate)
+			m_framerateSlider.m_value = p_framerate;
 	}
 
 	public void ApplyFramerate() { 
@@ -134,6 +153,38 @@ public class OptionsHandler : MonoBehaviour {
 
 	public void SetQualitySettings(int p_quality) { 
 		m_qualityLevel = p_quality;
+	}
+
+	public void SetShadows(int p_shadows) { 
+		m_shadows = p_shadows;
+
+		if(m_originalShadows == -1) m_originalShadows = p_shadows;
+	}
+
+	public bool CanExtrude(bool p_isProjectileExtrusion) {
+		if(p_isProjectileExtrusion) return m_shadows == 2;
+		else return m_shadows > 0;
+	}
+
+	public void AddExtruder(Extruder p_extruder) {
+		m_extruders.Add(p_extruder);
+	}
+
+	private void ReExtrusion() {
+		m_extruders.RemoveAll(e => !e);
+
+		foreach(Extruder extruder in m_extruders) {
+			if(extruder.m_isProjectileExtrusion || !extruder.gameObject.activeSelf) continue;
+
+			if(extruder.m_extrusions.Count > 0) {
+				foreach(GameObject ext in extruder.m_extrusions)
+					Destroy(ext);
+
+				extruder.m_extrusions.Clear();
+			}
+
+			extruder.Extrude();
+		}
 	}
 
 	public void SetEnemyHealthBars(bool p_toggle) { 

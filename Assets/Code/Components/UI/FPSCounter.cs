@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class FPSCounter : MonoBehaviour {
@@ -7,16 +6,24 @@ public class FPSCounter : MonoBehaviour {
 	[Tooltip("The text to update with the current FPS")]
 	public Text m_text;
 
-	private float m_count;
-	
-	IEnumerator Start() { 
-		while(true) { 
-			if(Time.timeScale == 1f) { 
-				m_count = 1 / Time.deltaTime;
-				m_text.text = "FPS: " + Mathf.Round(m_count);
-			}
+	private float m_startTime;
+	private int m_frameCount;
 
-			yield return new WaitForSeconds(0.5f);
+	void Start() { 
+		m_startTime = Time.time * 1000;
+	}
+
+	void Update() { 
+		if(Time.timeScale == 0f) return;
+
+		float timeDiff = Time.time * 1000 - m_startTime;
+
+		if(timeDiff >= 500) {
+			m_text.text = "FPS: " + m_frameCount * 2;
+			m_frameCount = 0;
+			m_startTime = Time.time * 1000;
 		}
+		
+		m_frameCount++;
 	}
 }

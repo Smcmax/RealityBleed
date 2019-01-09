@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using System;
 using System.Collections.Generic;
 
@@ -31,11 +30,11 @@ public class AdaptativeSliderText : MonoBehaviour {
 		m_text.color = currentColor;
 
 		m_slider.onValueChanged.AddListener((value) => {
-			m_valueChangedEvent.Invoke(value);
-
-			m_value = value != m_slider.maxValue ? value : m_unlimited;
-			m_text.text = (value != m_slider.maxValue ? value.ToString() : "Unlimited") + baseText;
+			m_value = value < m_slider.maxValue ? value : m_unlimited;
+			m_text.text = (value < m_slider.maxValue ? value.ToString() : "Unlimited") + baseText;
 			m_text.color = FindCurrentColorThreshold().m_color;
+
+			m_valueChangedEvent.Invoke(m_value);
 		});
 	}
 
