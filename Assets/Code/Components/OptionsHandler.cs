@@ -20,6 +20,9 @@ public class OptionsHandler : MonoBehaviour {
 	[Tooltip("The dropdown handling the quality settings")]
 	public Dropdown m_qualityDropdown;
 
+	[Tooltip("The canvas containing all the health bars")]
+	public Canvas m_hpBarsCanvas;
+
 	[HideInInspector] public List<Extruder> m_extruders;
 
 	private int m_framerate;
@@ -43,6 +46,10 @@ public class OptionsHandler : MonoBehaviour {
 
 		PopulateResolutions();
 	}
+
+	////////////////////////
+	/*  Video Settings  */
+	////////////////////////
 
 	private void PopulateResolutions() {
 		m_resolutions = Screen.resolutions;
@@ -187,10 +194,23 @@ public class OptionsHandler : MonoBehaviour {
 		}
 	}
 
-	public void SetEnemyHealthBars(bool p_toggle) { 
-		int layerBit = 1 << LayerMask.NameToLayer("Health Bars");
-		bool currentlySet = (Camera.main.cullingMask & layerBit) != 0;
+	////////////////////////
+	/*  Audio Settings  */
+	////////////////////////
 
-		if(currentlySet != p_toggle) Camera.main.cullingMask ^= layerBit;
+	public void SetMasterVolume(float p_volume) { 
+		AudioListener.volume = p_volume / 100f;
 	}
+
+	/////////////////////////////
+	/*  Gameplay Settings  */
+	////////////////////////////
+
+	public void SetEnemyHealthBars(bool p_toggle) { 
+		m_hpBarsCanvas.gameObject.SetActive(p_toggle);
+	}
+
+	////////////////////////////////
+	/*  Key Bindings Settings  */
+	////////////////////////////////
 }
