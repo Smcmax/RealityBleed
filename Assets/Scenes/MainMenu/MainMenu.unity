@@ -578,7 +578,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 862012003}
+  m_TargetGraphic: {fileID: 1027497090}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -588,6 +588,94 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 1027497080}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1027497081}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1027497085}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1027497088}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1027497084}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1027497087}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1027497083}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1027497086}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1027497082}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -700,7 +788,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 928098417}
   m_OnClick:
     m_PersistentCalls:
@@ -1201,6 +1289,52 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1349920143465692, guid: 1722a6d17d631c54cbc2664427b326cf,
     type: 2}
   m_PrefabInternal: {fileID: 1027497079}
+--- !u!1 &1027497081 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1991614093124428, guid: 1722a6d17d631c54cbc2664427b326cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1027497079}
+--- !u!1 &1027497082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1299577405017636, guid: 1722a6d17d631c54cbc2664427b326cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1027497079}
+--- !u!1 &1027497083 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1163749047947330, guid: 1722a6d17d631c54cbc2664427b326cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1027497079}
+--- !u!1 &1027497084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1545829521164678, guid: 1722a6d17d631c54cbc2664427b326cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1027497079}
+--- !u!1 &1027497085 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1955456501359896, guid: 1722a6d17d631c54cbc2664427b326cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1027497079}
+--- !u!1 &1027497086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1376747323914478, guid: 1722a6d17d631c54cbc2664427b326cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1027497079}
+--- !u!1 &1027497087 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1270714577680224, guid: 1722a6d17d631c54cbc2664427b326cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1027497079}
+--- !u!1 &1027497088 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1051521864145242, guid: 1722a6d17d631c54cbc2664427b326cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1027497079}
+--- !u!114 &1027497090 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114857515619530732, guid: 1722a6d17d631c54cbc2664427b326cf,
+    type: 2}
+  m_PrefabInternal: {fileID: 1027497079}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1214058322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,7 +1345,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1214058325}
   - component: {fileID: 1214058324}
-  - component: {fileID: 1214058323}
   m_Layer: 0
   m_Name: MenuHandler
   m_TagString: Untagged
@@ -1219,35 +1352,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1214058323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114074966747997796, guid: 3a6bb1e786c1c394490201ac3ac5677c,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1214058322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2809a2a4068b6c340855b857fb17bd69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_event: {fileID: 11400000, guid: ed2b58e5fd2bb26418971cbd6baab096, type: 2}
-  m_response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1214058324}
-        m_MethodName: OpenMenuPause
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 785115738}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1214058324
 MonoBehaviour:
   m_ObjectHideFlags: 0

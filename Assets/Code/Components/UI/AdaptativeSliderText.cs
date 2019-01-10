@@ -11,6 +11,15 @@ public class AdaptativeSliderText : MonoBehaviour {
 	[Tooltip("The text to update with the slider's value")]
 	public Text m_text;
 
+	[Tooltip("Text shown before the value")]
+	public string m_prefixText;
+
+	[Tooltip("Text shown after the value")]
+	public string m_suffixText;
+
+	[Tooltip("Should the maximum value be unlimited?")]
+	public bool m_unlimitedValueAllowed;
+
 	[Tooltip("Thresholds of the slider's value under which the slider will change color")]
 	public List<ColorThreshold> m_colorThresholds;
 
@@ -21,19 +30,25 @@ public class AdaptativeSliderText : MonoBehaviour {
 	[HideInInspector] public float m_unlimited;
 
 	void Start() {
-		string baseText = m_text.text;
 		Color currentColor = FindCurrentColorThreshold().m_color;
 
 		// TODO: optimize
-		m_slider.value = m_value != m_unlimited ? m_value : m_slider.maxValue;
-		m_text.text = (m_value != m_unlimited ? m_value.ToString() : "Unlimited") + baseText;
+		m_slider.value = m_value == m_unlimited && m_unlimitedValueAllowed ? m_slider.maxValue : m_value;
+
+		if(m_unlimitedValueAllowed)
+			m_text.text = m_prefixText + (m_value != m_unlimited ? m_value.ToString() : "Unlimited") + m_suffixText;
+		else m_text.text = m_prefixText + m_value.ToString() + m_suffixText;
+
 		m_text.color = currentColor;
 
 		m_slider.onValueChanged.AddListener((value) => {
-			m_value = value < m_slider.maxValue ? value : m_unlimited;
-			m_text.text = (value < m_slider.maxValue ? value.ToString() : "Unlimited") + baseText;
-			m_text.color = FindCurrentColorThreshold().m_color;
+			m_value = value == m_slider.maxValue && m_unlimitedValueAllowed ? m_unlimited : value;
 
+			if(m_unlimitedValueAllowed)
+				m_text.text = m_prefixText + (value < m_slider.maxValue ? value.ToString() : "Unlimited") + m_suffixText;
+			else m_text.text = m_prefixText + m_value.ToString() + m_suffixText;
+
+			m_text.color = FindCurrentColorThreshold().m_color;
 			m_valueChangedEvent.Invoke(m_value);
 		});
 	}
