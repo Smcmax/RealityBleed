@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class OptionsHandler : MonoBehaviour {
+public class OptionsMenuHandler : MonoBehaviour {
 
 	[Tooltip("The dropdown handling the resolutions")]
 	public Dropdown m_resolutionDropdown;
@@ -34,14 +34,19 @@ public class OptionsHandler : MonoBehaviour {
 	private Resolution m_resolution;
 	private Resolution[] m_resolutions;
 
+	private OptionsMenuHandler() { }
+
+	public static OptionsMenuHandler Instance { get; private set; }
+
 	void Start() {
+		Instance = this;
+
 		m_extruders = new List<Extruder>();
 		m_qualityLevel = QualitySettings.GetQualityLevel();
 
 		m_fullscreenToggle.isOn = Screen.fullScreen;
 		m_vsyncToggle.isOn = QualitySettings.vSyncCount > 0;
 		m_framerateSlider.m_unlimited = -1;
-		m_framerateSlider.m_value = Screen.currentResolution.refreshRate;
 		m_qualityDropdown.value = m_qualityLevel;
 
 		PopulateResolutions();
@@ -143,8 +148,8 @@ public class OptionsHandler : MonoBehaviour {
 		QualitySettings.vSyncCount = m_vsync ? 1 : 0;
 	}
 
-	public void SetFramerate(float p_framerate) {
-		m_framerate = (int) p_framerate;
+	public void SetFramerate(int p_framerate) {
+		m_framerate = p_framerate;
 
 		if(m_framerateSlider.m_value != p_framerate)
 			m_framerateSlider.m_value = p_framerate;
@@ -155,7 +160,7 @@ public class OptionsHandler : MonoBehaviour {
 	}
 
 	public string ResolutionToString(Resolution p_resolution) { 
-		return p_resolution.width + "x" + p_resolution.height + "@" + p_resolution.refreshRate + "hz";
+		return p_resolution.width + "x" + p_resolution.height;
 	}
 
 	public void SetQualitySettings(int p_quality) { 
@@ -166,11 +171,6 @@ public class OptionsHandler : MonoBehaviour {
 		m_shadows = p_shadows;
 
 		if(m_originalShadows == -1) m_originalShadows = p_shadows;
-	}
-
-	public bool CanExtrude(bool p_isProjectileExtrusion) {
-		if(p_isProjectileExtrusion) return m_shadows == 2;
-		else return m_shadows > 0;
 	}
 
 	public void AddExtruder(Extruder p_extruder) {
@@ -198,8 +198,8 @@ public class OptionsHandler : MonoBehaviour {
 	/*  Audio Settings  */
 	////////////////////////
 
-	public void SetMasterVolume(float p_volume) { 
-		AudioListener.volume = p_volume / 100f;
+	public void SetMasterVolume(int p_volume) { 
+		AudioListener.volume = (float) p_volume / 100f;
 	}
 
 	/////////////////////////////

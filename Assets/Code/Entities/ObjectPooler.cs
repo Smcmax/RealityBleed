@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class ObjectPooler : MonoBehaviour {
@@ -7,14 +8,18 @@ public class ObjectPooler : MonoBehaviour {
 	[Range(0, 2500)] public int m_size;
 
 	[HideInInspector] public List<GameObject> m_pool;
+	[HideInInspector] public List<GameObject> m_activeObjects;
 
 	[Tooltip("The object to pool")]
 	public GameObject m_object;
 
 	void Awake() {
-		DontDestroyOnLoad(this);
+		if(GameObject.Find(gameObject.name) != gameObject) return;
+
+		SceneManager.sceneLoaded += OnSceneLoaded;
 
 		m_pool = new List<GameObject>();
+		m_activeObjects = new List<GameObject>();
 
 		for(int i = 0; i < m_size; ++i) {
 			GameObject obj = Instantiate(m_object, transform);
@@ -37,6 +42,7 @@ public class ObjectPooler : MonoBehaviour {
 		GameObject obj = m_pool[0];
 
 		m_pool.Remove(obj);
+		m_activeObjects.Add(obj);
 
 		return obj;
 	}
@@ -50,5 +56,13 @@ public class ObjectPooler : MonoBehaviour {
 		p_obj.SetActive(false);
 
 		m_pool.Add(p_obj);
+		m_activeObjects.Remove(p_obj);
+	}
+
+	void OnSceneLoaded(Scene p_scene, LoadSceneMode p_mode) {
+		Debug.Log("Destroying all active projectiles...");
+
+		foreach(GameObject active in new List<GameObject>(m_activeObjects))
+			Remove(active);
 	}
 }

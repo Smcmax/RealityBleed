@@ -35,19 +35,22 @@ public class MenuHandler : MonoBehaviour {
 		SceneManager.sceneLoaded -= OnSceneLoad;
 	}
 
-	void Update() { 
+	void Update() {
 		bool isPaused = m_currentMenu;
 
-		if(Input.GetButtonDown("Cancel")) { 
-			if(m_openedMenus.Count > 0 && !(m_openedMenus.Count == 1 && isPaused)) ClearMenu();
-			else if(isPaused) {
-				if(m_previousMenu) OpenMenu(m_previousMenu, true);
-				else m_resumeEvent.Raise();
-			} else m_pauseEvent.Raise();
-		}
-
+		if(Input.GetButtonDown("Cancel")) GoBack();
 		if(Input.GetButtonDown("Inventory") && !isPaused) m_onInventoryEvent.Raise();
 		if(Input.GetButtonDown("Character") && !isPaused) m_onCharacterEvent.Raise();
+	}
+
+	public void GoBack() {
+		bool isPaused = m_currentMenu;
+
+		if(m_openedMenus.Count > 0 && !(m_openedMenus.Count == 1 && isPaused)) ClearMenu();
+		else if(isPaused) {
+			if(m_previousMenu) OpenMenu(m_previousMenu, true);
+			else m_resumeEvent.Raise();
+		} else m_pauseEvent.Raise();
 	}
 
 	public void OpenMenuPause(GameObject p_menu) { 

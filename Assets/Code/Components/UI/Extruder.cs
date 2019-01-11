@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public abstract class Extruder : MonoBehaviour {
 
 	[Tooltip("The mesh's material")]
 	public Material m_meshMaterial;
+
+	[Tooltip("The shadow mode used by the mesh")]
+	public ShadowCastingMode m_shadowMode;
 
 	[Tooltip("How thick should the extrusion be (starting from extrusionHeight going both sides)")]
 	[Range(0, 10)] public float m_extrusionDepth;
@@ -24,22 +28,22 @@ public abstract class Extruder : MonoBehaviour {
 	[Tooltip("Is this an extrusion for a projectile?")]
 	public bool m_isProjectileExtrusion;
 
-	[Tooltip("Used to know whether or not the extrusion should be done")]
-	public OptionsHandler m_optionsHandler;
-
 	[HideInInspector] public List<GameObject> m_extrusions;
 
 	void Start() {
 		m_extrusions = new List<GameObject>();
-		m_optionsHandler.AddExtruder(this);
+		OptionsMenuHandler.Instance.AddExtruder(this);
 
 		if(!m_extrudeOnStart || !CanExtrude()) return; // if low or under, we don't want to do this
 
 		Extrude();
 	}
 
-	public bool CanExtrude() { 
-		return m_optionsHandler.CanExtrude(m_isProjectileExtrusion);
+	public bool CanExtrude() {
+		int shadows = Game.m_options.Get("Shadows").GetInt();
+
+		if(m_isProjectileExtrusion) return shadows == 2;
+		else return shadows > 0;
 	}
 
 	public abstract void Extrude();
@@ -112,7 +116,7 @@ public abstract class Extruder : MonoBehaviour {
 		meshObject.transform.position += (Vector3)m_offset;
 		renderer.material = m_meshMaterial;
 		renderer.receiveShadows = false;
-		renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+		renderer.shadowCastingMode = m_shadowMode;
 		filter.mesh = p_mesh;
 		m_extrusions.Add(meshObject);
 
