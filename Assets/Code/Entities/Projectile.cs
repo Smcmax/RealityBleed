@@ -155,6 +155,6 @@ public class Projectile : MonoBehaviour {
 		m_target = Vector2.zero;
 		m_shooter = null;
 
-		ProjectilePooler.m_projectilePooler.Remove(gameObject);
+		Game.m_projPool.Remove(gameObject);
 	}
 }

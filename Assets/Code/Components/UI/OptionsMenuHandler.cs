@@ -210,7 +210,8 @@ public class OptionsMenuHandler : MonoBehaviour {
 		m_hpBarsCanvas.gameObject.SetActive(p_toggle);
 	}
 
-	////////////////////////////////
-	/*  Key Bindings Settings  */
-	////////////////////////////////
+	////////////////////////////
+	/*  Controls Settings  */
+	///////////////////////////
+	
 }

@@ -671,6 +671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_immunityWindow: 0
+  m_healthBarTemplate: {fileID: 0}
   m_damageEvent:
     m_PersistentCalls:
       m_Calls:
@@ -724,7 +725,6 @@ MonoBehaviour:
   m_inventory: {fileID: 114018483739704796}
   m_runtimeSets:
   - {fileID: 11400000, guid: 0a26465c1ba21624095d0535607d7b8a, type: 2}
-  m_feedbackCanvas: {fileID: 0}
   m_feedbackTemplate: {fileID: 0}
   m_feedbackPositionRandomness: {x: 0.25, y: 1}
   m_health: {fileID: 0}

@@ -7,6 +7,9 @@ public class UnitHealth : MonoBehaviour {
 	[Range(0, 2)] public float m_immunityWindow;
 	private float m_lastHit;
 
+	[Tooltip("This entity's health bar template")]
+	public GameObject m_healthBarTemplate;
+
 	[Tooltip("Event called when the entity takes damage.")]
 	public UnityEvent m_damageEvent;
 
@@ -14,6 +17,13 @@ public class UnitHealth : MonoBehaviour {
 	public UnityEvent m_deathEvent;
 
 	[HideInInspector] public Entity m_entity;
+	private StatSliderUpdater m_healthBarUpdater;
+
+	public void Init(Entity p_entity) {
+		m_entity = p_entity;
+
+		if(m_healthBarTemplate) LoadHealthBar();
+	}
 
 	public int GetHealth() {
 		return m_entity.m_stats.GetStat(Stats.HP);
@@ -42,10 +52,22 @@ public class UnitHealth : MonoBehaviour {
 		m_entity.m_stats.AddModifier(Stats.HP, -p_amount, 0);
 		m_lastHit = Time.time * 1000;
 		m_damageEvent.Invoke();
+		if(m_healthBarUpdater) m_healthBarUpdater.UpdateSlider();
 
 		if(GetHealth() <= 0) {
 			GetComponent<Entity>().Kill();
 			m_deathEvent.Invoke();
 		}
+	}
+
+	private void LoadHealthBar() {
+		GameObject healthBar = Instantiate(m_healthBarTemplate, m_healthBarTemplate.transform.parent);
+		UIWorldSpaceFollower follow = healthBar.GetComponent<UIWorldSpaceFollower>();
+		m_healthBarUpdater = healthBar.GetComponent<StatSliderUpdater>();
+
+		m_healthBarUpdater.m_entity = m_entity;
+		follow.m_parent = transform;
+
+		healthBar.SetActive(true);
 	}
 }
