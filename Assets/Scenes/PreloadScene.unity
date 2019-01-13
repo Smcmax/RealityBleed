@@ -180,7 +180,9 @@ GameObject:
   - component: {fileID: 1429569050}
   - component: {fileID: 1429569051}
   - component: {fileID: 1429569053}
+  - component: {fileID: 1429569055}
   - component: {fileID: 1429569052}
+  - component: {fileID: 1429569054}
   m_Layer: 0
   m_Name: _app
   m_TagString: Untagged
@@ -235,6 +237,288 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885c0cdb5172c8848b01e4ae6e257dd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1429569054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1429569049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8810ec15ff538b4a87dab7485436888, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_mouseAndKeyboard:
+  - m_axis:
+      m_key: MoveX
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 1
+    m_negativeKey: 97
+    m_positiveKey: 100
+    m_altNegativeKey: 276
+    m_altPositiveKey: 275
+    m_positiveDisplayName: Move Right
+    m_negativeDisplayName: Move Left
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: MoveY
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 1
+    m_negativeKey: 115
+    m_positiveKey: 119
+    m_altNegativeKey: 274
+    m_altPositiveKey: 273
+    m_positiveDisplayName: Move Up
+    m_negativeDisplayName: Move Down
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Primary Fire
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 323
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: Shot 1
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Secondary Fire
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 324
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: Shot 2
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Pause
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 27
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: Pause
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Inventory
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 105
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: Inventory
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Character
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 99
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: Character
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Interact
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 102
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: Interact
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  m_controllerOne:
+  - m_axis:
+      m_key: 
+      value: 0
+    m_profile: 
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 0
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: 
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: 
+      value: 0
+    m_profile: 
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 0
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: 
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: 
+      value: 0
+    m_profile: 
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 0
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: 
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: 
+      value: 0
+    m_profile: 
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 0
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: 
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: 
+      value: 0
+    m_profile: 
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 0
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: 
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: 
+      value: 0
+    m_profile: 
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 0
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: 
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: 
+      value: 0
+    m_profile: 
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 0
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: 
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: 
+      value: 0
+    m_profile: 
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 0
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: 
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: 
+      value: 0
+    m_profile: 
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 0
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: 
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  m_currentProfile: 
+  m_blockAllKeybinds: 0
+--- !u!114 &1429569055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1429569049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 526c0fe7dba9102448f40625e621b0ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_eventToFire: {fileID: 11400000, guid: b4cca853a1ca7f5478446594255ccbd2, type: 2}
 --- !u!1 &1704965912
 GameObject:
   m_ObjectHideFlags: 0

@@ -214,4 +214,9 @@ public class OptionsMenuHandler : MonoBehaviour {
 	/*  Controls Settings  */
 	///////////////////////////
 	
+	public void SetCurrentKeybindProfile(string p_profile) { 
+		Game.m_keybinds.m_currentProfile = p_profile;
+		Game.m_keybinds.SaveCurrentProfile();
+	}
+	
 }

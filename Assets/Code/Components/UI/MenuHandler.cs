@@ -38,9 +38,9 @@ public class MenuHandler : MonoBehaviour {
 	void Update() {
 		bool isPaused = m_currentMenu;
 
-		if(Input.GetButtonDown("Cancel")) GoBack();
-		if(Input.GetButtonDown("Inventory") && !isPaused) m_onInventoryEvent.Raise();
-		if(Input.GetButtonDown("Character") && !isPaused) m_onCharacterEvent.Raise();
+		if(Game.m_keybinds.GetButtonDown("Pause")) GoBack();
+		if(Game.m_keybinds.GetButtonDown("Inventory") && !isPaused) m_onInventoryEvent.Raise();
+		if(Game.m_keybinds.GetButtonDown("Character") && !isPaused) m_onCharacterEvent.Raise();
 	}
 
 	public void GoBack() {

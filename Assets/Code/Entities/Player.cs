@@ -19,16 +19,16 @@ public class Player : Entity {
 		bool fire = false;
 		bool mouseOverGameObject = EventSystem.current.IsPointerOverGameObject();
 
-		if(Input.GetButton("Fire1")) fire = true;
-		else if(Input.GetButton("Fire2")) { fire = true; leftClick = false; }
+		if(Game.m_keybinds.GetButton("Primary Fire")) fire = true;
+		else if(Game.m_keybinds.GetButton("Secondary Fire")) { fire = true; leftClick = false; }
 
 		if(mouseOverGameObject) { // make sure we can't fire when we hover outside of ui elements when dragging items
-			m_wasHoldingLeftClick = Input.GetButton("Fire1");
-			m_wasHoldingRightClick = Input.GetButton("Fire2");
-		} else if (m_wasHoldingLeftClick || m_wasHoldingRightClick) fire = false;
+			m_wasHoldingLeftClick = Game.m_keybinds.GetButton("Primary Fire");
+			m_wasHoldingRightClick = Game.m_keybinds.GetButton("Secondary Fire");
+		} else if(m_wasHoldingLeftClick || m_wasHoldingRightClick) fire = false;
 
-		if(Input.GetButtonUp("Fire1")) m_wasHoldingLeftClick = false;
-		if(Input.GetButtonUp("Fire2")) m_wasHoldingRightClick = false;
+		if(Game.m_keybinds.GetButtonUp("Primary Fire")) m_wasHoldingLeftClick = false;
+		if(Game.m_keybinds.GetButtonUp("Secondary Fire")) m_wasHoldingRightClick = false;
 
 		if(fire && !mouseOverGameObject) {
 			Weapon weapon = m_equipment.GetWeaponHandlingClick(leftClick);
