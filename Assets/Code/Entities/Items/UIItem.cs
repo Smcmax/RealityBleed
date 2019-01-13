@@ -27,7 +27,6 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		if(!m_item.m_item) return;
 
 		m_item.m_inventory.m_itemTooltip.SetItem(m_item);
-		m_item.m_inventory.m_itemTooltip.Show();
 	}
 
 	public void HideTooltip() {
@@ -61,7 +60,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 			bool success = targetInventory.Swap(targetInventory.m_items[targetIndex], m_item);
 
 			if(success && targetInventory.m_uiItems.Length > 0) SwapInfo(targetInventory.m_uiItems[targetIndex]);
-			else if(success) HideInfo(currentInventory.m_items[index]);
+			else if(success) HideInfo(true, currentInventory.m_items[index]);
 			else if(!success) { currentInventory.SetAtIndex(m_item, index); return; }
 
 			targetInventory.RaiseInventoryEvent(true);
@@ -130,13 +129,16 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 			bool addSuccess = m_item.m_inventory.AddToItem(p_dragged.m_item, m_item);
 
 			if(addSuccess) {
+				GetComponentInChildren<Text>().text = m_item.m_amount.ToString();
+
 				if(p_dragged.m_item.m_amount == 0) {
 					int index = p_dragged.m_item.m_inventoryIndex;
+
 					p_dragged.m_item.m_inventory.Remove(p_dragged.m_item);
 					p_dragged.m_item = new Item(p_dragged.m_item.m_inventory, index);
-				}
 
-				GetComponentInChildren<Text>().text = m_item.m_amount.ToString();
+					p_dragged.HideInfo(false, null);
+				}
 
 				m_item.m_inventory.RaiseInventoryEvent(true);
 				p_dragged.m_item.m_inventory.RaiseInventoryEvent(false);
@@ -183,13 +185,13 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		p_dragged.m_item = current;
 	}
 
-	private void HideInfo(Item p_swapped) {
+	private void HideInfo(bool p_swapItems, Item p_swapped) {
 		Image image = GetComponent<Image>();
 		Text amount = GetComponentInChildren<Text>();
 
 		image.color = new Color(255, 255, 255, 0);
 		amount.enabled = false;
 
-		m_item = p_swapped;
+		if(p_swapItems) m_item = p_swapped;
 	}
 }
