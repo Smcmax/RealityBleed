@@ -369,6 +369,21 @@ MonoBehaviour:
     m_pressedLastFrame: 0
     m_releasedThisFrame: 0
     m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Map
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 109
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: Map
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
   m_controllerOne:
   - m_axis:
       m_key: 
@@ -527,6 +542,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1704965915}
+  - component: {fileID: 1704965916}
   - component: {fileID: 1704965914}
   - component: {fileID: 1704965913}
   m_Layer: 0
@@ -609,6 +625,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1704965916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1704965912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609619176164a384cb101e3dd273a2a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1917898351
 GameObject:
   m_ObjectHideFlags: 0

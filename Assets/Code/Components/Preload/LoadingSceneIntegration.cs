@@ -6,10 +6,8 @@ public class LoadingSceneIntegration {
 #if UNITY_EDITOR
     public static int m_otherScene = -2;
 
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void InitLoadingScene() {
-        Debug.Log("InitLoadingScene()");
-
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         if(sceneIndex == 0) return;
 

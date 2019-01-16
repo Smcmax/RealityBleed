@@ -6,6 +6,11 @@ public class DraggablePanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 	public Canvas m_canvas;
 	public static bool HOLDING = false;
 	private bool m_currentlyHolding = false;
+	private RectTransform m_rect;
+
+	void Awake() { 
+		m_rect = GetComponent<RectTransform>();
+	}
 
 	public void OnBeginDrag(PointerEventData p_eventData) {
 		HOLDING = true;
@@ -14,7 +19,14 @@ public class DraggablePanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 	}
 
 	public void OnDrag(PointerEventData p_eventData) {
-		transform.position += (Vector3) p_eventData.delta;
+		Vector3 newLoc = transform.position + (Vector3) p_eventData.delta;
+
+		if(newLoc.x - m_rect.sizeDelta.x < 0) newLoc.x = m_rect.sizeDelta.x;
+		if(newLoc.x + m_rect.sizeDelta.x > Screen.width) newLoc.x = Screen.width - m_rect.sizeDelta.x;
+		if(newLoc.y - m_rect.sizeDelta.y < 0) newLoc.y = m_rect.sizeDelta.y;
+		if(newLoc.y + m_rect.sizeDelta.y > Screen.height) newLoc.y = Screen.height - m_rect.sizeDelta.y;
+
+		transform.position = newLoc;
 	}
 
 	public void OnEndDrag(PointerEventData p_eventData) {

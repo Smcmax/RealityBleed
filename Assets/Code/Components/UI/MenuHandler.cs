@@ -21,7 +21,10 @@ public class MenuHandler : MonoBehaviour {
 	public GameEvent m_onInventoryEvent;
 
 	[Tooltip("The game event raised when the character screen is brought up")]
-	public GameEvent m_onCharacterEvent;
+	public GameEvent m_onCharacterEvent;	
+	
+	[Tooltip("The game event raised when the map screen is brought up")]
+	public GameEvent m_onMapEvent;
 	
 	private GameObject m_previousMenu; // The previously opened menu, for use with the pause menu only
 	[HideInInspector] public List<GameObject> m_openedMenus;
@@ -41,6 +44,7 @@ public class MenuHandler : MonoBehaviour {
 		if(Game.m_keybinds.GetButtonDown("Pause")) GoBack();
 		if(Game.m_keybinds.GetButtonDown("Inventory") && !isPaused) m_onInventoryEvent.Raise();
 		if(Game.m_keybinds.GetButtonDown("Character") && !isPaused) m_onCharacterEvent.Raise();
+		if(Game.m_keybinds.GetButtonDown("Map") && !isPaused) m_onMapEvent.Raise();
 	}
 
 	public void GoBack() {

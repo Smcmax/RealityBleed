@@ -494,7 +494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_directionX: 0
   m_directionY: 0
-  m_smoothTime: 0.1
+  m_smoothTime: 0.03
   m_speed: 2
   m_diagonalSpeedPercentage: 0.75
 --- !u!114 &114071987786881558
