@@ -725,6 +725,7 @@ MonoBehaviour:
   m_inventory: {fileID: 114018483739704796}
   m_runtimeSets:
   - {fileID: 11400000, guid: 0a26465c1ba21624095d0535607d7b8a, type: 2}
+  - {fileID: 11400000, guid: cd4eb962e7b096941b5b3f2a73d69442, type: 2}
   m_feedbackTemplate: {fileID: 0}
   m_feedbackPositionRandomness: {x: 0.25, y: 1}
   m_health: {fileID: 0}
