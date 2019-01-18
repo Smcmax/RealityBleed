@@ -31,10 +31,10 @@ public class ObjectPooler : MonoBehaviour {
 
 	public GameObject Get() {
 		if(m_pool.Count == 0) {
-			m_size++;
-
 			GameObject newObj = Instantiate(m_object, transform);
 			newObj.SetActive(false);
+
+			m_activeObjects.Add(newObj);
 
 			return newObj;
 		}
@@ -55,8 +55,10 @@ public class ObjectPooler : MonoBehaviour {
 		p_obj.transform.position = Vector3.zero;
 		p_obj.SetActive(false);
 
-		m_pool.Add(p_obj);
 		m_activeObjects.Remove(p_obj);
+
+		if(m_pool.Count < m_size) m_pool.Add(p_obj);
+		else Destroy(p_obj);
 	}
 
 	void OnSceneLoaded(Scene p_scene, LoadSceneMode p_mode) {

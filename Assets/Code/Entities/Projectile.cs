@@ -59,11 +59,13 @@ public class Projectile : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		if(!m_shot) return;
+		if(!m_shot || Time.timeScale == 0f) return;
 		if(Vector2.Distance(transform.position, m_start) >= m_range) {
 			Disable();
 			return;
 		}
+
+		if(m_rotate) transform.Rotate(0, 0, m_rotationSpeed * Time.fixedDeltaTime);
 
 		foreach(ProjectileBehaviour behaviour in m_behaviours)
 			behaviour.PreMove(this);
@@ -90,6 +92,8 @@ public class Projectile : MonoBehaviour {
 
 		foreach(ProjectileBehaviour behaviour in m_behaviours)
 			behaviour.Init(this);
+
+		Game.m_projPool.AddProjectileToJob(this);
 	}
 
 	// it is assumed the current projectile is a generic projectile with an empty reference behaviour to fill up
@@ -132,7 +136,7 @@ public class Projectile : MonoBehaviour {
 
 		bool hitEntity = false;
 
-		if(collider.gameObject.name != gameObject.name) {
+		if(collider.gameObject != gameObject) {
 			CollisionRelay relay = collider.GetComponent<CollisionRelay>();
 
 			if(relay != null) {
@@ -155,6 +159,6 @@ public class Projectile : MonoBehaviour {
 		m_target = Vector2.zero;
 		m_shooter = null;
 
-		Game.m_projPool.Remove(gameObject);
+		Game.m_projPool.Remove(gameObject, this);
 	}
 }

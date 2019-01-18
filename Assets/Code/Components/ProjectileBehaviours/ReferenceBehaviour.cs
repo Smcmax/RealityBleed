@@ -7,7 +7,7 @@ public class ReferenceBehaviour : ProjectileBehaviour {
 	public List<ProjectileBehaviour> m_behaviours;
 
 	public override void Init(Projectile p_projectile) {
-		foreach (ProjectileBehaviour behaviour in m_behaviours)
+		foreach(ProjectileBehaviour behaviour in m_behaviours)
 			behaviour.Init(p_projectile, m_data);
 	}
 

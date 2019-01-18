@@ -1004,6 +1004,45 @@ Prefab:
       propertyPath: m_BackGroundColor.b
       value: 0.14117648
       objectReference: {fileID: 0}
+    - target: {fileID: 1716849967815174, guid: c8f178c0b7b80014a9b1557be1e060ce, type: 2}
+      propertyPath: m_Name
+      value: Light
+      objectReference: {fileID: 0}
+    - target: {fileID: 108019090160871096, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 108019090160871096, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_SpotAngle
+      value: 133
+      objectReference: {fileID: 0}
+    - target: {fileID: 108019090160871096, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_Intensity
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 108019090160871096, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_CullingMask.m_Bits
+      value: 3840
+      objectReference: {fileID: 0}
+    - target: {fileID: 108019090160871096, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_Lightmapping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 108019090160871096, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 108019090160871096, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_Shadows.m_Type
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8f178c0b7b80014a9b1557be1e060ce, type: 2}
   m_IsPrefabAsset: 0
@@ -1048,12 +1087,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 108668741333570472, guid: a83caf4fbe42f324abb78fa7be04375d,
         type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 3840
+      propertyPath: m_RenderMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108668741333570472, guid: a83caf4fbe42f324abb78fa7be04375d,
         type: 2}
-      propertyPath: m_Lightmapping
+      propertyPath: m_Shadows.m_Type
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -108164,22 +108203,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 108668741333570472, guid: a83caf4fbe42f324abb78fa7be04375d,
         type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 3840
-      objectReference: {fileID: 0}
-    - target: {fileID: 108668741333570472, guid: a83caf4fbe42f324abb78fa7be04375d,
-        type: 2}
-      propertyPath: m_Lightmapping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 108668741333570472, guid: a83caf4fbe42f324abb78fa7be04375d,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4624235334235782, guid: a83caf4fbe42f324abb78fa7be04375d, type: 2}
-      propertyPath: m_LocalPosition.y
+      propertyPath: m_RenderMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 108668741333570472, guid: a83caf4fbe42f324abb78fa7be04375d,
+        type: 2}
+      propertyPath: m_Shadows.m_Type
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a83caf4fbe42f324abb78fa7be04375d, type: 2}
@@ -108281,16 +108311,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114319593315341148, guid: 1722a6d17d631c54cbc2664427b326cf,
-        type: 2}
-      propertyPath: m_wallsTilemap
-      value: 
-      objectReference: {fileID: 1309438406}
-    - target: {fileID: 114319593315341148, guid: 1722a6d17d631c54cbc2664427b326cf,
-        type: 2}
-      propertyPath: m_groundTilemap
-      value: 
-      objectReference: {fileID: 2070531183}
     - target: {fileID: 114762805126603156, guid: 1722a6d17d631c54cbc2664427b326cf,
         type: 2}
       propertyPath: m_entity
@@ -108376,6 +108396,16 @@ Prefab:
       propertyPath: m_mapCamera
       value: 
       objectReference: {fileID: 1729004410}
+    - target: {fileID: 114319593315341148, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_wallsTilemap
+      value: 
+      objectReference: {fileID: 1309438406}
+    - target: {fileID: 114319593315341148, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_groundTilemap
+      value: 
+      objectReference: {fileID: 2070531183}
     - target: {fileID: 224444674157489462, guid: 1722a6d17d631c54cbc2664427b326cf,
         type: 2}
       propertyPath: m_AnchorMax.x
