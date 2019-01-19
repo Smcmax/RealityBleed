@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using static WavyProjectileMovementJob;
+using static StraightProjectileMovementJob;
 
 public class Projectile : MonoBehaviour {
 
@@ -41,6 +43,8 @@ public class Projectile : MonoBehaviour {
 	[HideInInspector] public Vector2 m_start;
 	[HideInInspector] public Vector2 m_target;
 	[HideInInspector] public Vector2 m_direction;
+	[HideInInspector] public StraightProjData m_straightProjData;
+	[HideInInspector] public WavyProjData m_wavyProjData;
 	private bool m_shot;
 
 	private SpriteRenderer m_render;
@@ -61,7 +65,7 @@ public class Projectile : MonoBehaviour {
 	void FixedUpdate() {
 		if(!m_shot || Time.timeScale == 0f) return;
 		if(Vector2.Distance(transform.position, m_start) >= m_range) {
-			Disable();
+			Disable(true);
 			return;
 		}
 
@@ -147,10 +151,10 @@ public class Projectile : MonoBehaviour {
 		}
 
 		if(m_piercing && hitEntity) Physics2D.IgnoreCollision(p_collision.otherCollider, collider);
-		if(!m_piercing || !hitEntity) Disable();
+		if(!m_piercing || !hitEntity) Disable(true);
 	}
 
-	private void Disable() {
+	public void Disable(bool p_removeFromProjPool) {
 		foreach(ProjectileBehaviour behaviour in m_behaviours)
 			behaviour.Die(this);
 
@@ -159,6 +163,6 @@ public class Projectile : MonoBehaviour {
 		m_target = Vector2.zero;
 		m_shooter = null;
 
-		Game.m_projPool.Remove(gameObject, this);
+		if(p_removeFromProjPool) Game.m_projPool.Remove(gameObject, this, false);
 	}
 }

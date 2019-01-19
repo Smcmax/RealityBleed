@@ -158,7 +158,7 @@ public class ItemTooltip : MonoBehaviour {
 						statComparisonOne.text = "(" + (comparisonOne[i] > 0 ? "+" : "") + comparisonOne[i] + ")";
 					} else statComparisonOne.text = "";
 
-					if (comparisonTwo[i] != 0) {
+					if(comparisonTwo[i] != 0) {
 						statComparisonTwo.color = comparisonTwo[i] > 0 ? Constants.GREEN : Constants.RED;
 						statComparisonTwo.text = "(" + (comparisonTwo[i] > 0 ? "+" : "") + comparisonTwo[i] + ")";
 					} else statComparisonTwo.text = "";

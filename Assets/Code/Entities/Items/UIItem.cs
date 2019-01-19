@@ -11,6 +11,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	[Tooltip("The duplicate image used for dragging the item around instead of the original")]
 	public Image m_ghost;
 
+	[HideInInspector] public InventoryLoader m_loader;
 	private bool m_validDrop;
 
 	void Awake() {
@@ -56,11 +57,14 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 			HideTooltip();
 
 			int index = m_item.m_inventoryIndex;
-			int targetIndex = targetInventory.FindFirstEmpty();
+			int targetIndex = targetInventory is Equipment ? 
+									((Equipment) targetInventory).FindBestSwappableItemSlot(m_item.m_item.m_equipmentSlots) : 
+									targetInventory.FindFirstEmpty();
 			bool success = targetInventory.Swap(targetInventory.m_items[targetIndex], m_item);
 
 			if(success && targetInventory.m_uiItems.Length > 0) SwapInfo(targetInventory.m_uiItems[targetIndex]);
-			else if(success) HideInfo(true, currentInventory.m_items[index]);
+			else if(success && currentInventory.m_items[index].m_item) m_loader.LoadItem(this, currentInventory.m_items[index]);
+			else if (success) HideInfo(true, currentInventory.m_items[index]);
 			else if(!success) { currentInventory.SetAtIndex(m_item, index); return; }
 
 			targetInventory.RaiseInventoryEvent(true);

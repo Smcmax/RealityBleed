@@ -9,17 +9,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e19defc8cacb0c14ea121a61ef79adb1, type: 3}
-  m_Name: TestSword v2
+  m_Name: FPS Test Sword Wavy
   m_EditorClassIdentifier: 
-  m_id: 1
-  m_name: Test Sword v2
+  m_id: 3
+  m_name: Wavy FPS Test Sword
   m_sprite: {fileID: 21300000, guid: 9a88efda61ffe0d48ba4d56b18ecc1b3, type: 3}
   m_maxStackSize: 1
   m_sellPrice: 0
   m_equipmentSlots: 0000000001000000
-  m_nameColor: {r: 0.5568628, g: 0.3254902, b: 0.6784314, a: 1}
-  m_description: Sample Description
+  m_nameColor: {r: 1, g: 0.55940926, b: 0, a: 1}
+  m_description: The glorious FPS Testing sword
   m_weaponType: 0
-  m_statGainValues: 000000000000000000000000000000000100000002000000040000000300000001000000
-  m_leftClickPattern: {fileID: 11400000, guid: 5c75a91e731cbdd4080d06a1d786f0eb, type: 2}
+  m_statGainValues: 000000000000000000000000000000000000000000000000000000000000000000000000
+  m_leftClickPattern: {fileID: 11400000, guid: ac50685df6d85b84ea1658ad7ce8d588, type: 2}
   m_rightClickPattern: {fileID: 0}

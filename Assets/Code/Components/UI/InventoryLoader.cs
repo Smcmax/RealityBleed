@@ -80,6 +80,7 @@ public class InventoryLoader : MonoBehaviour {
 															-(border * 2 + (row * (slotHeight + m_padding))));
 
 				UIItem uiItem = slot.GetComponentInChildren<UIItem>();
+				uiItem.m_loader = this;
 
 				if(item.m_item && item.m_amount > 0) LoadItem(uiItem, item);
 				else if(item.m_outlineSprite) LoadOutline(uiItem, item);
