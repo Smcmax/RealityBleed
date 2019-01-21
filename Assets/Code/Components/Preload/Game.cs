@@ -6,7 +6,10 @@ static class Game {
 	public static OptionManager m_options;
 	public static ProjectilePooler m_projPool;
 
-	static Game() { 
+	static Game() {
+#if UNITY_EDITOR
+		UnityEditor.EditorPrefs.SetBool("DeveloperMode", true);
+#endif
 		GameObject game = SafeFind("_app");
 
 		m_keybinds = (KeybindManager) SafeComponent(game, "KeybindManager");

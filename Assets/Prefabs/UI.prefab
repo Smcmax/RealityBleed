@@ -1714,9 +1714,7 @@ GameObject:
   - component: {fileID: 224611904211371300}
   - component: {fileID: 222295239928233024}
   - component: {fileID: 114388454584565380}
-  - component: {fileID: 114953368161389340}
   - component: {fileID: 114816911566457248}
-  - component: {fileID: 114475081911141594}
   m_Layer: 5
   m_Name: Yes/No Modal
   m_TagString: Untagged
@@ -4474,6 +4472,7 @@ GameObject:
   - component: {fileID: 224751230142010032}
   - component: {fileID: 222763727401329082}
   - component: {fileID: 114022860723600896}
+  - component: {fileID: 114734767558203920}
   m_Layer: 5
   m_Name: Description Text
   m_TagString: Untagged
@@ -5185,7 +5184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab556346a9934394a83b38dcd0fca93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_slot: {fileID: 1355156196666004, guid: 761bbaea04599d44a980026322023f65, type: 2}
+  m_slot: {fileID: 1551918522948756, guid: c0c1a765c150ac048bf037a3d7aa7e69, type: 2}
   m_panelImage: {fileID: 0}
   m_inventory: {fileID: 0}
   m_itemsPerRow: 1
@@ -6678,7 +6677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eeda2a92710a4a458eb2c6db990c6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_keybindRebindItemPrefab: {fileID: 1913928925282032, guid: 37fbb45f63bb6a547891db3580b23d12,
+  m_keybindRebindItemPrefab: {fileID: 1584503376144202, guid: c53a0071d796cf841a9b820b32ee9dc2,
     type: 2}
 --- !u!114 &114136476770847456
 MonoBehaviour:
@@ -6874,7 +6873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab556346a9934394a83b38dcd0fca93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_slot: {fileID: 1355156196666004, guid: 761bbaea04599d44a980026322023f65, type: 2}
+  m_slot: {fileID: 1551918522948756, guid: c0c1a765c150ac048bf037a3d7aa7e69, type: 2}
   m_panelImage: {fileID: 114238244022163184}
   m_inventory: {fileID: 0}
   m_itemsPerRow: 8
@@ -6893,7 +6892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab556346a9934394a83b38dcd0fca93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_slot: {fileID: 1355156196666004, guid: 761bbaea04599d44a980026322023f65, type: 2}
+  m_slot: {fileID: 1551918522948756, guid: c0c1a765c150ac048bf037a3d7aa7e69, type: 2}
   m_panelImage: {fileID: 0}
   m_inventory: {fileID: 0}
   m_itemsPerRow: 1
@@ -10765,53 +10764,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114475081911141594
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1355087602843480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114953368161389340}
-          m_MethodName: BringToFront
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114953368161389340}
-          m_MethodName: SendToBack
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &114475136185065272
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12743,7 +12695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab556346a9934394a83b38dcd0fca93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_slot: {fileID: 1355156196666004, guid: 761bbaea04599d44a980026322023f65, type: 2}
+  m_slot: {fileID: 1551918522948756, guid: c0c1a765c150ac048bf037a3d7aa7e69, type: 2}
   m_panelImage: {fileID: 0}
   m_inventory: {fileID: 0}
   m_itemsPerRow: 2
@@ -14033,6 +13985,20 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114734767558203920
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1912309946777376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1573420865, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!114 &114736547124336928
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16477,7 +16443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab556346a9934394a83b38dcd0fca93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_slot: {fileID: 1355156196666004, guid: 761bbaea04599d44a980026322023f65, type: 2}
+  m_slot: {fileID: 1551918522948756, guid: c0c1a765c150ac048bf037a3d7aa7e69, type: 2}
   m_panelImage: {fileID: 114030152761378450}
   m_inventory: {fileID: 0}
   m_itemsPerRow: 8
@@ -16641,18 +16607,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &114953368161389340
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1355087602843480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b99bf221995db4e43888f4a7fe3cdfdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_canvas: {fileID: 223265254693202440}
 --- !u!114 &114955452599271850
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -17,7 +17,7 @@ public class Player : Entity {
 	void Update() {
 		bool leftClick = true;
 		bool fire = false;
-		bool mouseOverGameObject = EventSystem.current.IsPointerOverGameObject();
+		bool mouseOverGameObject = EventSystem.current.IsPointerOverGameObject() || UIItem.HeldItem;
 
 		if(Game.m_keybinds.GetButton("Primary Fire")) fire = true;
 		else if(Game.m_keybinds.GetButton("Secondary Fire")) { fire = true; leftClick = false; }

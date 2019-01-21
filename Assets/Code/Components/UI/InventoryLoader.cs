@@ -28,15 +28,18 @@ public class InventoryLoader : MonoBehaviour {
 	[Tooltip("The index to stop displaying at, 0 = end. This value is inclusive, meaning it will process up to array[end]")]
 	public int m_endIndex;
 
-	void OnEnable() { 
+	void OnEnable() {
 		Load();
 	}
 
 	void OnDisable() { 
 		int children = transform.childCount;
 
-		for(int i = children - 1; i >= 0; --i)
-			Destroy(transform.GetChild(i).gameObject);
+		for(int i = children - 1; i >= 0; --i) {
+			GameObject child = transform.GetChild(i).gameObject;
+
+			Destroy(child);
+		}
 
 		m_inventory.m_uiItems = new UIItem[0];
 	}
@@ -72,7 +75,7 @@ public class InventoryLoader : MonoBehaviour {
 				if(row * cols + col >= items.Length) return;
 
 				Item item = items[row * cols + col];
-				GameObject slot = Instantiate(m_slot, gameObject.transform);
+				GameObject slot = Instantiate(m_slot, transform);
 				RectTransform rect = slot.GetComponent<RectTransform>();
 				float border = m_inventoryBorderSize + m_padding;
 

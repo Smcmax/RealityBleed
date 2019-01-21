@@ -703,7 +703,7 @@ MonoBehaviour:
   m_extrusionDepth: 0.1
   m_extrusionHeight: 0
   m_offset: {x: 0, y: 0}
-  m_layer: Walls
+  m_layer: Projectile
   m_extrudeOnStart: 0
   m_isProjectileExtrusion: 1
   m_extrusions: []

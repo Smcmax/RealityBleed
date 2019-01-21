@@ -12,6 +12,7 @@ public class ClickHandler : MonoBehaviour, IPointerClickHandler {
 		} else if(p_eventData.button == PointerEventData.InputButton.Right) {
 			if(p_eventData.clickCount == 1) OnRightSingleClick(clicked);
 			else if(p_eventData.clickCount == 2) OnRightDoubleClick(clicked);
+			else if(p_eventData.clickCount > 2) OnRightDoubleClick(clicked);
 		} else if(p_eventData.button == PointerEventData.InputButton.Middle) {
 			if(p_eventData.clickCount == 1) OnMiddleSingleClick(clicked);
 			else if(p_eventData.clickCount == 2) OnMiddleDoubleClick(clicked);

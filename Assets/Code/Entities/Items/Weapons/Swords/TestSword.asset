@@ -14,9 +14,8 @@ MonoBehaviour:
   m_id: 0
   m_name: Test Sword
   m_sprite: {fileID: 21300000, guid: dc5284f043945dd4e9c057502616c97f, type: 3}
-  m_maxStackSize: 3
+  m_maxStackSize: 1
   m_sellPrice: 0
-  m_levelRequired: 0
   m_equipmentSlots: 00000000
   m_nameColor: {r: 0.5568628, g: 0.3254902, b: 0.6784314, a: 1}
   m_description: Sample Description
