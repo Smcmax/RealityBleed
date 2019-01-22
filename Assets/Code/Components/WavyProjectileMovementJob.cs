@@ -81,12 +81,14 @@ public class WavyProjectileMovementJob : MonoBehaviour {
 		public NativeArray<WavyProjData> DataArray;
 
 		public void Execute(int p_index, TransformAccess p_transform) {
+			if(DataArray.Length <= p_index) return;
+
 			WavyProjData data = DataArray[p_index];
 			float3 moveVector = data.Direction * data.Speed * DeltaTime;
 			float2 perpendicular = Vector2.Perpendicular((Vector3) moveVector);
 			float perpX = Mathf.Abs(perpendicular.x);
 			float perpY = Mathf.Abs(perpendicular.y);
-			float stepDistance = data.Range / data.Steps;
+			float stepDistance = data.Range / (float) data.Steps;
 			float totalPerpendicularMovement = perpX + perpY;
 			float2 sideMovement = new float2(stepDistance * (perpX / totalPerpendicularMovement),
 													stepDistance * (perpY / totalPerpendicularMovement));
@@ -98,14 +100,14 @@ public class WavyProjectileMovementJob : MonoBehaviour {
 				sideMovement.x *= -1;
 				sideMovement.y *= -1;
 			}
-
+			
 			float sideDist = Vector2.Distance((Vector3) moveVector, sideMovement);
-		
+
 			data.Distance += data.Reverse == 1 ? -sideDist : sideDist;
 			moveVector += new float3(sideMovement.x, sideMovement.y, 0);
 			p_transform.position += (Vector3) moveVector;
 
-			if(data.Distance >= data.Range) data.Reverse = 1;
+			if (data.Distance >= data.Range) data.Reverse = 1;
 			else if(data.Distance <= 0) data.Reverse = 0;
 
 			DataArray[p_index] = data;

@@ -1015,6 +1015,9 @@ MonoBehaviour:
   m_start: {x: 0, y: 0}
   m_target: {x: 0, y: 0}
   m_direction: {x: 0, y: 0}
+  m_render: {fileID: 212713459880294240}
+  m_polyCollider: {fileID: 60384789162232104}
+  m_boxCollider: {fileID: 61543065011560690}
 --- !u!114 &114089995794268598
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1042,7 +1045,7 @@ MonoBehaviour:
   m_piercing: 0
   m_armorPiercing: 0
   m_range: 7.5
-  m_speed: 8.5
+  m_speed: 7.5
   m_rotate: 1
   m_rotationSpeed: 500
   m_faceAtTarget: 1
@@ -1054,6 +1057,9 @@ MonoBehaviour:
   m_start: {x: 0, y: 0}
   m_target: {x: 0, y: 0}
   m_direction: {x: 0, y: 0}
+  m_render: {fileID: 212774107871850912}
+  m_polyCollider: {fileID: 60664836414638358}
+  m_boxCollider: {fileID: 61882508004400588}
 --- !u!114 &114189380129696584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1106,6 +1112,9 @@ MonoBehaviour:
   m_start: {x: 0, y: 0}
   m_target: {x: 0, y: 0}
   m_direction: {x: 0, y: 0}
+  m_render: {fileID: 212294697700357344}
+  m_polyCollider: {fileID: 60238190190579418}
+  m_boxCollider: {fileID: 61354968328510352}
 --- !u!114 &114371718167998114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1158,6 +1167,9 @@ MonoBehaviour:
   m_start: {x: 0, y: 0}
   m_target: {x: 0, y: 0}
   m_direction: {x: 0, y: 0}
+  m_render: {fileID: 212399172311118930}
+  m_polyCollider: {fileID: 60115990100846538}
+  m_boxCollider: {fileID: 61443096580687952}
 --- !u!114 &114520356713033062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1197,6 +1209,9 @@ MonoBehaviour:
   m_start: {x: 0, y: 0}
   m_target: {x: 0, y: 0}
   m_direction: {x: 0, y: 0}
+  m_render: {fileID: 212729321153799964}
+  m_polyCollider: {fileID: 60017330162283128}
+  m_boxCollider: {fileID: 61800047293057794}
 --- !u!114 &114641807175933356
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1238,6 +1253,9 @@ MonoBehaviour:
   m_start: {x: 0, y: 0}
   m_target: {x: 0, y: 0}
   m_direction: {x: 0, y: 0}
+  m_render: {fileID: 0}
+  m_polyCollider: {fileID: 0}
+  m_boxCollider: {fileID: 0}
 --- !u!114 &114718607920220852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1289,6 +1307,9 @@ MonoBehaviour:
   m_start: {x: 0, y: 0}
   m_target: {x: 0, y: 0}
   m_direction: {x: 0, y: 0}
+  m_render: {fileID: 212936798684054202}
+  m_polyCollider: {fileID: 60943238505497526}
+  m_boxCollider: {fileID: 61058613006818130}
 --- !u!114 &114884511393775606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1317,6 +1338,9 @@ MonoBehaviour:
   m_start: {x: 0, y: 0}
   m_target: {x: 0, y: 0}
   m_direction: {x: 0, y: 0}
+  m_render: {fileID: 0}
+  m_polyCollider: {fileID: 0}
+  m_boxCollider: {fileID: 0}
 --- !u!212 &212141669097760390
 SpriteRenderer:
   m_ObjectHideFlags: 1

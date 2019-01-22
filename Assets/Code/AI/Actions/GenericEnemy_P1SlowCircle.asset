@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: GenericEnemy_P1SlowCircle
   m_EditorClassIdentifier: 
   m_patternToShoot: {fileID: 11400000, guid: 0db3d8e5d5a90a444bd172f9394c6796, type: 2}
-  m_forceTarget: 0
+  m_forceTarget: 1
   m_stopShootingOnTransition: 1

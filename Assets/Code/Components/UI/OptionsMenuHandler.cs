@@ -8,9 +8,6 @@ public class OptionsMenuHandler : MonoBehaviour {
 	[Tooltip("The dropdown handling the resolutions")]
 	public Dropdown m_resolutionDropdown;
 
-	[Tooltip("The fullscreen toggle")]
-	public Toggle m_fullscreenToggle;
-
 	[Tooltip("The toggle for vsync")]
 	public Toggle m_vsyncToggle;
 
@@ -45,9 +42,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 		m_extruders = new List<Extruder>();
 		m_lights = new List<GameLight>();
 		m_qualityLevel = QualitySettings.GetQualityLevel();
-
-		m_fullscreenToggle.isOn = Screen.fullScreen;
-		m_vsyncToggle.isOn = QualitySettings.vSyncCount > 0;
+		m_fullscreen = Screen.fullScreen;
 		m_framerateSlider.m_unlimited = -1;
 		m_qualityDropdown.value = m_qualityLevel;
 
@@ -90,7 +85,6 @@ public class OptionsMenuHandler : MonoBehaviour {
 	private IEnumerator UpdateResolution() { 
 		yield return new WaitForSeconds(1f);
 
-		m_fullscreenToggle.isOn = Screen.fullScreen;
 		m_resolutionDropdown.ClearOptions();
 		PopulateResolutions();
 	}
@@ -121,13 +115,10 @@ public class OptionsMenuHandler : MonoBehaviour {
 	}
 
 	public void ApplyResolution() {
-		if(m_resolution.width == m_resolutions[m_resolutions.Length - 1].width && !m_fullscreen) {
-			SetFullscreen(true);
-			m_fullscreenToggle.isOn = true; // TODO: check if this updates the actual value
-		} else if(m_resolution.width != m_resolutions[m_resolutions.Length - 1].width && m_fullscreen) { 
-			SetFullscreen(false);
-			m_fullscreenToggle.isOn = false;
-		}
+		if(m_resolution.width == m_resolutions[m_resolutions.Length - 1].width && !m_fullscreen)
+			m_fullscreen = true;
+		else if(m_resolution.width != m_resolutions[m_resolutions.Length - 1].width && m_fullscreen)
+			m_fullscreen = false;
 
 		ApplyResolution(m_resolution.width,
 						   m_resolution.height,
@@ -140,10 +131,6 @@ public class OptionsMenuHandler : MonoBehaviour {
 								 p_height,
 								 p_fullscreen,
 								 p_refreshRate);
-	}
-
-	public void SetFullscreen(bool p_fullscreen) { 
-		m_fullscreen = p_fullscreen;
 	}
 
 	public void SetVSync(bool p_vsync) { 
@@ -207,6 +194,10 @@ public class OptionsMenuHandler : MonoBehaviour {
 
 			extruder.Extrude();
 		}
+	}
+
+	public void SetBrightness(int p_brightness) { 
+		RenderSettings.ambientLight = new Color(p_brightness / 100f, p_brightness / 100f, p_brightness / 100f, 1);
 	}
 
 	////////////////////////

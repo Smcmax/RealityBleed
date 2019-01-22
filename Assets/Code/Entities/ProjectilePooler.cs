@@ -5,7 +5,7 @@ public class ProjectilePooler : ObjectPooler {
 	[Tooltip("The movement job used to make straight-moving projectiles go straight, null if not using jobs")]
 	public StraightProjectileMovementJob m_straightJob;
 
-	[Tooltip("The movement job used to make straight-moving projectiles go straight, null if not using jobs")]
+	[Tooltip("The movement job used to make wavy-moving projectiles go wavy, null if not using jobs")]
 	public WavyProjectileMovementJob m_wavyJob;
 
 	public void AddProjectileToJob(Projectile p_projectile) { 

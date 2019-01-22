@@ -47,9 +47,9 @@ public class Projectile : MonoBehaviour {
 	[HideInInspector] public WavyProjData m_wavyProjData;
 	private bool m_shot;
 
-	private SpriteRenderer m_render;
-	private PolygonCollider2D m_polyCollider;
-	private BoxCollider2D m_boxCollider;
+	[HideInInspector] public SpriteRenderer m_render;
+	[HideInInspector] public PolygonCollider2D m_polyCollider;
+	[HideInInspector] public BoxCollider2D m_boxCollider;
 
 	void Start() { 
 		LoadComponents();

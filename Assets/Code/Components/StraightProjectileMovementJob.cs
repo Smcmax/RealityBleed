@@ -72,6 +72,8 @@ public class StraightProjectileMovementJob : MonoBehaviour {
 		public NativeArray<StraightProjData> DataArray;
 
 		public void Execute(int p_index, TransformAccess p_transform) {
+			if(DataArray.Length <= p_index) return;
+
 			StraightProjData data = DataArray[p_index];
 			p_transform.position += (Vector3) (data.Speed * DeltaTime * data.Direction);
 		}
