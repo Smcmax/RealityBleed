@@ -27,9 +27,9 @@ public class LevelMapHandler : MonoBehaviour {
 
 	void Awake() {
 		if(!m_levelMapWalls)
-			m_levelMapWalls = CopyAndColorTilemap("LevelMapWalls", m_wallsTilemap, m_wallsColor);
+			m_levelMapWalls = CopyAndColorTilemap("LevelMapWalls", m_wallsTilemap, m_wallsColor, 0);
 		if(!m_levelMapGround)
-			m_levelMapGround = CopyAndColorTilemap("LevelMapGround", m_groundTilemap, m_wallsColor);
+			m_levelMapGround = CopyAndColorTilemap("LevelMapGround", m_groundTilemap, m_wallsColor, -1);
 
 		foreach(Entity entity in m_fogRemovers.m_items) {
 			MapDiscoverer discoverer = entity.gameObject.AddComponent<MapDiscoverer>();
@@ -38,11 +38,12 @@ public class LevelMapHandler : MonoBehaviour {
 		}
 	}
 
-	private Tilemap CopyAndColorTilemap(string p_newTilemapName, Tilemap p_original, Color p_color) {
+	private Tilemap CopyAndColorTilemap(string p_newTilemapName, Tilemap p_original, Color p_color, int p_zPosition) {
 		GameObject newTilemap = new GameObject(p_newTilemapName);
 
 		newTilemap.transform.parent = p_original.transform.parent;
 		newTilemap.layer = LayerMask.NameToLayer("LevelMap");
+		newTilemap.transform.position += new Vector3(0, 0, p_zPosition);
 
 		Tilemap levelMapTilemap = (Tilemap) p_original.Copy(typeof(Tilemap), newTilemap);
 		TilemapRenderer tileRenderer = (TilemapRenderer) p_original.Copy(typeof(TilemapRenderer), newTilemap);

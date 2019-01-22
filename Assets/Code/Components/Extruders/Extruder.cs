@@ -28,6 +28,9 @@ public abstract class Extruder : MonoBehaviour {
 	[Tooltip("Is this an extrusion for a projectile?")]
 	public bool m_isProjectileExtrusion;
 
+	[Tooltip("Is this an extrusion for an object?")]
+	public bool m_isObjectExtrusion;
+
 	[HideInInspector] public List<GameObject> m_extrusions;
 
 	void Start() {
@@ -42,8 +45,9 @@ public abstract class Extruder : MonoBehaviour {
 	public bool CanExtrude() {
 		int shadows = Game.m_options.Get("Shadows").GetInt();
 
-		if(m_isProjectileExtrusion) return shadows == 2;
-		else return shadows > 0;
+		if(m_isProjectileExtrusion) return shadows == 3;
+		else if(m_isObjectExtrusion) return shadows >= 2;
+		else return shadows >= 1;
 	}
 
 	public abstract void Extrude();

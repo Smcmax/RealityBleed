@@ -24,6 +24,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 	public Canvas m_hpBarsCanvas;
 
 	[HideInInspector] public List<Extruder> m_extruders;
+	[HideInInspector] public List<GameLight> m_lights;
 
 	private int m_framerate;
 	private bool m_fullscreen;
@@ -42,6 +43,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 		Instance = this;
 
 		m_extruders = new List<Extruder>();
+		m_lights = new List<GameLight>();
 		m_qualityLevel = QualitySettings.GetQualityLevel();
 
 		m_fullscreenToggle.isOn = Screen.fullScreen;
@@ -101,8 +103,12 @@ public class OptionsMenuHandler : MonoBehaviour {
 		ApplyResolution();
 		QualitySettings.SetQualityLevel(m_qualityLevel, true);
 
-		if((m_originalShadows >= 1 && m_shadows == 0) || 
-			(m_originalShadows == 0 && m_shadows >= 1)) {
+		if(m_originalShadows >= 2 && m_shadows < 2)
+			ChangeLightModes(false);
+		else if(m_originalShadows < 2 && m_shadows >= 2)
+			ChangeLightModes(true);
+
+		if(m_originalShadows != m_shadows) {
 			m_originalShadows = m_shadows;
 			ReExtrusion();
 		}
@@ -171,6 +177,15 @@ public class OptionsMenuHandler : MonoBehaviour {
 		m_shadows = p_shadows;
 
 		if(m_originalShadows == -1) m_originalShadows = p_shadows;
+	}
+
+	public void AddGameLight(GameLight p_light) {
+		m_lights.Add(p_light);
+	}
+
+	private void ChangeLightModes(bool p_quality) { 
+		foreach(GameLight light in m_lights)
+			light.SwitchQualityModes(p_quality);
 	}
 
 	public void AddExtruder(Extruder p_extruder) {

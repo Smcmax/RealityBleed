@@ -10599,7 +10599,7 @@ MonoBehaviour:
   m_control: {fileID: 114789278546582832}
   m_saveKey: Shadows
   m_type: int
-  m_intDefault: 2
+  m_intDefault: 3
   m_boolDefault: 0
   m_floatDefault: 0
   m_stringDefault: 
@@ -11784,7 +11784,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 224645611899712328}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 2
+  m_MaxValue: 3
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
@@ -14683,6 +14683,9 @@ MonoBehaviour:
     m_text: No Object Shadows
     m_textSize: 20
   - m_value: 2
+    m_text: No Projectile Shadows
+    m_textSize: 18
+  - m_value: 3
     m_text: All Shadows
     m_textSize: 24
   m_valueChangedEvent:
@@ -16091,6 +16094,7 @@ MonoBehaviour:
   m_qualityDropdown: {fileID: 114455056844398418}
   m_hpBarsCanvas: {fileID: 223775644734737858}
   m_extruders: []
+  m_lights: []
 --- !u!114 &114896019321958808
 MonoBehaviour:
   m_ObjectHideFlags: 1
