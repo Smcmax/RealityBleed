@@ -125,15 +125,9 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		if(HeldItem == null && m_item.m_item) {
 			ActivateGhost();
 			HeldItem = this;
-		} else if(HeldItem != null && HeldItem.gameObject == p_clicked) {
-			HeldItem.HideGhost();
-			HeldItem = null;
-		} else if(HeldItem != null) { // swap stacks / drop in a slot
-			Swap(HeldItem, true);
-
-			HeldItem.HideGhost();
-			HeldItem = null;
-		}
+			ObscureInfo();
+		} else if(HeldItem != null && HeldItem.gameObject == p_clicked) HideHeldItem();
+		else if(HeldItem != null) Swap(HeldItem, true); // swap stacks / drop in a slot
 	}
 
 	protected override void OnRightDoubleClick(GameObject p_clicked){
@@ -141,13 +135,11 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	protected override void OnRightSingleClick(GameObject p_clicked) { 
-		if(HeldItem != null && HeldItem.gameObject == p_clicked) {
-			HeldItem.HideGhost();
-			HeldItem = null;
-		} else if(HeldItem != null) {
-			if(m_item.m_amount > 0) { // adding 1 to an existing slot
+		if(HeldItem != null && HeldItem.gameObject == p_clicked) HideHeldItem();
+		else if(HeldItem != null) {
+			if(m_item.m_amount > 0) // adding 1 to an existing slot
 				Add(HeldItem, 1);
-			} else { // adding 1 to an empty slot
+			else { // adding 1 to an empty slot
 				m_item.m_item = HeldItem.m_item.m_item;
 				m_item.m_outlineSprite = HeldItem.m_item.m_outlineSprite;
 				m_item.m_durability = HeldItem.m_item.m_durability;
@@ -157,21 +149,17 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 				UpdateInfo();
 			}
 
-			if(!HeldItem.m_item.m_item || HeldItem.m_item.m_amount == 0) {
-				HeldItem.HideGhost();
-				HeldItem.HideInfo(false, null);
-				HeldItem = null;
-			} else HeldItem.UpdateInfo();
+			if(!HeldItem.m_item.m_item || HeldItem.m_item.m_amount == 0) HideHeldItem();
+			else { 
+				HeldItem.UpdateInfo();
+				HeldItem.ObscureInfo();
+			}
 		}
 	}
 
 	public void OnBeginDrag(PointerEventData p_eventData) {
 		if(!m_item.m_item) return;
-
-		if(HeldItem != null) {
-			HeldItem.HideGhost();
-			HeldItem = null;
-		}
+		if(HeldItem != null) HideHeldItem();
 
 		ActivateGhost();
 	}
@@ -194,9 +182,8 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		HideGhost();
 
 		// making sure that when destroying, you can only drop out of a window and not in the middle of the UI and destroy
-		if(m_item.m_item && !m_validDrop && !p_eventData.hovered.Find(h => h.name.Contains("Canvas")) && m_item.m_inventory.m_itemDestroyModal) {
+		if(m_item.m_item && !m_validDrop && !p_eventData.hovered.Find(h => h.name.Contains("Canvas")) && m_item.m_inventory.m_itemDestroyModal)
 			OpenDestructionModal();
-		}
 
 		m_validDrop = false;
 	}
@@ -219,7 +206,13 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		bool swapSuccess = p_dragged.m_item.m_inventory.Swap(p_dragged.m_item, m_item);
 
 		if(swapSuccess) {
+			if(p_dragged == HeldItem || this == HeldItem) HideHeldItem();
+
 			SwapInfo(p_dragged);
+
+			UpdateInfo();
+			p_dragged.UpdateInfo();
+
 			m_item.m_inventory.RaiseInventoryEvent(true);
 			p_dragged.m_item.m_inventory.RaiseInventoryEvent(false);
 		}
@@ -244,6 +237,8 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 				UpdateInfo();
 				p_dragged.UpdateInfo();
+
+				if(p_dragged == HeldItem || this == HeldItem) HideHeldItem();
 
 				m_item.m_inventory.RaiseInventoryEvent(true);
 				p_dragged.m_item.m_inventory.RaiseInventoryEvent(false);
@@ -320,7 +315,8 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		image.sprite = m_item.m_item.m_sprite;
 		m_ghost.sprite = m_item.m_item.m_sprite;
 
-		image.color = new Color(255, 255, 255, 255);
+		image.color = new Color(1, 1, 1, 1);
+		amount.color = new Color(1, 1, 1, 1);
 
 		UpdateGhostAmountText();
 	}
@@ -329,10 +325,18 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		Image image = GetComponent<Image>();
 		Text amount = GetComponentInChildren<Text>();
 
-		image.color = new Color(255, 255, 255, 0);
+		image.color = new Color(1, 1, 1, 0);
 		amount.enabled = false;
 
 		if(p_swapItems) m_item = p_swapped;
+	}
+
+	private void ObscureInfo() {
+		Image image = GetComponent<Image>();
+		Text amount = GetComponentInChildren<Text>();
+
+		image.color = new Color(1, 1, 1, 0.5f);
+		amount.color = new Color(1, 1, 1, 0.5f);
 	}
 
 	private void ActivateGhost() {
@@ -341,6 +345,12 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		m_ghost.transform.position = Input.mousePosition;
 		m_ghost.gameObject.SetActive(true);
 		m_ghost.transform.SetParent(GetComponentInParent<Canvas>().transform);
+	}
+
+	private void HideHeldItem() {
+		HeldItem.HideGhost();
+		HeldItem.UpdateInfo();
+		HeldItem = null;
 	}
 
 	private void UpdateGhostAmountText() {

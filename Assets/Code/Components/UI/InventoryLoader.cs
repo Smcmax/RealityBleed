@@ -114,7 +114,7 @@ public class InventoryLoader : MonoBehaviour {
 		Text amount = p_uiItem.GetComponentInChildren<Text>();
 
 		image.sprite = p_item.m_outlineSprite;
-		image.color = new Color(255, 255, 255, 255);
+		image.color = new Color(1, 1, 1, 1);
 		amount.text = "";
 	}
 
@@ -122,7 +122,7 @@ public class InventoryLoader : MonoBehaviour {
 		Image image = p_uiItem.GetComponent<Image>();
 
 		p_uiItem.m_item = p_item;
-		image.color = new Color(255, 255, 255, 0);
+		image.color = new Color(1, 1, 1, 0);
 		p_uiItem.GetComponentInChildren<Text>().enabled = false;
 	}
 }
