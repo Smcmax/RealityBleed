@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class OptionManager : MonoBehaviour {
@@ -12,6 +13,8 @@ public class OptionManager : MonoBehaviour {
 		if(m_wipeAllDataOnStart) PlayerPrefs.DeleteAll();
 
 		m_options = new List<OptionValue>();
+
+		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
 	public OptionValue Get(string p_key) { 
@@ -61,6 +64,10 @@ public class OptionManager : MonoBehaviour {
 		m_options.Add(val);
 
 		return val;
+	}
+
+	void OnSceneLoaded(Scene p_scene, LoadSceneMode p_mode) {
+		HideUIOnMouseover.ObjectsHiddenOnMouseover.Clear();
 	}
 }
 
