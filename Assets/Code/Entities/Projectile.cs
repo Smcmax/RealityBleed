@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using static WavyProjectileMovementJob;
+using static StraightProjectileMovementJob;
 
 public class Projectile : MonoBehaviour {
 
@@ -41,11 +43,13 @@ public class Projectile : MonoBehaviour {
 	[HideInInspector] public Vector2 m_start;
 	[HideInInspector] public Vector2 m_target;
 	[HideInInspector] public Vector2 m_direction;
+	[HideInInspector] public StraightProjData m_straightProjData;
+	[HideInInspector] public WavyProjData m_wavyProjData;
 	private bool m_shot;
 
-	private SpriteRenderer m_render;
-	private PolygonCollider2D m_polyCollider;
-	private BoxCollider2D m_boxCollider;
+	[HideInInspector] public SpriteRenderer m_render;
+	[HideInInspector] public PolygonCollider2D m_polyCollider;
+	[HideInInspector] public BoxCollider2D m_boxCollider;
 
 	void Start() { 
 		LoadComponents();
@@ -59,11 +63,13 @@ public class Projectile : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		if(!m_shot) return;
+		if(!m_shot || Time.timeScale == 0f) return;
 		if(Vector2.Distance(transform.position, m_start) >= m_range) {
-			Disable();
+			Disable(true);
 			return;
 		}
+
+		if(m_rotate) transform.Rotate(0, 0, m_rotationSpeed * Time.fixedDeltaTime);
 
 		foreach(ProjectileBehaviour behaviour in m_behaviours)
 			behaviour.PreMove(this);
@@ -90,6 +96,8 @@ public class Projectile : MonoBehaviour {
 
 		foreach(ProjectileBehaviour behaviour in m_behaviours)
 			behaviour.Init(this);
+
+		Game.m_projPool.AddProjectileToJob(this);
 	}
 
 	// it is assumed the current projectile is a generic projectile with an empty reference behaviour to fill up
@@ -132,7 +140,7 @@ public class Projectile : MonoBehaviour {
 
 		bool hitEntity = false;
 
-		if(collider.gameObject.name != gameObject.name) {
+		if(collider.gameObject != gameObject) {
 			CollisionRelay relay = collider.GetComponent<CollisionRelay>();
 
 			if(relay != null) {
@@ -143,10 +151,10 @@ public class Projectile : MonoBehaviour {
 		}
 
 		if(m_piercing && hitEntity) Physics2D.IgnoreCollision(p_collision.otherCollider, collider);
-		if(!m_piercing || !hitEntity) Disable();
+		if(!m_piercing || !hitEntity) Disable(true);
 	}
 
-	private void Disable() {
+	public void Disable(bool p_removeFromProjPool) {
 		foreach(ProjectileBehaviour behaviour in m_behaviours)
 			behaviour.Die(this);
 
@@ -155,6 +163,6 @@ public class Projectile : MonoBehaviour {
 		m_target = Vector2.zero;
 		m_shooter = null;
 
-		ProjectilePooler.m_projectilePooler.Remove(gameObject);
+		if(p_removeFromProjPool) Game.m_projPool.Remove(gameObject, this, false);
 	}
 }

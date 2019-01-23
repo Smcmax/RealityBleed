@@ -26,9 +26,6 @@ public class Entity : MonoBehaviour {
 	[Tooltip("All runtime sets this entity is a part of")]
 	public List<EntityRuntimeSet> m_runtimeSets;
 
-	[Tooltip("This entity's feedback canvas")]
-	public Canvas m_feedbackCanvas;
-
 	[Tooltip("This entity's feedback template")]
 	public GameObject m_feedbackTemplate;
 
@@ -51,7 +48,7 @@ public class Entity : MonoBehaviour {
 		m_feedbackColor = Constants.YELLOW;
 
 		if(m_shooter) m_shooter.Init(this);
-		if(m_health) m_health.m_entity = this;
+		if(m_health) m_health.Init(this);
 		if(m_inventory) m_inventory.m_entity = this;
 		if(m_equipment) m_equipment.Init(this);
 
@@ -111,7 +108,7 @@ public class Entity : MonoBehaviour {
 
 			if(!p_bypassDefense) finalDamage -= m_stats.GetStatEffect(Stats.DEF);
 			if(finalDamage > 0) {
-				GenerateFeedback(-finalDamage, p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT);
+				if(m_feedbackTemplate) GenerateFeedback(-finalDamage, p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT);
 				m_health.Damage(finalDamage, p_bypassImmunityWindow);
 			}
 		}
@@ -122,7 +119,7 @@ public class Entity : MonoBehaviour {
 
 	// display color is transparent if no specified color
 	public void GenerateFeedback(int p_amount, Color p_displayColor) {
-		GameObject feedback = Instantiate(m_feedbackTemplate, m_feedbackCanvas.transform);
+		GameObject feedback = Instantiate(m_feedbackTemplate, m_feedbackTemplate.transform.parent);
 		Text feedbackText = feedback.GetComponent<Text>();
 		UIWorldSpaceFollower follow = feedback.GetComponent<UIWorldSpaceFollower>();
 		Color feedbackColor = m_feedbackColor;
@@ -134,6 +131,7 @@ public class Entity : MonoBehaviour {
 
 		feedbackText.text = p_amount > 0 ? p_amount.ToString() : Mathf.Abs(p_amount).ToString();
 		feedbackText.color = feedbackColor;
+		follow.m_parent = transform;
 		follow.m_offset += new Vector3(Random.Range(-m_feedbackPositionRandomness.x / 2, m_feedbackPositionRandomness.x / 2), 
 										      Random.Range(-m_feedbackPositionRandomness.y / 2, m_feedbackPositionRandomness.y / 2));
 

@@ -11,13 +11,22 @@ public abstract class ProjectileBehaviour : MonoBehaviour {
 	public virtual void Init(Projectile p_projectile) { }
 	public virtual void Init(Projectile p_projectile, DataHolder p_data) { }
 
+	public bool UsingJob() { 
+		return m_data.Has("Job");
+	}
+
+	public void SetJob() { 
+		m_data.Set("Job", true);
+	}
+
 	public void PreMove(Projectile p_projectile) {
+		if(UsingJob()) return;
+
 		PreMove(p_projectile, m_data);
 	}
 
 	public void PreMove(Projectile p_projectile, DataHolder p_data) {
-		if(p_projectile.m_rotate)
-			p_projectile.transform.Rotate(0, 0, p_projectile.m_rotationSpeed * Time.fixedDeltaTime);
+		if(UsingJob()) return;
 
 		Move(p_projectile);
 	}

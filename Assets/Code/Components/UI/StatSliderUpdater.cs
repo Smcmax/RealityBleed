@@ -17,6 +17,8 @@ public class StatSliderUpdater : MonoBehaviour {
 	}
 
 	public void UpdateSlider() {
+		if(!m_entity) return;
+
 		m_slider.minValue = 0;
 
 		// HP/MP work in reduction of the base stat, so the modifiers bring it closer and closer to 0

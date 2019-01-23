@@ -25,7 +25,7 @@ public class FadeAwayText : MonoBehaviour {
 		if(Time.timeScale == 0f) return;
 		if(m_maxTime * 1000 + m_startTime < Time.time * 1000) Destroy(gameObject);
 
-		Vector3 move = new Vector3(0, m_speed / 100f);
+		Vector3 move = new Vector3(0, m_speed * Time.deltaTime);
 
 		if(m_follower) m_follower.m_freezePosition += move;
 		else transform.Translate(move);

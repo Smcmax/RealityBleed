@@ -7,6 +7,11 @@ public class DestroyItemModal : Modal {
 		UIItem toDelete = m_info as UIItem;
 		Image image = toDelete.GetComponent<Image>();
 
+		if(toDelete == UIItem.HeldItem) { 
+			toDelete.HideGhost();
+			UIItem.HeldItem = null;
+		}
+
 		toDelete.m_item.m_inventory.Remove(toDelete.m_item);
 		toDelete.m_item = new Item(toDelete.m_item.m_inventory, toDelete.m_item.m_inventoryIndex);
 		image.color = new Color(255, 255, 255, 0);

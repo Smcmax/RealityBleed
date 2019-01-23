@@ -49,13 +49,16 @@ public class Inventory : MonoBehaviour {
 		return true;
 	}
 
-	public bool Add(Item p_item) {
+	public int Add(Item p_item) {
 		// if we can fill up existing stacks, we do it
 		if(p_item.m_item && ContainsNonFull(p_item.m_item.m_id)) {
 			foreach(Item item in GetAll(p_item.m_item.m_id)) { 
 				AddToItem(p_item, item);
 
-				if(p_item.m_amount == 0) return true;
+				if(m_uiItems != null && m_uiItems.Length >= item.m_inventoryIndex + 1)
+					m_uiItems[item.m_inventoryIndex].UpdateInfo();
+
+				if(p_item.m_amount == 0) return -2; // successful, but nothing to remove on this side
 			}
 		}
 
@@ -67,28 +70,34 @@ public class Inventory : MonoBehaviour {
 			m_items[index].m_inventory = this;
 			m_items[index].m_inventoryIndex = index;
 
-			return true;
+			if(m_uiItems != null && m_uiItems.Length >= index + 1) {
+				m_uiItems[index].m_item = m_items[index];
+				m_uiItems[index].UpdateInfo();
+			}
+
+			return index;
 		}
 
-		return false;
+		return -1;
 	}
 
 	public int FindFirstEmpty() {
 		for(int i = 0; i < m_items.Length; ++i)
-			if(!m_items[i].m_item) {
-				return i;
-			}
+			if(!m_items[i].m_item) return i;
 
 		return -1;
 	}
 
 	public bool AddToItem(Item p_item, Item p_itemToAddTo) { 
+		return AddToItem(p_item, p_itemToAddTo, p_item.m_amount);
+	}
+
+	public bool AddToItem(Item p_item, Item p_itemToAddTo, int p_amount) {
 		if(p_item.m_item && p_itemToAddTo.m_item && p_item.m_item.m_id == p_itemToAddTo.m_item.m_id) {
-			int amount = p_itemToAddTo.m_amount;
 			int maxStack = p_itemToAddTo.m_item.m_maxStackSize;
 
-			if(amount < maxStack) {
-				int amountToAdd = Mathf.Clamp(p_item.m_amount, 1, maxStack - amount);
+			if(p_amount < maxStack) {
+				int amountToAdd = Mathf.Clamp(p_amount, 1, maxStack - p_amount);
 
 				p_itemToAddTo.m_amount += amountToAdd;
 				p_item.m_amount -= amountToAdd;

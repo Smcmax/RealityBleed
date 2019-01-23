@@ -44,7 +44,7 @@ public abstract class Interactable : MonoBehaviour {
 	}
 
 	void Update() {
-		if(m_interactable && Input.GetButtonDown("Interact")) {
+		if(m_interactable && Game.m_keybinds.GetButtonDown("Interact")) {
 			m_onInteractEvent.Raise();
 			Interact(m_interactors[0]);
 		}

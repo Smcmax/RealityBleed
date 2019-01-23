@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public class ItemTooltip : MonoBehaviour {
@@ -102,8 +103,7 @@ public class ItemTooltip : MonoBehaviour {
 		}
 
 		Text slot = m_modifiableInfo.Find(ti => ti.m_name == "Slot Info Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		if(item.m_equipmentSlots.Count > 0) slot.text = item.GetEquipmentSlotsText();
-		else slot.text = item.GetType().Name;
+		slot.text = item.GetSlotInfoText();
 		
 		ShowSeparator(1);
 
@@ -158,7 +158,7 @@ public class ItemTooltip : MonoBehaviour {
 						statComparisonOne.text = "(" + (comparisonOne[i] > 0 ? "+" : "") + comparisonOne[i] + ")";
 					} else statComparisonOne.text = "";
 
-					if (comparisonTwo[i] != 0) {
+					if(comparisonTwo[i] != 0) {
 						statComparisonTwo.color = comparisonTwo[i] > 0 ? Constants.GREEN : Constants.RED;
 						statComparisonTwo.text = "(" + (comparisonTwo[i] > 0 ? "+" : "") + comparisonTwo[i] + ")";
 					} else statComparisonTwo.text = "";
@@ -166,25 +166,33 @@ public class ItemTooltip : MonoBehaviour {
 			}
 		}
 
-		m_modifiableInfo.Find(ti => ti.m_name == "Durability Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		Text durability = m_modifiableInfo.Find(ti => ti.m_name == "Current Durability").Get<Text>();
-		durability.text = p_item.m_durability + "%";
-		durability.color = Constants.YELLOW;
-
-		m_modifiableInfo.Find(ti => ti.m_name == "Level Required Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		Text levelRequired = m_modifiableInfo.Find(ti => ti.m_name == "Level Required").Get<Text>();
-		levelRequired.text = item.m_levelRequired.ToString();
-		levelRequired.color = Constants.YELLOW;
+		if(item is Weapon || item is Armor) {
+			m_modifiableInfo.Find(ti => ti.m_name == "Durability Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+			Text durability = m_modifiableInfo.Find(ti => ti.m_name == "Current Durability").Get<Text>();
+			durability.text = p_item.m_durability + "%";
+			durability.color = Constants.YELLOW;
+		}
 
 		m_modifiableInfo.Find(ti => ti.m_name == "Sell Price Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		Text sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price").Get<Text>();
 		sellPrice.text = item.m_sellPrice + "g";
 		sellPrice.color = Constants.YELLOW;
 
-		Text description = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text").Get<Text>();
+		TooltipInfo descInfo = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text");
+		Text description = descInfo.Get<Text>();
+
 		description.text = item.m_description;
 		description.color = Constants.YELLOW;
-		description = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+		m_tooltipInfoOffset += description.rectTransform.rect.y;
+
+		Show(); // activating the description to allow the preferred height to be fetched
+
+		float descPrefHeight = LayoutUtility.GetPreferredHeight(description.rectTransform);
+		m_tooltipInfoOffset += descPrefHeight / 2;
+		
+		description = descInfo.Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset, descPrefHeight);
+
+		Show(); // resizing the panel again to fit
 	}
 
 	private void InstantiateStatText(string p_name, Text p_original, Transform p_parent) {
@@ -278,13 +286,17 @@ public class TooltipInfo {
 
 	// only use this if adding the object's height into the panel size
 	public T Get<T>(ref float p_totalHeight, ref float p_tooltipInfoOffset) { 
-		float newY = p_tooltipInfoOffset - m_rect.rect.height / 2;
+		return Get<T>(ref p_totalHeight, ref p_tooltipInfoOffset, m_rect.rect.height);
+	}
+
+	public T Get<T>(ref float p_totalHeight, ref float p_tooltipInfoOffset, float p_rectHeight) {
+		float newY = p_tooltipInfoOffset - p_rectHeight / 2;
 
 		if(m_info.name.Contains("Separator")) newY -= 2;
-			
+
 		m_rect.anchoredPosition = new Vector2(m_rect.anchoredPosition.x, newY);
-		p_totalHeight += m_rect.rect.height;
-		p_tooltipInfoOffset -= m_rect.rect.height;
+		p_totalHeight += p_rectHeight;
+		p_tooltipInfoOffset -= p_rectHeight;
 		m_info.SetActive(true);
 
 		return m_info.GetComponent<T>();

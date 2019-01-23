@@ -1,12 +1,9 @@
 fileFormatVersion: 2
-guid: 4e2be1de22a98544897ae47a19b917cc
+guid: 3547225fcf486d748a8bc275636a9aaa
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - m_meshMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  - m_optionsHandler: {fileID: 114895549380091630, guid: 1722a6d17d631c54cbc2664427b326cf,
-      type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

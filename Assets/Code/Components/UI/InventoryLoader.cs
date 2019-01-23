@@ -28,15 +28,18 @@ public class InventoryLoader : MonoBehaviour {
 	[Tooltip("The index to stop displaying at, 0 = end. This value is inclusive, meaning it will process up to array[end]")]
 	public int m_endIndex;
 
-	void OnEnable() { 
+	void OnEnable() {
 		Load();
 	}
 
 	void OnDisable() { 
 		int children = transform.childCount;
 
-		for(int i = children - 1; i >= 0; --i)
-			Destroy(transform.GetChild(i).gameObject);
+		for(int i = children - 1; i >= 0; --i) {
+			GameObject child = transform.GetChild(i).gameObject;
+
+			Destroy(child);
+		}
 
 		m_inventory.m_uiItems = new UIItem[0];
 	}
@@ -72,7 +75,7 @@ public class InventoryLoader : MonoBehaviour {
 				if(row * cols + col >= items.Length) return;
 
 				Item item = items[row * cols + col];
-				GameObject slot = Instantiate(m_slot, gameObject.transform);
+				GameObject slot = Instantiate(m_slot, transform);
 				RectTransform rect = slot.GetComponent<RectTransform>();
 				float border = m_inventoryBorderSize + m_padding;
 
@@ -80,6 +83,7 @@ public class InventoryLoader : MonoBehaviour {
 															-(border * 2 + (row * (slotHeight + m_padding))));
 
 				UIItem uiItem = slot.GetComponentInChildren<UIItem>();
+				uiItem.m_loader = this;
 
 				if(item.m_item && item.m_amount > 0) LoadItem(uiItem, item);
 				else if(item.m_outlineSprite) LoadOutline(uiItem, item);
@@ -110,7 +114,7 @@ public class InventoryLoader : MonoBehaviour {
 		Text amount = p_uiItem.GetComponentInChildren<Text>();
 
 		image.sprite = p_item.m_outlineSprite;
-		image.color = new Color(255, 255, 255, 255);
+		image.color = new Color(1, 1, 1, 1);
 		amount.text = "";
 	}
 
@@ -118,7 +122,7 @@ public class InventoryLoader : MonoBehaviour {
 		Image image = p_uiItem.GetComponent<Image>();
 
 		p_uiItem.m_item = p_item;
-		image.color = new Color(255, 255, 255, 0);
+		image.color = new Color(1, 1, 1, 0);
 		p_uiItem.GetComponentInChildren<Text>().enabled = false;
 	}
 }

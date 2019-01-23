@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 638cfabc96f5ad24da7fa947d473f597, type: 3}
   m_Name: GenericEnemy_P1InstantCircle
   m_EditorClassIdentifier: 
-  m_projectile: {fileID: 114884511393775606, guid: 8ad9103905720be47a9884ba2198205c,
+  m_projectile: {fileID: 114016852335919592, guid: 8ad9103905720be47a9884ba2198205c,
     type: 2}
   m_shots: 8
   m_manaPerStep: 0
@@ -19,7 +19,9 @@ MonoBehaviour:
   m_loop: 0
   m_loopsBeforeSwitch: 0
   m_patternCooldown: 2.5
+  m_bypassShooterCooldown: 0
   m_stepDelay: 0
   m_nextPatterns: []
   m_nextPatternSwitchDelay: 0
+  m_extraTooltipInfo: 
   m_angleOffset: 22.5

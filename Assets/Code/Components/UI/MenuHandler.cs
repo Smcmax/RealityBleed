@@ -21,7 +21,10 @@ public class MenuHandler : MonoBehaviour {
 	public GameEvent m_onInventoryEvent;
 
 	[Tooltip("The game event raised when the character screen is brought up")]
-	public GameEvent m_onCharacterEvent;
+	public GameEvent m_onCharacterEvent;	
+	
+	[Tooltip("The game event raised when the map screen is brought up")]
+	public GameEvent m_onMapEvent;
 	
 	private GameObject m_previousMenu; // The previously opened menu, for use with the pause menu only
 	[HideInInspector] public List<GameObject> m_openedMenus;
@@ -35,19 +38,23 @@ public class MenuHandler : MonoBehaviour {
 		SceneManager.sceneLoaded -= OnSceneLoad;
 	}
 
-	void Update() { 
+	void Update() {
 		bool isPaused = m_currentMenu;
 
-		if(Input.GetButtonDown("Cancel")) { 
-			if(m_openedMenus.Count > 0 && !(m_openedMenus.Count == 1 && isPaused)) ClearMenu();
-			else if(isPaused) {
-				if(m_previousMenu) OpenMenu(m_previousMenu, true);
-				else m_resumeEvent.Raise();
-			} else m_pauseEvent.Raise();
-		}
+		if(Game.m_keybinds.GetButtonDown("Pause")) GoBack();
+		if(Game.m_keybinds.GetButtonDown("Inventory") && !isPaused) m_onInventoryEvent.Raise();
+		if(Game.m_keybinds.GetButtonDown("Character") && !isPaused) m_onCharacterEvent.Raise();
+		if(Game.m_keybinds.GetButtonDown("Map") && !isPaused) m_onMapEvent.Raise();
+	}
 
-		if(Input.GetButtonDown("Inventory") && !isPaused) m_onInventoryEvent.Raise();
-		if(Input.GetButtonDown("Character") && !isPaused) m_onCharacterEvent.Raise();
+	public void GoBack() {
+		bool isPaused = m_currentMenu;
+
+		if(m_openedMenus.Count > 0 && !(m_openedMenus.Count == 1 && isPaused)) ClearMenu();
+		else if(isPaused) {
+			if(m_previousMenu) OpenMenu(m_previousMenu, true);
+			else m_resumeEvent.Raise();
+		} else m_pauseEvent.Raise();
 	}
 
 	public void OpenMenuPause(GameObject p_menu) { 

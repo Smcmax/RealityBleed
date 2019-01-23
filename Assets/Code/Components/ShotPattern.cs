@@ -46,7 +46,7 @@ public abstract class ShotPattern : ScriptableObject {
 	}
 
 	protected Projectile SpawnProjectile(Shooter p_shooter) {
-		GameObject proj = ProjectilePooler.m_projectilePooler.Get();
+		GameObject proj = Game.m_projPool.Get();
 		Projectile projectile = proj.GetComponent<Projectile>();
 		object spawnLocation = p_shooter.GetPatternInfo(this, "spawnLocation");
 
@@ -54,7 +54,7 @@ public abstract class ShotPattern : ScriptableObject {
 		proj.transform.rotation = m_projectile.transform.rotation;
 
 		projectile.Clone(m_projectile);
-		projectile.GetComponent<PolygonColliderExtruder>().Extrude();
+		if(projectile.m_original.m_polyCollider.enabled) projectile.GetComponent<PolygonColliderExtruder>().Extrude();
 
 		return projectile;
 	}

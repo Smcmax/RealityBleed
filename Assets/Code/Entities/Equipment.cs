@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 public class Equipment : Inventory {
 
@@ -7,6 +9,22 @@ public class Equipment : Inventory {
 		m_entity.m_stats.UpdateGearModifiers(CalculateStatModifiers());
 
 		base.Awake();
+	}
+
+	public int FindBestSwappableItemSlot(List<EquipmentSlot> p_slots) { 
+		int length = Enum.GetValues(typeof(EquipmentSlot)).Length;
+
+		// if there are any empty slots, we return those first
+		for(int i = 0; i < length; i++)
+			if(p_slots.Contains((EquipmentSlot) i) && !Get((EquipmentSlot) i).m_item)
+				return i;
+
+		// otherwise we just return the first available slot from standard order
+		for(int i = 0; i < length; i++)
+			if(p_slots.Contains((EquipmentSlot) i))
+				return i;
+
+		return 0;
 	}
 
 	public Item Get(EquipmentSlot p_slot) {

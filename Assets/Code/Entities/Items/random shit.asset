@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d74de5ea1b1f41e43b19bed1969381ee, type: 3}
+  m_Name: random shit
+  m_EditorClassIdentifier: 
+  m_id: 2
+  m_name: shit
+  m_sprite: {fileID: 21300000, guid: 95406b6737b66479a80d172766f8bac5, type: 3}
+  m_maxStackSize: 64
+  m_sellPrice: 50
+  m_levelRequired: 3
+  m_equipmentSlots: 
+  m_nameColor: {r: 1, g: 1, b: 1, a: 1}
+  m_description: 'This is just a pile of shit.
+
+    There''s nothing to see here.
+
+    Move along.
+
+    I''m testing multi-line descriptions too.
+
+    You tell me if they work...'

@@ -20,9 +20,6 @@ public class BaseItem : ScriptableObject {
 	[Tooltip("How much this item sells for")]
 	public float m_sellPrice;
 
-	[Tooltip("The level required to equip this item")]
-	[Range(0, 99)] public int m_levelRequired;
-
 	[Tooltip("The equipment slots this item fits into, none if not an equippable item")]
 	public List<EquipmentSlot> m_equipmentSlots;
 
@@ -32,15 +29,17 @@ public class BaseItem : ScriptableObject {
 	[Tooltip("The item's description, shows up in the tooltip")]
 	[Multiline] public string m_description;
 
-	public string GetEquipmentSlotsText() { 
-		if(m_equipmentSlots.Count == 0) return "";
+	public string GetSlotInfoText() { 
+		string text = GetType().Name;
 
-		string text = m_equipmentSlots[0].ToString();
+		if(m_equipmentSlots.Count > 0) {
+			text = m_equipmentSlots[0].ToString();
 
-		if(m_equipmentSlots.Contains(EquipmentSlot.MainHand) && m_equipmentSlots.Contains(EquipmentSlot.OffHand))
-			return ((Weapon) this).IsTwoHanded() ? "Two-Hand" : "One-Hand";
+			if(m_equipmentSlots.Contains(EquipmentSlot.MainHand) && m_equipmentSlots.Contains(EquipmentSlot.OffHand))
+				return ((Weapon) this).IsTwoHanded() ? "Two-Hand" : "One-Hand";
 
-		if(text.EndsWith("1") || text.EndsWith("2")) text = text.Substring(0, text.Length - 1);
+			if(text.EndsWith("1") || text.EndsWith("2")) text = text.Substring(0, text.Length - 1);
+		}
 
 		return string.Concat(text.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
 	}
