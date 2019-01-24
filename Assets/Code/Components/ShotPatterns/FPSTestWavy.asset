@@ -11,8 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172f3ea24828e2e4fa83f59bf57d632e, type: 3}
   m_Name: FPSTestWavy
   m_EditorClassIdentifier: 
-  m_projectile: {fileID: 114884511393775606, guid: 8ad9103905720be47a9884ba2198205c,
+  m_projectile: {fileID: 114712515745508426, guid: 8ad9103905720be47a9884ba2198205c,
     type: 2}
+  m_behaviours:
+  - {fileID: 11400000, guid: dbee67fe3a0b8204382c17fa2502e481, type: 2}
   m_shots: 5
   m_manaPerStep: 0
   m_instant: 1

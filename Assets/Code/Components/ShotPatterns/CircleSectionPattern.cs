@@ -3,6 +3,7 @@
 [CreateAssetMenu(menuName = "Shot Patterns/Circle Section")]
 public class CircleSectionPattern : ShotPattern {
 
+	[Header("Specific Attributes")]
 	[Tooltip("The angle range of the circle section to shoot into")]
 	[Range(0, 360)] public float m_angleRange;
 

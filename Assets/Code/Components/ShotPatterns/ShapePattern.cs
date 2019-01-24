@@ -3,6 +3,7 @@
 [CreateAssetMenu(menuName = "Shot Patterns/Shape")]
 public class ShapePattern : ShotPattern {
 
+	[Header("Specific Attributes")]
 	[Tooltip("When parallel, will shift both ways simultaneously")]
 	public bool m_symmetrical;
 

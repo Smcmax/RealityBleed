@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using static WavyProjectileMovementJob;
-using static StraightProjectileMovementJob;
 
 public class Projectile : MonoBehaviour {
 
@@ -38,13 +36,12 @@ public class Projectile : MonoBehaviour {
 	[Tooltip("The behaviours this projectile will use throughout its lifetime")]
 	public List<ProjectileBehaviour> m_behaviours;
 
+	[HideInInspector] public BehaviourManager m_behaviourManager;
 	[HideInInspector] public Shooter m_shooter;
 	[HideInInspector] public Projectile m_original;
 	[HideInInspector] public Vector2 m_start;
 	[HideInInspector] public Vector2 m_target;
 	[HideInInspector] public Vector2 m_direction;
-	[HideInInspector] public StraightProjData m_straightProjData;
-	[HideInInspector] public WavyProjData m_wavyProjData;
 	private bool m_shot;
 
 	[HideInInspector] public SpriteRenderer m_render;
@@ -71,12 +68,7 @@ public class Projectile : MonoBehaviour {
 
 		if(m_rotate) transform.Rotate(0, 0, m_rotationSpeed * Time.fixedDeltaTime);
 
-		foreach(ProjectileBehaviour behaviour in m_behaviours)
-			behaviour.PreMove(this);
-	}
-
-	public void SetDamage(int p_damage) {
-		m_damage = p_damage;
+		m_behaviourManager.Move(this);
 	}
 
 	public void Shoot(Shooter p_shooter, Vector2 p_target, Vector2 p_direction) {
@@ -94,14 +86,14 @@ public class Projectile : MonoBehaviour {
 
 		gameObject.SetActive(true);
 
-		foreach(ProjectileBehaviour behaviour in m_behaviours)
+		foreach(ProjectileBehaviour behaviour in m_behaviourManager.m_behaviours.Keys)
 			behaviour.Init(this);
 
 		Game.m_projPool.AddProjectileToJob(this);
 	}
 
 	// it is assumed the current projectile is a generic projectile with an empty reference behaviour to fill up
-	public void Clone(Projectile p_projectile) {
+	public void Clone(Projectile p_projectile, List<ProjectileBehaviour> p_extraBehaviours) {
 		p_projectile.LoadComponents();
 		LoadComponents();
 
@@ -122,15 +114,14 @@ public class Projectile : MonoBehaviour {
 		m_polyCollider = polyCollider;
 		m_boxCollider = collider;
 
-		// take p_projectile's behaviours and clone them over to a generic projectile from the pooler
-		ReferenceBehaviour reference = GetComponent<ReferenceBehaviour>();
+		m_behaviourManager = GetComponent<BehaviourManager>();
+		m_behaviourManager.m_behaviours = new Dictionary<ProjectileBehaviour, bool>();
 
-		foreach (ProjectileBehaviour behaviour in p_projectile.m_behaviours)
-			if(!(behaviour is ReferenceBehaviour)) reference.m_behaviours.Add(behaviour);
+		foreach(ProjectileBehaviour behaviour in p_projectile.m_behaviours)
+			m_behaviourManager.m_behaviours.Add(behaviour, false);
 
-		// clear the list since the projectile copy keeps the same pointer for the list, which screws everything up
-		m_behaviours = new List<ProjectileBehaviour>();
-		m_behaviours.Add(reference);
+		foreach(ProjectileBehaviour behaviour in p_extraBehaviours)
+			m_behaviourManager.m_behaviours.Add(behaviour, false);
 
 		m_original = p_projectile;
 	}
@@ -155,8 +146,7 @@ public class Projectile : MonoBehaviour {
 	}
 
 	public void Disable(bool p_removeFromProjPool) {
-		foreach(ProjectileBehaviour behaviour in m_behaviours)
-			behaviour.Die(this);
+		m_behaviourManager.Die(this);
 
 		m_shot = false;
 		m_start = Vector2.zero;

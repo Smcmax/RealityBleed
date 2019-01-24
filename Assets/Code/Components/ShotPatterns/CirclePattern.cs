@@ -3,6 +3,7 @@
 [CreateAssetMenu(menuName = "Shot Patterns/Circle")]
 public class CirclePattern : ShotPattern {
 
+	[Header("Specific Attributes")]
 	[Tooltip("The angle at which the shot starts starting where the entity is looking")]
 	[Range(0, 360)] public float m_angleOffset;
 

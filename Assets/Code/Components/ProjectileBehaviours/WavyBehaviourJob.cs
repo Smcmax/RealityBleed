@@ -6,84 +6,68 @@ using UnityEngine.Jobs;
 using Unity.Collections;
 using System.Collections.Generic;
 
-public class WavyProjectileMovementJob : MonoBehaviour {
+public class WavyBehaviourJob : ProjectileMovementJob {
 
-	[HideInInspector] public List<Projectile> m_projectiles;
-	[HideInInspector] public List<WavyProjData> m_dataList;
-	
-	private List<Transform> m_transforms;
-	private TransformAccessArray m_transformsAccArray;
-	private NativeArray<WavyProjData> m_dataArray;
-	private JobHandle m_jobHandle;
-	private WavyProjMoveJob m_job;
-	private static int ID;
+	private NativeArray<WavyBehaviourData> m_dataArray;
+	private WavyBehaviourMoveJob m_job;
 
-	void Start() { 
-		m_transforms = new List<Transform>();
-		m_dataList = new List<WavyProjData>();
+	public override bool CanAdd(ProjectileBehaviour p_behaviour) {
+		return p_behaviour is WavyBehaviour;
 	}
 
-	public void AddProjectile(Projectile p_projectile, WavyBehaviour p_behaviour) { 
-		m_projectiles.Add(p_projectile);
-		m_transforms.Add(p_projectile.transform);
+	protected override IProjData CreateData(Projectile p_projectile, ProjectileBehaviour p_behaviour, int p_id) {
+		WavyBehaviour behaviour = (WavyBehaviour) p_behaviour;
 
-		WavyProjData data = new WavyProjData { 
-			ID = ID++,
+		return new WavyBehaviourData {
+			ID = p_id,
 			Speed = p_projectile.m_speed,
 			Direction = new float3(p_projectile.m_direction.x, p_projectile.m_direction.y, 0),
-			Range = p_behaviour.m_range,
-			Distance = p_behaviour.m_range / 2,
-			Steps = p_behaviour.m_steps,
+			Range = behaviour.m_range,
+			Distance = behaviour.m_range / 2,
+			Steps = behaviour.m_steps,
 			Reverse = 0
 		};
-
-		p_projectile.m_wavyProjData = data;
-		m_dataList.Add(data);
 	}
 
-	public void RemoveProjectile(Projectile p_projectile) {
-		m_projectiles.Remove(p_projectile);
-		m_transforms.Remove(p_projectile.transform);
-		m_dataList.RemoveAll(d => d.ID == p_projectile.m_wavyProjData.ID);
-	}
+	protected override void CreateJob(List<IProjData> p_dataList) {
+		WavyBehaviourData[] dataArray = new WavyBehaviourData[p_dataList.Count];
 
-	void Update() {
-		if(Time.timeScale == 0f) return;
+		for(int i = 0; i < p_dataList.Count; i++)
+			dataArray[i] = (WavyBehaviourData) p_dataList[i];
 
-		m_transformsAccArray = new TransformAccessArray(m_transforms.ToArray());
-		m_dataArray = new NativeArray<WavyProjData>(m_dataList.ToArray(), Allocator.Temp);
-
-		m_job = new WavyProjMoveJob {
+		m_dataArray = new NativeArray<WavyBehaviourData>(dataArray, Allocator.Temp);
+		m_job = new WavyBehaviourMoveJob {
 			DeltaTime = Time.deltaTime,
 			DataArray = m_dataArray
 		};
-
-		m_jobHandle = m_job.Schedule(m_transformsAccArray);
-
-		JobHandle.ScheduleBatchedJobs();
 	}
 
-	void LateUpdate() {
-		m_jobHandle.Complete();
+	protected override JobHandle ScheduleJob(TransformAccessArray p_transforms) {
+		return m_job.Schedule(p_transforms);
+	}
 
-		if(m_transformsAccArray.isCreated) m_transformsAccArray.Dispose();
+	protected override void Dispose() {
 		if(m_dataArray.IsCreated) {
+			IProjData[] dataArray = new IProjData[m_dataArray.Length];
+
 			for(int i = 0; i < m_dataArray.Length; i++)
-				m_dataList[i] = m_dataArray[i];
+				dataArray[i] = m_dataArray[i];
+
+			UpdateData(dataArray);
 
 			m_dataArray.Dispose();
 		}
 	}
 
 	[BurstCompile]
-	struct WavyProjMoveJob : IJobParallelForTransform {
+	struct WavyBehaviourMoveJob : IJobParallelForTransform {
 		[ReadOnly] public float DeltaTime;
-		public NativeArray<WavyProjData> DataArray;
+		public NativeArray<WavyBehaviourData> DataArray;
 
 		public void Execute(int p_index, TransformAccess p_transform) {
 			if(DataArray.Length <= p_index) return;
 
-			WavyProjData data = DataArray[p_index];
+			WavyBehaviourData data = DataArray[p_index];
 			float3 moveVector = data.Direction * data.Speed * DeltaTime;
 			float2 perpendicular = Vector2.Perpendicular((Vector3) moveVector);
 			float perpX = Mathf.Abs(perpendicular.x);
@@ -107,14 +91,14 @@ public class WavyProjectileMovementJob : MonoBehaviour {
 			moveVector += new float3(sideMovement.x, sideMovement.y, 0);
 			p_transform.position += (Vector3) moveVector;
 
-			if (data.Distance >= data.Range) data.Reverse = 1;
+			if(data.Distance >= data.Range) data.Reverse = 1;
 			else if(data.Distance <= 0) data.Reverse = 0;
 
 			DataArray[p_index] = data;
 		}
 	}
 
-	public struct WavyProjData {
+	public struct WavyBehaviourData : IProjData {
 		public int ID;
 		public float Speed;
 		public float3 Direction;
@@ -122,5 +106,9 @@ public class WavyProjectileMovementJob : MonoBehaviour {
 		public float Range;
 		public int Steps;
 		public int Reverse;
+
+		public int GetID() { 
+			return ID;
+		}
 	}
 }

@@ -13,15 +13,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_projectile: {fileID: 114145373191524222, guid: 8ad9103905720be47a9884ba2198205c,
     type: 2}
+  m_behaviours:
+  - {fileID: 11400000, guid: 4794b7449d15cc44cbd5fb062d34c761, type: 2}
   m_shots: 5
   m_manaPerStep: 0
   m_instant: 1
   m_loop: 0
   m_loopsBeforeSwitch: 0
   m_patternCooldown: 1
+  m_bypassShooterCooldown: 0
   m_stepDelay: 0
   m_nextPatterns: []
   m_nextPatternSwitchDelay: 0
+  m_extraTooltipInfo: 
   m_angleRange: 55
   m_angleOffset: 0
   m_centeredOnDirection: 1

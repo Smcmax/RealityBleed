@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[CreateAssetMenu(menuName = "Projectile Behaviours/Explode On Death")]
 public class ExplodeOnDeathBehaviour : ProjectileBehaviour {
 
 	[Tooltip("The pattern that executes itself when the projectile dies")]

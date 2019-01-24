@@ -1,38 +1,31 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class ProjectilePooler : ObjectPooler {
 
-	[Tooltip("The movement job used to make straight-moving projectiles go straight, null if not using jobs")]
-	public StraightProjectileMovementJob m_straightJob;
-
-	[Tooltip("The movement job used to make wavy-moving projectiles go wavy, null if not using jobs")]
-	public WavyProjectileMovementJob m_wavyJob;
+	[Tooltip("The full list of movement jobs, make sure there aren't two of a type")]
+	public List<ProjectileMovementJob> m_movementJobs;
 
 	public void AddProjectileToJob(Projectile p_projectile) { 
-		foreach(ProjectileBehaviour behaviour in p_projectile.m_behaviours)
-			if(behaviour is ReferenceBehaviour)
-				foreach(ProjectileBehaviour refBehaviour in ((ReferenceBehaviour) behaviour).m_behaviours) {
-					behaviour.SetJob();
-					AddProjectileToJob(p_projectile, refBehaviour);
-				}
-			else AddProjectileToJob(p_projectile, behaviour);
+		foreach(KeyValuePair<ProjectileBehaviour, bool> behaviour in new Dictionary<ProjectileBehaviour, bool>(p_projectile.m_behaviourManager.m_behaviours))
+			if(!behaviour.Value) AddProjectileToJob(p_projectile, behaviour.Key);
 	}
 
 	public void AddProjectileToJob(Projectile p_projectile, ProjectileBehaviour p_behaviour) {
-		if(p_behaviour is StraightBehaviour) {
-			if(m_straightJob.m_projectiles.Contains(p_projectile)) return;
+		foreach(ProjectileMovementJob movementJob in m_movementJobs) {
+			if(movementJob.CanAdd(p_behaviour)) {
+				movementJob.AddProjectile(p_projectile, p_behaviour);
+				p_projectile.m_behaviourManager.SetUsingJob(p_behaviour);
 
-			m_straightJob.AddProjectile(p_projectile);
-		} else if(p_behaviour is WavyBehaviour) {
-			if(m_wavyJob.m_projectiles.Contains(p_projectile)) return;
-
-			m_wavyJob.AddProjectile(p_projectile, (WavyBehaviour) p_behaviour);
+				break;
+			}
 		}
 	}
 
 	public void Remove(GameObject p_obj, Projectile p_projectile, bool p_disable) {
-		m_straightJob.RemoveProjectile(p_projectile); // it checks if it's in
-		m_wavyJob.RemoveProjectile(p_projectile); // it checks if it's in
+		foreach(ProjectileMovementJob movementJob in m_movementJobs)
+			if(movementJob.m_projectiles.ContainsKey(p_projectile)) 
+				movementJob.RemoveProjectile(p_projectile);
 
 		if(p_disable) p_projectile.Disable(false);
 		base.Remove(p_obj);
@@ -41,8 +34,9 @@ public class ProjectilePooler : ObjectPooler {
 	public override void Remove(GameObject p_obj) {
 		Projectile proj = p_obj.GetComponent<Projectile>();
 
-		m_straightJob.RemoveProjectile(proj);
-		m_wavyJob.RemoveProjectile(proj);
+		foreach(ProjectileMovementJob movementJob in m_movementJobs)
+			if(movementJob.m_projectiles.ContainsKey(proj))
+				movementJob.RemoveProjectile(proj);
 
 		proj.Disable(false);
 		base.Remove(p_obj);

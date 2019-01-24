@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[CreateAssetMenu(menuName = "Projectile Behaviours/Wavy")]
 public class WavyBehaviour : ProjectileBehaviour {
 
 	[Tooltip("The range to move back and forth in")]

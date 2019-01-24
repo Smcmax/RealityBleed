@@ -3,8 +3,12 @@ using System.Collections.Generic;
 
 public abstract class ShotPattern : ScriptableObject {
 
+	[Header("Generic Attributes")]
 	[Tooltip("Projectile to shoot in this pattern")]
 	public Projectile m_projectile;
+
+	[Tooltip("Behaviours to add to every shot projectile in the pattern")]
+	public List<ProjectileBehaviour> m_behaviours;
 
 	[Tooltip("Amount of shots to include in this pattern")]
 	[Range(1, 100)] public int m_shots;
@@ -53,7 +57,7 @@ public abstract class ShotPattern : ScriptableObject {
 		proj.transform.position = spawnLocation == null ? p_shooter.transform.position : (Vector3) spawnLocation;
 		proj.transform.rotation = m_projectile.transform.rotation;
 
-		projectile.Clone(m_projectile);
+		projectile.Clone(m_projectile, m_behaviours);
 		if(projectile.m_original.m_polyCollider.enabled) projectile.GetComponent<PolygonColliderExtruder>().Extrude();
 
 		return projectile;

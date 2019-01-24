@@ -123,8 +123,8 @@ GameObject:
   - component: {fileID: 1177726161}
   - component: {fileID: 1177726162}
   - component: {fileID: 1177726160}
-  - component: {fileID: 1177726163}
   - component: {fileID: 1177726164}
+  - component: {fileID: 1177726163}
   m_Layer: 0
   m_Name: ProjectilePooler
   m_TagString: Untagged
@@ -147,8 +147,9 @@ MonoBehaviour:
   m_pool: []
   m_activeObjects: []
   m_object: {fileID: 1917898351}
-  m_straightJob: {fileID: 1177726163}
-  m_wavyJob: {fileID: 1177726164}
+  m_movementJobs:
+  - {fileID: 1177726164}
+  - {fileID: 1177726163}
 --- !u!4 &1177726161
 Transform:
   m_ObjectHideFlags: 0
@@ -182,10 +183,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1177726159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a0cb15db6a49044d912a58ee8f196be, type: 3}
+  m_Script: {fileID: 11500000, guid: d10c33dd13bd5524481b33f6d4aaf17f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_projectiles: []
 --- !u!114 &1177726164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,10 +194,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1177726159}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d893964c72cd6b748b676ad955eef1d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 399772f070d4bec41a6e646edceb2ee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_projectiles: []
 --- !u!1 &1429569049
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,10 +674,10 @@ GameObject:
   - component: {fileID: 1917898359}
   - component: {fileID: 1917898358}
   - component: {fileID: 1917898357}
+  - component: {fileID: 1917898353}
   - component: {fileID: 1917898356}
   - component: {fileID: 1917898355}
   - component: {fileID: 1917898354}
-  - component: {fileID: 1917898353}
   - component: {fileID: 1917898352}
   m_Layer: 10
   m_Name: GenericProjectile
@@ -706,21 +705,20 @@ MonoBehaviour:
   m_layer: Projectile
   m_extrudeOnStart: 0
   m_isProjectileExtrusion: 1
+  m_isObjectExtrusion: 0
   m_extrusions: []
   m_collider: {fileID: 1917898355}
 --- !u!114 &1917898353
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114226860559209756, guid: 1fe85487675ff004c8bde49246520ddd,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1917898351}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9249e57b56dc0af4fa8287f7df712656, type: 3}
+  m_Script: {fileID: 11500000, guid: 8286099a93bacc844a22b417a5318565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_behaviours: []
 --- !u!50 &1917898354
 Rigidbody2D:
   serializedVersion: 4
@@ -819,11 +817,15 @@ MonoBehaviour:
   m_faceAtTarget: 1
   m_spriteRotation: 0
   m_behaviours: []
+  m_behaviourManager: {fileID: 0}
   m_shooter: {fileID: 0}
   m_original: {fileID: 0}
   m_start: {x: 0, y: 0}
   m_target: {x: 0, y: 0}
   m_direction: {x: 0, y: 0}
+  m_render: {fileID: 0}
+  m_polyCollider: {fileID: 0}
+  m_boxCollider: {fileID: 0}
 --- !u!212 &1917898358
 SpriteRenderer:
   m_ObjectHideFlags: 0
