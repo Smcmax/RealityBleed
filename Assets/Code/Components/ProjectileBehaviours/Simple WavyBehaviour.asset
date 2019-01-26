@@ -11,6 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30db361fc3df6f948840bcf041499b4b, type: 3}
   m_Name: Simple WavyBehaviour
   m_EditorClassIdentifier: 
-  m_range: 2.59
-  m_steps: 100
-  m_turnSpriteWithWave: 1
+  m_magnitude: 0.0183
+  m_frequency: 5

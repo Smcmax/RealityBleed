@@ -3,9 +3,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
-public class HideUIOnMouseover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class HideUIOnEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
-	public static List<GameObject> ObjectsHiddenOnMouseover = new List<GameObject>();
+	public static List<GameObject> ObjectsHidden = new List<GameObject>();
 
 	[Tooltip("The alpha value to use for Image components")]
 	[Range(0, 255)] public float m_imageAlpha;
@@ -16,10 +16,24 @@ public class HideUIOnMouseover : MonoBehaviour, IPointerEnterHandler, IPointerEx
 	[Tooltip("The alpha value to use for RawImage components")]
 	[Range(0, 255)] public float m_rawImageAlpha;
 
+	[Tooltip("Should the player be able to click through the object?")]
+	public bool m_allowClickThrough;
+
+	[Tooltip("Should this UI hide whenever the pointer enters it?")]
+	public bool m_hideOnPointerEntry;
+
+	[Tooltip("If the transform is set, this UI will hide whenever the transform starts moving")]
+	public Transform m_hideOnTargetMovement;
+	private Vector3 m_lastTargetPosition;
+	private float m_lastMoveTime;
+	private float m_hideDelayAfterMove = 0.1f;
+
+	private bool m_hidden;
 	private List<Component> m_componentsToHide;
 
 	void Start() {
 		m_componentsToHide = new List<Component>();
+		if(m_hideOnTargetMovement) m_lastTargetPosition = m_hideOnTargetMovement.transform.position;
 
 		m_componentsToHide.Add(GetComponent<Image>());
 		m_componentsToHide.Add(GetComponent<Text>());
@@ -33,17 +47,47 @@ public class HideUIOnMouseover : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
 		m_componentsToHide.RemoveAll(c => c == null);
 
-		foreach(Component component in m_componentsToHide)
-			if(!ObjectsHiddenOnMouseover.Contains(component.gameObject))
-				ObjectsHiddenOnMouseover.Add(component.gameObject);
+		if(m_allowClickThrough)
+			foreach(Component component in m_componentsToHide)
+				if(!ObjectsHidden.Contains(component.gameObject))
+					ObjectsHidden.Add(component.gameObject);
 	}
 
 	public void OnPointerEnter(PointerEventData p_eventData) {
+		if(!m_hideOnPointerEntry && m_hidden) return;
+
+		Hide();
+	}
+
+	public void OnPointerExit(PointerEventData p_eventData) {
+		if(!m_hideOnPointerEntry && !m_hidden) return;
+
+		Show();
+	}
+
+	void Update() { 
+		if(!m_hideOnTargetMovement) return;
+
+		bool moved = Vector2.Distance(m_hideOnTargetMovement.transform.position, m_lastTargetPosition) > 0.05;
+
+		if(moved) m_lastMoveTime = Time.time * 1000;
+		m_lastTargetPosition = m_hideOnTargetMovement.transform.position;
+		moved = moved ? true : Time.time * 1000 < m_lastMoveTime + m_hideDelayAfterMove * 1000;
+
+		if(!m_hidden && moved) Hide();
+		else if(m_hidden && !moved) Show();
+	}
+
+	private void Hide() {
+		m_hidden = true;
+
 		foreach(Component component in m_componentsToHide)
 			SetAlphaOnComponent(component, false);
 	}
 
-	public void OnPointerExit(PointerEventData p_eventData) {
+	private void Show() {
+		m_hidden = false;
+
 		foreach(Component component in m_componentsToHide)
 			SetAlphaOnComponent(component, true);
 	}

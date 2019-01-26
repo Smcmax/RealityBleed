@@ -20,7 +20,7 @@ public class Player : Entity {
 		GameObject hover = (EventSystem.current.currentInputModule as CustomStandaloneInputModule).GetGameObjectUnderPointer();
 		bool mouseOverGameObject = hover || UIItem.HeldItem;
 
-		if(HideUIOnMouseover.ObjectsHiddenOnMouseover.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;
+		if(HideUIOnEvent.ObjectsHidden.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;
 
 		if(Game.m_keybinds.GetButton("Primary Fire")) fire = true;
 		else if(Game.m_keybinds.GetButton("Secondary Fire")) { fire = true; leftClick = false; }

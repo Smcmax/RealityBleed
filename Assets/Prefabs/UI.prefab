@@ -935,7 +935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224321679208513234}
-  - component: {fileID: 114281834370840494}
+  - component: {fileID: 114908637079501480}
   m_Layer: 5
   m_Name: Bar Style HP/MP
   m_TagString: Untagged
@@ -1785,6 +1785,7 @@ GameObject:
   - component: {fileID: 224701573989106872}
   - component: {fileID: 222914238732775048}
   - component: {fileID: 114312073506945314}
+  - component: {fileID: 114672071019336820}
   m_Layer: 5
   m_Name: MapBackground
   m_TagString: Untagged
@@ -2726,7 +2727,7 @@ GameObject:
   - component: {fileID: 114019791411797358}
   - component: {fileID: 114725010204977968}
   - component: {fileID: 114026581434522012}
-  - component: {fileID: 114779979123722130}
+  - component: {fileID: 114398915131466040}
   m_Layer: 5
   m_Name: FPS Counter
   m_TagString: Untagged
@@ -3145,7 +3146,7 @@ GameObject:
   - component: {fileID: 114350294931541858}
   - component: {fileID: 114798097082926610}
   - component: {fileID: 114027715082779730}
-  - component: {fileID: 114848902477213584}
+  - component: {fileID: 114795633510588156}
   m_Layer: 5
   m_Name: ProjectileCounter
   m_TagString: Untagged
@@ -3248,7 +3249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224042250502236626}
-  - component: {fileID: 114541091753416594}
+  - component: {fileID: 114159052548670052}
   m_Layer: 5
   m_Name: Minimap
   m_TagString: Untagged
@@ -6600,6 +6601,23 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Shot 1
+--- !u!114 &114159052548670052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1691992535893598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20c046c8c76a8b4a86581d20c01b07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_imageAlpha: 50
+  m_textAlpha: 50
+  m_rawImageAlpha: 128
+  m_allowClickThrough: 0
+  m_hideOnPointerEntry: 1
+  m_hideOnTargetMovement: {fileID: 0}
 --- !u!114 &114161025794417586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7977,20 +7995,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: DEX
---- !u!114 &114281834370840494
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1193322290868886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb564f514868e3409ac32a8dc47fb4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_imageAlpha: 50
-  m_textAlpha: 50
-  m_rawImageAlpha: 128
 --- !u!114 &114289230158082092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9239,6 +9243,23 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: (+5)
+--- !u!114 &114398915131466040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1583920309269388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20c046c8c76a8b4a86581d20c01b07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_imageAlpha: 50
+  m_textAlpha: 50
+  m_rawImageAlpha: 128
+  m_allowClickThrough: 0
+  m_hideOnPointerEntry: 1
+  m_hideOnTargetMovement: {fileID: 0}
 --- !u!114 &114404110777849430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11085,20 +11106,6 @@ MonoBehaviour:
   m_tooltipBorderSize: 10
   m_modifiableInfo: []
   m_offsetPercentage: {x: 13, y: 10}
---- !u!114 &114541091753416594
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1691992535893598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb564f514868e3409ac32a8dc47fb4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_imageAlpha: 50
-  m_textAlpha: 50
-  m_rawImageAlpha: 128
 --- !u!114 &114544485952645264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12743,6 +12750,23 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &114672071019336820
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1371319231528002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20c046c8c76a8b4a86581d20c01b07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_imageAlpha: 50
+  m_textAlpha: 50
+  m_rawImageAlpha: 75
+  m_allowClickThrough: 0
+  m_hideOnPointerEntry: 0
+  m_hideOnTargetMovement: {fileID: 0}
 --- !u!114 &114673502317853526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13859,20 +13883,6 @@ MonoBehaviour:
   m_showMaxValue: 0
   m_entity: {fileID: 0}
   m_stat: 2
---- !u!114 &114779979123722130
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1583920309269388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb564f514868e3409ac32a8dc47fb4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_imageAlpha: 50
-  m_textAlpha: 50
-  m_rawImageAlpha: 128
 --- !u!114 &114783629496657238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14159,6 +14169,23 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Controller 1
+--- !u!114 &114795633510588156
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1676796789655650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20c046c8c76a8b4a86581d20c01b07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_imageAlpha: 50
+  m_textAlpha: 50
+  m_rawImageAlpha: 128
+  m_allowClickThrough: 0
+  m_hideOnPointerEntry: 1
+  m_hideOnTargetMovement: {fileID: 0}
 --- !u!114 &114795753708341164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14846,20 +14873,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &114848902477213584
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1676796789655650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adb564f514868e3409ac32a8dc47fb4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_imageAlpha: 50
-  m_textAlpha: 50
-  m_rawImageAlpha: 128
 --- !u!114 &114852415335510710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15657,6 +15670,23 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &114908637079501480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1193322290868886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20c046c8c76a8b4a86581d20c01b07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_imageAlpha: 50
+  m_textAlpha: 50
+  m_rawImageAlpha: 128
+  m_allowClickThrough: 0
+  m_hideOnPointerEntry: 1
+  m_hideOnTargetMovement: {fileID: 0}
 --- !u!114 &114923431371995338
 MonoBehaviour:
   m_ObjectHideFlags: 1

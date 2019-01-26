@@ -67,7 +67,7 @@ public class OptionManager : MonoBehaviour {
 	}
 
 	void OnSceneLoaded(Scene p_scene, LoadSceneMode p_mode) {
-		HideUIOnMouseover.ObjectsHiddenOnMouseover.Clear();
+		HideUIOnEvent.ObjectsHidden.Clear();
 	}
 }
 
