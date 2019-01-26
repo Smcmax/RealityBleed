@@ -22,10 +22,10 @@ public class WavyBehaviourJob : ProjectileMovementJob {
 			ID = p_id,
 			Speed = p_projectile.m_info.m_speed,
 			Direction = new float3(p_projectile.m_direction.x, p_projectile.m_direction.y, 0),
-			Range = behaviour.m_range,
-			Distance = behaviour.m_range / 2,
-			Steps = behaviour.m_steps,
-			Reverse = 0
+			Frequency = behaviour.m_frequency,
+			Magnitude = behaviour.m_magnitude,
+			Axis = p_projectile.transform.right,
+			SpriteRotation = p_projectile.m_info.m_spriteRotation
 		};
 	}
 
@@ -38,6 +38,7 @@ public class WavyBehaviourJob : ProjectileMovementJob {
 		m_dataArray = new NativeArray<WavyBehaviourData>(dataArray, Allocator.Temp);
 		m_job = new WavyBehaviourMoveJob {
 			DeltaTime = Time.deltaTime,
+			Time = Time.time,
 			DataArray = m_dataArray
 		};
 	}
@@ -47,65 +48,38 @@ public class WavyBehaviourJob : ProjectileMovementJob {
 	}
 
 	protected override void Dispose() {
-		if(m_dataArray.IsCreated) {
-			IProjData[] dataArray = new IProjData[m_dataArray.Length];
-
-			for(int i = 0; i < m_dataArray.Length; i++)
-				dataArray[i] = m_dataArray[i];
-
-			UpdateData(dataArray);
-
-			m_dataArray.Dispose();
-		}
+		if(m_dataArray.IsCreated) m_dataArray.Dispose();
 	}
 
 	[BurstCompile]
 	struct WavyBehaviourMoveJob : IJobParallelForTransform {
 		[ReadOnly] public float DeltaTime;
+		[ReadOnly] public float Time;
 		public NativeArray<WavyBehaviourData> DataArray;
 
 		public void Execute(int p_index, TransformAccess p_transform) {
 			if(DataArray.Length <= p_index) return;
 
 			WavyBehaviourData data = DataArray[p_index];
-			float3 moveVector = data.Direction * data.Speed * DeltaTime;
-			float2 perpendicular = Vector2.Perpendicular((Vector3) moveVector);
-			float perpX = Mathf.Abs(perpendicular.x);
-			float perpY = Mathf.Abs(perpendicular.y);
-			float stepDistance = data.Range / (float) data.Steps;
-			float totalPerpendicularMovement = perpX + perpY;
-			float2 sideMovement = new float2(stepDistance * (perpX / totalPerpendicularMovement),
-													stepDistance * (perpY / totalPerpendicularMovement));
+			float3 originalPos = p_transform.position;
+			float3 pos = originalPos + data.Direction * data.Speed * DeltaTime;
+			float angle = Mathf.Sin(Time * data.Frequency);
 
-			if(perpX < 0) sideMovement.x *= -1;
-			if(perpY < 0) sideMovement.y *= -1;
+			p_transform.position = pos + (float3) data.Axis * angle * data.Magnitude;
 
-			if(data.Reverse == 1) {
-				sideMovement.x *= -1;
-				sideMovement.y *= -1;
-			}
-			
-			float sideDist = Vector2.Distance((Vector3) moveVector, sideMovement);
-
-			data.Distance += data.Reverse == 1 ? -sideDist : sideDist;
-			moveVector += new float3(sideMovement.x, sideMovement.y, 0);
-			p_transform.position += (Vector3) moveVector;
-
-			if(data.Distance >= data.Range) data.Reverse = 1;
-			else if(data.Distance <= 0) data.Reverse = 0;
-
-			DataArray[p_index] = data;
+			float3 dir = (float3) p_transform.position - originalPos;
+			p_transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + data.SpriteRotation, Vector3.forward);
 		}
 	}
 
 	public struct WavyBehaviourData : IProjData {
 		public int ID;
 		public float Speed;
+		public float Frequency;
+		public float Magnitude;
 		public float3 Direction;
-		public float Distance;
-		public float Range;
-		public int Steps;
-		public int Reverse;
+		public Vector3 Axis;
+		public float SpriteRotation;
 
 		public int GetID() { 
 			return ID;

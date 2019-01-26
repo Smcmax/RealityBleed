@@ -130,10 +130,8 @@ public class UnitStats : MonoBehaviour {
 
 	public IEnumerator RegenHealth() {
 		while(m_healthRegen) {
-			if (GetBaseStatWithGear(Stats.HP) - (GetStat(Stats.HP) + 1) >= 0) {
+			if(GetBaseStatWithGear(Stats.HP) - (GetStat(Stats.HP) + 1) >= 0)
 				AddModifier(Stats.HP, 1, 0);
-				CallStatUpdateEvent(Stats.HP);
-			}
 
 			yield return new WaitForSeconds(1f / GetStatEffectFloat(Stats.CON));
 		}
@@ -141,10 +139,8 @@ public class UnitStats : MonoBehaviour {
 
 	public IEnumerator RegenMana() {
 		while(m_manaRegen) {
-			if(GetBaseStatWithGear(Stats.MP) - (GetStat(Stats.MP) + 1) >= 0) {
+			if(GetBaseStatWithGear(Stats.MP) - (GetStat(Stats.MP) + 1) >= 0)
 				AddModifier(Stats.MP, 1, 0);
-				CallStatUpdateEvent(Stats.MP);
-			}
 
 			yield return new WaitForSeconds(1f / GetStatEffectFloat(Stats.WIS));
 		}

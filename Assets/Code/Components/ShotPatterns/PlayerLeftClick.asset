@@ -15,8 +15,7 @@ MonoBehaviour:
     type: 2}
   m_projectileInfo: {fileID: 11400000, guid: b79c4928d7de44543ab7488f08ff4418, type: 2}
   m_behaviours:
-  - {fileID: 11400000, guid: 4794b7449d15cc44cbd5fb062d34c761, type: 2}
-  - {fileID: 11400000, guid: 976232efeb99aaf41b0e461610565b87, type: 2}
+  - {fileID: 11400000, guid: dbee67fe3a0b8204382c17fa2502e481, type: 2}
   m_shots: 1
   m_manaPerStep: 1
   m_instant: 1

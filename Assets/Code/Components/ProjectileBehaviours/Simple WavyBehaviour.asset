@@ -13,3 +13,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_range: 2.59
   m_steps: 100
+  m_turnSpriteWithWave: 1

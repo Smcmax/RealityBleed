@@ -16,7 +16,7 @@ MonoBehaviour:
   m_piercing: 1
   m_armorPiercing: 0
   m_range: 7
-  m_speed: 0.12
+  m_speed: 4
   m_rotate: 0
   m_rotationSpeed: 0
   m_faceAtTarget: 1
