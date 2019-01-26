@@ -47,7 +47,7 @@ public class Shooter : MonoBehaviour {
 
 	public bool CanLoop(ShotPattern p_pattern) {
 		object lastLoopTimeObj = GetPatternInfo(p_pattern, "lastLoopTime");
-		Stats statApplied = p_pattern.m_projectile.m_statApplied;
+		Stats statApplied = p_pattern.m_projectileInfo.m_statApplied;
 		float patternCooldown = p_pattern.m_patternCooldown * statApplied.GetAlternateEffect(m_entity.m_stats.GetStat(statApplied));
 
 		return lastLoopTimeObj == null ? true : Time.time * 1000 >= (float) lastLoopTimeObj + patternCooldown * 1000;
@@ -116,9 +116,9 @@ public class Shooter : MonoBehaviour {
 
 	// this is the pure event, with no modifications applied prior
 	public void Damage(Projectile p_projectile, Entity p_entity, bool p_armorPiercing) {
-		int finalDamage = p_projectile.m_damage;
+		int finalDamage = p_projectile.m_info.m_damage;
 
-		finalDamage += m_entity.m_stats.GetStatEffect(p_projectile.m_statApplied);
+		finalDamage += m_entity.m_stats.GetStatEffect(p_projectile.m_info.m_statApplied);
 		p_entity.Damage(m_entity, finalDamage, p_armorPiercing, false);
 	}
 }

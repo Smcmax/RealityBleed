@@ -7,6 +7,9 @@ public abstract class ShotPattern : ScriptableObject {
 	[Tooltip("Projectile to shoot in this pattern")]
 	public Projectile m_projectile;
 
+	[Tooltip("The information to attribute to every projectile in the pattern")]
+	public ProjectileInfo m_projectileInfo;
+
 	[Tooltip("Behaviours to add to every shot projectile in the pattern")]
 	public List<ProjectileBehaviour> m_behaviours;
 
@@ -57,7 +60,7 @@ public abstract class ShotPattern : ScriptableObject {
 		proj.transform.position = spawnLocation == null ? p_shooter.transform.position : (Vector3) spawnLocation;
 		proj.transform.rotation = m_projectile.transform.rotation;
 
-		projectile.Clone(m_projectile, m_behaviours);
+		projectile.Clone(m_projectile, m_projectileInfo, m_behaviours);
 		if(projectile.m_original.m_polyCollider.enabled) projectile.GetComponent<PolygonColliderExtruder>().Extrude();
 
 		return projectile;

@@ -22,8 +22,8 @@ public class WavyBehaviour : ProjectileBehaviour {
 	public override void Move(Projectile p_projectile, DataHolder p_data) {
 		float distance = 0f;
 		bool reverse = false;
-		Vector3 moveVector = p_projectile.m_direction * p_projectile.m_speed * Time.fixedDeltaTime;
-		Vector2 perpendicular = Vector2.Perpendicular(moveVector) * p_projectile.m_speed * Time.fixedDeltaTime;
+		Vector3 moveVector = p_projectile.m_direction * p_projectile.m_info.m_speed * Time.fixedDeltaTime;
+		Vector2 perpendicular = Vector2.Perpendicular(moveVector) * p_projectile.m_info.m_speed * Time.fixedDeltaTime;
 		float perpX = Mathf.Abs(perpendicular.x);
 		float perpY = Mathf.Abs(perpendicular.y);
 		float stepDistance = m_range / m_steps;

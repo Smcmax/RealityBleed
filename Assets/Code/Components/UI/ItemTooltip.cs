@@ -218,9 +218,9 @@ public class ItemTooltip : MonoBehaviour {
 		cd.text = p_pattern.m_patternCooldown + "s";
 		cd.color = Constants.YELLOW;
 
-		m_modifiableInfo.Find(ti => ti.m_name == shot + " Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
+		m_modifiableInfo.Find(ti => ti.m_name == shot + " Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset).text = "Shot 1 (+" + p_pattern.m_projectileInfo.m_statApplied.ToString() + ")";
 
-		if(p_pattern.m_projectile.m_piercing) {
+		if(p_pattern.m_projectileInfo.m_piercing) {
 			m_modifiableInfo.Find(ti => ti.m_name == shot + " Piercing Text").GetAligned<Text>(ref m_tooltipInfoOffset).color = Constants.PURPLE;
 		}
 
@@ -233,13 +233,13 @@ public class ItemTooltip : MonoBehaviour {
 		shots.text = p_pattern.m_shots.ToString();
 		shots.color = Constants.YELLOW;
 
-		if(p_pattern.m_projectile.m_armorPiercing) {
+		if(p_pattern.m_projectileInfo.m_armorPiercing) {
 			m_modifiableInfo.Find(ti => ti.m_name == shot + " Armor Piercing Text").GetAligned<Text>(ref m_tooltipInfoOffset).color = Constants.RED;
 		}
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		Text damage = m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage").Get<Text>();
-		damage.text = p_pattern.m_projectile.m_damage.ToString();
+		damage.text = p_pattern.m_projectileInfo.m_damage.ToString();
 		damage.color = Constants.YELLOW;
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana Label").GetAligned<Text>(ref m_tooltipInfoOffset);
@@ -249,7 +249,7 @@ public class ItemTooltip : MonoBehaviour {
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Range Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		Text range = m_modifiableInfo.Find(ti => ti.m_name == shot + " Range").Get<Text>();
-		range.text = p_pattern.m_projectile.m_range.ToString();
+		range.text = p_pattern.m_projectileInfo.m_range.ToString();
 		range.color = Constants.YELLOW;
 
 		Text extra = m_modifiableInfo.Find(ti => ti.m_name == shot + " Extra Text").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);

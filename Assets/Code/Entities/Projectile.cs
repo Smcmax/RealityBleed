@@ -3,39 +3,7 @@ using System.Collections.Generic;
 
 public class Projectile : MonoBehaviour {
 
-	[Tooltip("The damage dealt by this projectile")]
-	[Range(0, 100)] public int m_damage;
-
-	[Tooltip("The stat applied to the damage dealt")]
-	public Stats m_statApplied;
-
-	[Tooltip("Whether or not this projectile pierces opponents")]
-	public bool m_piercing;
-
-	[Tooltip("Whether or not this projectile passes through armor")]
-	public bool m_armorPiercing;
-
-	[Tooltip("The range the projectile will travel before being removed")]
-	[Range(0, 50)] public float m_range;
-
-	[Tooltip("The speed at which the projectile travels")]
-	[Range(0, 10)] public float m_speed;
-
-	[Tooltip("Whether or not the projectile rotates on itself")]
-	public bool m_rotate;
-
-	[Tooltip("Speed at which the projectile is rotating")]
-	[ConditionalField("m_rotate")][Range(0, 1000)] public float m_rotationSpeed;
-
-	[Tooltip("If the projectile is faced towards the target")]
-	public bool m_faceAtTarget;
-
-	[Tooltip("Rotation needed for the sprite to be oriented properly")]
-	[Range(-360, 360)] public float m_spriteRotation;
-
-	[Tooltip("The behaviours this projectile will use throughout its lifetime")]
-	public List<ProjectileBehaviour> m_behaviours;
-
+	[HideInInspector] public ProjectileInfo m_info;
 	[HideInInspector] public BehaviourManager m_behaviourManager;
 	[HideInInspector] public Shooter m_shooter;
 	[HideInInspector] public Projectile m_original;
@@ -61,12 +29,12 @@ public class Projectile : MonoBehaviour {
 
 	void FixedUpdate() {
 		if(!m_shot || Time.timeScale == 0f) return;
-		if(Vector2.Distance(transform.position, m_start) >= m_range) {
+		if(Vector2.Distance(transform.position, m_start) >= m_info.m_range) {
 			Disable(true);
 			return;
 		}
 
-		if(m_rotate) transform.Rotate(0, 0, m_rotationSpeed * Time.fixedDeltaTime);
+		if(m_info.m_rotate) transform.Rotate(0, 0, m_info.m_rotationSpeed * Time.fixedDeltaTime);
 
 		m_behaviourManager.Move(this);
 	}
@@ -78,22 +46,20 @@ public class Projectile : MonoBehaviour {
 		m_direction = p_direction;
 		m_shooter = p_shooter;
 
-		if(m_faceAtTarget)
-			transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(m_direction.y, m_direction.x) * Mathf.Rad2Deg + m_spriteRotation, Vector3.forward);
+		if(m_info.m_faceAtTarget)
+			transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(m_direction.y, m_direction.x) * Mathf.Rad2Deg + m_info.m_spriteRotation, Vector3.forward);
 
 		CollisionRelay relay = m_shooter.m_entity.m_collisionRelay;
 		if(relay) Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), relay.GetComponent<BoxCollider2D>());
 
 		gameObject.SetActive(true);
 
-		foreach(ProjectileBehaviour behaviour in m_behaviourManager.m_behaviours.Keys)
-			behaviour.Init(this);
-
+		m_behaviourManager.Init(this);
 		Game.m_projPool.AddProjectileToJob(this);
 	}
 
 	// it is assumed the current projectile is a generic projectile with an empty reference behaviour to fill up
-	public void Clone(Projectile p_projectile, List<ProjectileBehaviour> p_extraBehaviours) {
+	public void Clone(Projectile p_projectile, ProjectileInfo p_projectileInfo, List<ProjectileBehaviour> p_extraBehaviours) {
 		p_projectile.LoadComponents();
 		LoadComponents();
 
@@ -113,11 +79,11 @@ public class Projectile : MonoBehaviour {
 		m_render = render;
 		m_polyCollider = polyCollider;
 		m_boxCollider = collider;
-
+		m_info = p_projectileInfo;
 		m_behaviourManager = GetComponent<BehaviourManager>();
 		m_behaviourManager.m_behaviours = new Dictionary<ProjectileBehaviour, bool>();
 
-		foreach(ProjectileBehaviour behaviour in p_projectile.m_behaviours)
+		foreach(ProjectileBehaviour behaviour in m_info.m_behaviours)
 			m_behaviourManager.m_behaviours.Add(behaviour, false);
 
 		foreach(ProjectileBehaviour behaviour in p_extraBehaviours)
@@ -135,14 +101,14 @@ public class Projectile : MonoBehaviour {
 			CollisionRelay relay = collider.GetComponent<CollisionRelay>();
 
 			if(relay != null) {
-				m_shooter.Damage(this, relay.m_entity, m_armorPiercing);
+				m_shooter.Damage(this, relay.m_entity, m_info.m_armorPiercing);
 
 				hitEntity = true;
 			}
 		}
 
-		if(m_piercing && hitEntity) Physics2D.IgnoreCollision(p_collision.otherCollider, collider);
-		if(!m_piercing || !hitEntity) Disable(true);
+		if(m_info.m_piercing && hitEntity) Physics2D.IgnoreCollision(p_collision.otherCollider, collider);
+		if(!m_info.m_piercing || !hitEntity) Disable(true);
 	}
 
 	public void Disable(bool p_removeFromProjPool) {

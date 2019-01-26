@@ -6021,6 +6021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89d6eb874ccc9c45a6175666409e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_statNameText: {fileID: 114224706603474692}
   m_statText: {fileID: 114324105614409582}
   m_modifierText: {fileID: 114354818920966386}
   m_showMaxValue: 1
@@ -6063,6 +6064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89d6eb874ccc9c45a6175666409e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_statNameText: {fileID: 114233997469158238}
   m_statText: {fileID: 114748405531497466}
   m_modifierText: {fileID: 114396878714998704}
   m_showMaxValue: 0
@@ -7286,6 +7288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89d6eb874ccc9c45a6175666409e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_statNameText: {fileID: 114768560700211466}
   m_statText: {fileID: 114929885473622514}
   m_modifierText: {fileID: 114316476380614694}
   m_showMaxValue: 1
@@ -8026,6 +8029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89d6eb874ccc9c45a6175666409e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_statNameText: {fileID: 114277033232970224}
   m_statText: {fileID: 114264459658988806}
   m_modifierText: {fileID: 114710951050454254}
   m_showMaxValue: 0
@@ -8624,6 +8628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89d6eb874ccc9c45a6175666409e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_statNameText: {fileID: 114165631923262088}
   m_statText: {fileID: 114822718477234930}
   m_modifierText: {fileID: 114274183891625396}
   m_showMaxValue: 0
@@ -13033,6 +13038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89d6eb874ccc9c45a6175666409e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_statNameText: {fileID: 114014385917527420}
   m_statText: {fileID: 114612411028843802}
   m_modifierText: {fileID: 114855199060379272}
   m_showMaxValue: 0
@@ -13750,6 +13756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89d6eb874ccc9c45a6175666409e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_statNameText: {fileID: 114387286644450058}
   m_statText: {fileID: 114687305716927002}
   m_modifierText: {fileID: 114524567126588852}
   m_showMaxValue: 0
@@ -13846,6 +13853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89d6eb874ccc9c45a6175666409e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_statNameText: {fileID: 114799982171877536}
   m_statText: {fileID: 114559047471552178}
   m_modifierText: {fileID: 114797334128319802}
   m_showMaxValue: 0
@@ -14863,6 +14871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d89d6eb874ccc9c45a6175666409e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_statNameText: {fileID: 114654832142290902}
   m_statText: {fileID: 114537779624410738}
   m_modifierText: {fileID: 114663683877777402}
   m_showMaxValue: 0

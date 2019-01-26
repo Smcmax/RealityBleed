@@ -20,7 +20,7 @@ public class WavyBehaviourJob : ProjectileMovementJob {
 
 		return new WavyBehaviourData {
 			ID = p_id,
-			Speed = p_projectile.m_speed,
+			Speed = p_projectile.m_info.m_speed,
 			Direction = new float3(p_projectile.m_direction.x, p_projectile.m_direction.y, 0),
 			Range = behaviour.m_range,
 			Distance = behaviour.m_range / 2,

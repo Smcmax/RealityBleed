@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class StatTextUpdater : MonoBehaviour {
 
+	[Tooltip("The text to update using the stat's current color")]
+	public Text m_statNameText;
+
 	[Tooltip("The text to update using the stat's current value")]
 	public Text m_statText;
 
@@ -28,6 +31,7 @@ public class StatTextUpdater : MonoBehaviour {
 		string sign = modifier > 0 ? "+" : "";
 		Color signColor = modifier > 0 ? Constants.GREEN : (modifier == 0 ? Constants.YELLOW : Constants.RED);
 
+		m_statNameText.color = m_stat.GetColor();
 		m_statText.text = stat.ToString();
 		m_modifierText.text = "(" + sign + modifier + ")";
 		m_modifierText.color = signColor;

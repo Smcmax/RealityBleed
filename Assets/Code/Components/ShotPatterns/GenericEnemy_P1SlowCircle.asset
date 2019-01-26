@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_projectile: {fileID: 114832594043723404, guid: 8ad9103905720be47a9884ba2198205c,
     type: 2}
+  m_projectileInfo: {fileID: 11400000, guid: b79c4928d7de44543ab7488f08ff4418, type: 2}
   m_behaviours:
   - {fileID: 11400000, guid: e7d1460f9e1b5a646a9011f9ce0921e3, type: 2}
   - {fileID: 11400000, guid: 4794b7449d15cc44cbd5fb062d34c761, type: 2}

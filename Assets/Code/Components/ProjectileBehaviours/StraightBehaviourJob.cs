@@ -19,7 +19,7 @@ public class StraightBehaviourJob : ProjectileMovementJob {
 		return new StraightBehaviourData { 
 			ID = p_id,
 			Direction = new float3(p_projectile.m_direction.x, p_projectile.m_direction.y, 0),
-			Speed = p_projectile.m_speed
+			Speed = p_projectile.m_info.m_speed
 		};
 	}
 
