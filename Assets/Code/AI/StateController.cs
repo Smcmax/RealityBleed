@@ -30,6 +30,10 @@ public class StateController : MonoBehaviour {
 		if(m_look) m_currentState.UpdateState(this);
 	}
 
+	void OnDisable() { 
+		Resources.UnloadAsset(m_currentState);
+	}
+
 	public bool TransitionToState(State p_nextState) {
 		if(p_nextState != m_currentState) { 
 			foreach(Action action in m_currentState.m_actions)

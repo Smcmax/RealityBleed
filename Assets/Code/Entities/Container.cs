@@ -1,12 +1,7 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Inventory))]
 public class Container : Interactable {
-
-	[Tooltip("The menu handler handling this container's menu")]
-	public MenuHandler m_menuHandler;
-
-	[Tooltip("The menu to open when interacted with")]
-	public GameObject m_menu;
 
 	[HideInInspector] public Inventory m_inventory;
 
@@ -17,13 +12,13 @@ public class Container : Interactable {
 
 	public override void Interact(Entity p_entity) { 
 		m_inventory.m_interactor = p_entity;
-		m_menu.GetComponent<InventoryLoader>().m_inventory = m_inventory;
+		MenuHandler.Instance.m_containerMenu.GetComponent<InventoryLoader>().m_inventory = m_inventory;
 
-		m_menuHandler.OpenMenu(m_menu);
+		MenuHandler.Instance.OpenMenu(MenuHandler.Instance.m_containerMenu);
 	}
 
 	public override void OutOfRange(Entity p_entity) {
-		if(m_menuHandler.m_openedMenus.Contains(m_menu)) 
-			m_menuHandler.OpenMenu(m_menu);
+		if(MenuHandler.Instance.m_openedMenus.Contains(MenuHandler.Instance.m_containerMenu))
+			MenuHandler.Instance.OpenMenu(MenuHandler.Instance.m_containerMenu);
 	}
 }

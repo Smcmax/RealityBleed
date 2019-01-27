@@ -17,15 +17,21 @@ public class WavyBehaviourJob : ProjectileMovementJob {
 
 	protected override IProjData CreateData(Projectile p_projectile, ProjectileBehaviour p_behaviour, int p_id) {
 		WavyBehaviour behaviour = (WavyBehaviour) p_behaviour;
+		float magnitude = behaviour.m_magnitude / 5;
+
+#if UNITY_EDITOR
+		magnitude *= 5;
+#endif
 
 		return new WavyBehaviourData {
 			ID = p_id,
 			Speed = p_projectile.m_info.m_speed,
 			Direction = new float3(p_projectile.m_direction.x, p_projectile.m_direction.y, 0),
 			Frequency = behaviour.m_frequency,
-			Magnitude = behaviour.m_magnitude,
+			Magnitude = magnitude,
 			Axis = p_projectile.transform.right,
-			SpriteRotation = p_projectile.m_info.m_spriteRotation
+			SpriteRotation = p_projectile.m_info.m_spriteRotation,
+			StartTime = Time.time
 		};
 	}
 
@@ -63,12 +69,11 @@ public class WavyBehaviourJob : ProjectileMovementJob {
 			WavyBehaviourData data = DataArray[p_index];
 			float3 originalPos = p_transform.position;
 			float3 pos = originalPos + data.Direction * data.Speed * DeltaTime;
-			float angle = Mathf.Sin(Time * data.Frequency);
+			float angle = Mathf.Sin((Time - data.StartTime) * data.Frequency + Mathf.PI / 2);
 
 			p_transform.position = pos + (float3) data.Axis * angle * data.Magnitude;
-
-			float3 dir = (float3) p_transform.position - originalPos;
-			p_transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + data.SpriteRotation, Vector3.forward);
+			p_transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(data.Direction.y, data.Direction.x) * Mathf.Rad2Deg - 
+														angle * Mathf.Rad2Deg + data.SpriteRotation, Vector3.forward);
 		}
 	}
 
@@ -80,6 +85,7 @@ public class WavyBehaviourJob : ProjectileMovementJob {
 		public float3 Direction;
 		public Vector3 Axis;
 		public float SpriteRotation;
+		public float StartTime;
 
 		public int GetID() { 
 			return ID;

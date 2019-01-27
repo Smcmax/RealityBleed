@@ -6615,7 +6615,7 @@ MonoBehaviour:
   m_imageAlpha: 50
   m_textAlpha: 50
   m_rawImageAlpha: 128
-  m_allowClickThrough: 0
+  m_allowClickThrough: 1
   m_hideOnPointerEntry: 1
   m_hideOnTargetMovement: {fileID: 0}
 --- !u!114 &114161025794417586
@@ -9257,7 +9257,7 @@ MonoBehaviour:
   m_imageAlpha: 50
   m_textAlpha: 50
   m_rawImageAlpha: 128
-  m_allowClickThrough: 0
+  m_allowClickThrough: 1
   m_hideOnPointerEntry: 1
   m_hideOnTargetMovement: {fileID: 0}
 --- !u!114 &114404110777849430
@@ -14183,7 +14183,7 @@ MonoBehaviour:
   m_imageAlpha: 50
   m_textAlpha: 50
   m_rawImageAlpha: 128
-  m_allowClickThrough: 0
+  m_allowClickThrough: 1
   m_hideOnPointerEntry: 1
   m_hideOnTargetMovement: {fileID: 0}
 --- !u!114 &114795753708341164
@@ -15130,6 +15130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_currentMenu: {fileID: 0}
+  m_containerMenu: {fileID: 1020588899613822}
   m_pauseEvent: {fileID: 11400000, guid: b11738bbea5f37647a784100d7cb4868, type: 2}
   m_resumeEvent: {fileID: 11400000, guid: ed2b58e5fd2bb26418971cbd6baab096, type: 2}
   m_onMenuChangedEvent: {fileID: 11400000, guid: ad967bbe81041e247a5a7a419fb0c30e,
@@ -15684,7 +15685,7 @@ MonoBehaviour:
   m_imageAlpha: 50
   m_textAlpha: 50
   m_rawImageAlpha: 128
-  m_allowClickThrough: 0
+  m_allowClickThrough: 1
   m_hideOnPointerEntry: 1
   m_hideOnTargetMovement: {fileID: 0}
 --- !u!114 &114923431371995338

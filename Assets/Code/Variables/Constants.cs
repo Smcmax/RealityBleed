@@ -5,6 +5,7 @@ public static class Constants {
 	public const float EFFECT_TICK_RATE = 0.5f;
 	public const float CHARACTER_SPEED_UPDATE_RATE = 0.1f;
 	public const float FOG_DISCOVERY_UPDATE_RATE = 0.1f;
+	public const float CORPSE_LIFETIME = 60f;
 
 	// Colors, they all divide by 255 because unity only takes 0-1 values
 	public static Color TRANSPARENT = new Color(0f / 255f, 0f / 255f, 0f / 255f, 0f / 255f);
@@ -25,4 +26,6 @@ public static class Constants {
 	public static Color CON_COLOR = new Color(243f / 255f, 10f / 255f, 28f / 255f, 255f / 255f);
 	public static Color DEF_COLOR = new Color(93f / 255f, 93f / 255f, 93f / 255f, 255f / 255f);
 	public static Color WIS_COLOR = new Color(56f / 255f, 132f / 255f, 233f / 255f, 255f / 255f);
+
+	public static Color CORPSE_COLOR = new Color(50f / 255f, 50f / 255f, 50f / 255f, 255f / 255f);
 }

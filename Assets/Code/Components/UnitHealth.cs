@@ -25,6 +25,10 @@ public class UnitHealth : MonoBehaviour {
 		if(m_healthBarTemplate) LoadHealthBar();
 	}
 
+	void OnDisable() { 
+		if(m_healthBarUpdater) Destroy(m_healthBarUpdater.gameObject);
+	}
+
 	public int GetHealth() {
 		return m_entity.m_stats.GetStat(Stats.HP);
 	}

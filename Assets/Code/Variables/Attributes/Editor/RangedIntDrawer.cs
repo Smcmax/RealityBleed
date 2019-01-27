@@ -6,8 +6,8 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomPropertyDrawer(typeof(RangedFloat), true)]
-public class RangedFloatDrawer : PropertyDrawer {
+[CustomPropertyDrawer(typeof(RangedInt), true)]
+public class RangedIntDrawer : PropertyDrawer {
 
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 		label = EditorGUI.BeginProperty(position, label, property);
@@ -16,17 +16,17 @@ public class RangedFloatDrawer : PropertyDrawer {
 		SerializedProperty minProp = property.FindPropertyRelative("Min");
 		SerializedProperty maxProp = property.FindPropertyRelative("Max");
 
-		float minValue = minProp.floatValue;
-		float maxValue = maxProp.floatValue;
+		float minValue = minProp.intValue;
+		float maxValue = maxProp.intValue;
 
-		float rangeMin = 0;
-		float rangeMax = 1;
+		int rangeMin = 0;
+		int rangeMax = 1;
 
 		var ranges = (MinMaxRangeAttribute[]) fieldInfo.GetCustomAttributes(typeof(MinMaxRangeAttribute), true);
 
 		if(ranges.Length > 0) {
-			rangeMin = ranges[0].FloatMin;
-			rangeMax = ranges[0].FloatMax;
+			rangeMin = ranges[0].IntMin;
+			rangeMax = ranges[0].IntMax;
 		}
 
 		const float rangeBoundsLabelWidth = 40f;
@@ -47,8 +47,8 @@ public class RangedFloatDrawer : PropertyDrawer {
 		EditorGUI.MinMaxSlider(position, ref minValue, ref maxValue, rangeMin, rangeMax);
 
 		if(EditorGUI.EndChangeCheck()) {
-			minProp.floatValue = minValue;
-			maxProp.floatValue = maxValue;
+			minProp.intValue = (int) minValue;
+			maxProp.intValue = (int) maxValue;
 		}
 
 		EditorGUI.EndProperty();

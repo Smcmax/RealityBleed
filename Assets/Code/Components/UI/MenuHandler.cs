@@ -8,6 +8,9 @@ public class MenuHandler : MonoBehaviour {
 	[Tooltip("The currently opened menu. If null, the game is not currently paused")]
 	public GameObject m_currentMenu;
 
+	[Tooltip("The menu used for containers")]
+	public GameObject m_containerMenu;
+
 	[Tooltip("The game event raised when the game is paused")]
 	public GameEvent m_pauseEvent;
 
@@ -28,6 +31,12 @@ public class MenuHandler : MonoBehaviour {
 	
 	private GameObject m_previousMenu; // The previously opened menu, for use with the pause menu only
 	[HideInInspector] public List<GameObject> m_openedMenus;
+
+	private MenuHandler() { }
+
+	public static MenuHandler Instance { get; private set; }
+
+	void Start() { Instance = this; }
 
 	void OnEnable() {
 		m_openedMenus = new List<GameObject>();

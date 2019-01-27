@@ -42,6 +42,15 @@ public class Inventory : MonoBehaviour {
 		return Get(p_id).m_item.m_maxStackSize;
 	}
 
+	public int Count() { 
+		int count = 0;
+
+		foreach(Item item in m_items)
+			if(!item.m_item) count++;
+
+		return count;
+	}
+
 	public bool IsFull() { 
 		foreach(Item item in m_items)
 			if(!item.m_item) return false;
@@ -269,6 +278,8 @@ public class Inventory : MonoBehaviour {
 	}
 
 	public void UpdateItemInfo() {
+		if(m_items == null) return;
+
 		for(int i = 0; i < m_items.Length; ++i) {
 			Item item = m_items[i];
 

@@ -23,6 +23,18 @@ public class Entity : MonoBehaviour {
 	[Tooltip("The inventory carried by this entity")]
 	public Inventory m_inventory;
 
+	[Tooltip("Whether or not this entity stays as a corpse in-game, necessary to drop any loot")]
+	public bool m_hasCorpse;
+
+	[Tooltip("The item table dropped by the entity on death")]
+	[ConditionalField("m_hasCorpse", "true")] public EntityDropRuntimeSet m_lootTable;
+
+	[Tooltip("Should the entity's inventory be dropped on death?")]
+	[ConditionalField("m_hasCorpse", "true")] public bool m_dropInventoryOnDeath;
+
+	[Tooltip("Event called when interacting with the corpse")]
+	[ConditionalField("m_hasCorpse", "true")] public GameEvent m_interactCorpseEvent;
+
 	[Tooltip("All runtime sets this entity is a part of")]
 	public List<EntityRuntimeSet> m_runtimeSets;
 
@@ -139,15 +151,28 @@ public class Entity : MonoBehaviour {
 	}
 
 	public void Kill() {
-		if (m_canDie) {
+		if(m_canDie && !m_isDead) {
 			m_isDead = true;
 			
 			Die();
 		}
 	}
 
-	// TODO: not destroy
 	protected virtual void Die() {
-		Destroy(gameObject);
+		Destroy(m_ai);
+		Destroy(m_shooter);
+
+		if(m_hasCorpse) {
+			Corpse corpse = gameObject.AddComponent<Corpse>();
+			corpse.Init(this, Constants.CORPSE_LIFETIME);
+		}
+
+		// fire sound effects
+
+		m_controller.Stop();
+		Destroy(m_controller);
+		Destroy(m_health);
+		Destroy(this);
+		Destroy(m_stats);
 	}
 }
