@@ -242,6 +242,13 @@ public class ItemTooltip : MonoBehaviour {
 		damage.text = p_pattern.m_projectileInfo.m_damage.ToString();
 		damage.color = Constants.YELLOW;
 
+		if(p_pattern.m_projectileInfo.m_damageType.m_icon) {
+			m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage").m_rect.anchoredPosition = new Vector2(48, 0);
+
+			Image damageType = m_modifiableInfo.Find(ti => ti.m_name == shot + " DamageType").Get<Image>();
+			damageType.sprite = p_pattern.m_projectileInfo.m_damageType.m_icon;
+		} else m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage").m_rect.anchoredPosition = new Vector2(36, 0);
+
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana Label").GetAligned<Text>(ref m_tooltipInfoOffset);
 		Text mana = m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana").Get<Text>();
 		mana.text = p_pattern.m_manaPerStep.ToString();

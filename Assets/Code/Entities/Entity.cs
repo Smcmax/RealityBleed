@@ -14,6 +14,9 @@ public class Entity : MonoBehaviour {
 	public bool m_canDie;
 	[HideInInspector] public bool m_isDead;
 
+	[Tooltip("The type associated to this entity, it will take damage as such")]
+	public DamageType m_type;
+
 	[Tooltip("This entity's equipment")]
 	public Equipment m_equipment;
 
@@ -49,6 +52,7 @@ public class Entity : MonoBehaviour {
 	[HideInInspector] public UnitHealth m_health;
 	[HideInInspector] public UnitStats m_stats;
 	[HideInInspector] public Shooter m_shooter;
+	[HideInInspector] public Modifiers m_modifiers;
 	[HideInInspector] public StateController m_ai;
 	[HideInInspector] public Color m_feedbackColor; // transparent = green/red
 
@@ -57,12 +61,15 @@ public class Entity : MonoBehaviour {
 		m_health = GetComponent<UnitHealth>();
 		m_stats = GetComponent<UnitStats>();
 		m_shooter = GetComponent<Shooter>();
+		m_modifiers = gameObject.AddComponent<Modifiers>();
 		m_feedbackColor = Constants.YELLOW;
 
 		if(m_shooter) m_shooter.Init(this);
 		if(m_health) m_health.Init(this);
 		if(m_inventory) m_inventory.m_entity = this;
 		if(m_equipment) m_equipment.Init(this);
+
+		// TODO: load modifiers?
 
 		InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
 		InvokeRepeating("UpdateCharacterSpeed", Constants.CHARACTER_SPEED_UPDATE_RATE, Constants.CHARACTER_SPEED_UPDATE_RATE);
@@ -114,15 +121,22 @@ public class Entity : MonoBehaviour {
 		m_effectsActive.Add(p_effect, Time.time * 1000);
 	}
 
-	public void Damage(Entity p_entity, int p_damage, bool p_bypassDefense, bool p_bypassImmunityWindow){
+	public void Damage(Entity p_entity, DamageType p_type, int p_damage, bool p_bypassDefense, bool p_bypassImmunityWindow){
 		if(m_health) {
 			int finalDamage = p_damage;
+			int effective = p_type.IsEffectiveAgainst(m_type);
 
 			if(!p_bypassDefense) finalDamage -= m_stats.GetStatEffect(Stats.DEF);
+			if(effective == 1) finalDamage = Mathf.CeilToInt(finalDamage * 1.5f);
+			else if(effective == -1) finalDamage /= 2;
+
+			int resistance = Mathf.FloorToInt(m_modifiers.GetModifier(p_type.m_name + "-Resistance"));
+			finalDamage -= resistance;
+
 			if(finalDamage > 0) {
-				if(m_feedbackTemplate) GenerateFeedback(-finalDamage, p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT);
+				if(m_feedbackTemplate) GenerateFeedback(p_type, -finalDamage, p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT);
 				m_health.Damage(finalDamage, p_bypassImmunityWindow);
-			}
+			} else if(m_feedbackTemplate) GenerateFeedback(p_type, 0, p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT);
 		}
 
 		// make sure the AI starts targeting its last damager
@@ -130,9 +144,10 @@ public class Entity : MonoBehaviour {
 	}
 
 	// display color is transparent if no specified color
-	public void GenerateFeedback(int p_amount, Color p_displayColor) {
+	public void GenerateFeedback(DamageType p_type, int p_amount, Color p_displayColor) {
 		GameObject feedback = Instantiate(m_feedbackTemplate, m_feedbackTemplate.transform.parent);
 		Text feedbackText = feedback.GetComponent<Text>();
+		Image damageTypeIcon = feedback.GetComponentInChildren<Image>();
 		UIWorldSpaceFollower follow = feedback.GetComponent<UIWorldSpaceFollower>();
 		Color feedbackColor = m_feedbackColor;
 
@@ -140,6 +155,9 @@ public class Entity : MonoBehaviour {
 			if(m_feedbackColor == Constants.TRANSPARENT)
 				feedbackColor = p_amount > 0 ? Constants.GREEN : Constants.RED;
 		} else feedbackColor = p_displayColor;
+
+		if(p_type.m_icon) damageTypeIcon.sprite = p_type.m_icon;
+		else damageTypeIcon.enabled = false;
 
 		feedbackText.text = p_amount > 0 ? p_amount.ToString() : Mathf.Abs(p_amount).ToString();
 		feedbackText.color = feedbackColor;
@@ -153,7 +171,6 @@ public class Entity : MonoBehaviour {
 	public void Kill() {
 		if(m_canDie && !m_isDead) {
 			m_isDead = true;
-			
 			Die();
 		}
 	}

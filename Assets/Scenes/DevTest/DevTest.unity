@@ -683,6 +683,12 @@ Prefab:
       propertyPath: m_itemTooltip
       value: 
       objectReference: {fileID: 1181717885}
+    - target: {fileID: 114332108090814936, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_type
+      value: 
+      objectReference: {fileID: 11400000, guid: 68656f8621f16944bb5a9283acb80212,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8f178c0b7b80014a9b1557be1e060ce, type: 2}
   m_IsPrefabAsset: 0
@@ -97614,6 +97620,7 @@ MonoBehaviour:
   m_collisionRelay: {fileID: 0}
   m_canDie: 1
   m_isDead: 0
+  m_type: {fileID: 11400000, guid: 94b37bc82d7c356438a8f3a60c829848, type: 2}
   m_equipment: {fileID: 1610949178}
   m_look: {fileID: 11400000, guid: f213fe302a30e9d4a8c65ddcc055f562, type: 2}
   m_inventory: {fileID: 1610949177}
@@ -97628,6 +97635,7 @@ MonoBehaviour:
   m_health: {fileID: 0}
   m_stats: {fileID: 0}
   m_shooter: {fileID: 0}
+  m_modifiers: {fileID: 0}
   m_ai: {fileID: 0}
   m_feedbackColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!50 &1610949174
@@ -98561,6 +98569,11 @@ Prefab:
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114584543977728594, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1722a6d17d631c54cbc2664427b326cf, type: 2}
