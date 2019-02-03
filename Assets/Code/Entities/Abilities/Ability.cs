@@ -1,20 +1,54 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public abstract class Ability : ScriptableObject {
 
+	[Header("Generic Attributes")]
+	[Tooltip("The ability's name")]
 	public string m_name;
 
+	[Tooltip("The ability's displayed icon")]
 	public Sprite m_icon;
+	
+	[Tooltip("The ability's associated domain, an ability MUST have a domain")]
+	public DamageType m_domain;
 
-	// type
+	[Tooltip("Whether or not the effect is activated by the game or by the player")]
+	public bool m_isPassive;
 
-	public int m_manaCost;
-
-	public int m_trainingExpCost;
-
+	[Tooltip("How much this ability sells for in shops (base price)")]
 	public int m_sellPrice;
 
-	[Multiline] public string m_description;
+	[Space]
+	[Tooltip("The cooldown for this ability per training level")]
+	public List<TrainingLevelFloatWrapper> m_cooldowns;
 
-	public abstract void Use();
+	[Space]
+	[Tooltip("The mana cost to use this ability per training level")]
+	public List<TrainingLevelIntWrapper> m_manaCosts;
+
+	[Space]
+	[Tooltip("How expensive this ability is to train per training level")]
+	public List<TrainingLevelIntWrapper> m_trainingExpCosts;
+
+	[Space]
+	[Tooltip("The list containing the appropriate description for each training level")]
+	public List<DescriptionLevelWrapper> m_descriptions;
+
+	public abstract string GetDescription(int p_trainingLevel);
+	public abstract void Use(Entity p_entity, int p_trainingLevel);
+}
+
+[System.Serializable]
+public struct DescriptionLevelWrapper { 
+	public int TrainingLevel;
+
+	[Tooltip("Description, some variables may auto-fill depending on the type described (look at the notes)")]
+	[Multiline] public string Description;
+}
+
+[System.Serializable]
+public struct TrainingLevelIntWrapper { 
+	public int TrainingLevel;
+	public int Value;
 }

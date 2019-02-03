@@ -10,6 +10,9 @@ public class DamageType : ScriptableObject {
 	[Tooltip("The type's icon")]
 	public Sprite m_icon;
 
+	[Tooltip("Color to use in tooltips")]
+	public Color m_nameColor;
+
 	[Tooltip("The types against which this type fares well")]
 	public List<DamageType> m_strongAgainst;
 

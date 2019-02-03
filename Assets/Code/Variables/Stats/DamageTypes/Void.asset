@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: Void
   m_icon: {fileID: 21300000, guid: 1f1e4a17ec42f9e4db74758017ede57c, type: 3}
+  m_nameColor: {r: 0.2392157, g: 0.20392159, b: 0.64705884, a: 1}
   m_strongAgainst:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: 9ff6b9c4768dc374f81a491f6332305e, type: 2}

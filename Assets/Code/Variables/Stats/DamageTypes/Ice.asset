@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: Ice
   m_icon: {fileID: 21300000, guid: 252f7fc71c6c73049aae88ce442a4e7a, type: 3}
+  m_nameColor: {r: 0.7647059, g: 0.79607844, b: 0.8509804, a: 1}
   m_strongAgainst:
   - {fileID: 11400000, guid: d21cb6c141d709047a1e14a12bb5a371, type: 2}
   - {fileID: 11400000, guid: f64f5c4fb7f70e543bdf5e303bc11d5e, type: 2}

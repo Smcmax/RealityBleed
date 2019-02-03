@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 224587364516148022}
   - component: {fileID: 222557002621307590}
   - component: {fileID: 114553780390159858}
-  - component: {fileID: 114246251485334580}
+  - component: {fileID: 114621793745980880}
   - component: {fileID: 114475446529453010}
   m_Layer: 5
   m_Name: Item
@@ -181,27 +181,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: -0.5, y: 0.5}
   m_UseGraphicAlpha: 1
---- !u!114 &114246251485334580
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1872909952281728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ca162b8d2daa354fbb8fa2ac1b4d996, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_item:
-    m_amount: 1
-    m_durability: 100
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 11400000, guid: 9640eb97282528f479166c0586201571, type: 2}
-    m_holder: {fileID: 0}
-    m_inventory: {fileID: 0}
-    m_inventoryIndex: 0
-  m_ghost: {fileID: 114954898258362744}
-  m_loader: {fileID: 0}
 --- !u!114 &114299074337105350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -273,7 +252,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114246251485334580}
+        - m_Target: {fileID: 114621793745980880}
           m_MethodName: ShowTooltip
           m_Mode: 1
           m_Arguments:
@@ -290,7 +269,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114246251485334580}
+        - m_Target: {fileID: 114621793745980880}
           m_MethodName: HideTooltip
           m_Mode: 1
           m_Arguments:
@@ -331,6 +310,27 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114621793745980880
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1872909952281728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a632127613507b548964c80b130b7036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_item:
+    m_amount: 0
+    m_durability: 0
+    m_outlineSprite: {fileID: 0}
+    m_item: {fileID: 0}
+    m_holder: {fileID: 0}
+    m_inventory: {fileID: 0}
+    m_inventoryIndex: 0
+  m_ghost: {fileID: 114954898258362744}
+  m_loader: {fileID: 0}
 --- !u!114 &114710841386880356
 MonoBehaviour:
   m_ObjectHideFlags: 1

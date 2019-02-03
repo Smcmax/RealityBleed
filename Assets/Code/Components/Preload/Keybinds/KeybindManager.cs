@@ -9,6 +9,7 @@ public class KeybindManager : MonoBehaviour {
 
 	[HideInInspector] public string m_currentProfile;
 	[HideInInspector] public bool m_blockAllKeybinds;
+	[HideInInspector] public Entity m_entity;
 
 	void OnEnable() {
 		LoadKeybinds();

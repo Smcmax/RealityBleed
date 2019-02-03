@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: Holy
   m_icon: {fileID: 21300000, guid: 6303b2d37f3468e4da0959345ecf1263, type: 3}
+  m_nameColor: {r: 0.97647065, g: 0.86274517, b: 0.20000002, a: 1}
   m_strongAgainst:
   - {fileID: 11400000, guid: 1c599bb0710d2bc419610a5bbb9cb3ec, type: 2}
   m_weakAgainst:

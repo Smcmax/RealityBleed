@@ -5,7 +5,7 @@ using UnityEngine;
 /*
  * Existing modifiers
  * 
- * - Every DamageType has its own modifier in this format: TypeName-Resistance
+ * - Every DamageType has its own modifier in this format: TypeName Resistance
  * 
  */
 public class Modifiers : MonoBehaviour {

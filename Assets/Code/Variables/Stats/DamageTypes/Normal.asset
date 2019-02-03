@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: Normal
   m_icon: {fileID: 0}
+  m_nameColor: {r: 1, g: 1, b: 1, a: 1}
   m_strongAgainst: []
   m_weakAgainst:
   - {fileID: 11400000, guid: d21cb6c141d709047a1e14a12bb5a371, type: 2}

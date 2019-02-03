@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: Poison
   m_icon: {fileID: 21300000, guid: 53290694ee633c540ad05e5fdbbef585, type: 3}
+  m_nameColor: {r: 0.35686275, g: 0.18431373, b: 0.32156864, a: 1}
   m_strongAgainst:
   - {fileID: 11400000, guid: 9ff6b9c4768dc374f81a491f6332305e, type: 2}
   m_weakAgainst:

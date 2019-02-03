@@ -411,7 +411,127 @@ MonoBehaviour:
     m_pressedLastFrame: 0
     m_releasedThisFrame: 0
     m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Skillbook
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 103
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: Skillbook
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Hotkey 1
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 49
+    m_altNegativeKey: 0
+    m_altPositiveKey: 257
+    m_positiveDisplayName: Hotkey 1
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Hotkey 2
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 50
+    m_altNegativeKey: 0
+    m_altPositiveKey: 258
+    m_positiveDisplayName: Hotkey 2
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Hotkey 3
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 51
+    m_altNegativeKey: 0
+    m_altPositiveKey: 259
+    m_positiveDisplayName: Hotkey 3
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Hotkey 4
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 52
+    m_altNegativeKey: 0
+    m_altPositiveKey: 260
+    m_positiveDisplayName: Hotkey 4
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Hotkey 5
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 53
+    m_altNegativeKey: 0
+    m_altPositiveKey: 261
+    m_positiveDisplayName: Hotkey 5
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
+  - m_axis:
+      m_key: Hotkey 6
+      value: 0
+    m_profile: mouseAndKB
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 54
+    m_altNegativeKey: 0
+    m_altPositiveKey: 262
+    m_positiveDisplayName: Hotkey 6
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
   m_controllerOne:
+  - m_axis:
+      m_key: 
+      value: 0
+    m_profile: 
+    m_useRawValues: 0
+    m_negativeKey: 0
+    m_positiveKey: 0
+    m_altNegativeKey: 0
+    m_altPositiveKey: 0
+    m_positiveDisplayName: 
+    m_negativeDisplayName: 
+    m_pressedThisFrame: 0
+    m_pressedLastFrame: 0
+    m_releasedThisFrame: 0
+    m_releasedLastFrame: 0
   - m_axis:
       m_key: 
       value: 0
@@ -549,6 +669,7 @@ MonoBehaviour:
     m_releasedLastFrame: 0
   m_currentProfile: 
   m_blockAllKeybinds: 0
+  m_entity: {fileID: 0}
 --- !u!114 &1429569055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -806,17 +927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a42432b93173d44a89e63b45b23bd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_damage: 0
-  m_statApplied: 0
-  m_piercing: 0
-  m_armorPiercing: 0
-  m_range: 25
-  m_speed: 5
-  m_rotate: 0
-  m_rotationSpeed: 0
-  m_faceAtTarget: 1
-  m_spriteRotation: 0
-  m_behaviours: []
+  m_info: {fileID: 0}
   m_behaviourManager: {fileID: 0}
   m_shooter: {fileID: 0}
   m_original: {fileID: 0}

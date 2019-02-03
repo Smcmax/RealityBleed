@@ -14,6 +14,10 @@ public class Player : Entity {
 		m_feedbackColor = Constants.TRANSPARENT;
 	}
 
+	void Start() { 
+		Game.m_keybinds.m_entity = this; // TODO: support local co-op 
+	}
+
 	void Update() {
 		bool leftClick = true;
 		bool fire = false;
@@ -42,6 +46,14 @@ public class Player : Entity {
 
 			m_shooter.SetPatternInfo(toFire, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition));
 			weapon.Use(this, new string[]{ weapon.m_leftClickPattern == toFire ? "true" : "false" }); // using weapon in case it has specific code to execute
+		}
+
+		for(int i = 1; i <= 6; i++) { 
+			if(Game.m_keybinds.GetButtonDown("Hotkey " + i)) { 
+				AbilityWrapper wrapper = m_abilities.Find(a => a.HotkeySlot == i);
+
+				if(wrapper.Ability) UseAbility(wrapper.Ability);
+			}
 		}
 	}
 

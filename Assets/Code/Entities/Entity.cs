@@ -47,11 +47,13 @@ public class Entity : MonoBehaviour {
 	[Tooltip("How random the feedback's position should be on both axis")]
 	public Vector2 m_feedbackPositionRandomness;
 
-	// check for duplicate effects maybe not stacking? unsure if it will happen but needs to be tested
+	// TODO: check for duplicate effects maybe not stacking? unsure if it will happen but needs to be tested
 	[HideInInspector] public Dictionary<Effect, float> m_effectsActive; // float = application time
 	[HideInInspector] public UnitHealth m_health;
 	[HideInInspector] public UnitStats m_stats;
 	[HideInInspector] public Shooter m_shooter;
+	public List<AbilityWrapper> m_abilities;
+	public List<SkillWrapper> m_skills;
 	[HideInInspector] public Modifiers m_modifiers;
 	[HideInInspector] public StateController m_ai;
 	[HideInInspector] public Color m_feedbackColor; // transparent = green/red
@@ -61,6 +63,8 @@ public class Entity : MonoBehaviour {
 		m_health = GetComponent<UnitHealth>();
 		m_stats = GetComponent<UnitStats>();
 		m_shooter = GetComponent<Shooter>();
+		//m_abilities = new List<AbilityWrapper>();
+		//m_skills = new List<SkillWrapper>();
 		m_modifiers = gameObject.AddComponent<Modifiers>();
 		m_feedbackColor = Constants.YELLOW;
 
@@ -69,7 +73,13 @@ public class Entity : MonoBehaviour {
 		if(m_inventory) m_inventory.m_entity = this;
 		if(m_equipment) m_equipment.Init(this);
 
-		// TODO: load modifiers?
+		// TODO: load abilities, skills and modifiers?
+
+		foreach(AbilityWrapper ability in m_abilities)
+			ability.SetOwner(this);
+
+		foreach(SkillWrapper skill in m_skills)
+			skill.SetOwner(this);
 
 		InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
 		InvokeRepeating("UpdateCharacterSpeed", Constants.CHARACTER_SPEED_UPDATE_RATE, Constants.CHARACTER_SPEED_UPDATE_RATE);
@@ -121,6 +131,18 @@ public class Entity : MonoBehaviour {
 		m_effectsActive.Add(p_effect, Time.time * 1000);
 	}
 
+	public void UseAbility(Ability p_ability) { 
+		AbilityWrapper ability = m_abilities.Find(a => a.Ability == p_ability);
+
+		int cost = ability.Ability.m_manaCosts.Find(m => m.TrainingLevel == ability.TrainingLevel).Value;
+		int leftoverMana = m_stats.GetStat(Stats.MP) - cost;
+
+		if(ability.Ability && leftoverMana >= 0 && ability.Use()) {
+			m_stats.AddModifier(Stats.MP, -cost, 0);
+			p_ability.Use(this, ability.TrainingLevel);
+		}
+	}
+
 	public void Damage(Entity p_entity, DamageType p_type, int p_damage, bool p_bypassDefense, bool p_bypassImmunityWindow){
 		if(m_health) {
 			int finalDamage = p_damage;
@@ -130,7 +152,7 @@ public class Entity : MonoBehaviour {
 			if(effective == 1) finalDamage = Mathf.CeilToInt(finalDamage * 1.5f);
 			else if(effective == -1) finalDamage /= 2;
 
-			int resistance = Mathf.FloorToInt(m_modifiers.GetModifier(p_type.m_name + "-Resistance"));
+			int resistance = Mathf.FloorToInt(m_modifiers.GetModifier(p_type.m_name + " Resistance"));
 			finalDamage -= resistance;
 
 			if(finalDamage > 0) {
@@ -193,3 +215,4 @@ public class Entity : MonoBehaviour {
 		Destroy(m_stats);
 	}
 }
+

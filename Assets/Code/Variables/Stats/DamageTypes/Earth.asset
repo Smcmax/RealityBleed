@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: Earth
   m_icon: {fileID: 21300000, guid: 05d5b16c3cdb3604eb15c3fd8d49e862, type: 3}
+  m_nameColor: {r: 0.88235295, g: 0.6627451, b: 0.37254903, a: 1}
   m_strongAgainst:
   - {fileID: 11400000, guid: a066232cb4ac41c48a02636bd1db38ac, type: 2}
   - {fileID: 11400000, guid: 6d2a537754dcb9a44b8b6888a5129e9c, type: 2}

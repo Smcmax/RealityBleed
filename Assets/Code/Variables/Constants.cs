@@ -7,6 +7,8 @@ public static class Constants {
 	public const float FOG_DISCOVERY_UPDATE_RATE = 0.1f;
 	public const float CORPSE_LIFETIME = 60f;
 	public const float AUTO_LOOT_DELAY = 0.75f;
+	public const float ABILITY_VIEW_REFRESH = 1f;
+	public const float ABILITY_COOLDOWN_REFRESH = 0.1f;
 
 	// Colors, they all divide by 255 because unity only takes 0-1 values
 	public static Color TRANSPARENT = new Color(0f / 255f, 0f / 255f, 0f / 255f, 0f / 255f);

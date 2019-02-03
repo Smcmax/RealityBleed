@@ -802,6 +802,7 @@ MonoBehaviour:
   m_collisionRelay: {fileID: 0}
   m_canDie: 0
   m_isDead: 0
+  m_type: {fileID: 11400000, guid: 68656f8621f16944bb5a9283acb80212, type: 2}
   m_equipment: {fileID: 114071987786881558}
   m_look: {fileID: 0}
   m_inventory: {fileID: 114018483739704796}
@@ -818,6 +819,17 @@ MonoBehaviour:
   m_health: {fileID: 0}
   m_stats: {fileID: 0}
   m_shooter: {fileID: 0}
+  m_abilities:
+  - Ability: {fileID: 11400000, guid: d0726741aee8b6541b6a23f1b23cbc2c, type: 2}
+    Learned: 1
+    TrainingLevel: 1
+    HotkeySlot: 1
+  - Ability: {fileID: 11400000, guid: f044594494061b84798107311ea31d3b, type: 2}
+    Learned: 1
+    TrainingLevel: 1
+    HotkeySlot: 2
+  m_skills: []
+  m_modifiers: {fileID: 0}
   m_ai: {fileID: 0}
   m_feedbackColor: {r: 0, g: 0, b: 0, a: 0}
   m_playerController: {fileID: 0}

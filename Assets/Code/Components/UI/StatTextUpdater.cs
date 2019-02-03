@@ -31,9 +31,12 @@ public class StatTextUpdater : MonoBehaviour {
 		string sign = modifier > 0 ? "+" : "";
 		Color signColor = modifier > 0 ? Constants.GREEN : (modifier == 0 ? Constants.YELLOW : Constants.RED);
 
-		m_statNameText.color = m_stat.GetColor();
 		m_statText.text = stat.ToString();
-		m_modifierText.text = "(" + sign + modifier + ")";
-		m_modifierText.color = signColor;
+
+		if(m_statNameText) m_statNameText.color = m_stat.GetColor();
+		if(m_modifierText) {
+			m_modifierText.text = "(" + sign + modifier + ")";
+			m_modifierText.color = signColor;
+		}
 	}
 }

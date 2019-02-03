@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_damage: 5
   m_statApplied: 3
-  m_damageType: {fileID: 11400000, guid: 68656f8621f16944bb5a9283acb80212, type: 2}
+  m_damageType: {fileID: 11400000, guid: f64f5c4fb7f70e543bdf5e303bc11d5e, type: 2}
   m_piercing: 1
   m_armorPiercing: 1
   m_range: 5

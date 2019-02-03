@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_name: Air
   m_icon: {fileID: 21300000, guid: 1a2ac64c2eeb41045b474885711315ce, type: 3}
+  m_nameColor: {r: 0.4862745, g: 0.69411767, b: 0.8039216, a: 1}
   m_strongAgainst: []
   m_weakAgainst:
   - {fileID: 11400000, guid: 6d2a537754dcb9a44b8b6888a5129e9c, type: 2}
