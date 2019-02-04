@@ -52,7 +52,7 @@ public class Player : Entity {
 			if(Game.m_keybinds.GetButtonDown("Hotkey " + i)) { 
 				AbilityWrapper wrapper = m_abilities.Find(a => a.HotkeySlot == i);
 
-				if(wrapper.Ability) UseAbility(wrapper.Ability);
+				if(wrapper != null) UseAbility(wrapper.Ability);
 			}
 		}
 	}

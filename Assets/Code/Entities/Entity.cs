@@ -52,7 +52,8 @@ public class Entity : MonoBehaviour {
 	[HideInInspector] public UnitHealth m_health;
 	[HideInInspector] public UnitStats m_stats;
 	[HideInInspector] public Shooter m_shooter;
-	public List<AbilityWrapper> m_abilities;
+	public List<Ability> m_temp;
+	[HideInInspector] public List<AbilityWrapper> m_abilities;
 	public List<SkillWrapper> m_skills;
 	[HideInInspector] public Modifiers m_modifiers;
 	[HideInInspector] public StateController m_ai;
@@ -63,7 +64,7 @@ public class Entity : MonoBehaviour {
 		m_health = GetComponent<UnitHealth>();
 		m_stats = GetComponent<UnitStats>();
 		m_shooter = GetComponent<Shooter>();
-		//m_abilities = new List<AbilityWrapper>();
+		m_abilities = new List<AbilityWrapper>();
 		//m_skills = new List<SkillWrapper>();
 		m_modifiers = gameObject.AddComponent<Modifiers>();
 		m_feedbackColor = Constants.YELLOW;
@@ -72,6 +73,18 @@ public class Entity : MonoBehaviour {
 		if(m_health) m_health.Init(this);
 		if(m_inventory) m_inventory.m_entity = this;
 		if(m_equipment) m_equipment.Init(this);
+
+		if(m_temp.Count > 0) // very temporary, just for testing
+			for(int i = 0; i < m_temp.Count; i++) {
+				AbilityWrapper wrapper = new AbilityWrapper();
+
+				wrapper.Ability = m_temp[i];
+				wrapper.Learned = true;
+				wrapper.TrainingLevel = 1;
+				wrapper.HotkeySlot = i + 1;
+
+				m_abilities.Add(wrapper);
+			}
 
 		// TODO: load abilities, skills and modifiers?
 
@@ -134,12 +147,30 @@ public class Entity : MonoBehaviour {
 	public void UseAbility(Ability p_ability) { 
 		AbilityWrapper ability = m_abilities.Find(a => a.Ability == p_ability);
 
+		if(ability == null) return;
+
 		int cost = ability.Ability.m_manaCosts.Find(m => m.TrainingLevel == ability.TrainingLevel).Value;
 		int leftoverMana = m_stats.GetStat(Stats.MP) - cost;
 
-		if(ability.Ability && leftoverMana >= 0 && ability.Use()) {
+		if(leftoverMana >= 0 && ability.Use()) {
 			m_stats.AddModifier(Stats.MP, -cost, 0);
 			p_ability.Use(this, ability.TrainingLevel);
+
+			if(ability.ChainedAbilities != null && ability.ChainedAbilities.Count > 0) { 
+				foreach(Ability chain in ability.ChainedAbilities) {
+					AbilityWrapper wrapper = m_abilities.Find(a => a.Ability == chain);
+
+					if(wrapper == null) continue;
+
+					cost = chain.m_manaCosts.Find(m => m.TrainingLevel == wrapper.TrainingLevel).Value;
+					leftoverMana = m_stats.GetStat(Stats.MP) - cost;
+
+					if(leftoverMana >= 0 && wrapper.Use()) {
+						m_stats.AddModifier(Stats.MP, -cost, 0);
+						chain.Use(this, wrapper.TrainingLevel);
+					}
+				}
+			}
 		}
 	}
 

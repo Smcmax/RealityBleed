@@ -38,6 +38,8 @@ public class AbilityViewer : MonoBehaviour {
 				m_icon.sprite = m_wrapper.Ability.m_icon;
 				m_backgroundIcon.sprite = m_wrapper.Ability.m_icon;
 			} else if(wrapper == null) {
+				m_wrapper = null;
+
 				m_icon.enabled = false;
 				m_backgroundIcon.enabled = false;
 			}

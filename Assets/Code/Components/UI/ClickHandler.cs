@@ -9,12 +9,18 @@ public class ClickHandler : MonoBehaviour, IPointerClickHandler {
 		if(p_eventData.button == PointerEventData.InputButton.Left) {
 			if(p_eventData.clickCount == 1) OnLeftSingleClick(clicked);
 			else if(p_eventData.clickCount >= 2) OnLeftDoubleClick(clicked);
+
+			OnAnyClick(clicked);
 		} else if(p_eventData.button == PointerEventData.InputButton.Right) {
 			if(p_eventData.clickCount == 1) OnRightSingleClick(clicked);
 			else if(p_eventData.clickCount >= 2) OnRightDoubleClick(clicked);
+
+			OnAnyClick(clicked);
 		} else if(p_eventData.button == PointerEventData.InputButton.Middle) {
 			if(p_eventData.clickCount == 1) OnMiddleSingleClick(clicked);
 			else if(p_eventData.clickCount >= 2) OnMiddleDoubleClick(clicked);
+
+			OnAnyClick(clicked);
 		}
 	}
 
@@ -24,4 +30,5 @@ public class ClickHandler : MonoBehaviour, IPointerClickHandler {
 	protected virtual void OnRightDoubleClick(GameObject p_clicked) { }
 	protected virtual void OnMiddleSingleClick(GameObject p_clicked) { }
 	protected virtual void OnMiddleDoubleClick(GameObject p_clicked) { }
+	protected virtual void OnAnyClick(GameObject p_clicked) { }
 }

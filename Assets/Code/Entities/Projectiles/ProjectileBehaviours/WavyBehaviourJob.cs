@@ -17,10 +17,10 @@ public class WavyBehaviourJob : ProjectileMovementJob {
 
 	protected override IProjData CreateData(Projectile p_projectile, ProjectileBehaviour p_behaviour, int p_id) {
 		WavyBehaviour behaviour = (WavyBehaviour) p_behaviour;
-		float magnitude = behaviour.m_magnitude / 5;
+		float magnitude = behaviour.m_magnitude / 3;
 
 #if UNITY_EDITOR
-		magnitude *= 5;
+		magnitude *= 3;
 #endif
 
 		return new WavyBehaviourData {

@@ -34,9 +34,9 @@ MonoBehaviour:
       Costs {manaCost} mana.'
   m_shotPatterns:
   - TrainingLevel: 0
-    Pattern: {fileID: 11400000, guid: 5c75a91e731cbdd4080d06a1d786f0eb, type: 2}
+    Pattern: {fileID: 11400000, guid: 80bdb1e91c051b7429994559abe78d89, type: 2}
   - TrainingLevel: 1
-    Pattern: {fileID: 11400000, guid: 5c75a91e731cbdd4080d06a1d786f0eb, type: 2}
+    Pattern: {fileID: 11400000, guid: 80bdb1e91c051b7429994559abe78d89, type: 2}
   m_aimAtCursor: 1
   DescriptionVariables: 'Description''s auto-filled variables: {damage} {manaPerStep}
     {shots} {statApplied} {range} {speed}'

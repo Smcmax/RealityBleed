@@ -740,6 +740,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_immunityWindow: 0
   m_healthBarTemplate: {fileID: 0}
+  m_healthBarOffset: {x: 0, y: 0.4, z: 0}
   m_damageEvent:
     m_PersistentCalls:
       m_Calls:
@@ -819,15 +820,9 @@ MonoBehaviour:
   m_health: {fileID: 0}
   m_stats: {fileID: 0}
   m_shooter: {fileID: 0}
-  m_abilities:
-  - Ability: {fileID: 11400000, guid: d0726741aee8b6541b6a23f1b23cbc2c, type: 2}
-    Learned: 1
-    TrainingLevel: 1
-    HotkeySlot: 1
-  - Ability: {fileID: 11400000, guid: f044594494061b84798107311ea31d3b, type: 2}
-    Learned: 1
-    TrainingLevel: 1
-    HotkeySlot: 2
+  m_temp:
+  - {fileID: 11400000, guid: d0726741aee8b6541b6a23f1b23cbc2c, type: 2}
+  - {fileID: 11400000, guid: f044594494061b84798107311ea31d3b, type: 2}
   m_skills: []
   m_modifiers: {fileID: 0}
   m_ai: {fileID: 0}

@@ -22,10 +22,15 @@ public class AbilityLoader : MonoBehaviour {
 	[Tooltip("The tooltip used to display every ability/skill")]
 	public AbilitySkillTooltip m_tooltip;
 
+	[Tooltip("The contextual menu that opens when you click on an ability")]
+	public AbilityContextualMenu m_contextualAbilityMenu;
+
 	[HideInInspector] public Entity m_entity;
+	[HideInInspector] public List<UIAbility> m_loadedAbilities;
 
 	void OnEnable() { 
 		m_entity = Game.m_keybinds.m_entity; // TODO: support local co-op
+		m_loadedAbilities = new List<UIAbility>();
 
 		Load();
 	}
@@ -37,6 +42,14 @@ public class AbilityLoader : MonoBehaviour {
 			GameObject child = m_contentParent.GetChild(i).gameObject;
 
 			Destroy(child);
+		}
+
+		m_loadedAbilities.Clear();
+
+		if(m_contextualAbilityMenu.gameObject.activeSelf) { 
+			if(m_contextualAbilityMenu.IsChaining()) m_contextualAbilityMenu.StopChaining(false);
+
+			m_contextualAbilityMenu.gameObject.SetActive(false);
 		}
 	}
 
@@ -65,7 +78,9 @@ public class AbilityLoader : MonoBehaviour {
 				uiAbility.m_abilitySkill = new AbilitySkillWrapper();
 				uiAbility.m_abilitySkill.Ability = ability;
 				uiAbility.m_loader = this;
-				
+				uiAbility.Init();
+
+				m_loadedAbilities.Add(uiAbility);
 			}
 		}
 	}

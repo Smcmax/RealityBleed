@@ -10,6 +10,9 @@ public class UnitHealth : MonoBehaviour {
 	[Tooltip("This entity's health bar template")]
 	public GameObject m_healthBarTemplate;
 
+	[Tooltip("The offset to give the health bar")]
+	public Vector3 m_healthBarOffset;
+
 	[Tooltip("Event called when the entity takes damage.")]
 	public UnityEvent m_damageEvent;
 
@@ -70,6 +73,7 @@ public class UnitHealth : MonoBehaviour {
 		m_healthBarUpdater = healthBar.GetComponent<StatSliderUpdater>();
 
 		m_healthBarUpdater.m_entity = m_entity;
+		follow.m_offset = m_healthBarOffset;
 		follow.m_parent = transform;
 
 		healthBar.SetActive(true);

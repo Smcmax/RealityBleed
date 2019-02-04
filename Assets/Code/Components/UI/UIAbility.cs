@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class UIAbility : ClickHandler {
 
@@ -7,16 +8,22 @@ public class UIAbility : ClickHandler {
 	public AbilitySkillWrapper m_abilitySkill;
 
 	[HideInInspector] public AbilityLoader m_loader;
-
-	private Image m_selectionBorder;
+	[HideInInspector] public Image m_selectionBorder;
+	[HideInInspector] public Image m_highlightBorder;
 
 	void Awake() { 
 		m_selectionBorder = transform.Find("SelectionBorder").GetComponent<Image>();
+		m_highlightBorder = transform.Find("HighlightBorder").GetComponent<Image>();
 	}
 
 	void OnDisable() { 
 		if(m_loader.m_tooltip.gameObject.activeSelf)
 			HideTooltip();
+	}
+
+	public void Init() {
+		if(m_abilitySkill.Ability.Ability && m_abilitySkill.Ability.HotkeySlot > 0)
+			m_selectionBorder.gameObject.SetActive(true);
 	}
 
 	public void ShowTooltip() {
@@ -31,22 +38,30 @@ public class UIAbility : ClickHandler {
 		m_loader.m_tooltip.Hide();
 	}
 
-	protected override void OnLeftSingleClick(GameObject p_clicked) { 
-		if(m_abilitySkill.Ability.Ability && m_abilitySkill.Learned()) 
-			m_selectionBorder.gameObject.SetActive(!m_selectionBorder.gameObject.activeSelf);
-	}
+	protected override void OnAnyClick(GameObject p_clicked) { 
+		if(m_abilitySkill.Ability.Ability && m_abilitySkill.Learned() && !m_loader.m_contextualAbilityMenu.gameObject.activeSelf) {
+			m_loader.m_contextualAbilityMenu.m_selectedAbility = this;
+			m_loader.m_contextualAbilityMenu.gameObject.SetActive(true);
+			m_loader.m_contextualAbilityMenu.LoadHotkeys();
+		} else if(m_abilitySkill.Ability.Ability && m_abilitySkill.Learned() && m_loader.m_contextualAbilityMenu.IsChaining()) { 
+			bool added = false;
 
-	protected override void OnLeftDoubleClick(GameObject p_clicked) {
-		OnLeftSingleClick(p_clicked);
+			if(!m_loader.m_contextualAbilityMenu.m_chainedAbilities.Contains(this)) {
+				m_loader.m_contextualAbilityMenu.m_chainedAbilities.Add(this);
+				added = true;
+			} else m_loader.m_contextualAbilityMenu.m_chainedAbilities.Remove(this);
+
+			m_highlightBorder.gameObject.SetActive(added);
+		}
 	}
 }
 
-[System.Serializable]
 public class AbilityWrapper {
 	public Ability Ability;
 	public bool Learned;
 	public int TrainingLevel;
 	public int HotkeySlot; // 1 - 6
+	public List<Ability> ChainedAbilities;
 
 	private float LastUse;
 	private Entity Owner;
@@ -56,7 +71,7 @@ public class AbilityWrapper {
 	public float GetLastUseTime() { return LastUse; }
 
 	public bool Use() { 
-		if(Time.time * 1000 >= LastUse + Ability.m_cooldowns.Find(c => c.TrainingLevel == TrainingLevel).Value * 1000) {
+		if(LastUse == 0 || Time.time * 1000 >= LastUse + Ability.m_cooldowns.Find(c => c.TrainingLevel == TrainingLevel).Value * 1000) {
 			LastUse = Time.time * 1000;
 
 			return true;
