@@ -17,17 +17,17 @@ public class AbilitySkillTooltip : Tooltip {
 
 		m_panelHeight = m_tooltipBorderSize * 2 + 12;
 		m_tooltipInfoOffset = -(m_panelHeight / 2);
-		Ability ability = p_wrapper.Ability.Ability ? p_wrapper.Ability.Ability : null;
-		//Skill skill = p_wrapper.Skill.Skill ? p_wrapper.Skill.Skill : null;
+		Ability ability = p_wrapper.Ability != null ? p_wrapper.Ability.Ability : null;
+		Skill skill = p_wrapper.Skill != null ? p_wrapper.Skill.Skill : null;
 
 		Text name = m_modifiableInfo.Find(ti => ti.m_name == "AbilitySkill Name Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		name.text = p_wrapper.GetName();
-		name.color = ability != null ? ability.m_domain.m_nameColor : Constants.WHITE;
+		name.color = ability != null ? ability.m_domain.m_nameColor.Value : skill.m_nameColor.Value;
 
 		if(ability != null) {
 			Text domain = m_modifiableInfo.Find(ti => ti.m_name == "Domain Text").GetAligned<Text>(ref m_tooltipInfoOffset);
 			domain.text = ability.m_domain.m_name;
-			domain.color = ability.m_domain.m_nameColor;
+			domain.color = ability.m_domain.m_nameColor.Value;
 
 			Text active = m_modifiableInfo.Find(ti => ti.m_name == "Active Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
 			active.text = ability.m_isPassive ? "Passive" : "Active";
@@ -82,5 +82,53 @@ public class AbilitySkillTooltip : Tooltip {
 
 		m_panelHeight += 5;
 		m_tooltipInfoOffset -= 5;
+	}
+}
+
+public class AbilitySkillWrapper {
+	public AbilityWrapper Ability;
+	public SkillWrapper Skill;
+
+	public AbilitySkillWrapper(AbilityWrapper p_ability) { Ability = p_ability; }
+	public AbilitySkillWrapper(SkillWrapper p_skill) { Skill = p_skill; }
+
+	public bool IsEmpty() { return !(Ability != null || Skill != null); }
+	public string GetName() { return IsEmpty() ? "" : (Ability != null ? Ability.Ability.m_name : Skill.Skill.m_name); }
+	public bool Learned() { return IsEmpty() ? false : (Ability != null ? Ability.Learned : Skill.Learned); }
+	public int GetTrainingLevel() { return IsEmpty() ? 0 : (Ability != null ? Ability.TrainingLevel : Skill.TrainingLevel); }
+	public int GetSellPrice() { return IsEmpty() ? 0 : (Ability != null ? Ability.Ability.m_sellPrice : Skill.Skill.m_sellPrice); }
+	public int GetManaCost(int p_trainingLevel) {
+		return IsEmpty() ? 0 :
+			(Ability != null ?
+			Ability.Ability.m_manaCosts.Find(m => m.TrainingLevel == p_trainingLevel).Value :
+			0);
+	}
+
+	public float GetCooldown(int p_trainingLevel) {
+		return IsEmpty() ? 0 :
+			(Ability != null ?
+			Ability.Ability.m_cooldowns.Find(m => m.TrainingLevel == p_trainingLevel).Value :
+			0);
+	}
+
+	public int GetMaxTrainingLevel() {
+		return IsEmpty() ? 0 :
+			(Ability != null ?
+			Ability.Ability.m_trainingExpCosts[Ability.Ability.m_trainingExpCosts.Count - 1].TrainingLevel :
+			Skill.Skill.m_trainingExpCosts[Skill.Skill.m_trainingExpCosts.Count - 1].TrainingLevel);
+	}
+
+	public int GetTrainingExpCost(int p_trainingLevel) {
+		return IsEmpty() ? 0 :
+			(Ability != null ?
+			Ability.Ability.m_trainingExpCosts.Find(t => t.TrainingLevel == p_trainingLevel).Value :
+			Skill.Skill.m_trainingExpCosts.Find(t => t.TrainingLevel == p_trainingLevel).Value);
+	}
+
+	public string GetDescription(int p_trainingLevel) {
+		return IsEmpty() ? "" :
+			(Ability != null ?
+			Ability.Ability.GetDescription(p_trainingLevel) :
+			Skill.Skill.GetDescription(p_trainingLevel));
 	}
 }

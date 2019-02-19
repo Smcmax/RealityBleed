@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
+ * All modifiers are case-insensitive.
+ * 
  * Existing modifiers
  * 
- * - Every DamageType has its own modifier in this format: TypeName Resistance
+ * - Every DamageType has its own modifier in this format: TypeName Resistance (ex: Holy Resistance)
+ * - Every UnitStats has its own modifier in this format: Stat (ex: HP, INT)
  * 
  */
 public class Modifiers : MonoBehaviour {
@@ -18,15 +21,15 @@ public class Modifiers : MonoBehaviour {
 
 	// a ttl of 0 = permanent (can still be manually removed)
 	public void AddToModifier(string p_modifier, float p_value, float p_ttl) {
-		if(!m_modifiers.ContainsKey(p_modifier)) m_modifiers.Add(p_modifier, p_value);
-		else m_modifiers[p_modifier] += p_value;
+		if(!m_modifiers.ContainsKey(p_modifier.ToLower())) m_modifiers.Add(p_modifier.ToLower(), p_value);
+		else m_modifiers[p_modifier.ToLower()] += p_value;
 
-		if(p_ttl > 0) StartCoroutine(RemoveModifierCoroutine(p_modifier, p_value, p_ttl));
+		if(p_ttl > 0) StartCoroutine(RemoveModifierCoroutine(p_modifier.ToLower(), p_value, p_ttl));
 	}
 
 	public void RemoveFromModifier(string p_modifier, float p_value) {
-		if(m_modifiers.ContainsKey(p_modifier)) m_modifiers[p_modifier] -= p_value;
-		else m_modifiers.Add(p_modifier, -p_value);
+		if(m_modifiers.ContainsKey(p_modifier.ToLower())) m_modifiers[p_modifier.ToLower()] -= p_value;
+		else m_modifiers.Add(p_modifier.ToLower(), -p_value);
 	}
 
 	// for use with the ttl-enabled AddModifier only
@@ -37,12 +40,12 @@ public class Modifiers : MonoBehaviour {
 	}
 
 	public float GetModifier(string p_modifier) { 
-		if(m_modifiers.ContainsKey(p_modifier)) return m_modifiers[p_modifier];
+		if(m_modifiers.ContainsKey(p_modifier.ToLower())) return m_modifiers[p_modifier.ToLower()];
 		else return 0;
 	}
 
 	public void SetModifier(string p_modifier, float p_value) { 
-		if(m_modifiers.ContainsKey(p_modifier)) m_modifiers[p_modifier] = p_value;
-		else m_modifiers.Add(p_modifier, p_value);
+		if(m_modifiers.ContainsKey(p_modifier.ToLower())) m_modifiers[p_modifier.ToLower()] = p_value;
+		else m_modifiers.Add(p_modifier.ToLower(), p_value);
 	}
 }

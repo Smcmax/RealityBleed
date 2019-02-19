@@ -715,6 +715,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2899fc60f8b6ff941b5c1a41794980e9, type: 2}
   - {fileID: 11400000, guid: 65534cc0fadf5464098f0322b2ff307f, type: 2}
   - {fileID: 11400000, guid: 08202257dc70a1c4c96ef1a1be39d092, type: 2}
+  m_entity: {fileID: 0}
 --- !u!114 &114173102224703342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -823,7 +824,13 @@ MonoBehaviour:
   m_temp:
   - {fileID: 11400000, guid: d0726741aee8b6541b6a23f1b23cbc2c, type: 2}
   - {fileID: 11400000, guid: f044594494061b84798107311ea31d3b, type: 2}
-  m_skills: []
+  m_skills:
+  - Skill: {fileID: 11400000, guid: 10c95205cf86b644797358be623f7a9e, type: 2}
+    Learned: 0
+    TrainingLevel: 0
+  - Skill: {fileID: 11400000, guid: 21be7a305a1a80145bb1dd9f3b7d366c, type: 2}
+    Learned: 1
+    TrainingLevel: 1
   m_modifiers: {fileID: 0}
   m_ai: {fileID: 0}
   m_feedbackColor: {r: 0, g: 0, b: 0, a: 0}

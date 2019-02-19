@@ -52,3 +52,28 @@ public struct TrainingLevelIntWrapper {
 	public int TrainingLevel;
 	public int Value;
 }
+
+public class AbilityWrapper {
+	public Ability Ability;
+	public bool Learned;
+	public int TrainingLevel;
+	public int HotkeySlot; // 0 - 6
+	public List<Ability> ChainedAbilities;
+
+	private float LastUse;
+	private Entity Owner;
+
+	public Entity GetOwner() { return Owner; }
+	public void SetOwner(Entity p_entity) { Owner = p_entity; }
+	public float GetLastUseTime() { return LastUse; }
+
+	public bool Use() {
+		if(LastUse == 0 || Time.time * 1000 >= LastUse + Ability.m_cooldowns.Find(c => c.TrainingLevel == TrainingLevel).Value * 1000) {
+			LastUse = Time.time * 1000;
+
+			return true;
+		}
+
+		return false;
+	}
+}

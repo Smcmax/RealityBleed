@@ -24,7 +24,7 @@ public class BaseItem : ScriptableObject {
 	public List<EquipmentSlot> m_equipmentSlots;
 
 	[Tooltip("The name's color in the tooltip")]
-	public Color m_nameColor;
+	public ColorReference m_nameColor;
 
 	[Tooltip("The item's description, shows up in the tooltip")]
 	[Multiline] public string m_description;

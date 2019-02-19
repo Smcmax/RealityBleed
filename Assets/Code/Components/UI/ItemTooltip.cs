@@ -22,7 +22,7 @@ public class ItemTooltip : Tooltip {
 
 		Text name = m_modifiableInfo.Find(ti => ti.m_name == "Item Name Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		name.text = item.m_name;
-		name.color = item.m_nameColor;
+		name.color = item.m_nameColor.Value;
 
 		if(item is Armor || item is Weapon) {
 			Text type = m_modifiableInfo.Find(ti => ti.m_name == "Item Type Text").GetAligned<Text>(ref m_tooltipInfoOffset);

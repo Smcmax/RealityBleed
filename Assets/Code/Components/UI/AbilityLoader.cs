@@ -19,7 +19,7 @@ public class AbilityLoader : MonoBehaviour {
 	[Tooltip("The list of domains which will have their abilities listed")]
 	public List<DamageType> m_domains;
 
-	[Tooltip("The tooltip used to display every ability/skill")]
+	[Tooltip("The tooltip used to display every ability")]
 	public AbilitySkillTooltip m_tooltip;
 
 	[Tooltip("The contextual menu that opens when you click on an ability")]
@@ -60,7 +60,11 @@ public class AbilityLoader : MonoBehaviour {
 
 			Transform contentParent = domainObject.transform.Find("Scroll View").GetChild(0).GetChild(0);
 
-			foreach(AbilityWrapper ability in m_entity.m_abilities.FindAll(a => a.Ability.m_domain == domain)) {
+			List<AbilityWrapper> sortedDomainAbilities = new List<AbilityWrapper>(m_entity.m_abilities.FindAll(a => a.Ability.m_domain == domain));
+			sortedDomainAbilities.Sort(new AbilityComparer());
+			sortedDomainAbilities.Reverse();
+
+			foreach(AbilityWrapper ability in sortedDomainAbilities) {
 				GameObject abilityObject = Instantiate(m_abilityPrefab, contentParent);
 				Image abilityIcon = abilityObject.GetComponent<Image>();
 				Text trainingLevel = abilityObject.GetComponentInChildren<Text>();
@@ -75,13 +79,19 @@ public class AbilityLoader : MonoBehaviour {
 				
 				UIAbility uiAbility = abilityObject.GetComponent<UIAbility>();
 
-				uiAbility.m_abilitySkill = new AbilitySkillWrapper();
-				uiAbility.m_abilitySkill.Ability = ability;
+				uiAbility.m_ability = ability;
 				uiAbility.m_loader = this;
 				uiAbility.Init();
 
 				m_loadedAbilities.Add(uiAbility);
 			}
 		}
+	}
+}
+
+public class AbilityComparer : IComparer<AbilityWrapper> {
+
+	public int Compare(AbilityWrapper x, AbilityWrapper y) {
+		return x.TrainingLevel.CompareTo(y.TrainingLevel);
 	}
 }

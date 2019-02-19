@@ -69,6 +69,7 @@ public class Entity : MonoBehaviour {
 		m_modifiers = gameObject.AddComponent<Modifiers>();
 		m_feedbackColor = Constants.YELLOW;
 
+		if(m_stats) m_stats.Init(this);
 		if(m_shooter) m_shooter.Init(this);
 		if(m_health) m_health.Init(this);
 		if(m_inventory) m_inventory.m_entity = this;
@@ -91,8 +92,12 @@ public class Entity : MonoBehaviour {
 		foreach(AbilityWrapper ability in m_abilities)
 			ability.SetOwner(this);
 
-		foreach(SkillWrapper skill in m_skills)
+		foreach(SkillWrapper skill in m_skills) { 
 			skill.SetOwner(this);
+
+			if(skill.Skill.m_isPassive) 
+				skill.Skill.Use(this, skill.TrainingLevel);
+		}
 
 		InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
 		InvokeRepeating("UpdateCharacterSpeed", Constants.CHARACTER_SPEED_UPDATE_RATE, Constants.CHARACTER_SPEED_UPDATE_RATE);

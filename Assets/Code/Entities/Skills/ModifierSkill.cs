@@ -32,4 +32,10 @@ public class ModifierSkill : Skill {
 
 		p_entity.m_modifiers.AddToModifier(m_modifier, value, ttl);
 	}
+
+	public override void Remove(Entity p_entity, int p_trainingLevel) {
+		float value = m_values.Find(v => v.TrainingLevel == p_trainingLevel).Value;
+
+		p_entity.m_modifiers.RemoveFromModifier(m_modifier, value);
+	}
 }

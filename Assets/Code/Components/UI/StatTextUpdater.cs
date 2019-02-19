@@ -27,7 +27,9 @@ public class StatTextUpdater : MonoBehaviour {
 
 	public void UpdateText() {
 		int stat = m_showMaxValue ? m_entity.m_stats.GetBaseStatWithGear(m_stat) : m_entity.m_stats.GetStat(m_stat);
-		int modifier = (m_showMaxValue ? 0 : m_entity.m_stats.GetModifier(m_stat)) + m_entity.m_stats.GetGearModifier(m_stat);
+		int modifier = (m_showMaxValue ? 0 : m_entity.m_stats.GetModifier(m_stat)) + 
+											 m_entity.m_stats.GetGearModifier(m_stat) + 
+											 m_entity.m_stats.GetExternalModifiers(m_stat);
 		string sign = modifier > 0 ? "+" : "";
 		Color signColor = modifier > 0 ? Constants.GREEN : (modifier == 0 ? Constants.YELLOW : Constants.RED);
 

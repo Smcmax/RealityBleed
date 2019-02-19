@@ -50,7 +50,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 	}
 
 	////////////////////////
-	/*  Video Settings  */
+	/*   Video Settings   */
 	////////////////////////
 
 	private void PopulateResolutions() {

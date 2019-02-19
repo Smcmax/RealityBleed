@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class UnitStats : MonoBehaviour {
 
@@ -29,12 +30,17 @@ public class UnitStats : MonoBehaviour {
 	[Tooltip("Stat update events called whenever a stat changes. Same order as stats, null = no call")]
 	public GameEvent[] m_statEvents;
 
+	[HideInInspector] public Entity m_entity;
 	private int[] m_gearModifiers;
 	private int[] m_modifiers;
 
 	void Awake() { 
 		m_modifiers = new int[STAT_AMOUNT];
 		m_gearModifiers = new int[STAT_AMOUNT];
+	}
+
+	public void Init(Entity p_entity) {
+		m_entity = p_entity;
 
 		// constant HP/MP regen
 		StartCoroutine(RegenHealth());
@@ -61,7 +67,7 @@ public class UnitStats : MonoBehaviour {
 	}
 
 	public int GetStat(Stats p_stat) { 
-		return GetBaseStat(p_stat) + m_modifiers[(int) p_stat] + m_gearModifiers[(int) p_stat];
+		return GetBaseStat(p_stat) + GetModifier(p_stat) + GetGearModifier(p_stat) + GetExternalModifiers(p_stat);
 	}
 
 	public int GetStatEffect(Stats p_stat) { 
@@ -78,6 +84,10 @@ public class UnitStats : MonoBehaviour {
 
 	public int GetGearModifier(Stats p_stat) {
 		return m_gearModifiers[(int) p_stat];
+	}
+
+	public int GetExternalModifiers(Stats p_stat) { 
+		return (int) m_entity.m_modifiers.GetModifier(p_stat.ToString());
 	}
 
 	public void SetModifier(Stats p_stat, int p_value) { 

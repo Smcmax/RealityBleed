@@ -31,7 +31,7 @@ public class AbilityContextualMenu : MonoBehaviour {
 			m_dropdown.options.Add(option);
 		}
 
-		m_dropdown.value = m_selectedAbility.m_abilitySkill.Ability.HotkeySlot;
+		m_dropdown.value = m_selectedAbility.m_ability.HotkeySlot;
 		m_dropdown.RefreshShownValue();
 	}
 
@@ -40,10 +40,10 @@ public class AbilityContextualMenu : MonoBehaviour {
 
 		if(existingBind != null) {
 			existingBind.HotkeySlot = 0;
-			m_selectedAbility.m_loader.m_loadedAbilities.Find(a => a.m_abilitySkill.Ability == existingBind).m_selectionBorder.gameObject.SetActive(false);
+			m_selectedAbility.m_loader.m_loadedAbilities.Find(a => a.m_ability == existingBind).m_selectionBorder.gameObject.SetActive(false);
 		}
 
-		m_selectedAbility.m_abilitySkill.Ability.HotkeySlot = m_dropdown.value;
+		m_selectedAbility.m_ability.HotkeySlot = m_dropdown.value;
 		m_selectedAbility.m_selectionBorder.gameObject.SetActive(m_dropdown.value > 0);
 
 		m_hotkeySetEvent.Raise();
@@ -77,10 +77,10 @@ public class AbilityContextualMenu : MonoBehaviour {
 
 			foreach(UIAbility ability in m_chainedAbilities) { 
 				ability.m_highlightBorder.gameObject.SetActive(false);
-				chained.Add(ability.m_abilitySkill.Ability.Ability);
+				chained.Add(ability.m_ability.Ability);
 			}
 
-			m_selectedAbility.m_abilitySkill.Ability.ChainedAbilities = chained;
+			m_selectedAbility.m_ability.ChainedAbilities = chained;
 		}
 		
 		m_chainedAbilities.Clear();
