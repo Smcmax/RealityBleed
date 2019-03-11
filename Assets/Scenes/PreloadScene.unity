@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 1429569051}
   - component: {fileID: 1429569053}
   - component: {fileID: 1429569055}
+  - component: {fileID: 1429569056}
   - component: {fileID: 1429569052}
   - component: {fileID: 1429569054}
   m_Layer: 0
@@ -682,6 +683,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_eventToFire: {fileID: 11400000, guid: b4cca853a1ca7f5478446594255ccbd2, type: 2}
+--- !u!114 &1429569056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1429569049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e0014f9cea7d7441998f957dfadd48b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1704965912
 GameObject:
   m_ObjectHideFlags: 0

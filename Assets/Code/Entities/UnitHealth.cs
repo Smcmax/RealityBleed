@@ -62,7 +62,7 @@ public class UnitHealth : MonoBehaviour {
 		if(m_healthBarUpdater) m_healthBarUpdater.UpdateSlider();
 
 		if(GetHealth() <= 0) {
-			GetComponent<Entity>().Kill();
+			m_entity.Kill();
 			m_deathEvent.Invoke();
 		}
 	}
