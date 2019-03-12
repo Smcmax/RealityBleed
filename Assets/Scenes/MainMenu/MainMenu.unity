@@ -1398,13 +1398,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19dc986cffc206b41a236ae91318ba47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_listeningToAllInputs: 1
   m_currentMenu: {fileID: 785115738}
+  m_containerMenu: {fileID: 0}
   m_pauseEvent: {fileID: 11400000, guid: b11738bbea5f37647a784100d7cb4868, type: 2}
   m_resumeEvent: {fileID: 11400000, guid: ed2b58e5fd2bb26418971cbd6baab096, type: 2}
   m_onMenuChangedEvent: {fileID: 11400000, guid: ad967bbe81041e247a5a7a419fb0c30e,
     type: 2}
   m_onInventoryEvent: {fileID: 0}
   m_onCharacterEvent: {fileID: 0}
+  m_onSkillbookEvent: {fileID: 0}
   m_onMapEvent: {fileID: 0}
   m_openedMenus: []
 --- !u!4 &1214058325

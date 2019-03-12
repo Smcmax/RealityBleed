@@ -201,7 +201,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 	}
 
 	////////////////////////
-	/*  Audio Settings  */
+	/*   Audio Settings   */
 	////////////////////////
 
 	public void SetMasterVolume(int p_volume) { 
@@ -209,20 +209,14 @@ public class OptionsMenuHandler : MonoBehaviour {
 	}
 
 	/////////////////////////////
-	/*  Gameplay Settings  */
-	////////////////////////////
+	/*   Gameplay Settings     */
+	/////////////////////////////
 
 	public void SetEnemyHealthBars(bool p_toggle) { 
 		m_hpBarsCanvas.gameObject.SetActive(p_toggle);
 	}
 
 	////////////////////////////
-	/*  Controls Settings  */
-	///////////////////////////
-	
-	public void SetCurrentKeybindProfile(string p_profile) { 
-		Game.m_keybinds.m_currentProfile = p_profile;
-		Game.m_keybinds.SaveCurrentProfile();
-	}
-	
+	/*   Controls Settings    */
+	////////////////////////////
 }

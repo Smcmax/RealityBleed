@@ -12,11 +12,10 @@ public abstract class Interactable : MonoBehaviour {
 	[Tooltip("Event called when interacting with an object")]
 	public GameEvent m_onInteractEvent;
 
-	private List<Entity> m_interactors;
-	private bool m_interactable = false;
+	private List<Player> m_interactors;
 
 	protected virtual void Awake() {
-		m_interactors = new List<Entity>();
+		m_interactors = new List<Player>();
 
 		if(m_interactBounds)
 			m_interactBounds.isTrigger = true;
@@ -24,28 +23,29 @@ public abstract class Interactable : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D p_collider) { 
 		if(p_collider.gameObject.tag == "Player") {
-			m_interactors.Add(p_collider.gameObject.GetComponent<Entity>());
+			m_interactors.Add(p_collider.gameObject.GetComponent<Player>());
 			if(m_tooltipRenderer) m_tooltipRenderer.enabled = true;
-			m_interactable = true;
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D p_collider) { 
 		if(p_collider.gameObject.tag == "Player") {
-			Entity entity = p_collider.gameObject.GetComponent<Entity>();
+			Player player = p_collider.gameObject.GetComponent<Player>();
 
-			m_interactors.Remove(entity);
-			if(m_tooltipRenderer) m_tooltipRenderer.enabled = false;
-			m_interactable = false;
+			m_interactors.Remove(player);
+			if(m_tooltipRenderer && m_interactors.Count == 0) m_tooltipRenderer.enabled = false;
 
-			OutOfRange(entity);
+			OutOfRange(player);
 		}
 	}
 
 	void Update() {
-		if(m_interactable && Game.m_keybinds.GetButtonDown("Interact")) {
-			if(m_onInteractEvent) m_onInteractEvent.Raise();
-			Interact(m_interactors[0]);
+		if(m_interactors.Count > 0) { 
+			foreach(Player player in m_interactors)
+				if(player.m_rewiredPlayer.GetButtonDown("Interact")) {
+					if(m_onInteractEvent) m_onInteractEvent.Raise();
+					Interact(player);
+				}
 		}
 	}
 

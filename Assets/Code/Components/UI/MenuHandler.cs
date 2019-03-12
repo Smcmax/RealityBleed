@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class MenuHandler : MonoBehaviour {
 
+	[Tooltip("If the menu can be handled by any player or only the player who opened it")]
+	public bool m_listeningToAllInputs;
+
 	[Tooltip("The currently opened menu. If null, the game is not currently paused")]
 	public GameObject m_currentMenu;
 
@@ -31,9 +34,11 @@ public class MenuHandler : MonoBehaviour {
 	
 	[Tooltip("The game event raised when the map screen is brought up")]
 	public GameEvent m_onMapEvent;
-	
-	private GameObject m_previousMenu; // The previously opened menu, for use with the pause menu only
+
 	[HideInInspector] public List<GameObject> m_openedMenus;
+	[HideInInspector] public Rewired.Player m_handlingPlayer; // The player handling the menu
+
+	private GameObject m_previousMenu; // The previously opened menu, for use with the pause menu only
 
 	private MenuHandler() { }
 
@@ -43,21 +48,36 @@ public class MenuHandler : MonoBehaviour {
 
 	void OnEnable() {
 		m_openedMenus = new List<GameObject>();
+		m_handlingPlayer = null;
 		SceneManager.sceneLoaded += OnSceneLoad;
 	}
 
-	void OnDisable() { 
+	void OnDisable() {
+		m_handlingPlayer = null;
 		SceneManager.sceneLoaded -= OnSceneLoad;
 	}
 
 	void Update() {
 		bool isPaused = m_currentMenu;
 
-		if(Game.m_keybinds.GetButtonDown("Pause")) GoBack();
-		if(Game.m_keybinds.GetButtonDown("Inventory") && !isPaused) m_onInventoryEvent.Raise();
-		if(Game.m_keybinds.GetButtonDown("Character") && !isPaused) m_onCharacterEvent.Raise();
-		if(Game.m_keybinds.GetButtonDown("Skillbook") && !isPaused) m_onSkillbookEvent.Raise();
-		if(Game.m_keybinds.GetButtonDown("Map") && !isPaused) m_onMapEvent.Raise();
+		if(GetButtonDown("Pause")) GoBack();
+		if(GetButtonDown("Inventory") && !isPaused) m_onInventoryEvent.Raise();
+		if(GetButtonDown("Character") && !isPaused) m_onCharacterEvent.Raise();
+		if(GetButtonDown("Skillbook") && !isPaused) m_onSkillbookEvent.Raise();
+		if(GetButtonDown("Map") && !isPaused) m_onMapEvent.Raise();
+	}
+
+	private bool GetButtonDown(string p_button) { 
+		if(m_listeningToAllInputs || m_handlingPlayer == null) {
+			foreach(Rewired.Player player in Rewired.ReInput.players.Players)
+				if(player.GetButtonDown(p_button)) {
+					if(m_handlingPlayer == null) m_handlingPlayer = player;
+					
+					return true;
+				}
+		} else return m_handlingPlayer.GetButtonDown(p_button);
+
+		return false;
 	}
 
 	public void GoBack() {
@@ -66,7 +86,7 @@ public class MenuHandler : MonoBehaviour {
 		if(m_openedMenus.Count > 0 && !(m_openedMenus.Count == 1 && isPaused)) ClearMenu();
 		else if(isPaused) {
 			if(m_previousMenu) OpenMenu(m_previousMenu, true);
-			else m_resumeEvent.Raise();
+			else { m_handlingPlayer = null; m_resumeEvent.Raise(); }
 		} else m_pauseEvent.Raise();
 	}
 

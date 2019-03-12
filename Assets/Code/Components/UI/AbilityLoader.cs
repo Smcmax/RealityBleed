@@ -29,7 +29,7 @@ public class AbilityLoader : MonoBehaviour {
 	[HideInInspector] public List<UIAbility> m_loadedAbilities;
 
 	void OnEnable() { 
-		m_entity = Game.m_keybinds.m_entity; // TODO: support local co-op
+		m_entity = Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id);
 		m_loadedAbilities = new List<UIAbility>();
 
 		Load();
@@ -90,7 +90,6 @@ public class AbilityLoader : MonoBehaviour {
 }
 
 public class AbilityComparer : IComparer<AbilityWrapper> {
-
 	public int Compare(AbilityWrapper x, AbilityWrapper y) {
 		return x.TrainingLevel.CompareTo(y.TrainingLevel);
 	}

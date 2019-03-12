@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
+// TODO: for multiplayer, likely needs to be fetched and updated with the proper entity when instantiated instead of hard-linking player
 public class AbilityViewer : MonoBehaviour {
 
 	[Tooltip("The ability's icon")]
@@ -13,7 +14,7 @@ public class AbilityViewer : MonoBehaviour {
 	[Tooltip("The text to update with the hotkey info")]
 	public Text m_hotkeyText;
 
-	[Tooltip("The entity which has the ability to view")]
+	[Tooltip("The entity holding the abilities to display")]
 	public Entity m_entity;
 
 	[Tooltip("Hotkey number linked to this viewer, will show the ability linked to this hotkey")]
@@ -44,11 +45,16 @@ public class AbilityViewer : MonoBehaviour {
 				m_backgroundIcon.enabled = false;
 			}
 
-			KeyCode hotkeyCode = Game.m_keybinds.GetKeybinds().Find(k => k.m_axis.Key == "Hotkey " + m_hotkey).m_positiveKey;
+			string hotkeyText = "";
 
-			if(KeyCodeToShortString.Mapping.ContainsKey(hotkeyCode))
-				m_hotkeyText.text = KeyCodeToShortString.Mapping[hotkeyCode].ToUpper();
-			else m_hotkeyText.text = "???";
+			if(m_entity is Player) {
+				Rewired.Player player = ((Player) m_entity).m_rewiredPlayer;
+				Rewired.ActionElementMap elementMap = player.controllers.maps.GetFirstElementMapWithAction("Hotkey " + m_hotkey, false);
+
+				if(elementMap != null) hotkeyText = elementMap.elementIdentifierName;
+			} 
+			
+			m_hotkeyText.text = hotkeyText;
 
 			yield return new WaitForSeconds(Constants.ABILITY_VIEW_REFRESH);
 		}

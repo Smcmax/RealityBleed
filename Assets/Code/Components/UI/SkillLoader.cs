@@ -18,8 +18,8 @@ public class SkillLoader : MonoBehaviour {
 
 	[HideInInspector] public Entity m_entity;
 
-	void OnEnable() { 
-		m_entity = Game.m_keybinds.m_entity; // TODO: support local co-op
+	void OnEnable() {
+		m_entity = Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id);
 
 		Load();
 	}
@@ -61,7 +61,6 @@ public class SkillLoader : MonoBehaviour {
 }
 
 public class SkillComparer : IComparer<SkillWrapper> {
-
 	public int Compare(SkillWrapper x, SkillWrapper y) {
 		return x.TrainingLevel.CompareTo(y.TrainingLevel);
 	}

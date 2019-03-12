@@ -18,16 +18,10 @@ public class AbilityContextualMenu : MonoBehaviour {
 		if(!m_dropdown) m_dropdown = transform.Find("Hotkey Selection").Find("Dropdown").GetComponent<Dropdown>();
 
 		m_dropdown.ClearOptions();
-		m_dropdown.options.Add(new Dropdown.OptionData("Not Bound"));
+		m_dropdown.options.Add(new Dropdown.OptionData("Unbound"));
 
 		for(int i = 1; i <= 6; i++) {
-			KeyCode hotkeyCode = Game.m_keybinds.GetKeybinds().Find(k => k.m_axis.Key == "Hotkey " + i).m_positiveKey;
-			string keyName = "???";
-
-			if(KeyCodeToShortString.Mapping.ContainsKey(hotkeyCode))
-				keyName = KeyCodeToShortString.Mapping[hotkeyCode];
-
-			Dropdown.OptionData option = new Dropdown.OptionData(keyName);
+			Dropdown.OptionData option = new Dropdown.OptionData("Hotkey " + i);
 			m_dropdown.options.Add(option);
 		}
 
