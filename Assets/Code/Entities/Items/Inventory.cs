@@ -24,7 +24,8 @@ public class Inventory : MonoBehaviour {
 	[HideInInspector] public Entity m_interactor;
 	[HideInInspector] public UIItem[] m_uiItems; // updates itself, null if inventory not shown on screen
 
-	protected virtual void Awake() { 
+	public virtual void Init(Entity p_entity) {
+		m_entity = p_entity;
 		UpdateItemInfo();
 	}
 

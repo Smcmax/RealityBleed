@@ -35,17 +35,16 @@ public class UIAbility : ClickHandler {
 	}
 
 	protected override void OnAnyClick(GameObject p_clicked) { 
-		if(m_ability.Learned && !m_loader.m_contextualAbilityMenu.gameObject.activeSelf) {
-			m_loader.m_contextualAbilityMenu.m_selectedAbility = this;
-			m_loader.m_contextualAbilityMenu.gameObject.SetActive(true);
-			m_loader.m_contextualAbilityMenu.LoadHotkeys();
-		} else if(m_ability.Learned && m_loader.m_contextualAbilityMenu.IsChaining()) { 
+		if(m_ability.Learned && !m_loader.m_contextualAbilityMenuObject.activeSelf) {
+			m_loader.m_contextualAbilityMenuScript.m_selectedAbility = this;
+			MenuHandler.Instance.OpenMenu(m_loader.m_contextualAbilityMenu);
+		} else if(m_ability.Learned && m_loader.m_contextualAbilityMenuScript.IsChaining()) { 
 			bool added = false;
 
-			if(!m_loader.m_contextualAbilityMenu.m_chainedAbilities.Contains(this)) {
-				m_loader.m_contextualAbilityMenu.m_chainedAbilities.Add(this);
+			if(!m_loader.m_contextualAbilityMenuScript.m_chainedAbilities.Contains(this)) {
+				m_loader.m_contextualAbilityMenuScript.m_chainedAbilities.Add(this);
 				added = true;
-			} else m_loader.m_contextualAbilityMenu.m_chainedAbilities.Remove(this);
+			} else m_loader.m_contextualAbilityMenuScript.m_chainedAbilities.Remove(this);
 
 			m_highlightBorder.gameObject.SetActive(added);
 		}

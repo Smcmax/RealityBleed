@@ -4,11 +4,10 @@ using System.Collections.Generic;
 
 public class Equipment : Inventory {
 
-	public void Init(Entity p_entity) {
-		m_entity = p_entity;
-		m_entity.m_stats.UpdateGearModifiers(CalculateStatModifiers());
+	public override void Init(Entity p_entity) {
+		base.Init(p_entity);
 
-		base.Awake();
+		m_entity.m_stats.UpdateGearModifiers(CalculateStatModifiers());
 	}
 
 	public int FindBestSwappableItemSlot(List<EquipmentSlot> p_slots) { 

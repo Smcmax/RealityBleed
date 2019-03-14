@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Rewired;
 using System.Collections.Generic;
+using Rewired.Integration.UnityUI;
 
 public class Player : Entity {
 
@@ -17,12 +17,12 @@ public class Player : Entity {
 	[HideInInspector] public PlayerController m_playerController;
 	[HideInInspector] public Rewired.Player m_rewiredPlayer;
 
-	private PlayerMouse m_mouse;
+	private PlayerMouse m_mouse; // TODO: move to its own class and add to Game.m_rewiredEventSystem.PlayerMice
 	private bool m_wasHoldingLeftClick = false;
 	private bool m_wasHoldingRightClick = false;
 
-	public override void Awake() { 
-		base.Awake();
+	public override void Start() { 
+		base.Start();
 
 		// to be replaced
 		m_players = new List<Player>();
@@ -42,7 +42,7 @@ public class Player : Entity {
 	void Update() {
 		bool leftClick = true;
 		bool fire = false;
-		GameObject hover = (EventSystem.current.currentInputModule as CustomStandaloneInputModule).GetGameObjectUnderPointer();
+		GameObject hover = (EventSystem.current.currentInputModule as RewiredStandaloneInputModule).GetGameObjectUnderPointer(m_playerId);
 		bool mouseOverGameObject = hover || UIItem.HeldItem;
 
 		if(HideUIOnEvent.ObjectsHidden.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;

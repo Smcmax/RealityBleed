@@ -14,7 +14,7 @@ public class AbilityContextualMenu : MonoBehaviour {
 	private Text m_chainAbilitiesText;
 	private bool m_chaining;
 
-	public void LoadHotkeys() {
+	void OnEnable() {
 		if(!m_dropdown) m_dropdown = transform.Find("Hotkey Selection").Find("Dropdown").GetComponent<Dropdown>();
 
 		m_dropdown.ClearOptions();

@@ -12,7 +12,7 @@ public class StatSliderUpdater : MonoBehaviour {
 	[Tooltip("The stat to update in this slider")]
 	public Stats m_stat;
 
-	public void Awake() {
+	public void Start() {
 		UpdateSlider();
 	}
 

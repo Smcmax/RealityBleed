@@ -21,7 +21,7 @@ public class StatTextUpdater : MonoBehaviour {
 	[Tooltip("The stat to update in this text box")]
 	public Stats m_stat;
 
-	public void Awake() {
+	public void Start() {
 		UpdateText();
 	}
 

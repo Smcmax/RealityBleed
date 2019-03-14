@@ -23,14 +23,18 @@ public class AbilityLoader : MonoBehaviour {
 	public AbilitySkillTooltip m_tooltip;
 
 	[Tooltip("The contextual menu that opens when you click on an ability")]
-	public AbilityContextualMenu m_contextualAbilityMenu;
+	public GameObject m_contextualAbilityMenuObject;
 
 	[HideInInspector] public Entity m_entity;
 	[HideInInspector] public List<UIAbility> m_loadedAbilities;
+	[HideInInspector] public AbilityContextualMenu m_contextualAbilityMenuScript;
+	[HideInInspector] public Menu m_contextualAbilityMenu;
 
 	void OnEnable() { 
 		m_entity = Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id);
 		m_loadedAbilities = new List<UIAbility>();
+		m_contextualAbilityMenuScript = m_contextualAbilityMenuObject.GetComponent<AbilityContextualMenu>();
+		m_contextualAbilityMenu = m_contextualAbilityMenuObject.GetComponent<Menu>();
 
 		Load();
 	}
@@ -46,10 +50,10 @@ public class AbilityLoader : MonoBehaviour {
 
 		m_loadedAbilities.Clear();
 
-		if(m_contextualAbilityMenu.gameObject.activeSelf) { 
-			if(m_contextualAbilityMenu.IsChaining()) m_contextualAbilityMenu.StopChaining(false);
+		if(m_contextualAbilityMenuObject.activeSelf) { 
+			if(m_contextualAbilityMenuScript.IsChaining()) m_contextualAbilityMenuScript.StopChaining(false);
 
-			m_contextualAbilityMenu.gameObject.SetActive(false);
+			MenuHandler.Instance.CloseMenu(m_contextualAbilityMenu);
 		}
 	}
 

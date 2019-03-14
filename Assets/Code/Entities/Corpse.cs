@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class Corpse : MonoBehaviour {
@@ -15,6 +14,7 @@ public class Corpse : MonoBehaviour {
 		Container container = gameObject.AddComponent<Container>();
 		container.m_interactBounds = interactBounds;
 		container.m_onInteractEvent = p_entity.m_interactCorpseEvent;
+		container.m_autoLootable = true;
 		innerCollider.isTrigger = false;
 
 		container.m_inventory = p_entity.m_inventory;

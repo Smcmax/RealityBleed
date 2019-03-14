@@ -583,11 +583,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1214058324}
-        m_MethodName: OpenMenuPause
+        m_MethodName: OpenMenu
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1027497080}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: Menu, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1315,14 +1315,64 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 224663696697810304, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224645611899712328, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224716379749112960, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224753424981032806, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224103938540023032, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0.24583334
+      objectReference: {fileID: 0}
+    - target: {fileID: 224103938540023032, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224104417616454018, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0.24583334
+      objectReference: {fileID: 0}
+    - target: {fileID: 224104417616454018, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0.24583334
+      objectReference: {fileID: 0}
+    - target: {fileID: 224104417616454018, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1349920143465692, guid: 1722a6d17d631c54cbc2664427b326cf, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1722a6d17d631c54cbc2664427b326cf, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &1027497080 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1349920143465692, guid: 1722a6d17d631c54cbc2664427b326cf,
+--- !u!114 &1027497080 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114570460092807908, guid: 1722a6d17d631c54cbc2664427b326cf,
     type: 2}
   m_PrefabInternal: {fileID: 1027497079}
+  m_Script: {fileID: 11500000, guid: aa6e18bf0c376ea48a1f1fd87308de51, type: 3}
 --- !u!1 &1027497081 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1991614093124428, guid: 1722a6d17d631c54cbc2664427b326cf,
@@ -1399,7 +1449,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_listeningToAllInputs: 1
-  m_currentMenu: {fileID: 785115738}
   m_containerMenu: {fileID: 0}
   m_pauseEvent: {fileID: 11400000, guid: b11738bbea5f37647a784100d7cb4868, type: 2}
   m_resumeEvent: {fileID: 11400000, guid: ed2b58e5fd2bb26418971cbd6baab096, type: 2}

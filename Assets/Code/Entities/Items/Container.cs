@@ -4,6 +4,9 @@ using System.Collections;
 [RequireComponent(typeof(Inventory))]
 public class Container : Interactable {
 
+	[Tooltip("Whether or not this container is auto lootable or if it needs to be manually looted/used")]
+	public bool m_autoLootable;
+
 	[HideInInspector] public Inventory m_inventory;
 
 	protected override void Awake() { 
@@ -17,7 +20,7 @@ public class Container : Interactable {
 
 		MenuHandler.Instance.OpenMenu(MenuHandler.Instance.m_containerMenu);
 
-		if(Game.m_options.Get("AutoLoot").GetBool()) StartCoroutine(AutoLoot(p_entity));
+		if(m_autoLootable && Game.m_options.Get("AutoLoot").GetBool()) StartCoroutine(AutoLoot(p_entity));
 	}
 
 	public IEnumerator AutoLoot(Entity p_entity) { 
@@ -42,7 +45,6 @@ public class Container : Interactable {
 	}
 
 	private void Close() {
-		if(MenuHandler.Instance.m_openedMenus.Contains(MenuHandler.Instance.m_containerMenu))
-			MenuHandler.Instance.OpenMenu(MenuHandler.Instance.m_containerMenu);
+		MenuHandler.Instance.CloseMenu(MenuHandler.Instance.m_containerMenu);
 	}
 }

@@ -506,7 +506,7 @@ namespace Rewired.Integration.UnityUI {
             return false;
         }
 
-        protected void ClearSelection() {
+		protected void ClearSelection() {
             var baseEventData = GetBaseEventData();
 
             foreach(var playerSetKVP in m_PlayerPointerData) {

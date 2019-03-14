@@ -537,9 +537,18 @@ namespace Rewired.Integration.UnityUI {
 
         private RewiredStandaloneInputModule() { }
 
-        // Methods
+		public GameObject GetGameObjectUnderPointer(int p_playerId)
+		{
+			PointerEventData lastPointer = GetLastPointerEventData(p_playerId, 0, kMouseLeftId, true, PointerEventType.Mouse);
 
-        protected override void Awake() {
+			if (lastPointer != null) return lastPointer.pointerCurrentRaycast.gameObject;
+
+			return null;
+		}
+
+		// Methods
+
+		protected override void Awake() {
             base.Awake();
 
             // Determine if touch is supported
@@ -632,7 +641,7 @@ namespace Rewired.Integration.UnityUI {
             ClearSelection();
         }
 
-        public override void Process() {
+		public override void Process() {
             if (!ReInput.isReady) return;
             if (!m_HasFocus && ShouldIgnoreEventsOnNoFocus()) return;
             if (!enabled || !gameObject.activeInHierarchy) return;
