@@ -105,8 +105,8 @@ public class MenuHandler : MonoBehaviour {
 
 	public void CloseControlMapper() {
 		Game.m_controlMapperMenu.gameObject.transform.parent.GetComponent<ControlMapper>().Close(true); // save settings
-		CloseMenu(Game.m_controlMapperMenu); // close it internally, it's already closed though
 		OpenMenu(m_previousControlMapperMenu);
+		CloseMenu(Game.m_controlMapperMenu); // close it internally, it's already closed though
 		m_previousControlMapperMenu = null;
 	}
 
