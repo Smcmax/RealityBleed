@@ -81,19 +81,21 @@ public class MenuHandler : MonoBehaviour {
 
 	public void GoBack() {
 		if(m_openedMenus.Count > 0) {
-			if(m_paused && m_previousControlMapperMenu) CloseControlMapper();
+			if(m_previousControlMapperMenu) CloseControlMapper();
 			else if(m_openedMenus.Count == 1 && m_openedMenus[0].m_previousMenu) OpenMenu(m_openedMenus[0].m_previousMenu);
 			else if(m_paused) m_resumeEvent.Raise();
-			else ClearMenu();
+			else if(!m_openedMenus.Exists(m => !m.m_closeable)) ClearMenu();
 		} else m_pauseEvent.Raise();
 	}
 
 	// it does its own stuff so it needs its own special snowflake functions to integrate into this handler properly
 	public void OpenControlMapper() {
+		if(!gameObject.activeSelf) { MenuHandler.Instance.OpenControlMapper(); return; }
+
 		OpenMenu(Game.m_controlMapperMenu);
 
 		foreach(Menu opened in new List<Menu>(m_openedMenus))
-			if(opened.gameObject.name == Game.m_controlMapperMenu.m_previousMenu.gameObject.name) {
+			if(opened != null && opened.gameObject.name == Game.m_controlMapperMenu.m_previousMenu.gameObject.name) {
 				// we have to keep a reference to the previous menu here cause the one set in control mapper is a prefab, which isn't openable
 				m_previousControlMapperMenu = opened;
 				CloseMenu(opened);
@@ -104,6 +106,8 @@ public class MenuHandler : MonoBehaviour {
 	}
 
 	public void CloseControlMapper() {
+		if(!gameObject.activeSelf) { MenuHandler.Instance.CloseControlMapper(); return; }
+
 		Game.m_controlMapperMenu.gameObject.transform.parent.GetComponent<ControlMapper>().Close(true); // save settings
 		OpenMenu(m_previousControlMapperMenu);
 		CloseMenu(Game.m_controlMapperMenu); // close it internally, it's already closed though
@@ -111,17 +115,7 @@ public class MenuHandler : MonoBehaviour {
 	}
 
 	public void OpenMenu(Menu p_menu) {
-		// if we've got 2 menu handlers in the scene, we can choose which one to use by disabling one (redirecting menu opening to the one left active)
-		if(!gameObject.activeSelf) {
-			GameObject otherMenu = GameObject.Find("MenuHandler");
-
-			if(otherMenu != null) {
-				Instance = otherMenu.GetComponent<MenuHandler>();
-				Instance.OpenMenu(p_menu);
-			}
-
-			return;
-		}
+		if(!gameObject.activeSelf) { MenuHandler.Instance.OpenMenu(p_menu); return; }
 
 		if(m_openedMenus.Contains(p_menu)) {
 			CloseMenu(p_menu);
@@ -142,19 +136,9 @@ public class MenuHandler : MonoBehaviour {
 	}
 
 	public void CloseMenu(Menu p_menu) {
-		// if we've got 2 menu handlers in the scene, we can choose which one to use by disabling one (redirecting menu opening to the one left active)
-		if(!gameObject.activeSelf) {
-			GameObject otherMenu = GameObject.Find("MenuHandler");
+		if(!gameObject.activeSelf) { MenuHandler.Instance.CloseMenu(p_menu); return; }
 
-			if(otherMenu != null) {
-				Instance = otherMenu.GetComponent<MenuHandler>();
-				Instance.CloseMenu(p_menu);
-			}
-
-			return;
-		}
-
-		if(m_openedMenus.Contains(p_menu)) {
+		if (m_openedMenus.Contains(p_menu)) {
 			if(m_openedMenus.Count == 1 && m_paused) m_resumeEvent.Raise();
 			else if(m_openedMenus.Count == 1) ClearMenu();
 			else {

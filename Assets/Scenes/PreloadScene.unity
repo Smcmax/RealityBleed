@@ -5406,6 +5406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_previousMenu: {fileID: 114570460092807908, guid: 1722a6d17d631c54cbc2664427b326cf,
     type: 2}
+  m_closeable: 1
 --- !u!1 &1917898351
 GameObject:
   m_ObjectHideFlags: 0

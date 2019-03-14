@@ -2076,7 +2076,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1350088103516448
 GameObject:
   m_ObjectHideFlags: 1
@@ -6945,6 +6945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_previousMenu: {fileID: 0}
+  m_closeable: 1
 --- !u!114 &114042880220070684
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7395,6 +7396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_previousMenu: {fileID: 0}
+  m_closeable: 1
 --- !u!114 &114066514933718444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8160,6 +8162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_previousMenu: {fileID: 0}
+  m_closeable: 1
 --- !u!114 &114125160873648434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8352,6 +8355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_previousMenu: {fileID: 0}
+  m_closeable: 1
 --- !u!114 &114134488856876646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10012,6 +10016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_previousMenu: {fileID: 0}
+  m_closeable: 1
 --- !u!114 &114244939149619732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12655,6 +12660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_previousMenu: {fileID: 0}
+  m_closeable: 1
 --- !u!114 &114419321973070098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15686,6 +15692,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_previousMenu: {fileID: 114242890908777518}
+  m_closeable: 1
 --- !u!114 &114572702222740834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19850,6 +19857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_previousMenu: {fileID: 0}
+  m_closeable: 1
 --- !u!114 &114827736078379940
 MonoBehaviour:
   m_ObjectHideFlags: 1
