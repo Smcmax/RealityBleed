@@ -15,13 +15,15 @@ public class StatTextUpdater : MonoBehaviour {
 	[Tooltip("Whether or not the maximal value should be shown instead of the stat's current value")]
 	public bool m_showMaxValue;
 
-	[Tooltip("Which entity's stat are we filling in here?")]
+	[Tooltip("Which entity's stat are we filling in here? If null, getting the menu handling player's stats")]
 	public Entity m_entity;
 
 	[Tooltip("The stat to update in this text box")]
 	public Stats m_stat;
 
 	public void Start() {
+		if(!m_entity) m_entity = Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id);
+
 		UpdateText();
 	}
 

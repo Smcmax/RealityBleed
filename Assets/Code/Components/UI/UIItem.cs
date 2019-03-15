@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Rewired.Integration.UnityUI;
 
 public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler {
 
@@ -11,8 +12,11 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	public Image m_ghost;
 	private Text m_ghostAmount;
 
-	[HideInInspector] public InventoryLoader m_loader;
 	public static UIItem HeldItem; // not dragged, held
+	public static Player Holder;
+
+	[HideInInspector] public InventoryLoader m_loader;
+
 	private bool m_validDrop;
 
 	void Awake() {
@@ -41,15 +45,12 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		m_item.m_inventory.m_itemTooltip.Hide();
 	}
 
-	void Update() {
-		if(HeldItem != null) {
-			HeldItem.m_ghost.transform.position = Input.mousePosition;
+	public void MoveItem(Vector3 p_position) {
+		HeldItem.m_ghost.transform.position = p_position;
 
-			if(HeldItem.m_item.m_inventory.m_itemDestroyModal && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && 
-				!EventSystem.current.IsPointerOverGameObject()) {
-				HeldItem.OpenDestructionModal();
-			}
-		}
+		if(HeldItem.m_item.m_inventory.m_itemDestroyModal && Holder.m_rewiredPlayer.GetButtonDown("UIInteract1") &&
+			!Game.m_rewiredEventSystem.IsPointerOverGameObject(RewiredPointerInputModule.kMouseLeftId))
+			HeldItem.OpenDestructionModal();
 	}
 
 	private void OpenDestructionModal() {
@@ -64,13 +65,10 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		modal.OpenModal();
 	}
 
-	protected override void OnLeftDoubleClick(GameObject p_clicked) { 
+	protected override void OnLeftDoubleClick(GameObject p_clicked, Player p_clicker) { 
 		if(!m_item.m_item) return;
 
-		if(this == HeldItem) { 
-			HeldItem.HideGhost();
-			HeldItem = null;
-		}
+		if(this == HeldItem) HideHeldItem();
 
 		Inventory targetInventory;
 		Inventory currentInventory;
@@ -79,11 +77,15 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 			targetInventory = m_item.m_inventory.m_interactor.m_inventory; 
 			currentInventory = m_item.m_inventory; 
 		} else if(m_item.m_inventory is Equipment) { // unequip
-			targetInventory = m_item.m_holder.m_inventory;
-			currentInventory = m_item.m_holder.m_equipment;
+			if(m_item.m_item is Weapon || m_item.m_item is Armor) {
+				targetInventory = m_item.m_holder.m_inventory;
+				currentInventory = m_item.m_holder.m_equipment;
+			} else return;
 		} else { // equip
-			targetInventory = m_item.m_holder.m_equipment;
-			currentInventory = m_item.m_holder.m_inventory;
+			if(m_item.m_item is Weapon || m_item.m_item is Armor) {
+				targetInventory = m_item.m_holder.m_equipment;
+				currentInventory = m_item.m_holder.m_inventory;
+			} else return;
 		}
 
 		if(!targetInventory.IsFull()) {
@@ -120,24 +122,25 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		}
 	}
 
-	protected override void OnLeftSingleClick(GameObject p_clicked) {
+	protected override void OnLeftSingleClick(GameObject p_clicked, Player p_clicker) {
 		if(HeldItem == null && m_item.m_item) {
 			ActivateGhost();
 			HeldItem = this;
+			Holder = p_clicker;
 			ObscureInfo();
 		} else if(HeldItem != null && HeldItem.gameObject == p_clicked) HideHeldItem();
 		else if(HeldItem != null) Swap(HeldItem, true); // swap stacks / drop in a slot
 	}
 
-	protected override void OnRightDoubleClick(GameObject p_clicked){
-		OnRightSingleClick(p_clicked);
+	protected override void OnRightDoubleClick(GameObject p_clicked, Player p_clicker) {
+		OnRightSingleClick(p_clicked, p_clicker);
 	}
 
-	protected override void OnRightSingleClick(GameObject p_clicked) { 
+	protected override void OnRightSingleClick(GameObject p_clicked, Player p_clicker) { 
 		if(HeldItem != null && HeldItem.gameObject == p_clicked) HideHeldItem();
 		else if(HeldItem != null) {
 			if(m_item.m_amount > 0) // adding 1 to an existing slot
-				Add(HeldItem, 1);
+				Add(HeldItem, 1, false);
 			else { // adding 1 to an empty slot
 				m_item.m_item = HeldItem.m_item.m_item;
 				m_item.m_outlineSprite = HeldItem.m_item.m_outlineSprite;
@@ -200,7 +203,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	private void Swap(UIItem p_dragged, bool p_add) {
-		if(p_add && Add(p_dragged, p_dragged.m_item.m_amount)) return;
+		if(p_add && Add(p_dragged, p_dragged.m_item.m_amount, true)) return;
 
 		bool swapSuccess = p_dragged.m_item.m_inventory.Swap(p_dragged.m_item, m_item);
 
@@ -217,7 +220,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		}
 	}
 
-	private bool Add(UIItem p_dragged, int p_amount) {
+	private bool Add(UIItem p_dragged, int p_amount, bool p_hideHeldItem) {
 		// if stacking items together
 		if(m_item.m_item && p_dragged.m_item.m_item.m_id == m_item.m_item.m_id && m_item.m_item.m_maxStackSize - p_amount > 0) {
 			bool addSuccess = m_item.m_inventory.AddToItem(p_dragged.m_item, m_item, p_amount);
@@ -237,7 +240,10 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 				UpdateInfo();
 				p_dragged.UpdateInfo();
 
-				if(p_dragged == HeldItem || this == HeldItem) HideHeldItem();
+				if(p_dragged == HeldItem || this == HeldItem) { 
+					if(p_hideHeldItem) HideHeldItem();
+					else HeldItem.UpdateInfo();
+				}
 
 				m_item.m_inventory.RaiseInventoryEvent(true);
 				p_dragged.m_item.m_inventory.RaiseInventoryEvent(false);
@@ -346,10 +352,11 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		m_ghost.transform.SetParent(GetComponentInParent<Canvas>().transform);
 	}
 
-	private void HideHeldItem() {
+	public void HideHeldItem() {
 		HeldItem.HideGhost();
 		HeldItem.UpdateInfo();
 		HeldItem = null;
+		Holder = null;
 	}
 
 	private void UpdateGhostAmountText() {

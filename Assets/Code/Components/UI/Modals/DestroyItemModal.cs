@@ -8,8 +8,7 @@ public class DestroyItemModal : Modal {
 		Image image = toDelete.GetComponent<Image>();
 
 		if(toDelete == UIItem.HeldItem) { 
-			toDelete.HideGhost();
-			UIItem.HeldItem = null;
+			toDelete.HideHeldItem();
 		}
 
 		toDelete.m_item.m_inventory.Remove(toDelete.m_item);

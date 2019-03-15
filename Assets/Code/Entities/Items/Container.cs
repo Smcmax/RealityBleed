@@ -15,9 +15,15 @@ public class Container : Interactable {
 	}
 
 	public override void Interact(Entity p_entity) { 
-		m_inventory.m_interactor = p_entity;
-		MenuHandler.Instance.m_containerMenu.GetComponent<InventoryLoader>().m_inventory = m_inventory;
+		if(m_inventory.m_interactor) { 
+			if(m_inventory.m_interactor == p_entity) Close();
 
+			return;
+		}
+
+		m_inventory.m_interactor = p_entity;
+		if(MenuHandler.Instance.m_handlingPlayer == null) MenuHandler.Instance.m_handlingPlayer = (p_entity as Player).m_rewiredPlayer;
+		MenuHandler.Instance.m_containerMenu.GetComponent<InventoryLoader>().m_inventory = m_inventory;
 		MenuHandler.Instance.OpenMenu(MenuHandler.Instance.m_containerMenu);
 
 		if(m_autoLootable && Game.m_options.Get("AutoLoot").GetBool()) StartCoroutine(AutoLoot(p_entity));
@@ -37,7 +43,7 @@ public class Container : Interactable {
 			}
 
 			if(!p_entity.m_inventory.IsFull()) Close();
-		}
+		} else Close();
 	}
 
 	public override void OutOfRange(Entity p_entity) {
@@ -45,6 +51,7 @@ public class Container : Interactable {
 	}
 
 	private void Close() {
+		m_inventory.m_interactor = null;
 		MenuHandler.Instance.CloseMenu(MenuHandler.Instance.m_containerMenu);
 	}
 }

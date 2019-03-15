@@ -11,13 +11,10 @@ public class Player : Entity {
 	[Tooltip("The id assigned to this player, corresponds to the Rewired player id")]
 	public int m_playerId = 0;
 
-	//[Tooltip("The image assigned to this player's pointer")]
-	//public Image m_pointerImage;
-
 	[HideInInspector] public PlayerController m_playerController;
 	[HideInInspector] public Rewired.Player m_rewiredPlayer;
+	[HideInInspector] public PlayerCursor m_mouse;
 
-	private PlayerMouse m_mouse; // TODO: move to its own class and add to Game.m_rewiredEventSystem.PlayerMice
 	private bool m_wasHoldingLeftClick = false;
 	private bool m_wasHoldingRightClick = false;
 
@@ -29,10 +26,8 @@ public class Player : Entity {
 		m_players.Add(this);
 
 		m_rewiredPlayer = ReInput.players.GetPlayer(m_playerId);
-		m_mouse = PlayerMouse.Factory.Create();
-		m_mouse.playerId = m_playerId;
-		m_mouse.xAxis.actionName = "AimX";
-		m_mouse.yAxis.actionName = "AimY";
+		m_mouse = GetComponent<PlayerCursor>();
+		m_mouse.Init(m_playerId);
 		m_playerController = GetComponent<PlayerController>();
 		m_playerController.m_player = this;
 
@@ -42,10 +37,11 @@ public class Player : Entity {
 	void Update() {
 		bool leftClick = true;
 		bool fire = false;
-		GameObject hover = (EventSystem.current.currentInputModule as RewiredStandaloneInputModule).GetGameObjectUnderPointer(m_playerId);
-		bool mouseOverGameObject = hover || UIItem.HeldItem;
+		GameObject hover = Game.m_rewiredEventSystem.GetGameObjectUnderPointer(m_playerId);
+		bool mouseOverGameObject = hover || UIItem.HeldItem; // change uiitem to support multiple holds...
 
 		if(HideUIOnEvent.ObjectsHidden.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;
+		if(UIItem.HeldItem && this == UIItem.Holder) UIItem.HeldItem.MoveItem(m_mouse.GetPosition());
 
 		if(m_rewiredPlayer.GetButton("Primary Fire")) fire = true;
 		else if(m_rewiredPlayer.GetButton("Secondary Fire")) { fire = true; leftClick = false; }
@@ -65,7 +61,7 @@ public class Player : Entity {
 			if(weapon == null) return;
 			if(toFire == null) return;
 
-			m_shooter.SetPatternInfo(toFire, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint(m_mouse.screenPosition));
+			m_shooter.SetPatternInfo(toFire, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint(m_mouse.GetPosition()));
 			weapon.Use(this, new string[]{ weapon.m_leftClickPattern == toFire ? "true" : "false" }); // using weapon in case it has specific code to execute
 		}
 

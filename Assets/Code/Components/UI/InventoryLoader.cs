@@ -10,9 +10,6 @@ public class InventoryLoader : MonoBehaviour {
 	[Tooltip("If the panel is to resize to fit the inventory, put it here")]
 	public Image m_panelImage;
 
-	[Tooltip("The inventory to load in")]
-	public Inventory m_inventory;
-
 	[Tooltip("How many items to fit in per row")]
 	[Range(0, 16)] public int m_itemsPerRow;
 
@@ -28,7 +25,22 @@ public class InventoryLoader : MonoBehaviour {
 	[Tooltip("The index to stop displaying at, 0 = end. This value is inclusive, meaning it will process up to array[end]")]
 	public int m_endIndex;
 
+	[Tooltip("If it should load from the player directly or load a set inventory from script")]
+	public bool m_usePlayerInventory;
+
+	[Tooltip("If the loader should load from equipment instead of inventory")]
+	[ConditionalField("m_usePlayerInventory", "true")] public bool m_showEquipment;
+
+	[HideInInspector] public Inventory m_inventory;
+
 	void OnEnable() {
+		if(m_usePlayerInventory) {
+			Player player = Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id);
+
+			if(m_showEquipment) m_inventory = player.m_equipment;
+			else m_inventory = player.m_inventory;
+		} else m_inventory.UpdateItemInfo();
+
 		Load();
 	}
 

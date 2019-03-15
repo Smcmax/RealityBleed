@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114018483739704796}
   - component: {fileID: 114173102224703342}
   - component: {fileID: 114043605804268206}
+  - component: {fileID: 114011362187835382}
   - component: {fileID: 212086667593845604}
   - component: {fileID: 50532337669514052}
   - component: {fileID: 61202634623878206}
@@ -416,6 +417,29 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114011362187835382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099763796712776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1213c0450f2582f48bd6ab74d51ac8fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_playerId: -1
+  m_distanceFromCamera: 2
+  m_cursorSpeed: 1
+  m_spriteScale: 0.5
+  m_mousePrefab: {fileID: 1736400387787230, guid: 114f503d46f4260419910cdf3df77251,
+    type: 2}
+  m_mouseParent: {fileID: 1099763796712776}
+  m_uiCursorPrefab: {fileID: 1628987892661326, guid: db5418cfbca0b5b438104bc3e5e85ca4,
+    type: 2}
+  m_uiCanvas: {fileID: 0}
+  m_useUICoordinatesOnly: 0
+  m_hideHardwarePointer: 1
 --- !u!114 &114018483739704796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -728,6 +752,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_controller: {fileID: 114043605804268206}
+  m_player: {fileID: 0}
 --- !u!114 &114241594169349478
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -834,6 +859,7 @@ MonoBehaviour:
   m_modifiers: {fileID: 0}
   m_ai: {fileID: 0}
   m_feedbackColor: {r: 0, g: 0, b: 0, a: 0}
+  m_playerId: 0
   m_playerController: {fileID: 0}
 --- !u!114 &114406825266347702
 MonoBehaviour:

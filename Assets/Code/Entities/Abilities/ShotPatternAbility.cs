@@ -34,7 +34,7 @@ public class ShotPatternAbility : Ability {
 		ShotPattern pattern = m_shotPatterns.Find(s => s.TrainingLevel == p_trainingLevel).Pattern;
 
 		if(m_aimAtCursor) 
-			p_entity.m_shooter.SetPatternInfo(pattern, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition));
+			p_entity.m_shooter.SetPatternInfo(pattern, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint((p_entity as Player).m_mouse.GetPosition()));
 
 		p_entity.m_shooter.Shoot(pattern);
 	}

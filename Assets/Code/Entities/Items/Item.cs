@@ -18,8 +18,8 @@ public class Item {
 	[Tooltip("The basic item representing this item")]
 	public BaseItem m_item;
 
-	[HideInInspector] public Entity m_holder;
-	[HideInInspector] public Inventory m_inventory;
+	public Entity m_holder;
+	public Inventory m_inventory;
 	[HideInInspector] public int m_inventoryIndex;
 
 	public Item(Inventory p_inventory, int p_index) { 

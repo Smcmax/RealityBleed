@@ -21,7 +21,7 @@ public class Tooltip : MonoBehaviour {
 	}
 
 	void Update() {
-		Vector2 mouse = Input.mousePosition;
+		Vector2 mouse = Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id).m_mouse.GetPosition();
 		Vector2 adjustedMouse = new Vector2((mouse.x / (float) Screen.width) * m_canvasRect.sizeDelta.x, 
 											(mouse.y / (float) Screen.height) * m_canvasRect.sizeDelta.y);
 		float tooltipWorldWidth = (m_rectTransform.sizeDelta.x / m_canvasRect.sizeDelta.x) * Screen.width;

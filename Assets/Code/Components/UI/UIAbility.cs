@@ -34,7 +34,9 @@ public class UIAbility : ClickHandler {
 		m_loader.m_tooltip.Hide();
 	}
 
-	protected override void OnAnyClick(GameObject p_clicked) { 
+	protected override void OnAnyClick(GameObject p_clicked, Player p_clicker) {
+		if(p_clicker != m_loader.m_entity) return;
+
 		if(m_ability.Learned && !m_loader.m_contextualAbilityMenuObject.activeSelf) {
 			m_loader.m_contextualAbilityMenuScript.m_selectedAbility = this;
 			MenuHandler.Instance.OpenMenu(m_loader.m_contextualAbilityMenu);

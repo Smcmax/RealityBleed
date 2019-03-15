@@ -32,7 +32,7 @@ public class MenuHandler : MonoBehaviour {
 	[Tooltip("The game event raised when the map screen is brought up")]
 	public GameEvent m_onMapEvent;
 
-	[HideInInspector] public List<Menu> m_openedMenus;
+	public List<Menu> m_openedMenus;
 	[HideInInspector] public Rewired.Player m_handlingPlayer; // The player handling the menu
 
 	private bool m_paused;
@@ -80,6 +80,8 @@ public class MenuHandler : MonoBehaviour {
 	}
 
 	public void GoBack() {
+		if(!gameObject.activeSelf) { MenuHandler.Instance.GoBack(); return; }
+
 		if(m_openedMenus.Count > 0) {
 			if(m_previousControlMapperMenu) CloseControlMapper();
 			else if(m_openedMenus.Count == 1 && m_openedMenus[0].m_previousMenu) OpenMenu(m_openedMenus[0].m_previousMenu);

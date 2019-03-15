@@ -25,7 +25,7 @@ public class AbilityLoader : MonoBehaviour {
 	[Tooltip("The contextual menu that opens when you click on an ability")]
 	public GameObject m_contextualAbilityMenuObject;
 
-	[HideInInspector] public Entity m_entity;
+	[HideInInspector] public Player m_entity;
 	[HideInInspector] public List<UIAbility> m_loadedAbilities;
 	[HideInInspector] public AbilityContextualMenu m_contextualAbilityMenuScript;
 	[HideInInspector] public Menu m_contextualAbilityMenu;
