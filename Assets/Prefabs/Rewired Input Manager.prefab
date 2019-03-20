@@ -131,7 +131,7 @@ MonoBehaviour:
       platformVars_webGL:
         disableKeyboard: 0
         ignoreInputWhenAppNotInFocus: 1
-      maxJoysticksPerPlayer: 1
+      maxJoysticksPerPlayer: 3
       autoAssignJoysticks: 1
       assignJoysticksToPlayingPlayersOnly: 0
       distributeJoysticksEvenly: 1

@@ -1018,7 +1018,7 @@ namespace Rewired.Integration.UnityUI {
                 pointerEvent.pressPosition = pointerEvent.position;
                 pointerEvent.pointerPressRaycast = pointerEvent.pointerCurrentRaycast;
 
-                DeselectIfSelectionChanged(currentOverGo, pointerEvent);
+                //DeselectIfSelectionChanged(currentOverGo, pointerEvent);
 
                 // search for the control that will receive the press
                 // if we can't find a press handler set the press

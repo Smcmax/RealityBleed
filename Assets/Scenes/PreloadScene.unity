@@ -171,7 +171,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1781234714}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.17567855
+  m_Size: 0.17745939
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3131,6 +3131,7 @@ GameObject:
   - component: {fileID: 1501970576}
   - component: {fileID: 1501970575}
   - component: {fileID: 1501970574}
+  - component: {fileID: 1501970581}
   m_Layer: 5
   m_Name: DoneButton
   m_TagString: Untagged
@@ -3321,6 +3322,17 @@ MonoBehaviour:
   _autoNavDown: 1
   _autoNavLeft: 0
   _autoNavRight: 0
+--- !u!114 &1501970581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1501970572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba3f38c08b1334d4988fc8da9400b6f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1528904989
 GameObject:
   m_ObjectHideFlags: 0
@@ -3837,7 +3849,7 @@ MonoBehaviour:
   m_VerticalAxis: UIMoveY
   m_SubmitButton: UISubmit
   m_CancelButton: UICancel
-  m_InputActionsPerSecond: 4.5
+  m_InputActionsPerSecond: 10
   m_RepeatDelay: 0
   m_allowMouseInput: 1
   m_allowMouseInputIfTouchSupported: 1
@@ -4676,7 +4688,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edac79059a45d244a8050315593a7e9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rewiredInputManager: {fileID: 0}
+  _rewiredInputManager: {fileID: 114000520743671474, guid: 0c2a4c56e433c294583fbb365980c433,
+    type: 2}
   _dontDestroyOnLoad: 1
   _openOnStart: 0
   _keyboardMapDefaultLayout: 0
@@ -4744,7 +4757,7 @@ MonoBehaviour:
     _mouseXYAxisSensitivityMin: 0
     _mouseXYAxisSensitivityMax: 2
   _useThemeSettings: 1
-  _themeSettings: {fileID: 11400000, guid: e15b0a66770d13f41a9adbbf6a4d7423, type: 2}
+  _themeSettings: {fileID: 11400000, guid: ecc23c23061062a4e859f505986e93f5, type: 2}
   _language: {fileID: 11400000, guid: 2be3ae985e9faeb4b9dd3a1c915a3fc7, type: 2}
   prefabs:
     _button: {fileID: 143110, guid: f71e844abdb0e87458f73bf1ce75ee09, type: 2}
