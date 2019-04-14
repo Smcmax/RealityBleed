@@ -85,8 +85,6 @@ public class PlayerCursor : MonoBehaviour {
 
 	public void ChangeMode(CursorModes p_mode, bool p_force) { 
 		if(!p_force && p_mode == m_currentMode) return;
-
-		m_uiCursor.transform.rotation = Quaternion.Euler(0, 0, 0);
 		
 		string axisUsed = "Aim";
 
@@ -99,7 +97,7 @@ public class PlayerCursor : MonoBehaviour {
 		m_currentMode = p_mode;
 		
 		// ui cursor doesn't know the real cursor mode, only player cursor does
-		if(p_mode == CursorModes.LINE && !p_force) {
+		if(p_mode == CursorModes.LINE) {
 			if(m_usingController) {
 				m_uiCursor.ChangeModes(p_mode);
 				m_mouse.screenPosition = new Vector2(Screen.width / 2, Screen.height / 2 + 1);
@@ -107,6 +105,7 @@ public class PlayerCursor : MonoBehaviour {
 		} else m_uiCursor.ChangeModes(p_mode);
 
 		SetCursorState(p_mode);
+		OnScreenPositionChanged(m_mouse.screenPosition);
 	}
 
 	public Vector2 GetPosition() { 
@@ -121,7 +120,7 @@ public class PlayerCursor : MonoBehaviour {
 			SetRotation(pos);
 			return;
 		} else if(m_currentMode == CursorModes.LINE && m_usingController) return;
-		else m_uiCursor.transform.rotation = new Quaternion();
+		else m_uiCursor.transform.rotation = Quaternion.Euler(0, 0, 0);
 
 		if(!m_useUICoordinatesOnly)
 			m_cursor.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(pos.x, pos.y, m_distanceFromCamera));
@@ -166,6 +165,7 @@ public class PlayerCursor : MonoBehaviour {
 		// ui cursor doesn't know the real cursor mode, only player cursor does
 		if(m_currentMode == CursorModes.LINE) {
 			if(controller && !m_usingController) {
+				SetRotation(m_mouse.screenPosition);
 				m_uiCursor.ChangeModes(CursorModes.LINE);
 				SetCursorState(m_currentMode);
 			} else if(!controller && m_usingController) {

@@ -25,6 +25,7 @@ public class UICursor : MonoBehaviour {
 			m_image.preserveAspect = true;
 			m_image.color = new Color(1, 1, 1, 0.5f);
 		} else {
+			transform.rotation = Quaternion.Euler(0, 0, 0);
 			GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
 			m_image.sprite = m_cursorSprite;
 			m_image.color = new Color(1, 1, 1, 1);
