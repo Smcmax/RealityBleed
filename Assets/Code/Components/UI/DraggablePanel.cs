@@ -50,7 +50,7 @@ public class DraggablePanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 
 		m_canvas.sortingOrder = 1;
 
-		if(EventSystem.current.currentSelectedGameObject.GetComponentInParent<Canvas>() != m_canvas) {
+		if(EventSystem.current.currentSelectedGameObject && EventSystem.current.currentSelectedGameObject.GetComponentInParent<Canvas>() != m_canvas) {
 			AutoSelectObject autoSelect = gameObject.GetComponentInChildren<AutoSelectObject>();
 			if(autoSelect) autoSelect.Select();
 		}

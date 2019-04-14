@@ -46,34 +46,61 @@ public class OptionsMenuHandler : MonoBehaviour {
 		m_framerateSlider.m_unlimited = -1;
 		m_qualityDropdown.value = m_qualityLevel;
 
-		PopulateResolutions();
+		PopulateResolutions(false);
+		CheckForResolutionIssues();
 	}
 
 	////////////////////////
 	/*   Video Settings   */
 	////////////////////////
 
-	private void PopulateResolutions() {
+	private void PopulateResolutions(bool p_forceCurrentRefreshRate) {
 		m_resolutions = Screen.resolutions;
+		List<Resolution> resolutions = new List<Resolution>(m_resolutions);
 		List<Resolution> availableResolutions = new List<Resolution>();
 
-		for(int i = 0; i < m_resolutions.Length; i++) {
-			if(Screen.currentResolution.refreshRate != m_resolutions[i].refreshRate) continue;
+		resolutions.Sort(delegate(Resolution p_x, Resolution p_y) {
+			if(p_x.width > p_y.width) return 1;
+			else if(p_x.width < p_y.width) return -1;
+			else if(p_x.height > p_y.height) return 1;
+			else if(p_x.height < p_y.height) return -1;
 
-			Dropdown.OptionData data = new Dropdown.OptionData(ResolutionToString(m_resolutions[i]));
+			return 0;
+		});
+
+		for(int i = 0; i < resolutions.Count; i++) {
+			if(!p_forceCurrentRefreshRate && Screen.currentResolution.refreshRate != m_resolutions[i].refreshRate) continue;
+
+			Resolution res = resolutions[i];
+
+			if(p_forceCurrentRefreshRate) {
+				res = new Resolution();
+
+				res.width = resolutions[i].width;
+				res.height = resolutions[i].height;
+				res.refreshRate = Screen.currentResolution.refreshRate;
+			}
+
+			Dropdown.OptionData data = new Dropdown.OptionData(ResolutionToString(res));
 			m_resolutionDropdown.options.Add(data);
 
-			availableResolutions.Add(m_resolutions[i]);
+			availableResolutions.Add(res);
+			Debug.Log("Added res: " + ResolutionToString(res) + "@" + res.refreshRate + "hz");
 
 			if(!Screen.fullScreen) { 
-				if(Screen.width == m_resolutions[i].width && Screen.height == m_resolutions[i].height) {
+				if(Screen.width == res.width && Screen.height == res.height) {
 					m_resolutionDropdown.value = i;
-					m_resolution = m_resolutions[i];
+					m_resolution = res;
 				}
-			} else if(Screen.currentResolution.Equals(m_resolutions[i])) {
+			} else if(Screen.currentResolution.Equals(res)) {
 				m_resolutionDropdown.value = i;
-				m_resolution = m_resolutions[i];
+				m_resolution = res;
 			}
+		}
+
+		if(availableResolutions.Count == 0 && !p_forceCurrentRefreshRate) {
+			PopulateResolutions(true);
+			return;
 		}
 
 		m_resolutions = new Resolution[availableResolutions.Count];
@@ -82,11 +109,32 @@ public class OptionsMenuHandler : MonoBehaviour {
 			m_resolutions[i] = availableResolutions[i];
 	}
 
+	private void CheckForResolutionIssues() {
+		if(Screen.currentResolution.width <= 1 || Screen.width <= 1 ||
+		   Screen.currentResolution.height <= 1 || Screen.height <= 1 ||
+		   Screen.currentResolution.refreshRate == 0) {
+			   Debug.Log("Resolution isn't properly set, fixing...");
+			   ApplyResolution(m_resolution.width,
+								m_resolution.height,
+								FullScreenMode.Windowed,
+								m_resolution.refreshRate);
+			   StartCoroutine(SizeBackUp());
+		   }
+	}
+
+	private IEnumerator SizeBackUp() {
+		yield return new WaitForSecondsRealtime(0.5f);
+
+		ApplyResolution();
+
+		Debug.Log("Resolution fixed!");
+	}
+
 	private IEnumerator UpdateResolution() { 
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSecondsRealtime(1f);
 
 		m_resolutionDropdown.ClearOptions();
-		PopulateResolutions();
+		PopulateResolutions(false);
 	}
 
 	public void ApplyOptions() {

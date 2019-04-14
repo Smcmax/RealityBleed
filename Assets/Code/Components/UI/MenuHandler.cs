@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using Rewired.UI.ControlMapper;
+using UnityEngine.EventSystems;
 
 public class MenuHandler : MonoBehaviour {
 
@@ -37,6 +38,7 @@ public class MenuHandler : MonoBehaviour {
 
 	private bool m_paused;
 	private Menu m_previousControlMapperMenu = null;
+	private GameObject m_lastSelectedGameObject;
 
 	private MenuHandler() { }
 
@@ -50,20 +52,33 @@ public class MenuHandler : MonoBehaviour {
 
 		m_openedMenus = new List<Menu>();
 		m_handlingPlayer = null;
+		m_lastSelectedGameObject = null;
 		SceneManager.sceneLoaded += OnSceneLoad;
 	}
 
 	void OnDisable() {
 		m_handlingPlayer = null;
+		m_lastSelectedGameObject = null;
 		SceneManager.sceneLoaded -= OnSceneLoad;
 	}
 
 	void Update() {
-		if(GetButtonDown("Pause")) GoBack();
-		if(GetButtonDown("Inventory") && !m_paused) m_onInventoryEvent.Raise();
-		if(GetButtonDown("Character") && !m_paused) m_onCharacterEvent.Raise();
-		if(GetButtonDown("Skillbook") && !m_paused) m_onSkillbookEvent.Raise();
-		if(GetButtonDown("Map") && !m_paused) m_onMapEvent.Raise();
+		if(GetButtonDown("Pause")) Escape();
+		if(GetButtonDown("UIInteract2")) GoBack();
+		if(GetButtonDown("Inventory") && !m_paused && m_onInventoryEvent) m_onInventoryEvent.Raise();
+		if(GetButtonDown("Character") && !m_paused && m_onCharacterEvent) m_onCharacterEvent.Raise();
+		if(GetButtonDown("Skillbook") && !m_paused && m_onSkillbookEvent) m_onSkillbookEvent.Raise();
+		if(GetButtonDown("Map") && !m_paused && m_onMapEvent) m_onMapEvent.Raise();
+
+		GameObject selected = EventSystem.current.currentSelectedGameObject;
+
+		// if the player moves the UI with a selectable way of navigation (d-pad), set the selectable properly (it's unset when moving cursor)
+		if(m_handlingPlayer != null && !selected && (m_handlingPlayer.GetAxis("UIMoveX") != 0 || m_handlingPlayer.GetAxis("UIMoveY") != 0)) { 
+			if(m_lastSelectedGameObject != null && m_lastSelectedGameObject.activeSelf)
+				EventSystem.current.SetSelectedGameObject(m_lastSelectedGameObject);
+		} else if(m_handlingPlayer != null && selected && m_lastSelectedGameObject != selected) { // save the last selected game object
+			m_lastSelectedGameObject = selected;
+		}
 	}
 
 	private bool GetButtonDown(string p_button) { 
@@ -79,6 +94,13 @@ public class MenuHandler : MonoBehaviour {
 		return false;
 	}
 
+	public void Escape() {
+		if(!gameObject.activeSelf) { MenuHandler.Instance.Escape(); return; }
+
+		if(m_openedMenus.Count == 0) m_pauseEvent.Raise();
+		else GoBack();
+	}
+
 	public void GoBack() {
 		if(!gameObject.activeSelf) { MenuHandler.Instance.GoBack(); return; }
 
@@ -87,7 +109,7 @@ public class MenuHandler : MonoBehaviour {
 			else if(m_openedMenus.Count == 1 && m_openedMenus[0].m_previousMenu) OpenMenu(m_openedMenus[0].m_previousMenu);
 			else if(m_paused) m_resumeEvent.Raise();
 			else if(!m_openedMenus.Exists(m => !m.m_closeable)) ClearMenu();
-		} else m_pauseEvent.Raise();
+		}
 	}
 
 	// it does its own stuff so it needs its own special snowflake functions to integrate into this handler properly
@@ -140,7 +162,7 @@ public class MenuHandler : MonoBehaviour {
 	public void CloseMenu(Menu p_menu) {
 		if(!gameObject.activeSelf) { MenuHandler.Instance.CloseMenu(p_menu); return; }
 
-		if (m_openedMenus.Contains(p_menu)) {
+		if(m_openedMenus.Contains(p_menu)) {
 			if(m_openedMenus.Count == 1 && m_paused) m_resumeEvent.Raise();
 			else if(m_openedMenus.Count == 1) ClearMenu();
 			else {
@@ -161,6 +183,7 @@ public class MenuHandler : MonoBehaviour {
 
 		m_openedMenus.Clear();
 		m_handlingPlayer = null;
+		m_lastSelectedGameObject = null;
 	}
 
 	public void ChangeScenes(string scene) {

@@ -1,6 +1,7 @@
 ﻿using Rewired.Components;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerCursor : MonoBehaviour {
 
@@ -37,6 +38,7 @@ public class PlayerCursor : MonoBehaviour {
 	private GameObject m_cursor;
 	private GameObject m_uiCursor;
 	private PlayerMouse m_mouse;
+	private bool m_hidden;
 
 	void Start() {
 		if(m_playerId >= 0)
@@ -74,6 +76,16 @@ public class PlayerCursor : MonoBehaviour {
 		OnScreenPositionChanged(m_mouse.screenPosition);
 	}
 
+	public void Hide() { 
+		m_hidden = true;
+		m_uiCursor.SetActive(false);
+	}
+
+	public void Show() {
+		m_hidden = false;
+		m_uiCursor.SetActive(true);
+	}
+
 	public Vector2 GetPosition() { 
 		return m_mouse.screenPosition;
 	}
@@ -84,6 +96,7 @@ public class PlayerCursor : MonoBehaviour {
 		else m_cursor.transform.position = p_position;
 
 		m_uiCursor.transform.position = p_position;
+		EventSystem.current.SetSelectedGameObject(null);
 	}
 
 	private void SetCursorState() {

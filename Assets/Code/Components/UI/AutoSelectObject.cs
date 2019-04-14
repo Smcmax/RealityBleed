@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class AutoSelectObject : MonoBehaviour {
 
@@ -8,6 +9,9 @@ public class AutoSelectObject : MonoBehaviour {
 	}
 
 	public void Select() {
-		EventSystem.current.SetSelectedGameObject(gameObject);
+		if(EventSystem.current) {
+			EventSystem.current.SetSelectedGameObject(gameObject);
+			GetComponent<Selectable>().OnSelect(null);
+		}
 	}
 }

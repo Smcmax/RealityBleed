@@ -430,7 +430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerId: -1
   m_distanceFromCamera: 2
-  m_cursorSpeed: 1
+  m_cursorSpeed: 1.5
   m_spriteScale: 0.5
   m_mousePrefab: {fileID: 1736400387787230, guid: 114f503d46f4260419910cdf3df77251,
     type: 2}
@@ -861,6 +861,7 @@ MonoBehaviour:
   m_feedbackColor: {r: 0, g: 0, b: 0, a: 0}
   m_playerId: 0
   m_playerController: {fileID: 0}
+  m_mouse: {fileID: 0}
 --- !u!114 &114406825266347702
 MonoBehaviour:
   m_ObjectHideFlags: 1
