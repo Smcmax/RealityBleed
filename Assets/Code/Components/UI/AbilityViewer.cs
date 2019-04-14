@@ -49,9 +49,15 @@ public class AbilityViewer : MonoBehaviour {
 
 			if(m_entity is Player) {
 				Rewired.Player player = ((Player) m_entity).m_rewiredPlayer;
-				Rewired.ActionElementMap elementMap = player.controllers.maps.GetFirstElementMapWithAction("Hotkey " + m_hotkey, false);
+				Rewired.ActionElementMap elementMap = player.controllers.maps.GetFirstElementMapWithAction(
+														player.controllers.GetLastActiveController(), "Hotkey " + m_hotkey, false);
 
 				if(elementMap != null) hotkeyText = elementMap.elementIdentifierName;
+				else {
+					elementMap = player.controllers.maps.GetFirstElementMapWithAction("Hotkey " + m_hotkey, false);
+
+					if(elementMap != null) hotkeyText = elementMap.elementIdentifierName;
+				}
 			} 
 			
 			m_hotkeyText.text = hotkeyText;

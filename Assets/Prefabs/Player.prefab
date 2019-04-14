@@ -430,7 +430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerId: -1
   m_distanceFromCamera: 2
-  m_cursorSpeed: 1.5
+  m_cursorSpeed: 1
   m_spriteScale: 0.5
   m_mousePrefab: {fileID: 1736400387787230, guid: 114f503d46f4260419910cdf3df77251,
     type: 2}
@@ -440,6 +440,7 @@ MonoBehaviour:
   m_uiCanvas: {fileID: 0}
   m_useUICoordinatesOnly: 0
   m_hideHardwarePointer: 1
+  m_currentMode: 0
 --- !u!114 &114018483739704796
 MonoBehaviour:
   m_ObjectHideFlags: 1

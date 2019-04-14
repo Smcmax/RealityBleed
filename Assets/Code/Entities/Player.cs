@@ -6,7 +6,7 @@ using Rewired.Integration.UnityUI;
 
 public class Player : Entity {
 
-	public static List<Player> m_players; // TODO: replace with player manager
+	public static List<Player> m_players = new List<Player>(); // TODO: replace with player manager
 
 	[Tooltip("The id assigned to this player, corresponds to the Rewired player id")]
 	public int m_playerId = 0;
@@ -22,7 +22,6 @@ public class Player : Entity {
 		base.Start();
 
 		// to be replaced
-		m_players = new List<Player>();
 		m_players.Add(this);
 
 		m_rewiredPlayer = ReInput.players.GetPlayer(m_playerId);
@@ -42,6 +41,8 @@ public class Player : Entity {
 
 		if(HideUIOnEvent.ObjectsHidden.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;
 		if(UIItem.HeldItem && this == UIItem.Holder) UIItem.HeldItem.MoveItem(m_mouse.GetPosition());
+
+		if(m_mouse.m_currentMode == CursorModes.CURSOR) return; // stop all actions if we're in a menu, this is also done in PlayerController
 
 		if(m_rewiredPlayer.GetButton("Primary Fire")) fire = true;
 		else if(m_rewiredPlayer.GetButton("Secondary Fire")) { fire = true; leftClick = false; }
@@ -72,15 +73,6 @@ public class Player : Entity {
 				if(wrapper != null) UseAbility(wrapper.Ability);
 			}
 		}
-	}
-
-	private float GetAxisRelative(string p_actionName, float p_absoluteToRelMult) { 
-		float value = m_rewiredPlayer.GetAxis(p_actionName);
-
-		if(m_rewiredPlayer.GetAxisCoordinateMode(p_actionName) == AxisCoordinateMode.Absolute)
-			value *= Time.unscaledDeltaTime * p_absoluteToRelMult;
-
-		return value;
 	}
 
 	// to be replaced

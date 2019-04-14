@@ -157,6 +157,9 @@ public class MenuHandler : MonoBehaviour {
 
 		m_openedMenus.Add(p_menu);
 		m_onMenuChangedEvent.Raise();
+
+		if(m_handlingPlayer != null && Player.m_players.Count > 0) 
+			Player.GetPlayerFromId(m_handlingPlayer.id).m_mouse.ChangeMode(CursorModes.CURSOR, false);
 	}
 
 	public void CloseMenu(Menu p_menu) {
@@ -180,6 +183,9 @@ public class MenuHandler : MonoBehaviour {
 				menu.gameObject.SetActive(false);
 
 		if(m_openedMenus.Count > 0) m_onMenuChangedEvent.Raise();
+
+		if(m_handlingPlayer != null && Player.m_players.Count > 0) 
+			Player.GetPlayerFromId(m_handlingPlayer.id).m_mouse.ChangeMode(CursorModes.LINE, false);
 
 		m_openedMenus.Clear();
 		m_handlingPlayer = null;
