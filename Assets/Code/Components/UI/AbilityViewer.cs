@@ -49,8 +49,13 @@ public class AbilityViewer : MonoBehaviour {
 
 			if(m_entity is Player) {
 				Rewired.Player player = ((Player) m_entity).m_rewiredPlayer;
+				Rewired.Controller lastActive = player.controllers.GetLastActiveController();
+
+				if(lastActive != null && lastActive.type == Rewired.ControllerType.Mouse) 
+					lastActive = player.controllers.Keyboard;
+
 				Rewired.ActionElementMap elementMap = player.controllers.maps.GetFirstElementMapWithAction(
-														player.controllers.GetLastActiveController(), "Hotkey " + m_hotkey, false);
+														lastActive, "Hotkey " + m_hotkey, false);
 
 				if(elementMap != null) hotkeyText = elementMap.elementIdentifierName;
 				else {

@@ -11449,6 +11449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_control: {fileID: 114711844246060130}
   m_saveKey: Brightness
+  m_playerSpecific: 0
   m_type: int
   m_intDefault: 0
   m_boolDefault: 0
@@ -11485,6 +11486,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  m_optionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityOptionEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_postStartupEvent:
     m_PersistentCalls:
@@ -12880,6 +12886,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_control: {fileID: 114877266442730332}
   m_saveKey: Framerate
+  m_playerSpecific: 0
   m_type: int
   m_intDefault: -1
   m_boolDefault: 0
@@ -12917,6 +12924,11 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  m_optionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityOptionEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   m_postStartupEvent:
     m_PersistentCalls:
       m_Calls:
@@ -12946,6 +12958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_control: {fileID: 114783629496657238}
   m_saveKey: VSync
+  m_playerSpecific: 0
   m_type: bool
   m_intDefault: 0
   m_boolDefault: 0
@@ -12982,6 +12995,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  m_optionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityOptionEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_postStartupEvent:
     m_PersistentCalls:
@@ -13844,6 +13862,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_control: {fileID: 114789278546582832}
   m_saveKey: Shadows
+  m_playerSpecific: 0
   m_type: int
   m_intDefault: 3
   m_boolDefault: 0
@@ -13880,6 +13899,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  m_optionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityOptionEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_postStartupEvent:
     m_PersistentCalls:
@@ -15333,6 +15357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_control: {fileID: 114867282394619406}
   m_saveKey: AutoLoot
+  m_playerSpecific: 1
   m_type: bool
   m_intDefault: 0
   m_boolDefault: 0
@@ -15358,6 +15383,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  m_optionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityOptionEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_postStartupEvent:
     m_PersistentCalls:
@@ -17052,6 +17082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_control: {fileID: 114318354816565252}
   m_saveKey: ShowHealthBars
+  m_playerSpecific: 0
   m_type: bool
   m_intDefault: 0
   m_boolDefault: 1
@@ -17088,6 +17119,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  m_optionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityOptionEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_postStartupEvent:
     m_PersistentCalls:
@@ -20127,6 +20163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_control: {fileID: 114855976210835146}
   m_saveKey: ShowFPS
+  m_playerSpecific: 0
   m_type: bool
   m_intDefault: 0
   m_boolDefault: 0
@@ -20163,6 +20200,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  m_optionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityOptionEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_postStartupEvent:
     m_PersistentCalls:
@@ -22073,6 +22115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_control: {fileID: 114700346197889674}
   m_saveKey: MasterVolume
+  m_playerSpecific: 0
   m_type: int
   m_intDefault: 50
   m_boolDefault: 0
@@ -22109,6 +22152,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  m_optionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityOptionEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_postStartupEvent:
     m_PersistentCalls:

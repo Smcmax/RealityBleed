@@ -22,7 +22,9 @@ public class Container : Interactable {
 		MenuHandler.Instance.m_containerMenu.GetComponent<InventoryLoader>().m_inventory = m_inventory;
 		MenuHandler.Instance.OpenMenu(MenuHandler.Instance.m_containerMenu);
 
-		if(m_autoLootable && Game.m_options.Get("AutoLoot").GetBool()) StartCoroutine(AutoLoot(p_entity));
+		if(m_autoLootable && p_entity is Player)
+			if(Game.m_options.Get("AutoLoot", ((Player) p_entity).m_playerId).GetBool())
+                StartCoroutine(AutoLoot(p_entity));
 	}
 
 	public IEnumerator AutoLoot(Entity p_entity) { 

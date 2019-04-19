@@ -17,8 +17,17 @@ public class OptionManager : MonoBehaviour {
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
+	public void UpdateUIControls() {
+		foreach(Option option in Option.m_loadedOptions)
+			option.UpdateUIControl();
+	}
+
 	public OptionValue Get(string p_key) { 
 		return m_options.Find(ov => ov.m_key == p_key);
+	}
+
+	public OptionValue Get(string p_key, int p_playerId) {
+		return Get(p_key + "_" + p_playerId);
 	}
 
 	public OptionValue LoadOption(string p_key, string p_dataType) { 
@@ -67,7 +76,9 @@ public class OptionManager : MonoBehaviour {
 	}
 
 	void OnSceneLoaded(Scene p_scene, LoadSceneMode p_mode) {
+		Player.m_players.Clear(); // TODO: Replace with PlayerManager
 		HideUIOnEvent.ObjectsHidden.Clear();
+		Option.m_loadedOptions.Clear();
 	}
 }
 

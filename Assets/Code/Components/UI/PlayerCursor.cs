@@ -151,7 +151,7 @@ public class PlayerCursor : MonoBehaviour {
 			Cursor.lockState = CursorLockMode.Confined;
 
 			#if UNITY_EDITOR
-				Cursor.lockState = CursorLockMode.Locked;
+				Cursor.lockState = CursorLockMode.None;
 			#endif
 		}
 	}

@@ -17,17 +17,19 @@ public class UICursor : MonoBehaviour {
 	}
 
 	public void ChangeModes(CursorModes p_mode) {
+		m_image.type = Image.Type.Simple;
+
 		if(p_mode == CursorModes.LINE) {
 			GetComponent<RectTransform>().sizeDelta = new Vector2(8, 640);
 
 			m_image.sprite = m_lineSprite;
-			m_image.type = Image.Type.Simple;
 			m_image.preserveAspect = true;
 			m_image.color = new Color(1, 1, 1, 0.5f);
 		} else {
 			transform.rotation = Quaternion.Euler(0, 0, 0);
 			GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
 			m_image.sprite = m_cursorSprite;
+			m_image.preserveAspect = false;
 			m_image.color = new Color(1, 1, 1, 1);
 		}
 	}

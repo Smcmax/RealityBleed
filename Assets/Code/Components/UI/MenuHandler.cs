@@ -85,7 +85,10 @@ public class MenuHandler : MonoBehaviour {
 		if(m_listeningToAllInputs || m_handlingPlayer == null) {
 			foreach(Rewired.Player player in Rewired.ReInput.players.Players)
 				if(player.GetButtonDown(p_button)) {
-					if(m_handlingPlayer == null) m_handlingPlayer = player;
+					if(m_handlingPlayer == null) {
+						m_handlingPlayer = player;
+						Game.m_options.UpdateUIControls();
+					}
 					
 					return true;
 				}
@@ -206,7 +209,7 @@ public class MenuHandler : MonoBehaviour {
 		m_paused = false;
 	}
 
-	void OnSceneLoad(Scene p_scene, LoadSceneMode p_mode) { 
+	void OnSceneLoad(Scene p_scene, LoadSceneMode p_mode) {
 		if(m_resumeEvent) m_resumeEvent.Raise();
 	}
 
