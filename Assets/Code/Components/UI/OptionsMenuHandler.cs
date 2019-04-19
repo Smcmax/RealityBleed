@@ -8,6 +8,9 @@ public class OptionsMenuHandler : MonoBehaviour {
 	[Tooltip("The dropdown handling the resolutions")]
 	public Dropdown m_resolutionDropdown;
 
+	[Tooltip("The dropdown handling the language selection")]
+	public Dropdown m_languageDropdown;
+
 	[Tooltip("The toggle for vsync")]
 	public Toggle m_vsyncToggle;
 
@@ -31,6 +34,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 	private int m_originalShadows = -1;
 	private Resolution m_resolution;
 	private Resolution[] m_resolutions;
+	private Language[] m_languages;
 
 	private OptionsMenuHandler() { }
 
@@ -48,6 +52,13 @@ public class OptionsMenuHandler : MonoBehaviour {
 
 		PopulateResolutions(false);
 		CheckForResolutionIssues();
+
+		PopulateLanguages();
+	}
+
+	void OnEnable() {
+		StartCoroutine(UpdateResolution());
+		StartCoroutine(UpdateLanguage());
 	}
 
 	////////////////////////
@@ -135,6 +146,26 @@ public class OptionsMenuHandler : MonoBehaviour {
 
 		m_resolutionDropdown.ClearOptions();
 		PopulateResolutions(false);
+		CheckForResolutionIssues();
+	}
+
+	private IEnumerator UpdateLanguage() {
+        yield return new WaitForSecondsRealtime(1f);
+
+        m_languageDropdown.ClearOptions();
+        PopulateLanguages();
+	}
+
+	private void PopulateLanguages() {
+		m_languages = Game.m_languages.m_languages.ToArray();
+
+		for(int i = 0; i < m_languages.Length; i++) {
+            Dropdown.OptionData data = new Dropdown.OptionData(m_languages[i].m_name);
+            m_languageDropdown.options.Add(data);
+
+			if(m_languages[i].m_name == Game.m_languages.GetCurrentLanguage().m_name)
+				m_languageDropdown.value = i;
+		}
 	}
 
 	public void ApplyOptions() {
@@ -179,6 +210,11 @@ public class OptionsMenuHandler : MonoBehaviour {
 								 p_height,
 								 p_fullscreen,
 								 p_refreshRate);
+	}
+
+	public void SetLanguage() {
+		Game.m_options.Get("Language").Save(m_languages[m_languageDropdown.value].m_name);
+		Game.m_languages.UpdateUILanguage();
 	}
 
 	public void SetVSync(bool p_vsync) { 

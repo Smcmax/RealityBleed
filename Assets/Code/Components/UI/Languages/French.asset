@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87dc3f4096baa4ac18f9734460f659ed, type: 3}
+  m_Name: French
+  m_EditorClassIdentifier: 
+  m_name: "Fran\xE7ais"
+  m_forcedFont: {fileID: 12800000, guid: f381580ccc90a384c93ba2a0c980e8f5, type: 3}
+  m_entries:
+  - m_key: Quality
+    m_line: "Qualit\xE9"
+  - m_key: Very Low
+    m_line: "Tr\xE8s Bas"
+  - m_key: Low
+    m_line: Bas
+  - m_key: Medium
+    m_line: Moyen
+  - m_key: High
+    m_line: "\xC9lev\xE9"
+  - m_key: Very High
+    m_line: "Tr\xE8s \xC9lev\xE9"
+  - m_key: Ultra
+    m_line: Ultra
+  - m_key: No Shadows
+    m_line: Aucune Ombre
+  - m_key: No Object Shadows
+    m_line: Objets Sans Ombres
+  - m_key: No Projectile Shadows
+    m_line: Projectiles Sans Ombres
+  - m_key: All Shadows
+    m_line: Ombrage Complet
+  - m_key: 'Brightness: '
+    m_line: "Luminosit\xE9: "
+  - m_key: VSync
+    m_line: VSync
+  - m_key: Show FPS
+    m_line: Afficher FPS
+  - m_key: Apply
+    m_line: Appliquer
+  - m_key: 'Master: '
+    m_line: "Ma\xEEtre: "
+  - m_key: Enemy Health Bars
+    m_line: Barres de vies
+  - m_key: Auto Loot
+    m_line: Pillage Automatique
+  - m_key: Edit Keybinds
+    m_line: Modifier Touches
+  - m_key: Video
+    m_line: "Vid\xE9o"
+  - m_key: Audio
+    m_line: Audio
+  - m_key: Gameplay
+    m_line: Gameplay
+  - m_key: Controls
+    m_line: "Contr\xF4les"
+  - m_key: Continue
+    m_line: Continue
+  - m_key: Options
+    m_line: Options
+  - m_key: Main Menu
+    m_line: Menu Principal
+  - m_key: Abilities
+    m_line: "Habilet\xE9s"
+  - m_key: Skills
+    m_line: "Comp\xE9tences"
+  - m_key: Hotkey
+    m_line: Raccourci
+  - m_key: Hotkey 1
+    m_line: Raccourci 1
+  - m_key: Hotkey 2
+    m_line: Raccourci 2
+  - m_key: Hotkey 3
+    m_line: Raccourci 3
+  - m_key: Hotkey 4
+    m_line: Raccourci 4
+  - m_key: Hotkey 5
+    m_line: Raccourci 5
+  - m_key: Hotkey 6
+    m_line: Raccourci 6
+  - m_key: Chain Abilities
+    m_line: "Encha\xEEnement"
+  - m_key: Close
+    m_line: Fermer
+  - m_key: Yes
+    m_line: Oui
+  - m_key: No
+    m_line: Non
+  m_rewiredLanguageData: {fileID: 11400000, guid: 2be3ae985e9faeb4b9dd3a1c915a3fc7,
+    type: 2}

@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -16,6 +16,7 @@ MonoBehaviour:
   _add: Add
   _replace: Replace
   _remove: Remove
+  _swap: Swap
   _cancel: Cancel
   _none: None
   _okay: Okay
@@ -31,11 +32,15 @@ MonoBehaviour:
     and press any button or wait for the timer to finish.
   _joystickElementAssignmentPollingWindowMessage: Now press a button or move an axis
     to assign it to {0}.
+  _joystickElementAssignmentPollingWindowMessage_fullAxisFieldOnly: Now move an axis
+    to assign it to {0}.
   _keyboardElementAssignmentPollingWindowMessage: Press a key to assign it to {0}.
     Modifier keys may also be used. To assign a modifier key alone, hold it down for
     1 second.
   _mouseElementAssignmentPollingWindowMessage: Press a mouse button or move an axis
     to assign it to {0}.
+  _mouseElementAssignmentPollingWindowMessage_fullAxisFieldOnly: Move an axis to assign
+    it to {0}.
   _elementAssignmentConflictWindowMessage: Assignment Conflict
   _elementAlreadyInUseBlocked: '{0} is already in use cannot be replaced.'
   _elementAlreadyInUseCanReplace: '{0} is already in use. Do you want to replace it?'

@@ -2976,6 +2976,7 @@ GameObject:
   - component: {fileID: 1429569055}
   - component: {fileID: 1429569056}
   - component: {fileID: 1429569052}
+  - component: {fileID: 1429569054}
   m_Layer: 0
   m_Name: _app
   m_TagString: Untagged
@@ -3030,6 +3031,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885c0cdb5172c8848b01e4ae6e257dd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1429569054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1429569049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7caf98b4a677044429435f13a07044ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_defaultFont: {fileID: 12800000, guid: c1f4b03c87778f44e973815476ff998e, type: 3}
+  m_languages:
+  - {fileID: 11400000, guid: aab189274996e42e59b2dbe37e709a97, type: 2}
+  - {fileID: 11400000, guid: f5ac973f4cc384f7698e7de756816e4c, type: 2}
 --- !u!114 &1429569055
 MonoBehaviour:
   m_ObjectHideFlags: 0

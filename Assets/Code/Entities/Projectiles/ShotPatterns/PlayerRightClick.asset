@@ -31,4 +31,4 @@ MonoBehaviour:
   m_shiftAngle: 135
   m_shiftAngleIncrement: 0
   m_shiftDistance: 0.2
-  m_startDistance: -0.17
+  m_startDistance: 0.5

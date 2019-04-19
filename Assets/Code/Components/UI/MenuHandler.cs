@@ -119,6 +119,7 @@ public class MenuHandler : MonoBehaviour {
 	public void OpenControlMapper() {
 		if(!gameObject.activeSelf) { MenuHandler.Instance.OpenControlMapper(); return; }
 
+        Game.m_controlMapper.Open();
 		OpenMenu(Game.m_controlMapperMenu);
 
 		foreach(Menu opened in new List<Menu>(m_openedMenus))
