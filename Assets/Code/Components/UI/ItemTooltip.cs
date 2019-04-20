@@ -21,7 +21,7 @@ public class ItemTooltip : Tooltip {
 		BaseItem item = p_item.m_item;
 
 		Text name = m_modifiableInfo.Find(ti => ti.m_name == "Item Name Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		name.text = item.m_name;
+		name.text = Get(item.m_name);
 		name.color = item.m_nameColor.Value;
 
 		if(item is Armor || item is Weapon) {
@@ -31,11 +31,11 @@ public class ItemTooltip : Tooltip {
 			if(item is Armor) itemType = (item as Armor).m_armorType.ToString();
 			if(item is Weapon) itemType = (item as Weapon).m_weaponType.ToString();
 
-			type.text = itemType;
+			type.text = Get(itemType);
 		}
 
 		Text slot = m_modifiableInfo.Find(ti => ti.m_name == "Slot Info Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		slot.text = item.GetSlotInfoText();
+		slot.text = Get(item.GetSlotInfoText());
 		
 		ShowSeparator(1);
 
@@ -113,7 +113,7 @@ public class ItemTooltip : Tooltip {
 		TooltipInfo descInfo = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text");
 		Text description = descInfo.Get<Text>();
 
-		description.text = item.m_description;
+		description.text = Get(item.m_description);
 		description.color = Constants.YELLOW;
 		m_tooltipInfoOffset += description.rectTransform.rect.y;
 
@@ -147,10 +147,12 @@ public class ItemTooltip : Tooltip {
 		string shot = "Shot " + p_shotNumber;
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " CD Label").GetAligned<Text>(ref m_tooltipInfoOffset);
 		Text cd = m_modifiableInfo.Find(ti => ti.m_name == shot + " CD").Get<Text>();
-		cd.text = p_pattern.m_patternCooldown + "s";
+		cd.text = Game.m_languages.FormatTexts(Get("{0}s"), p_pattern.m_patternCooldown.ToString());
 		cd.color = Constants.YELLOW;
 
-		m_modifiableInfo.Find(ti => ti.m_name == shot + " Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset).text = "Shot 1 (+" + p_pattern.m_projectileInfo.m_statApplied.ToString() + ")";
+		m_modifiableInfo.Find(ti => ti.m_name == shot + " Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset).text = 
+																  Game.m_languages.FormatTexts(Get("Shot {0}"), p_shotNumber.ToString()) + 
+																  " (+" + p_pattern.m_projectileInfo.m_statApplied.ToString() + ")";
 
 		if(p_pattern.m_projectileInfo.m_piercing) {
 			m_modifiableInfo.Find(ti => ti.m_name == shot + " Piercing Text").GetAligned<Text>(ref m_tooltipInfoOffset).color = Constants.PURPLE;
@@ -192,7 +194,9 @@ public class ItemTooltip : Tooltip {
 		range.color = Constants.YELLOW;
 
 		Text extra = m_modifiableInfo.Find(ti => ti.m_name == shot + " Extra Text").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
-		extra.text = p_pattern.m_extraTooltipInfo;
+		extra.text = Get(p_pattern.m_extraTooltipInfo);
 		extra.color = Constants.YELLOW;
 	}
+
+	private string Get(string p_key) { return Game.m_languages.GetLine(p_key); }
 }

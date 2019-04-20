@@ -24,7 +24,7 @@ public class TextualSliderText : MonoBehaviour {
 		string currentText = pair.m_text;
 
 		m_slider.value = m_value;
-		m_text.text = currentText;
+		m_text.text = Game.m_languages.GetLine(currentText);
 		m_text.color = Constants.WHITE;
 		m_text.fontSize = pair.m_textSize;
 
@@ -33,7 +33,7 @@ public class TextualSliderText : MonoBehaviour {
 			m_value = (int) value;
 
 			ValueTextPair vtp = FindCurrentPair();
-			m_text.text = vtp.m_text;
+			m_text.text = Game.m_languages.GetLine(vtp.m_text);
 			m_text.fontSize = vtp.m_textSize;
 		});
 	}

@@ -1,18 +1,17 @@
 fileFormatVersion: 2
-guid: f381580ccc90a384c93ba2a0c980e8f5
+guid: 8652509a9aae64fe4941489852fe6996
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
-  fontSize: 32
+  fontSize: 16
   forceTextureCase: -2
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: BetterPixels
+  fontName: TRS-80 CoCoNut
   fontNames:
   - TRS-80 CoCoNut
-  fallbackFontReferences:
-  - {fileID: 12800000, guid: 8652509a9aae64fe4941489852fe6996, type: 3}
+  fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

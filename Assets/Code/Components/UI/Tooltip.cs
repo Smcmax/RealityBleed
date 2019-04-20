@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class Tooltip : MonoBehaviour {
@@ -76,16 +77,19 @@ public class TooltipInfo {
 	public string m_name;
 	public GameObject m_info;
 	public RectTransform m_rect;
+	private Language m_lastUpdatedLanguage;
 
 	public TooltipInfo(string p_name, GameObject p_info, RectTransform p_rect) {
 		m_name = p_name;
 		m_info = p_info;
 		m_rect = p_rect;
+		m_lastUpdatedLanguage = Game.m_languages.m_languages.Find(l => l.m_name == "English");
 	}
 
 	public T Get<T>() {
 		m_info.SetActive(true);
 
+		Translate();
 		return m_info.GetComponent<T>();
 	}
 
@@ -93,6 +97,7 @@ public class TooltipInfo {
 		m_info.SetActive(true);
 		m_rect.anchoredPosition = new Vector2(m_rect.anchoredPosition.x, p_tooltipInfoOffset - m_rect.rect.height / 2);
 
+        Translate();
 		return m_info.GetComponent<T>();
 	}
 
@@ -111,6 +116,14 @@ public class TooltipInfo {
 		p_tooltipInfoOffset -= p_rectHeight;
 		m_info.SetActive(true);
 
+        Translate();
 		return m_info.GetComponent<T>();
+	}
+
+	private void Translate() {
+        if(m_lastUpdatedLanguage == Game.m_languages.GetCurrentLanguage()) return;
+
+		Game.m_languages.UpdateObjectLanguageNoChildren(m_info, m_lastUpdatedLanguage);
+		m_lastUpdatedLanguage = Game.m_languages.GetCurrentLanguage();
 	}
 }

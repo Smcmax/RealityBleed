@@ -16,14 +16,17 @@ public class ModifierSkill : Skill {
 
 	[TextArea]
 	[Tooltip("Simple inspector comment zone")]
-	public string DescriptionVariables = "Description's auto-filled variables: {modifier} {value} {ttl}";
+	public string DescriptionVariables = "Description's auto-filled variables: {newLine} {modifier} {value} {ttl}";
 
-	public override string GetDescription(int p_trainingLevel) {
+	public override string GetDescription(int p_trainingLevel, bool p_translate) {
 		string description = m_descriptions.Find(d => d.TrainingLevel == p_trainingLevel).Description;
+
+        if(p_translate) description = Game.m_languages.GetLine(description);
 
 		return description.Replace("{modifier}", m_modifier)
 						  .Replace("{value}", m_values.Find(v => v.TrainingLevel == p_trainingLevel).Value.ToString())
-						  .Replace("{ttl}", m_ttls.Find(t => t.TrainingLevel == p_trainingLevel).Value.ToString());
+						  .Replace("{ttl}", m_ttls.Find(t => t.TrainingLevel == p_trainingLevel).Value.ToString())
+						  .Replace("{newLine}", "\n");
 	}
 
 	public override void Use(Entity p_entity, int p_trainingLevel) {

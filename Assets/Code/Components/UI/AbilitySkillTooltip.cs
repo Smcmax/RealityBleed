@@ -21,16 +21,16 @@ public class AbilitySkillTooltip : Tooltip {
 		Skill skill = p_wrapper.Skill != null ? p_wrapper.Skill.Skill : null;
 
 		Text name = m_modifiableInfo.Find(ti => ti.m_name == "AbilitySkill Name Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		name.text = p_wrapper.GetName();
+		name.text = Get(p_wrapper.GetName());
 		name.color = ability != null ? ability.m_domain.m_nameColor.Value : skill.m_nameColor.Value;
 
 		if(ability != null) {
 			Text domain = m_modifiableInfo.Find(ti => ti.m_name == "Domain Text").GetAligned<Text>(ref m_tooltipInfoOffset);
-			domain.text = ability.m_domain.m_name;
+			domain.text = Get(ability.m_domain.m_name);
 			domain.color = ability.m_domain.m_nameColor.Value;
 
 			Text active = m_modifiableInfo.Find(ti => ti.m_name == "Active Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-			active.text = ability.m_isPassive ? "Passive" : "Active";
+			active.text = Get(ability.m_isPassive ? "Passive" : "Active");
 		}
 
 		ShowSeparator(1);
@@ -48,7 +48,7 @@ public class AbilitySkillTooltip : Tooltip {
 		if(ability != null && p_wrapper.Learned()) {
 			m_modifiableInfo.Find(ti => ti.m_name == "Cooldown Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
 			Text cd = m_modifiableInfo.Find(ti => ti.m_name == "Cooldown").Get<Text>();
-			cd.text = p_wrapper.GetCooldown(p_wrapper.GetTrainingLevel()).ToString() + "s";
+			cd.text = Game.m_languages.FormatTexts(Get("{0}s"), p_wrapper.GetCooldown(p_wrapper.GetTrainingLevel()).ToString());
 		}
 
 		ShowSeparator(2);
@@ -61,7 +61,7 @@ public class AbilitySkillTooltip : Tooltip {
 		TooltipInfo descInfo = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text");
 		Text description = descInfo.Get<Text>();
 
-		description.text = p_wrapper.GetDescription(p_wrapper.GetTrainingLevel());
+		description.text = p_wrapper.GetDescription(p_wrapper.GetTrainingLevel(), true);
 		description.color = Constants.YELLOW;
 		m_tooltipInfoOffset += description.rectTransform.rect.y;
 
@@ -83,6 +83,8 @@ public class AbilitySkillTooltip : Tooltip {
 		m_panelHeight += 5;
 		m_tooltipInfoOffset -= 5;
 	}
+
+    private string Get(string p_key) { return Game.m_languages.GetLine(p_key); }
 }
 
 public class AbilitySkillWrapper {
@@ -125,10 +127,10 @@ public class AbilitySkillWrapper {
 			Skill.Skill.m_trainingExpCosts.Find(t => t.TrainingLevel == p_trainingLevel).Value);
 	}
 
-	public string GetDescription(int p_trainingLevel) {
+	public string GetDescription(int p_trainingLevel, bool p_translate) {
 		return IsEmpty() ? "" :
 			(Ability != null ?
-			Ability.Ability.GetDescription(p_trainingLevel) :
-			Skill.Skill.GetDescription(p_trainingLevel));
+			Ability.Ability.GetDescription(p_trainingLevel, p_translate) :
+			Skill.Skill.GetDescription(p_trainingLevel, p_translate));
 	}
 }

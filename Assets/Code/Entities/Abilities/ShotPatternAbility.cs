@@ -14,11 +14,13 @@ public class ShotPatternAbility : Ability {
 
 	[TextArea]
 	[Tooltip("Simple inspector comment zone")]
-	public string DescriptionVariables = "Description's auto-filled variables: {damage} {manaCost} {manaPerStep} {cooldown} {shots} {statApplied} {range} {speed}";
+	public string DescriptionVariables = "Description's auto-filled variables: {newLine} {damage} {manaCost} {manaPerStep} {cooldown} {shots} {statApplied} {range} {speed}";
 
-	public override string GetDescription(int p_trainingLevel) {
+	public override string GetDescription(int p_trainingLevel, bool p_translate) {
 		ShotPattern pattern = m_shotPatterns.Find(s => s.TrainingLevel == p_trainingLevel).Pattern;
 		string description = m_descriptions.Find(d => d.TrainingLevel == p_trainingLevel).Description;
+
+		if(p_translate) description = Game.m_languages.GetLine(description);
 
 		return description.Replace("{damage}", pattern.m_projectileInfo.m_damage.ToString())
 						  .Replace("{manaPerStep}", pattern.m_manaPerStep.ToString())
@@ -27,7 +29,8 @@ public class ShotPatternAbility : Ability {
 						  .Replace("{shots}", pattern.m_shots.ToString())
 						  .Replace("{statApplied}", pattern.m_projectileInfo.m_statApplied.ToString())
 						  .Replace("{range}", pattern.m_projectileInfo.m_range.ToString())
-						  .Replace("{speed}", pattern.m_projectileInfo.m_speed.ToString());
+						  .Replace("{speed}", pattern.m_projectileInfo.m_speed.ToString())
+						  .Replace("{newLine}", "\n");
 	}
 
 	public override void Use(Entity p_entity, int p_trainingLevel) {

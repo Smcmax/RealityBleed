@@ -61,7 +61,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		else modal.m_eventToFireOnSuccess = null;
 
 		modal.m_info = this;
-		modal.m_description.text = "You are about to destroy " + m_item.m_item.m_name + ".\nAre you sure you want to do this?";
+		modal.m_description.text = Game.m_languages.FormatKeys("You are about to destroy {0}.\nAre you sure you want to do this?", m_item.m_item.m_name);
 		modal.OpenModal();
 	}
 

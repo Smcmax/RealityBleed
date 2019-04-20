@@ -31,9 +31,8 @@ MonoBehaviour:
   - TrainingLevel: 0
     Description: Summons a gust of wind.
   - TrainingLevel: 1
-    Description: 'Summons a gust of wind, dealing {damage} damage.
-
-      Costs {manaCost} mana.'
+    Description: Summons a gust of wind, dealing {damage} damage.{newLine}Costs {manaCost}
+      mana.
   m_shotPatterns:
   - TrainingLevel: 0
     Pattern: {fileID: 11400000, guid: 4fefab8ca514d7b409bc47e88b054389, type: 2}

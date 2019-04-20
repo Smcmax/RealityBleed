@@ -21,7 +21,7 @@ public class Menu : MonoBehaviour {
 	public void UpdateMenuLanguage() {
 		if(m_lastUpdatedLanguage == Game.m_languages.GetCurrentLanguage()) return;
 
-        Game.m_languages.UpdateMenuLanguage(this, m_lastUpdatedLanguage);
+        Game.m_languages.UpdateObjectLanguage(gameObject, m_lastUpdatedLanguage);
         m_lastUpdatedLanguage = Game.m_languages.GetCurrentLanguage();
 	}
 

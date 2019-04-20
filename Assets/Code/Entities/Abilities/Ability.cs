@@ -35,7 +35,7 @@ public abstract class Ability : ScriptableObject {
 	[Tooltip("The list containing the appropriate description for each training level")]
 	public List<DescriptionLevelWrapper> m_descriptions;
 
-	public abstract string GetDescription(int p_trainingLevel);
+	public abstract string GetDescription(int p_trainingLevel, bool p_translate);
 	public abstract void Use(Entity p_entity, int p_trainingLevel);
 }
 

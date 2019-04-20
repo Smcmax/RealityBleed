@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19defc8cacb0c14ea121a61ef79adb1, type: 3}
   m_Name: FPS Test Sword Straight
   m_EditorClassIdentifier: 
-  m_id: 2
+  m_id: 3
   m_name: Straight FPS Test Sword
   m_sprite: {fileID: 21300000, guid: 9a88efda61ffe0d48ba4d56b18ecc1b3, type: 3}
   m_maxStackSize: 1

@@ -34,22 +34,28 @@ public class AdaptativeSliderText : MonoBehaviour {
 
 		m_slider.value = m_value == m_unlimited && m_unlimitedValueAllowed ? m_slider.maxValue : m_value;
 
-		if(m_unlimitedValueAllowed)
-			m_text.text = m_prefixText + (m_value != m_unlimited ? m_value.ToString() : "Unlimited") + m_suffixText;
-		else m_text.text = m_prefixText + m_value.ToString() + m_suffixText;
+		if(m_unlimitedValueAllowed && m_value == m_unlimited) 
+			m_text.text = Get("Unlimited" + m_suffixText);
+		else m_text.text = Game.m_languages.FormatTexts(Get(m_prefixText + "{0}" + m_suffixText), m_value.ToString());
 
 		m_text.color = currentColor;
 
 		m_slider.onValueChanged.AddListener((value) => {
-			m_value = (int) value == (int) m_slider.maxValue && m_unlimitedValueAllowed ? m_unlimited : (int) value;
-
-			if(m_unlimitedValueAllowed)
-				m_text.text = m_prefixText + (value < m_slider.maxValue ? value.ToString() : "Unlimited") + m_suffixText;
-			else m_text.text = m_prefixText + m_value.ToString() + m_suffixText;
-
-			m_text.color = FindCurrentColorThreshold().m_color;
-			m_valueChangedEvent.Invoke(m_value);
+			UpdateSlider(value);
 		});
+	}
+
+	public void UpdateSlider() { UpdateSlider(m_slider.value); }
+
+	public void UpdateSlider(float p_value) {
+        m_value = (int) p_value == (int) m_slider.maxValue && m_unlimitedValueAllowed ? m_unlimited : (int) p_value;
+
+        if (m_unlimitedValueAllowed && m_value == m_unlimited)
+            m_text.text = Get("Unlimited" + m_suffixText);
+        else m_text.text = Game.m_languages.FormatTexts(Get(m_prefixText + "{0}" + m_suffixText), m_value.ToString());
+
+        m_text.color = FindCurrentColorThreshold().m_color;
+        m_valueChangedEvent.Invoke(m_value);
 	}
 
 	public ColorThreshold FindCurrentColorThreshold() {
@@ -71,6 +77,10 @@ public class AdaptativeSliderText : MonoBehaviour {
 		}
 		
 		return closest;
+	}
+
+	private string Get(string p_string) {
+        return Game.m_languages.GetLine(p_string);
 	}
 }
 

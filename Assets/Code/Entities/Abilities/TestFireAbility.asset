@@ -29,9 +29,8 @@ MonoBehaviour:
   - TrainingLevel: 0
     Description: Shoots a fire wave.
   - TrainingLevel: 1
-    Description: 'Shoots a fire wave, dealing {damage} damage.
-
-      Costs {manaCost} mana.'
+    Description: Shoots a fire wave, dealing {damage} damage.{newLine}Costs {manaCost}
+      mana.
   m_shotPatterns:
   - TrainingLevel: 0
     Pattern: {fileID: 11400000, guid: 80bdb1e91c051b7429994559abe78d89, type: 2}

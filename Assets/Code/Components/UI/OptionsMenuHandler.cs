@@ -52,8 +52,10 @@ public class OptionsMenuHandler : MonoBehaviour {
 
 		PopulateResolutions(false);
 		CheckForResolutionIssues();
+        m_resolutionDropdown.RefreshShownValue();
 
 		PopulateLanguages();
+        m_languageDropdown.RefreshShownValue();
 	}
 
 	void OnEnable() {
@@ -147,6 +149,8 @@ public class OptionsMenuHandler : MonoBehaviour {
 		m_resolutionDropdown.ClearOptions();
 		PopulateResolutions(false);
 		CheckForResolutionIssues();
+
+        m_resolutionDropdown.RefreshShownValue();
 	}
 
 	private IEnumerator UpdateLanguage() {
@@ -154,6 +158,8 @@ public class OptionsMenuHandler : MonoBehaviour {
 
         m_languageDropdown.ClearOptions();
         PopulateLanguages();
+
+        m_languageDropdown.RefreshShownValue();
 	}
 
 	private void PopulateLanguages() {
