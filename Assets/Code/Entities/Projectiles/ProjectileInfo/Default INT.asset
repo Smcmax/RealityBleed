@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0df0374d44b79ae4585f01148a31d1f2, type: 3}
   m_Name: Default INT
   m_EditorClassIdentifier: 
-  m_damage: 5
+  m_damage: 12
   m_statApplied: 4
   m_damageType: {fileID: 11400000, guid: a066232cb4ac41c48a02636bd1db38ac, type: 2}
   m_piercing: 1

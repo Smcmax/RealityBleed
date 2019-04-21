@@ -30,7 +30,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		if(m_item.m_inventory.m_itemTooltip.gameObject.activeSelf)
 			HideTooltip();
 
-		if(this == HeldItem) HeldItem = null;
+		if(this == HeldItem) KillHeldItem();
 	}
 
 	public void ShowTooltip() {
@@ -63,6 +63,18 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		modal.m_info = this;
 		modal.m_description.text = Game.m_languages.FormatKeys("You are about to destroy {0}.\nAre you sure you want to do this?", m_item.m_item.m_name);
 		modal.OpenModal();
+	}
+
+	private void CloseDestructionModal() {
+		if(!m_item.m_inventory) return;
+        if(Game.m_rewiredEventSystem.IsPointerOverGameObject(RewiredPointerInputModule.kMouseLeftId) &&
+            m_item.m_inventory.m_itemDestroyModal && m_item.m_inventory.m_itemDestroyModal.gameObject.activeSelf) {
+            m_item.m_inventory.m_itemDestroyModal.CloseModal();
+        }
+	}
+
+	protected override void OnAnyClick(GameObject p_clicked, Player p_clicker) {
+		CloseDestructionModal();
 	}
 
 	protected override void OnLeftDoubleClick(GameObject p_clicked, Player p_clicker) { 
@@ -191,6 +203,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	public void OnDrop(PointerEventData p_eventData) {
+		CloseDestructionModal();
 		m_validDrop = true;
 
 		GameObject draggedItem = p_eventData.pointerDrag;
@@ -355,6 +368,12 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	public void HideHeldItem() {
 		HeldItem.HideGhost();
 		HeldItem.UpdateInfo();
+		HeldItem = null;
+		Holder = null;
+	}
+
+	private void KillHeldItem() {
+		Destroy(HeldItem.m_ghost);
 		HeldItem = null;
 		Holder = null;
 	}

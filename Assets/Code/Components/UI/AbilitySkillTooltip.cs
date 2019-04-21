@@ -35,28 +35,29 @@ public class AbilitySkillTooltip : Tooltip {
 
 		ShowSeparator(1);
 
-		m_modifiableInfo.Find(ti => ti.m_name == "Training Level Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		Text trainingLevel = m_modifiableInfo.Find(ti => ti.m_name == "Training Level").Get<Text>();
-		trainingLevel.text = p_wrapper.GetTrainingLevel().ToString();
+        string prefixColorTag = "<color=#" + ColorUtility.ToHtmlStringRGBA(Constants.YELLOW) + ">";
+        string suffixColorTag = "</color>";
+
+		Text trainingLevel = m_modifiableInfo.Find(ti => ti.m_name == "Training Level").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+		trainingLevel.text = Game.m_languages.FormatTexts(Get("Training Level: {0}"), prefixColorTag + p_wrapper.GetTrainingLevel().ToString() + suffixColorTag);
 
 		if(p_wrapper.GetTrainingLevel() < p_wrapper.GetMaxTrainingLevel()) {
-			m_modifiableInfo.Find(ti => ti.m_name == "Training Exp Next Level").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-			Text expToNextLevel = m_modifiableInfo.Find(ti => ti.m_name == "Exp Next Level").Get<Text>();
-			expToNextLevel.text = p_wrapper.GetTrainingExpCost(p_wrapper.GetTrainingLevel() + 1).ToString();
+			Text expToNextLevel = m_modifiableInfo.Find(ti => ti.m_name == "Training Exp Next Level").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+			expToNextLevel.text = Game.m_languages.FormatTexts(Get("EXP to next level: {0}"), 
+									prefixColorTag + p_wrapper.GetTrainingExpCost(p_wrapper.GetTrainingLevel() + 1).ToString() + suffixColorTag);
 		}
 
 		if(ability != null && p_wrapper.Learned()) {
-			m_modifiableInfo.Find(ti => ti.m_name == "Cooldown Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-			Text cd = m_modifiableInfo.Find(ti => ti.m_name == "Cooldown").Get<Text>();
-			cd.text = Game.m_languages.FormatTexts(Get("{0}s"), p_wrapper.GetCooldown(p_wrapper.GetTrainingLevel()).ToString());
+			Text cd = m_modifiableInfo.Find(ti => ti.m_name == "Cooldown").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+			cd.text = Game.m_languages.FormatTexts(Get("{0}s cooldown"), 
+						prefixColorTag + p_wrapper.GetCooldown(p_wrapper.GetTrainingLevel()).ToString() + suffixColorTag);
 		}
 
 		ShowSeparator(2);
 
-		m_modifiableInfo.Find(ti => ti.m_name == "Sell Price Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		Text sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price").Get<Text>();
-		sellPrice.text = p_wrapper.GetSellPrice() + "g";
-		sellPrice.color = Constants.YELLOW;
+		Text sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+		sellPrice.text = Game.m_languages.FormatTexts(Get("Sell Price: {0}g"), prefixColorTag + p_wrapper.GetSellPrice() + suffixColorTag);
+		sellPrice.color = Constants.WHITE;
 
 		TooltipInfo descInfo = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text");
 		Text description = descInfo.Get<Text>();

@@ -45,12 +45,12 @@ public class AdaptativeSliderText : MonoBehaviour {
 		});
 	}
 
-	public void UpdateSlider() { UpdateSlider(m_slider.value); }
+	public void UpdateSlider() { UpdateSlider(m_value); }
 
 	public void UpdateSlider(float p_value) {
         m_value = (int) p_value == (int) m_slider.maxValue && m_unlimitedValueAllowed ? m_unlimited : (int) p_value;
 
-        if (m_unlimitedValueAllowed && m_value == m_unlimited)
+        if(m_unlimitedValueAllowed && m_value == m_unlimited)
             m_text.text = Get("Unlimited" + m_suffixText);
         else m_text.text = Game.m_languages.FormatTexts(Get(m_prefixText + "{0}" + m_suffixText), m_value.ToString());
 

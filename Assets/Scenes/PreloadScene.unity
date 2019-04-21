@@ -170,8 +170,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1781234716}
   m_HandleRect: {fileID: 1781234714}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 0.26842675
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3043,7 +3043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_defaultFont: {fileID: 12800000, guid: c1f4b03c87778f44e973815476ff998e, type: 3}
-  m_accentFont: {fileID: 12800000, guid: f381580ccc90a384c93ba2a0c980e8f5, type: 3}
+  m_accentFont: {fileID: 12800000, guid: 01201c584a9554f12b005e57a34aeeaa, type: 3}
   m_languages: []
 --- !u!114 &1429569055
 MonoBehaviour:

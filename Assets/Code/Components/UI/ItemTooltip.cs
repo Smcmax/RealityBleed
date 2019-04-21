@@ -98,17 +98,18 @@ public class ItemTooltip : Tooltip {
 			}
 		}
 
+        string prefixColorTag = "<color=#" + ColorUtility.ToHtmlStringRGBA(Constants.YELLOW) + ">";
+        string suffixColorTag = "</color>";
+
 		if(item is Weapon || item is Armor) {
-			m_modifiableInfo.Find(ti => ti.m_name == "Durability Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-			Text durability = m_modifiableInfo.Find(ti => ti.m_name == "Current Durability").Get<Text>();
-			durability.text = p_item.m_durability + "%";
-			durability.color = Constants.YELLOW;
+			Text durability = m_modifiableInfo.Find(ti => ti.m_name == "Durability").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+			durability.text = Game.m_languages.FormatTexts(Get("Durability: {0}%"), prefixColorTag + p_item.m_durability + suffixColorTag);
+			durability.color = Constants.WHITE;
 		}
 
-		m_modifiableInfo.Find(ti => ti.m_name == "Sell Price Label").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		Text sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price").Get<Text>();
-		sellPrice.text = item.m_sellPrice + "g";
-		sellPrice.color = Constants.YELLOW;
+		Text sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+		sellPrice.text = Game.m_languages.FormatTexts(Get("Sell Price: {0}g"), prefixColorTag + item.m_sellPrice + suffixColorTag);
+		sellPrice.color = Constants.WHITE;
 
 		TooltipInfo descInfo = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text");
 		Text description = descInfo.Get<Text>();
@@ -124,7 +125,20 @@ public class ItemTooltip : Tooltip {
 		
 		description = descInfo.Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset, descPrefHeight);
 
+		if(item is Weapon) {
+            PositionDamageType(1);
+			if(((Weapon) item).m_rightClickPattern) PositionDamageType(2);
+		}
+
 		Show(m_panelHeight); // resizing the panel again to fit
+	}
+
+	private void PositionDamageType(int p_shotNumber) {
+        Text damage = m_modifiableInfo.Find(ti => ti.m_name == "Shot " + p_shotNumber + " Damage").Get<Text>();
+        Image damageType = m_modifiableInfo.Find(ti => ti.m_name == "Shot " + p_shotNumber + " DamageType").Get<Image>();
+        float width = LayoutUtility.GetPreferredWidth(damage.rectTransform);
+
+        damageType.rectTransform.anchoredPosition = new Vector2(53 - (damage.rectTransform.sizeDelta.x - width), 1);
 	}
 
 	private void InstantiateStatText(string p_name, Text p_original, Transform p_parent) {
@@ -145,10 +159,13 @@ public class ItemTooltip : Tooltip {
 
 	private void ShowShotPattern(float p_shotNumber, ShotPattern p_pattern, ref float p_panelHeight) {
 		string shot = "Shot " + p_shotNumber;
-		m_modifiableInfo.Find(ti => ti.m_name == shot + " CD Label").GetAligned<Text>(ref m_tooltipInfoOffset);
-		Text cd = m_modifiableInfo.Find(ti => ti.m_name == shot + " CD").Get<Text>();
-		cd.text = Game.m_languages.FormatTexts(Get("{0}s"), p_pattern.m_patternCooldown.ToString());
-		cd.color = Constants.YELLOW;
+		string prefixColorTag = "<color=#" + ColorUtility.ToHtmlStringRGBA(Constants.YELLOW) + ">";
+		string suffixColorTag = "</color>";
+
+		Text cd = m_modifiableInfo.Find(ti => ti.m_name == shot + " CD").GetAligned<Text>(ref m_tooltipInfoOffset);
+		cd.text = Game.m_languages.FormatTexts(Get("{0}s cooldown"), prefixColorTag + p_pattern.m_patternCooldown.ToString() + suffixColorTag);
+		cd.color = Constants.WHITE;
+		
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset).text = 
 																  Game.m_languages.FormatTexts(Get("Shot {0}"), p_shotNumber.ToString()) + 
@@ -162,36 +179,30 @@ public class ItemTooltip : Tooltip {
 		Image shotSprite = m_modifiableInfo.Find(ti => ti.m_name == shot + " Sprite").Get<Image>();
 		shotSprite.sprite = p_pattern.m_projectile.GetComponent<SpriteRenderer>().sprite;
 
-		m_modifiableInfo.Find(ti => ti.m_name == shot + " Shots Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
-		Text shots = m_modifiableInfo.Find(ti => ti.m_name == shot + " Shots").Get<Text>();
-		shots.text = p_pattern.m_shots.ToString();
-		shots.color = Constants.YELLOW;
+		Text shots = m_modifiableInfo.Find(ti => ti.m_name == shot + " Shots").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
+		shots.text = Game.m_languages.FormatTexts(Get("Shots: {0}"), prefixColorTag + p_pattern.m_shots.ToString() + suffixColorTag);
+		shots.color = Constants.WHITE;
 
 		if(p_pattern.m_projectileInfo.m_armorPiercing) {
 			m_modifiableInfo.Find(ti => ti.m_name == shot + " Armor Piercing Text").GetAligned<Text>(ref m_tooltipInfoOffset).color = Constants.RED;
 		}
 
-		m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
-		Text damage = m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage").Get<Text>();
-		damage.text = p_pattern.m_projectileInfo.m_damage.ToString();
-		damage.color = Constants.YELLOW;
+		Text damage = m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
+		damage.text = Game.m_languages.FormatTexts(Get("Damage: {0}"), prefixColorTag + p_pattern.m_projectileInfo.m_damage.ToString() + suffixColorTag);
+		damage.color = Constants.WHITE;
 
 		if(p_pattern.m_projectileInfo.m_damageType.m_icon) {
-			m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage").m_rect.anchoredPosition = new Vector2(48, 0);
-
 			Image damageType = m_modifiableInfo.Find(ti => ti.m_name == shot + " DamageType").Get<Image>();
 			damageType.sprite = p_pattern.m_projectileInfo.m_damageType.m_icon;
-		} else m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage").m_rect.anchoredPosition = new Vector2(36, 0);
-
-		m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana Label").GetAligned<Text>(ref m_tooltipInfoOffset);
-		Text mana = m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana").Get<Text>();
-		mana.text = p_pattern.m_manaPerStep.ToString();
+		}
+		
+		Text mana = m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana").GetAligned<Text>(ref m_tooltipInfoOffset);
+		mana.text = Game.m_languages.FormatTexts(Get("{0} Mana"), p_pattern.m_manaPerStep.ToString());
 		mana.color = Constants.MANA_BLUE;
 
-		m_modifiableInfo.Find(ti => ti.m_name == shot + " Range Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
-		Text range = m_modifiableInfo.Find(ti => ti.m_name == shot + " Range").Get<Text>();
-		range.text = p_pattern.m_projectileInfo.m_range.ToString();
-		range.color = Constants.YELLOW;
+		Text range = m_modifiableInfo.Find(ti => ti.m_name == shot + " Range").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
+		range.text = Game.m_languages.FormatTexts(Get("Range: {0}"), prefixColorTag + p_pattern.m_projectileInfo.m_range.ToString() + suffixColorTag);
+		range.color = Constants.WHITE;
 
 		Text extra = m_modifiableInfo.Find(ti => ti.m_name == shot + " Extra Text").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		extra.text = Get(p_pattern.m_extraTooltipInfo);

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using Rewired.UI.ControlMapper;
 using Rewired.Integration.UnityUI;
+using System.Threading;
 
 static class Game {
 	
@@ -15,9 +17,9 @@ static class Game {
 	static Game() {
 		GameObject game = SafeFind("_app");
 
+        m_options = (OptionManager)SafeComponent(game, "OptionManager");
         m_languages = (LanguageManager) SafeComponent(game, "LanguageManager");
 		m_audio = (AudioManager) SafeComponent(game, "AudioManager");
-		m_options = (OptionManager) SafeComponent(game, "OptionManager");
 		m_projPool = (ProjectilePooler) SafeComponent(SafeFind("ProjectilePooler"), "ProjectilePooler");
 		m_rewiredEventSystem = (RewiredStandaloneInputModule) SafeComponent(SafeFind("Rewired Event System"), "RewiredStandaloneInputModule");
         m_controlMapper = (ControlMapper) SafeComponent(SafeFind("ControlMapper"), "ControlMapper");

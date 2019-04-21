@@ -1,4 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using System;
+
+#pragma warning disable 0162
 
 public class Menu : MonoBehaviour {
 
@@ -11,11 +15,24 @@ public class Menu : MonoBehaviour {
 	private Language m_lastUpdatedLanguage;
 
 	void Awake() {
-		m_lastUpdatedLanguage = Game.m_languages.m_languages.Find(l => l.m_name == "English");
+		#if UNITY_EDITOR
+        	if(PreloadLoadNextScene.m_loaded)
+				m_lastUpdatedLanguage = Game.m_languages.m_languages.Find(l => l.m_name == "English");
+
+			return;
+		#endif
+
+        m_lastUpdatedLanguage = Game.m_languages.m_languages.Find(l => l.m_name == "English");
 	}
 
 	void OnEnable() {
-		UpdateMenuLanguage();
+		#if UNITY_EDITOR
+        	if(PreloadLoadNextScene.m_loaded) UpdateMenuLanguage();
+
+			return;
+		#endif
+
+        UpdateMenuLanguage();
 	}
 
 	public void UpdateMenuLanguage() {
