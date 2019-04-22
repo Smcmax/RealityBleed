@@ -4,7 +4,7 @@
 public class WavyBehaviour : ProjectileBehaviour {
 
 	[Tooltip("Size of the wave")]
-	[Range(0, 0.1f)] public float m_magnitude;
+	[Range(0, 25)] public float m_magnitude;
 
 	[Tooltip("Speed of the wave")]
 	[Range(0, 25)] public int m_frequency;

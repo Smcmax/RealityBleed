@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30db361fc3df6f948840bcf041499b4b, type: 3}
   m_Name: Simple WavyBehaviour
   m_EditorClassIdentifier: 
-  m_magnitude: 0.0183
+  m_magnitude: 3.5
   m_frequency: 5
