@@ -20,7 +20,9 @@ public class ItemTooltip : Tooltip {
 		m_tooltipInfoOffset = -(m_panelHeight / 2);
 		BaseItem item = p_item.m_item;
 
-		Text name = m_modifiableInfo.Find(ti => ti.m_name == "Item Name Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+        Show(m_panelHeight, true); // activating the tooltip (out of sight) to allow preferred heights to be fetched
+
+        Text name = m_modifiableInfo.Find(ti => ti.m_name == "Item Name Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		name.text = Get(item.m_name);
 		name.color = item.m_nameColor.Value;
 
@@ -118,10 +120,8 @@ public class ItemTooltip : Tooltip {
 		description.color = Constants.YELLOW;
 		m_tooltipInfoOffset += description.rectTransform.rect.y;
 
-		Show(m_panelHeight); // activating the description to allow the preferred height to be fetched
-
-		float descPrefHeight = LayoutUtility.GetPreferredHeight(description.rectTransform);
-		m_tooltipInfoOffset += descPrefHeight / 2;
+        float descPrefHeight = LayoutUtility.GetPreferredHeight(description.rectTransform);
+		m_tooltipInfoOffset += descPrefHeight / 2f;
 		
 		description = descInfo.Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset, descPrefHeight);
 
@@ -130,7 +130,7 @@ public class ItemTooltip : Tooltip {
 			if(((Weapon) item).m_rightClickPattern) PositionDamageType(2);
 		}
 
-		Show(m_panelHeight); // resizing the panel again to fit
+		Show(m_panelHeight, false); // resizing the panel again to fit and actually showing it
 	}
 
 	private void PositionDamageType(int p_shotNumber) {
@@ -204,9 +204,27 @@ public class ItemTooltip : Tooltip {
 		range.text = Game.m_languages.FormatTexts(Get("Range: {0}"), prefixColorTag + p_pattern.m_projectileInfo.m_range.ToString() + suffixColorTag);
 		range.color = Constants.WHITE;
 
-		Text extra = m_modifiableInfo.Find(ti => ti.m_name == shot + " Extra Text").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
-		extra.text = Get(p_pattern.m_extraTooltipInfo);
-		extra.color = Constants.YELLOW;
+		if(p_pattern.m_extraTooltipInfo.Length > 0) {
+			TooltipInfo extraInfo = m_modifiableInfo.Find(ti => ti.m_name == shot + " Extra Text");
+            Text extra = extraInfo.Get<Text>();
+			extra.text = "";
+
+            float basePrefHeight = LayoutUtility.GetPreferredHeight(extra.rectTransform);
+
+            extra.text = Get(p_pattern.m_extraTooltipInfo);
+            extra.color = Constants.YELLOW;
+
+            float extraPrefHeight = LayoutUtility.GetPreferredHeight(extra.rectTransform);
+            if(basePrefHeight != extraPrefHeight) { // multiline
+                m_tooltipInfoOffset += extra.rectTransform.rect.y;
+                m_tooltipInfoOffset += extraPrefHeight / 1.15f;
+
+                extra = extraInfo.Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset, extraPrefHeight * 1.7f);
+                m_panelHeight -= extraPrefHeight * 1.7f - extraPrefHeight;
+			} else {
+                extra = extraInfo.Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+			}
+		}
 	}
 
 	private string Get(string p_key) { return Game.m_languages.GetLine(p_key); }

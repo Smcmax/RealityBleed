@@ -66,14 +66,14 @@ public class AbilitySkillTooltip : Tooltip {
 		description.color = Constants.YELLOW;
 		m_tooltipInfoOffset += description.rectTransform.rect.y;
 
-		Show(m_panelHeight); // activating the description to allow the preferred height to be fetched
+		Show(m_panelHeight, true); // activating the description to allow the preferred height to be fetched
 
 		float descPrefHeight = LayoutUtility.GetPreferredHeight(description.rectTransform);
 		m_tooltipInfoOffset += descPrefHeight / 2;
 		
 		description = descInfo.Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset, descPrefHeight);
 
-		Show(m_panelHeight); // resizing the panel again to fit
+		Show(m_panelHeight, false); // resizing the panel again to fit
 	}
 
 	private void ShowSeparator(float p_separatorNumber) {

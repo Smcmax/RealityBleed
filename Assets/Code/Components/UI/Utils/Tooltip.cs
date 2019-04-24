@@ -15,6 +15,7 @@ public class Tooltip : MonoBehaviour {
 
 	private RectTransform m_rectTransform;
 	private RectTransform m_canvasRect;
+	private bool m_hidden;
 
 	void Awake() { 
 		m_rectTransform = GetComponent<RectTransform>();
@@ -22,6 +23,8 @@ public class Tooltip : MonoBehaviour {
 	}
 
 	void Update() {
+		if(m_hidden) return;
+		
 		Vector2 mouse = Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id).m_mouse.GetPosition();
 		Vector2 adjustedMouse = new Vector2((mouse.x / (float) Screen.width) * m_canvasRect.sizeDelta.x, 
 											(mouse.y / (float) Screen.height) * m_canvasRect.sizeDelta.y);
@@ -49,7 +52,8 @@ public class Tooltip : MonoBehaviour {
 		m_rectTransform.anchoredPosition = new Vector3(calcX, calcY);
 	}
 
-	public void Show(float p_panelHeight) {
+	public void Show(float p_panelHeight, bool p_hidden) {
+		m_hidden = p_hidden;
 		m_canvas.gameObject.SetActive(true);
 		gameObject.SetActive(true);
 
