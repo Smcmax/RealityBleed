@@ -21,11 +21,15 @@ public class LanguageManager : MonoBehaviour {
         Game.m_options.LoadOptionString("Language", "English");
     }
 
+    public Language GetLanguage(string p_language) {
+        return m_languages.Find(l => l.m_name == p_language);
+    }
+
     public Language GetCurrentLanguage() {
         string currentLanguage = Game.m_options.Get("Language").GetString();
-        Language language = m_languages.Find(l => l.m_name == currentLanguage);
+        Language language = GetLanguage(currentLanguage);
 
-        if(language == null) language = m_languages.Find(l => l.m_name == "English");
+        if(language == null) language = GetLanguage("English");
 
         return language;
     }
@@ -34,7 +38,7 @@ public class LanguageManager : MonoBehaviour {
         Language current = GetCurrentLanguage();
         
         if(!current.HasEntry(p_key)) {
-            if(m_languages.Find(l => l.m_name == "English").HasEntry(p_key))
+            if(GetLanguage("English").HasEntry(p_key))
                 SetDefaults();
             else return "";
         }
@@ -129,7 +133,7 @@ public class LanguageManager : MonoBehaviour {
     }
 
     private void SetDefaults() {
-        Language english = m_languages.Find(l => l.m_name == "English");
+        Language english = GetLanguage("English");
         Language current = GetCurrentLanguage();
 
         if(current != english) {

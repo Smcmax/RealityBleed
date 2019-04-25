@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerCursor : MonoBehaviour {
 
@@ -127,7 +128,8 @@ public class PlayerCursor : MonoBehaviour {
 		else m_cursor.transform.position = pos;
 
 		m_uiCursor.transform.position = pos;
-		EventSystem.current.SetSelectedGameObject(null);
+		if(EventSystem.current.currentSelectedGameObject && EventSystem.current.currentSelectedGameObject.GetComponent<InputField>() == null) 
+			EventSystem.current.SetSelectedGameObject(null);
 	}
 
 	private void SetRotation(Vector2 p_position) {

@@ -114,6 +114,8 @@
 		{"m_key":"Increases DEX by {value}.","m_line":"Increases DEX by {value}."},
 		{"m_key":"Test Int Skill","m_line":"Test Int Skill"},
 		{"m_key":"Increases INT.","m_line":"Increases INT."},
-		{"m_key":"Increases INT by {value}.","m_line":"Increases INT by {value}."}
+		{"m_key":"Increases INT by {value}.","m_line":"Increases INT by {value}."},
+		{"m_key":"Open","m_line":"Open"},
+		{"m_key":"Save","m_line":"Save"}
 	]
 }

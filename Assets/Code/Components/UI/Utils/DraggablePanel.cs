@@ -11,6 +11,8 @@ public class DraggablePanel : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
 	private RectTransform m_rect;
 
 	void Start() { 
+		if(!m_canvas) m_canvas = GetComponentInParent<Canvas>();
+
 		m_canvasRect = m_canvas.GetComponent<RectTransform>();
 		m_rect = GetComponent<RectTransform>();
 	}

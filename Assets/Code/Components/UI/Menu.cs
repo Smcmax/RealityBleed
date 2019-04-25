@@ -17,12 +17,12 @@ public class Menu : MonoBehaviour {
 	void Awake() {
 		#if UNITY_EDITOR
         	if(PreloadLoadNextScene.m_loaded)
-				m_lastUpdatedLanguage = Game.m_languages.m_languages.Find(l => l.m_name == "English");
+				m_lastUpdatedLanguage = Game.m_languages.GetLanguage("English");
 
 			return;
 		#endif
 
-        m_lastUpdatedLanguage = Game.m_languages.m_languages.Find(l => l.m_name == "English");
+        m_lastUpdatedLanguage = Game.m_languages.GetLanguage("English");
 	}
 
 	void OnEnable() {

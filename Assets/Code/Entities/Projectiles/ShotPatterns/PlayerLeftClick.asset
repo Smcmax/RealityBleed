@@ -26,7 +26,7 @@ MonoBehaviour:
   m_stepDelay: 0
   m_nextPatterns: []
   m_nextPatternSwitchDelay: 0
-  m_extraTooltipInfo: Very Very Very Very Extremely Insanely Long Sample Description
+  m_extraTooltipInfo: Test Left Click Extra
   m_angleRange: 0
   m_angleOffset: 0
   m_centeredOnDirection: 1
