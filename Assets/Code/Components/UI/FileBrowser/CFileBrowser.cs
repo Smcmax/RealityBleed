@@ -74,15 +74,19 @@ public class CFileBrowser : MonoBehaviour {
 	}
 
     private void SetupPath(string p_startPath) {
-        if(!String.IsNullOrEmpty(p_startPath) && Directory.Exists(p_startPath))
+        if(p_startPath == null || (p_startPath.Length > 0 && Directory.Exists(p_startPath)))
             m_currentPath = p_startPath;
-		else if(!String.IsNullOrEmpty(LAST_OPENED_PATH) && Directory.Exists(LAST_OPENED_PATH))
+		else if(LAST_OPENED_PATH == null || (LAST_OPENED_PATH.Length > 0 && Directory.Exists(LAST_OPENED_PATH)))
 			m_currentPath = LAST_OPENED_PATH;
         else m_currentPath = Directory.GetCurrentDirectory();
     }
 
 	private bool IsTopLevel() {
-        return Directory.GetParent(m_currentPath) == null;
+        return m_currentPath == null;
+	}
+
+	private bool IsParentTopLevel() {
+		return IsTopLevel() ? true : Directory.GetParent(m_currentPath) == null;
 	}
 
     private bool IsWindowsPlatform() {
@@ -113,8 +117,9 @@ public class CFileBrowser : MonoBehaviour {
 	public void GoUp() {
         m_backwardStack.Push(m_currentPath);
 
-        if(!IsTopLevel())
+        if(!IsParentTopLevel())
             m_currentPath = Directory.GetParent(m_currentPath).FullName;
+		else m_currentPath = null;
 
         LoadViewer();
 	}
@@ -126,7 +131,7 @@ public class CFileBrowser : MonoBehaviour {
 
         string backPath = m_backwardStack.Pop();
 
-        if(!String.IsNullOrEmpty(backPath)) {
+        if(backPath == null || backPath.Length > 0) {
             m_currentPath = backPath;
             LoadViewer();
         }
@@ -139,7 +144,7 @@ public class CFileBrowser : MonoBehaviour {
 
         string forwardPath = m_forwardStack.Pop();
 
-        if (!String.IsNullOrEmpty(forwardPath)) {
+        if(forwardPath == null || forwardPath.Length > 0) {
             m_currentPath = forwardPath;
             LoadViewer();
         }
@@ -199,14 +204,16 @@ public class CFileBrowser : MonoBehaviour {
 	private void LoadDirectories() {
 		string[] directories = new string[]{};
 
-		if(IsTopLevel()) {
-            if(IsWindowsPlatform()) {
-                directories = Directory.GetLogicalDrives();
-            } else if(IsMacOsPlatform()) {
-                directories = Directory.GetDirectories("/Volumes");
+		if(IsParentTopLevel()) {
+			if(IsTopLevel()) {
+				if(IsWindowsPlatform()) {
+					directories = Directory.GetLogicalDrives();
+				} else if(IsMacOsPlatform()) {
+					directories = Directory.GetDirectories("/Volumes");
+				}
 			} else if(IsLinuxPlatform()) {
 				directories = Directory.GetDirectories("/");
-			}
+			} else directories = Directory.GetDirectories(m_currentPath);
 		} else directories = Directory.GetDirectories(m_currentPath);
 
         Array.Sort(directories, new AlphanumComparator());
@@ -217,6 +224,8 @@ public class CFileBrowser : MonoBehaviour {
 	}
 
 	private void LoadFiles() {
+		if(m_currentPath == null) return;
+
 		string[] files = Directory.GetFiles(m_currentPath);
 
         Array.Sort(files, new AlphanumComparator());
@@ -227,7 +236,9 @@ public class CFileBrowser : MonoBehaviour {
 	}
 
 	public void OnDirectoryClick(string p_directory) {
-		m_backwardStack.Push(m_currentPath.Clone() as string);
+		if(m_currentPath != null) m_backwardStack.Push(m_currentPath.Clone() as string);
+		else m_backwardStack.Push(null);
+
 		m_currentPath = p_directory;
 		LoadViewer();
 	}
