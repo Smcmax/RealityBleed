@@ -115,11 +115,14 @@ public class CFileBrowser : MonoBehaviour {
     }
 
 	public void GoUp() {
-        m_backwardStack.Push(m_currentPath);
+		string current = m_currentPath;
 
         if(!IsParentTopLevel())
             m_currentPath = Directory.GetParent(m_currentPath).FullName;
+		else if(IsLinuxPlatform()) return;
 		else m_currentPath = null;
+
+        m_backwardStack.Push(current);
 
         LoadViewer();
 	}
