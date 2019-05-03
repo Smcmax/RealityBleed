@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class FileBrowserUI : MonoBehaviour {
 
@@ -16,8 +17,8 @@ public class FileBrowserUI : MonoBehaviour {
 	public GameObject m_errorWindow;
 
 	private CFileBrowser m_fileBrowser;
-	private InputField m_pathField;
-	private InputField m_fileField;
+	private TMP_InputField m_pathField;
+	private TMP_InputField m_fileField;
     private Button m_upButton;
 	private Button m_backButton;
 	private Button m_forwardButton;
@@ -29,8 +30,8 @@ public class FileBrowserUI : MonoBehaviour {
 	public void Setup(CFileBrowser p_fileBrowser, CFileBrowser.BrowserMode m_mode) {
 		m_fileBrowser = p_fileBrowser;
 
-        m_pathField = transform.Find("Header").Find("PathField").GetComponent<InputField>();
-        m_fileField = transform.Find("Footer").Find("FileNameField").GetComponent<InputField>();
+        m_pathField = transform.Find("Header").Find("PathField").GetComponent<TMP_InputField>();
+        m_fileField = transform.Find("Footer").Find("FileNameField").GetComponent<TMP_InputField>();
         m_upButton = transform.Find("Header").Find("Up").GetComponent<Button>();
         m_backButton = transform.Find("Header").Find("Back").GetComponent<Button>();
         m_forwardButton = transform.Find("Header").Find("Forward").GetComponent<Button>();
@@ -42,8 +43,8 @@ public class FileBrowserUI : MonoBehaviour {
 		Game.m_languages.UpdateObjectLanguage(gameObject, Game.m_languages.GetLanguage("English"));
 
 		if(m_mode == CFileBrowser.BrowserMode.SAVE)
-			m_openSaveButton.transform.GetChild(0).GetComponent<Text>().text = Game.m_languages.GetLine("Save");
-		else m_openSaveButton.transform.GetChild(0).GetComponent<Text>().text = Game.m_languages.GetLine("Open");
+			m_openSaveButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Game.m_languages.GetLine("Save");
+		else m_openSaveButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Game.m_languages.GetLine("Open");
 
 		SetupListeners();
 	}
@@ -92,23 +93,24 @@ public class FileBrowserUI : MonoBehaviour {
 
 	public void Error(string p_error) {
 		GameObject errorWindow = Instantiate(m_errorWindow, transform.parent, false);
-		errorWindow.transform.Find("Text").GetComponent<Text>().text = p_error;
+		errorWindow.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = p_error;
 
 		Button closeButton = errorWindow.transform.Find("Close").GetComponent<Button>();
+		closeButton.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = Game.m_languages.GetLine("Close");
 		closeButton.onClick.AddListener(delegate { Destroy(errorWindow); });
 	}
 
 	public void AddDirectoryButton(string p_directory) {
 		GameObject directoryObj = Instantiate(m_directoryButtonPrefab, m_viewerParent.transform, false);
 
-		directoryObj.transform.GetChild(0).GetComponent<Text>().text = new DirectoryInfo(p_directory).Name;
+		directoryObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = new DirectoryInfo(p_directory).Name;
         directoryObj.GetComponent<Button>().onClick.AddListener(delegate { m_fileBrowser.OnDirectoryClick(p_directory); });
 	}
 
 	public void AddFileButton(string p_file) {
         GameObject fileObj = Instantiate(m_fileButtonPrefab, m_viewerParent.transform, false);
 
-        fileObj.transform.GetChild(0).GetComponent<Text>().text = Path.GetFileName(p_file);
+        fileObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Path.GetFileName(p_file);
 		fileObj.AddComponent<FileButton>().Setup(Path.GetFileName(p_file), m_fileBrowser);
 	}
 

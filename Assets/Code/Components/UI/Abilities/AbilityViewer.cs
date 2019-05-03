@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections;
 
 // TODO: for multiplayer, likely needs to be fetched and updated with the proper entity when instantiated instead of hard-linking player
@@ -12,7 +13,7 @@ public class AbilityViewer : MonoBehaviour {
 	public Image m_backgroundIcon;
 
 	[Tooltip("The text to update with the hotkey info")]
-	public Text m_hotkeyText;
+	public TextMeshProUGUI m_hotkeyText;
 
 	[Tooltip("The entity holding the abilities to display")]
 	public Entity m_entity;

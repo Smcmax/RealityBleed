@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryLoader : MonoBehaviour {
 
@@ -108,7 +109,7 @@ public class InventoryLoader : MonoBehaviour {
 
 	public void LoadItem(UIItem p_uiItem, Item p_item) {
 		Image image = p_uiItem.GetComponent<Image>();
-		Text amount = p_uiItem.GetComponentInChildren<Text>();
+        TextMeshProUGUI amount = p_uiItem.GetComponentInChildren<TextMeshProUGUI>();
 
 		p_uiItem.m_item = p_item;
 		image.sprite = p_item.m_item.m_sprite;
@@ -123,7 +124,7 @@ public class InventoryLoader : MonoBehaviour {
 
 	public void LoadOutline(UIItem p_uiItem, Item p_item) {
 		Image image = p_uiItem.GetComponent<Image>();
-		Text amount = p_uiItem.GetComponentInChildren<Text>();
+        TextMeshProUGUI amount = p_uiItem.GetComponentInChildren<TextMeshProUGUI>();
 
 		image.sprite = p_item.m_outlineSprite;
 		image.color = new Color(1, 1, 1, 1);
@@ -135,6 +136,6 @@ public class InventoryLoader : MonoBehaviour {
 
 		p_uiItem.m_item = p_item;
 		image.color = new Color(1, 1, 1, 0);
-		p_uiItem.GetComponentInChildren<Text>().enabled = false;
+		p_uiItem.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 	}
 }

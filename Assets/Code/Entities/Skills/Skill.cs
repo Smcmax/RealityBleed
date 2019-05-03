@@ -43,9 +43,4 @@ public class SkillWrapper {
 	public Skill Skill;
 	public bool Learned;
 	public int TrainingLevel;
-
-	private Entity Owner;
-
-	public Entity GetOwner() { return Owner; }
-	public void SetOwner(Entity p_entity) { Owner = p_entity; }
 }

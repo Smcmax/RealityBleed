@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections.Generic;
 
 public class SkillLoader : MonoBehaviour {
@@ -42,7 +43,7 @@ public class SkillLoader : MonoBehaviour {
 		foreach(SkillWrapper skill in sortedSkills) {
 			GameObject skillObject = Instantiate(m_skillPrefab, m_contentParent);
 			Image skillIcon = skillObject.GetComponent<Image>();
-			Text trainingLevel = skillObject.GetComponentInChildren<Text>();
+            TextMeshProUGUI trainingLevel = skillObject.GetComponentInChildren<TextMeshProUGUI>();
 
 			skillIcon.sprite = skill.Skill.m_icon;
 			trainingLevel.text = skill.TrainingLevel.ToString();

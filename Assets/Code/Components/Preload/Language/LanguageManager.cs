@@ -1,14 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections.Generic;
 
 public class LanguageManager : MonoBehaviour {
-
-    [Tooltip("Standard font")]
-    public Font m_defaultFont;
-
-    [Tooltip("Accent font")]
-    public Font m_accentFont;
 
     [Tooltip("The list of loaded languages")]
     public List<Language> m_languages;
@@ -79,8 +74,8 @@ public class LanguageManager : MonoBehaviour {
         if(p_object == Game.m_controlMapperMenu.gameObject) return;
         List<Component> components = new List<Component>();
 
-        components.AddRange(p_object.GetComponents<Text>());
-        components.AddRange(p_object.GetComponents<Dropdown>());
+        components.AddRange(p_object.GetComponents<TextMeshProUGUI>());
+        components.AddRange(p_object.GetComponents<TMP_Dropdown>());
         components.AddRange(p_object.GetComponents<AdaptativeSliderText>());
 
         foreach(Component component in components)
@@ -91,8 +86,8 @@ public class LanguageManager : MonoBehaviour {
         if(p_object == Game.m_controlMapperMenu.gameObject) return;
         List<Component> components = new List<Component>();
 
-        components.AddRange(p_object.GetComponentsInChildren<Text>(true));
-        components.AddRange(p_object.GetComponentsInChildren<Dropdown>(true));
+        components.AddRange(p_object.GetComponentsInChildren<TextMeshProUGUI>(true));
+        components.AddRange(p_object.GetComponentsInChildren<TMP_Dropdown>(true));
         components.AddRange(p_object.GetComponentsInChildren<AdaptativeSliderText>(true));
 
         foreach(Component component in components)
@@ -104,25 +99,16 @@ public class LanguageManager : MonoBehaviour {
 
         Language current = GetCurrentLanguage();
 
-        if(p_component is Text) {
-            Text text = (Text) p_component;
+        if(p_component is TextMeshProUGUI) {
+            TextMeshProUGUI text = (TextMeshProUGUI) p_component;
             string updatedLine = GetLine(p_previousLanguage.FindKey(text.text));
 
             if(updatedLine.Length > 0)
                 text.text = updatedLine;
+        } else if(p_component is TMP_Dropdown) {
+            TMP_Dropdown dropdown = (TMP_Dropdown) p_component;
 
-            if(current.m_accentLanguage) {
-                text.font = m_accentFont;
-                text.resizeTextMaxSize = text.fontSize;
-                text.resizeTextForBestFit = true;
-            } else {
-                text.font = m_defaultFont;
-                text.resizeTextForBestFit = false;
-            }
-        } else if(p_component is Dropdown) {
-            Dropdown dropdown = (Dropdown) p_component;
-
-            foreach(Dropdown.OptionData option in dropdown.options) {
+            foreach(TMP_Dropdown.OptionData option in dropdown.options) {
                 string updatedLine = GetLine(p_previousLanguage.FindKey(option.text));
 
                 if(updatedLine.Length > 0)

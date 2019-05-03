@@ -1,6 +1,5 @@
 {
 	"m_name":"English",
-	"m_accentLanguage":false,
 	"m_entries":[
 		{"m_key":"Quality","m_line":"Quality"},
 		{"m_key":"Very Low","m_line":"Very Low"},
@@ -37,12 +36,7 @@
 		{"m_key":"Skills","m_line":"Skills"},
 		{"m_key":"Hotkey","m_line":"Hotkey"},
 		{"m_key":"Unbound","m_line":"Unbound"},
-		{"m_key":"Hotkey 1","m_line":"Hotkey 1"},
-		{"m_key":"Hotkey 2","m_line":"Hotkey 2"},
-		{"m_key":"Hotkey 3","m_line":"Hotkey 3"},
-		{"m_key":"Hotkey 4","m_line":"Hotkey 4"},
-		{"m_key":"Hotkey 5","m_line":"Hotkey 5"},
-		{"m_key":"Hotkey 6","m_line":"Hotkey 6"},
+		{"m_key":"Hotkey {0}","m_line":"Hotkey {0}"},
 		{"m_key":"Chain Abilities","m_line":"Chain Abilities"},
 		{"m_key":"Save Chain","m_line":"Save Chain"},
 		{"m_key":"Close","m_line":"Close"},
@@ -116,6 +110,7 @@
 		{"m_key":"Increases INT.","m_line":"Increases INT."},
 		{"m_key":"Increases INT by {value}.","m_line":"Increases INT by {value}."},
 		{"m_key":"Open","m_line":"Open"},
-		{"m_key":"Save","m_line":"Save"}
+		{"m_key":"Save","m_line":"Save"},
+		{"m_key":"File needs to have one of the following extensions: {0}","m_line":"File needs to have one of the following extensions: {0}"}
 	]
 }

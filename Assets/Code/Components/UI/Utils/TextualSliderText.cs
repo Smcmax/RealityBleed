@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class TextualSliderText : MonoBehaviour {
 
@@ -9,7 +10,7 @@ public class TextualSliderText : MonoBehaviour {
 	public Slider m_slider;
 
 	[Tooltip("The text to update with the slider's value")]
-	public Text m_text;
+	public TextMeshProUGUI m_text;
 
 	[Tooltip("The strings to display for each possible value of the slider")]
 	public List<ValueTextPair> m_valueTextPairs;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class AbilitySkillTooltip : Tooltip {
 
@@ -20,16 +21,18 @@ public class AbilitySkillTooltip : Tooltip {
 		Ability ability = p_wrapper.Ability != null ? p_wrapper.Ability.Ability : null;
 		Skill skill = p_wrapper.Skill != null ? p_wrapper.Skill.Skill : null;
 
-		Text name = m_modifiableInfo.Find(ti => ti.m_name == "AbilitySkill Name Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+        TextMeshProUGUI name = m_modifiableInfo.Find(ti => ti.m_name == "AbilitySkill Name Text")
+											   .Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		name.text = Get(p_wrapper.GetName());
 		name.color = ability != null ? ability.m_domain.m_nameColor.Value : skill.m_nameColor.Value;
 
 		if(ability != null) {
-			Text domain = m_modifiableInfo.Find(ti => ti.m_name == "Domain Text").GetAligned<Text>(ref m_tooltipInfoOffset);
+            TextMeshProUGUI domain = m_modifiableInfo.Find(ti => ti.m_name == "Domain Text").GetAligned<TextMeshProUGUI>(ref m_tooltipInfoOffset);
 			domain.text = Get(ability.m_domain.m_name);
 			domain.color = ability.m_domain.m_nameColor.Value;
 
-			Text active = m_modifiableInfo.Find(ti => ti.m_name == "Active Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+            TextMeshProUGUI active = m_modifiableInfo.Find(ti => ti.m_name == "Active Text")
+													 .Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 			active.text = Get(ability.m_isPassive ? "Passive" : "Active");
 		}
 
@@ -38,29 +41,31 @@ public class AbilitySkillTooltip : Tooltip {
         string prefixColorTag = "<color=#" + ColorUtility.ToHtmlStringRGBA(Constants.YELLOW) + ">";
         string suffixColorTag = "</color>";
 
-		Text trainingLevel = m_modifiableInfo.Find(ti => ti.m_name == "Training Level").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+        TextMeshProUGUI trainingLevel = m_modifiableInfo.Find(ti => ti.m_name == "Training Level")
+														.Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		trainingLevel.text = Game.m_languages.FormatTexts(Get("Training Level: {0}"), prefixColorTag + p_wrapper.GetTrainingLevel().ToString() + suffixColorTag);
 
 		if(p_wrapper.GetTrainingLevel() < p_wrapper.GetMaxTrainingLevel()) {
-			Text expToNextLevel = m_modifiableInfo.Find(ti => ti.m_name == "Training Exp Next Level").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+            TextMeshProUGUI expToNextLevel = m_modifiableInfo.Find(ti => ti.m_name == "Training Exp Next Level")
+															 .Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 			expToNextLevel.text = Game.m_languages.FormatTexts(Get("EXP to next level: {0}"), 
 									prefixColorTag + p_wrapper.GetTrainingExpCost(p_wrapper.GetTrainingLevel() + 1).ToString() + suffixColorTag);
 		}
 
 		if(ability != null && p_wrapper.Learned()) {
-			Text cd = m_modifiableInfo.Find(ti => ti.m_name == "Cooldown").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+            TextMeshProUGUI cd = m_modifiableInfo.Find(ti => ti.m_name == "Cooldown").Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 			cd.text = Game.m_languages.FormatTexts(Get("{0}s cooldown"), 
 						prefixColorTag + p_wrapper.GetCooldown(p_wrapper.GetTrainingLevel()).ToString() + suffixColorTag);
 		}
 
 		ShowSeparator(2);
 
-		Text sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+        TextMeshProUGUI sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price").Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		sellPrice.text = Game.m_languages.FormatTexts(Get("Sell Price: {0}g"), prefixColorTag + p_wrapper.GetSellPrice() + suffixColorTag);
 		sellPrice.color = Constants.WHITE;
 
 		TooltipInfo descInfo = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text");
-		Text description = descInfo.Get<Text>();
+        TextMeshProUGUI description = descInfo.Get<TextMeshProUGUI>();
 
 		description.text = p_wrapper.GetDescription(p_wrapper.GetTrainingLevel(), true);
 		description.color = Constants.YELLOW;
@@ -71,7 +76,7 @@ public class AbilitySkillTooltip : Tooltip {
 		float descPrefHeight = LayoutUtility.GetPreferredHeight(description.rectTransform);
 		m_tooltipInfoOffset += descPrefHeight / 2;
 		
-		description = descInfo.Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset, descPrefHeight);
+		description = descInfo.Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset, descPrefHeight);
 
 		Show(m_panelHeight, false); // resizing the panel again to fit
 	}

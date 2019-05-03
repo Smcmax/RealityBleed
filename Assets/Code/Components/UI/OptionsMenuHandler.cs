@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
 public class OptionsMenuHandler : MonoBehaviour {
 
 	[Tooltip("The dropdown handling the resolutions")]
-	public Dropdown m_resolutionDropdown;
+	public TMP_Dropdown m_resolutionDropdown;
 
 	[Tooltip("The dropdown handling the language selection")]
-	public Dropdown m_languageDropdown;
+	public TMP_Dropdown m_languageDropdown;
 
 	[Tooltip("The toggle for vsync")]
 	public Toggle m_vsyncToggle;
@@ -18,7 +19,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 	public AdaptativeSliderText m_framerateSlider;
 
 	[Tooltip("The dropdown handling the quality settings")]
-	public Dropdown m_qualityDropdown;
+	public TMP_Dropdown m_qualityDropdown;
 
 	[Tooltip("The canvas containing all the health bars")]
 	public Canvas m_hpBarsCanvas;
@@ -94,7 +95,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 				res.refreshRate = Screen.currentResolution.refreshRate;
 			}
 
-			Dropdown.OptionData data = new Dropdown.OptionData(ResolutionToString(res));
+            TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData(ResolutionToString(res));
 			m_resolutionDropdown.options.Add(data);
 
 			availableResolutions.Add(res);
@@ -166,7 +167,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 		m_languages = Game.m_languages.m_languages.ToArray();
 
 		for(int i = 0; i < m_languages.Length; i++) {
-            Dropdown.OptionData data = new Dropdown.OptionData(m_languages[i].m_name);
+            TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData(m_languages[i].m_name);
             m_languageDropdown.options.Add(data);
 
 			if(m_languages[i].m_name == Game.m_languages.GetCurrentLanguage().m_name)

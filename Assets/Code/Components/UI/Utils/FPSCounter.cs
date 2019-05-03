@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class FPSCounter : MonoBehaviour {
 
 	[Tooltip("The text to update with the current FPS")]
-	public Text m_text;
+	public TextMeshProUGUI m_text;
 
 	private float m_startTime;
 	private int m_frameCount;

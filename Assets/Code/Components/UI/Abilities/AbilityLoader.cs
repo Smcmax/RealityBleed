@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class AbilityLoader : MonoBehaviour {
 
@@ -71,7 +72,7 @@ public class AbilityLoader : MonoBehaviour {
 			foreach(AbilityWrapper ability in sortedDomainAbilities) {
 				GameObject abilityObject = Instantiate(m_abilityPrefab, contentParent);
 				Image abilityIcon = abilityObject.GetComponent<Image>();
-				Text trainingLevel = abilityObject.GetComponentInChildren<Text>();
+				TextMeshProUGUI trainingLevel = abilityObject.GetComponentInChildren<TextMeshProUGUI>();
 
 				abilityIcon.sprite = ability.Ability.m_icon;
 				trainingLevel.text = ability.TrainingLevel.ToString();

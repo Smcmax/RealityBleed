@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Equipment), typeof(Inventory), typeof(UnitStats))]
@@ -89,15 +90,9 @@ public class Entity : MonoBehaviour {
 
 		// TODO: load abilities, skills and modifiers?
 
-		foreach(AbilityWrapper ability in m_abilities)
-			ability.SetOwner(this);
-
-		foreach(SkillWrapper skill in m_skills) { 
-			skill.SetOwner(this);
-
-			if(skill.Skill.m_isPassive) 
-				skill.Skill.Use(this, skill.TrainingLevel);
-		}
+		foreach(SkillWrapper wrapper in m_skills)
+			if(wrapper.Skill.m_isPassive)
+                wrapper.Skill.Use(this, wrapper.TrainingLevel);
 
 		InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
 		InvokeRepeating("UpdateCharacterSpeed", Constants.CHARACTER_SPEED_UPDATE_RATE, Constants.CHARACTER_SPEED_UPDATE_RATE);
@@ -204,7 +199,7 @@ public class Entity : MonoBehaviour {
 	// display color is transparent if no specified color
 	public void GenerateFeedback(DamageType p_type, int p_amount, Color p_displayColor) {
 		GameObject feedback = Instantiate(m_feedbackTemplate, m_feedbackTemplate.transform.parent);
-		Text feedbackText = feedback.GetComponent<Text>();
+        TextMeshProUGUI feedbackText = feedback.GetComponent<TextMeshProUGUI>();
 		Image damageTypeIcon = feedback.GetComponentInChildren<Image>();
 		UIWorldSpaceFollower follow = feedback.GetComponent<UIWorldSpaceFollower>();
 		Color feedbackColor = m_feedbackColor;

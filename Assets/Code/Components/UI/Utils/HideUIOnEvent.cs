@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 using System.Collections.Generic;
 
 public class HideUIOnEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
@@ -36,12 +37,12 @@ public class HideUIOnEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		if(m_hideOnTargetMovement) m_lastTargetPosition = m_hideOnTargetMovement.transform.position;
 
 		m_componentsToHide.Add(GetComponent<Image>());
-		m_componentsToHide.Add(GetComponent<Text>());
+		m_componentsToHide.Add(GetComponent<TextMeshProUGUI>());
 		m_componentsToHide.Add(GetComponent<RawImage>());
 
 		if(transform.childCount > 0) {
 			m_componentsToHide.AddRange(GetComponentsInChildren<Image>(true));
-			m_componentsToHide.AddRange(GetComponentsInChildren<Text>(true));
+			m_componentsToHide.AddRange(GetComponentsInChildren<TextMeshProUGUI>(true));
 			m_componentsToHide.AddRange(GetComponentsInChildren<RawImage>(true));
 		}
 
@@ -96,9 +97,9 @@ public class HideUIOnEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 		if(p_component is Image) {
 			Color color = ((Image) p_component).color;
 			((Image) p_component).color = new Color(color.r, color.g, color.b, (p_white ? 255 : m_imageAlpha) / 255f);
-		} else if(p_component is Text) {
-			Color color = ((Text) p_component).color;
-			((Text) p_component).color = new Color(color.r, color.g, color.b, (p_white ? 255 : m_textAlpha) / 255f);
+		} else if(p_component is TextMeshProUGUI) {
+			Color color = ((TextMeshProUGUI) p_component).color;
+			((TextMeshProUGUI) p_component).color = new Color(color.r, color.g, color.b, (p_white ? 255 : m_textAlpha) / 255f);
 		} else if(p_component is RawImage) {
 			Color color = ((RawImage) p_component).color;
 			((RawImage) p_component).color = new Color(color.r, color.g, color.b, (p_white ? 255 : m_rawImageAlpha) / 255f);

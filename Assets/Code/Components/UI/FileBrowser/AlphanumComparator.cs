@@ -1,6 +1,7 @@
 ﻿// NOTE: This code is free to use in any program.
 // ... It was developed by Dot Net Perls.
 
+using System;
 using System.Collections;
 
 public class AlphanumComparator : IComparer
@@ -73,13 +74,15 @@ public class AlphanumComparator : IComparer
             string str1 = new string(space1);
             string str2 = new string(space2);
 
-            int result;
+            int result = 0;
 
             if (char.IsDigit(space1[0]) && char.IsDigit(space2[0]))
             {
-                int thisNumericChunk = int.Parse(str1);
-                int thatNumericChunk = int.Parse(str2);
-                result = thisNumericChunk.CompareTo(thatNumericChunk);
+                try {
+                    int thisNumericChunk = int.Parse(str1);
+                    int thatNumericChunk = int.Parse(str2);
+                    result = thisNumericChunk.CompareTo(thatNumericChunk);
+                } catch(OverflowException) {}
             }
             else
             {

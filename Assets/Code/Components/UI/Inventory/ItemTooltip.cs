@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemTooltip : Tooltip {
 
@@ -22,12 +23,12 @@ public class ItemTooltip : Tooltip {
 
         Show(m_panelHeight, true); // activating the tooltip (out of sight) to allow preferred heights to be fetched
 
-        Text name = m_modifiableInfo.Find(ti => ti.m_name == "Item Name Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+        TextMeshProUGUI name = m_modifiableInfo.Find(ti => ti.m_name == "Item Name Text").Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		name.text = Get(item.m_name);
 		name.color = item.m_nameColor.Value;
 
 		if(item is Armor || item is Weapon) {
-			Text type = m_modifiableInfo.Find(ti => ti.m_name == "Item Type Text").GetAligned<Text>(ref m_tooltipInfoOffset);
+            TextMeshProUGUI type = m_modifiableInfo.Find(ti => ti.m_name == "Item Type Text").GetAligned<TextMeshProUGUI>(ref m_tooltipInfoOffset);
 			string itemType = "";
 
 			if(item is Armor) itemType = (item as Armor).m_armorType.ToString();
@@ -36,7 +37,7 @@ public class ItemTooltip : Tooltip {
 			type.text = Get(itemType);
 		}
 
-		Text slot = m_modifiableInfo.Find(ti => ti.m_name == "Slot Info Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+        TextMeshProUGUI slot = m_modifiableInfo.Find(ti => ti.m_name == "Slot Info Text").Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		slot.text = Get(item.GetSlotInfoText());
 		
 		ShowSeparator(1);
@@ -57,9 +58,9 @@ public class ItemTooltip : Tooltip {
 			int[] statGains = item is Weapon ? (item as Weapon).m_statGainValues : (item as Armor).m_statGainValues;
 
 			if(statGains.Length == UnitStats.STAT_AMOUNT) {
-				Text statGainText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Gain Text").Get<Text>();
-				Text statComparisonOneText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Comparison 1").Get<Text>();
-				Text statComparisonTwoText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Comparison 2").Get<Text>();
+                TextMeshProUGUI statGainText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Gain Text").Get<TextMeshProUGUI>();
+                TextMeshProUGUI statComparisonOneText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Comparison 1").Get<TextMeshProUGUI>();
+                TextMeshProUGUI statComparisonTwoText = m_modifiableInfo.Find(ti => ti.m_name == "Stat Comparison 2").Get<TextMeshProUGUI>();
 				int[] comparisonOne = item.m_equipmentSlots.Count >= 1 ?
 										  BaseItem.GetStatGainDifferences(item, holder.m_equipment, item.m_equipmentSlots[0]) : new int[UnitStats.STAT_AMOUNT];
 				int[] comparisonTwo = item.m_equipmentSlots.Count == 2 ? 
@@ -75,14 +76,17 @@ public class ItemTooltip : Tooltip {
 					if(!m_modifiableInfo.Exists(ti => ti.m_name == ((Stats) i).ToString() + " Gain Text"))
 						InstantiateStatText(((Stats) i).ToString() + " Gain Text", statGainText, transform);
 
-					Text statGain = m_modifiableInfo.Find(ti => ti.m_name == ((Stats) i).ToString() + " Gain Text").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+                    TextMeshProUGUI statGain = m_modifiableInfo.Find(ti => ti.m_name == ((Stats) i).ToString() + " Gain Text")
+															   .Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 					if(!m_modifiableInfo.Exists(ti => ti.m_name == ((Stats) i).ToString() + " Comparison 1"))
 						InstantiateStatText(((Stats) i).ToString() + " Comparison 1", statComparisonOneText, statGain.transform);
 					if(!m_modifiableInfo.Exists(ti => ti.m_name == ((Stats) i).ToString() + " Comparison 2"))
 						InstantiateStatText(((Stats) i).ToString() + " Comparison 2", statComparisonTwoText, statGain.transform);
 
-					Text statComparisonOne = m_modifiableInfo.Find(ti => ti.m_name == ((Stats) i).ToString() + " Comparison 1").Get<Text>();
-					Text statComparisonTwo = m_modifiableInfo.Find(ti => ti.m_name == ((Stats) i).ToString() + " Comparison 2").Get<Text>();
+                    TextMeshProUGUI statComparisonOne = m_modifiableInfo.Find(ti => ti.m_name == ((Stats) i).ToString() + " Comparison 1")
+																		.Get<TextMeshProUGUI>();
+                    TextMeshProUGUI statComparisonTwo = m_modifiableInfo.Find(ti => ti.m_name == ((Stats) i).ToString() + " Comparison 2")
+																		.Get<TextMeshProUGUI>();
 
 					statGain.color = statGains[i] > 0 ? Constants.GREEN : (statGains[i] == 0 ? Constants.YELLOW : Constants.RED);
 					statGain.text = (statGains[i] > 0 ? "+" : "") + statGains[i] + " " + ((Stats) i).ToString();
@@ -104,26 +108,37 @@ public class ItemTooltip : Tooltip {
         string suffixColorTag = "</color>";
 
 		if(item is Weapon || item is Armor) {
-			Text durability = m_modifiableInfo.Find(ti => ti.m_name == "Durability").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+            TextMeshProUGUI durability = m_modifiableInfo.Find(ti => ti.m_name == "Durability")
+														 .Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 			durability.text = Game.m_languages.FormatTexts(Get("Durability: {0}%"), prefixColorTag + p_item.m_durability + suffixColorTag);
 			durability.color = Constants.WHITE;
 		}
 
-		Text sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price").Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
+        TextMeshProUGUI sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price")
+													.Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		sellPrice.text = Game.m_languages.FormatTexts(Get("Sell Price: {0}g"), prefixColorTag + item.m_sellPrice + suffixColorTag);
 		sellPrice.color = Constants.WHITE;
 
 		TooltipInfo descInfo = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text");
-		Text description = descInfo.Get<Text>();
+        TextMeshProUGUI description = descInfo.Get<TextMeshProUGUI>();
+
+        description.text = "";
+
+        float basePrefHeight = LayoutUtility.GetPreferredHeight(description.rectTransform);
 
 		description.text = Get(item.m_description);
 		description.color = Constants.YELLOW;
 		m_tooltipInfoOffset += description.rectTransform.rect.y;
 
         float descPrefHeight = LayoutUtility.GetPreferredHeight(description.rectTransform);
-		m_tooltipInfoOffset += descPrefHeight / 2f;
-		
-		description = descInfo.Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset, descPrefHeight);
+        if(basePrefHeight != descPrefHeight) { // multiline
+            m_tooltipInfoOffset += descPrefHeight / 2f;
+
+            description = descInfo.Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset, descPrefHeight);
+        } else { 
+			description = descInfo.Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
+			m_panelHeight += basePrefHeight;
+		}
 
 		if(item is Weapon) {
             PositionDamageType(1);
@@ -134,15 +149,15 @@ public class ItemTooltip : Tooltip {
 	}
 
 	private void PositionDamageType(int p_shotNumber) {
-        Text damage = m_modifiableInfo.Find(ti => ti.m_name == "Shot " + p_shotNumber + " Damage").Get<Text>();
+        TextMeshProUGUI damage = m_modifiableInfo.Find(ti => ti.m_name == "Shot " + p_shotNumber + " Damage").Get<TextMeshProUGUI>();
         Image damageType = m_modifiableInfo.Find(ti => ti.m_name == "Shot " + p_shotNumber + " DamageType").Get<Image>();
         float width = LayoutUtility.GetPreferredWidth(damage.rectTransform);
 
         damageType.rectTransform.anchoredPosition = new Vector2(53 - (damage.rectTransform.sizeDelta.x - width), 1);
 	}
 
-	private void InstantiateStatText(string p_name, Text p_original, Transform p_parent) {
-		Text text = Instantiate(p_original, p_parent);
+	private void InstantiateStatText(string p_name, TextMeshProUGUI p_original, Transform p_parent) {
+        TextMeshProUGUI text = Instantiate(p_original, p_parent);
 
 		text.name = p_name;
 		m_modifiableInfo.Add(new TooltipInfo(text.name, text.gameObject, text.GetComponent<RectTransform>()));
@@ -162,32 +177,34 @@ public class ItemTooltip : Tooltip {
 		string prefixColorTag = "<color=#" + ColorUtility.ToHtmlStringRGBA(Constants.YELLOW) + ">";
 		string suffixColorTag = "</color>";
 
-		Text cd = m_modifiableInfo.Find(ti => ti.m_name == shot + " CD").GetAligned<Text>(ref m_tooltipInfoOffset);
+        TextMeshProUGUI cd = m_modifiableInfo.Find(ti => ti.m_name == shot + " CD").GetAligned<TextMeshProUGUI>(ref m_tooltipInfoOffset);
 		cd.text = Game.m_languages.FormatTexts(Get("{0}s cooldown"), prefixColorTag + p_pattern.m_patternCooldown.ToString() + suffixColorTag);
 		cd.color = Constants.WHITE;
 		
-
-		m_modifiableInfo.Find(ti => ti.m_name == shot + " Label").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset).text = 
+		string statColor = ColorUtility.ToHtmlStringRGBA(p_pattern.m_projectileInfo.m_statApplied.GetColor());
+		m_modifiableInfo.Find(ti => ti.m_name == shot + " Label").Get<TextMeshProUGUI>(ref p_panelHeight, ref m_tooltipInfoOffset).text = 
 																  Game.m_languages.FormatTexts(Get("Shot {0}"), p_shotNumber.ToString()) + 
-																  " (+" + p_pattern.m_projectileInfo.m_statApplied.ToString() + ")";
+																  " (+<color=#" + statColor + ">" + 
+																  p_pattern.m_projectileInfo.m_statApplied.ToString() + "</color>)";
 
 		if(p_pattern.m_projectileInfo.m_piercing) {
-			m_modifiableInfo.Find(ti => ti.m_name == shot + " Piercing Text").GetAligned<Text>(ref m_tooltipInfoOffset).color = Constants.PURPLE;
+			m_modifiableInfo.Find(ti => ti.m_name == shot + " Piercing Text").GetAligned<TextMeshProUGUI>(ref m_tooltipInfoOffset).color = Constants.PURPLE;
 		}
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Background").GetAligned<Image>(ref m_tooltipInfoOffset);
 		Image shotSprite = m_modifiableInfo.Find(ti => ti.m_name == shot + " Sprite").Get<Image>();
 		shotSprite.sprite = p_pattern.m_projectile.GetComponent<SpriteRenderer>().sprite;
 
-		Text shots = m_modifiableInfo.Find(ti => ti.m_name == shot + " Shots").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
+        TextMeshProUGUI shots = m_modifiableInfo.Find(ti => ti.m_name == shot + " Shots").Get<TextMeshProUGUI>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		shots.text = Game.m_languages.FormatTexts(Get("Shots: {0}"), prefixColorTag + p_pattern.m_shots.ToString() + suffixColorTag);
 		shots.color = Constants.WHITE;
 
 		if(p_pattern.m_projectileInfo.m_armorPiercing) {
-			m_modifiableInfo.Find(ti => ti.m_name == shot + " Armor Piercing Text").GetAligned<Text>(ref m_tooltipInfoOffset).color = Constants.RED;
+			m_modifiableInfo.Find(ti => ti.m_name == shot + " Armor Piercing Text")
+							.GetAligned<TextMeshProUGUI>(ref m_tooltipInfoOffset).color = Constants.RED;
 		}
 
-		Text damage = m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
+        TextMeshProUGUI damage = m_modifiableInfo.Find(ti => ti.m_name == shot + " Damage").Get<TextMeshProUGUI>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		damage.text = Game.m_languages.FormatTexts(Get("Damage: {0}"), prefixColorTag + p_pattern.m_projectileInfo.m_damage.ToString() + suffixColorTag);
 		damage.color = Constants.WHITE;
 
@@ -195,18 +212,18 @@ public class ItemTooltip : Tooltip {
 			Image damageType = m_modifiableInfo.Find(ti => ti.m_name == shot + " DamageType").Get<Image>();
 			damageType.sprite = p_pattern.m_projectileInfo.m_damageType.m_icon;
 		}
-		
-		Text mana = m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana").GetAligned<Text>(ref m_tooltipInfoOffset);
+
+        TextMeshProUGUI mana = m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana").GetAligned<TextMeshProUGUI>(ref m_tooltipInfoOffset);
 		mana.text = Game.m_languages.FormatTexts(Get("{0} Mana"), p_pattern.m_manaPerStep.ToString());
 		mana.color = Constants.MANA_BLUE;
 
-		Text range = m_modifiableInfo.Find(ti => ti.m_name == shot + " Range").Get<Text>(ref p_panelHeight, ref m_tooltipInfoOffset);
+        TextMeshProUGUI range = m_modifiableInfo.Find(ti => ti.m_name == shot + " Range").Get<TextMeshProUGUI>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		range.text = Game.m_languages.FormatTexts(Get("Range: {0}"), prefixColorTag + p_pattern.m_projectileInfo.m_range.ToString() + suffixColorTag);
 		range.color = Constants.WHITE;
 
 		if(p_pattern.m_extraTooltipInfo.Length > 0) {
 			TooltipInfo extraInfo = m_modifiableInfo.Find(ti => ti.m_name == shot + " Extra Text");
-            Text extra = extraInfo.Get<Text>();
+            TextMeshProUGUI extra = extraInfo.Get<TextMeshProUGUI>();
 			extra.text = "";
 
             float basePrefHeight = LayoutUtility.GetPreferredHeight(extra.rectTransform);
@@ -219,11 +236,12 @@ public class ItemTooltip : Tooltip {
                 m_tooltipInfoOffset += extra.rectTransform.rect.y;
                 m_tooltipInfoOffset += extraPrefHeight / 1.15f;
 
-                extra = extraInfo.Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset, extraPrefHeight * 1.7f);
-                m_panelHeight -= extraPrefHeight * 1.7f - extraPrefHeight;
-			} else {
-                extra = extraInfo.Get<Text>(ref m_panelHeight, ref m_tooltipInfoOffset);
-			}
+				// original 1.7f (pre-tmp)
+                extra = extraInfo.Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset, extraPrefHeight * 1.6f);
+                m_panelHeight -= extraPrefHeight * 1.6f - extraPrefHeight;
+				m_tooltipInfoOffset -= extra.rectTransform.rect.y / 2;
+			} else
+                extra = extraInfo.Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
 		}
 	}
 

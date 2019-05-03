@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 using Rewired.Integration.UnityUI;
 
 public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler {
@@ -10,7 +11,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 	[Tooltip("The duplicate image used for dragging the item around instead of the original")]
 	public Image m_ghost;
-	private Text m_ghostAmount;
+	private TextMeshProUGUI m_ghostAmount;
 
 	public static UIItem HeldItem; // not dragged, held
 	public static Player Holder;
@@ -22,7 +23,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	void Awake() {
 		m_ghost.raycastTarget = false;
 		m_ghost.gameObject.SetActive(false);
-		m_ghostAmount = m_ghost.GetComponentInChildren<Text>();
+		m_ghostAmount = m_ghost.GetComponentInChildren<TextMeshProUGUI>();
 		m_ghostAmount.raycastTarget = false;
 	}
 
@@ -239,7 +240,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 			bool addSuccess = m_item.m_inventory.AddToItem(p_dragged.m_item, m_item, p_amount);
 
 			if(addSuccess) {
-				GetComponentInChildren<Text>().text = m_item.m_amount.ToString();
+				GetComponentInChildren<TextMeshProUGUI>().text = m_item.m_amount.ToString();
 
 				if(p_dragged.m_item.m_amount == 0) {
 					int index = p_dragged.m_item.m_inventoryIndex;
@@ -273,9 +274,9 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		Image image = GetComponent<Image>();
 		Image draggedImage = p_dragged.GetComponent<Image>();
 		Image otherGhost = p_dragged.m_ghost;
-		Text amount = GetComponentInChildren<Text>();
-		Text otherAmount = draggedImage.GetComponentInChildren<Text>();
-		Text otherGhostAmount = p_dragged.m_ghostAmount;
+        TextMeshProUGUI amount = GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI otherAmount = draggedImage.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI otherGhostAmount = p_dragged.m_ghostAmount;
 
 		image.sprite = draggedImage.sprite;
 		draggedImage.sprite = m_ghost.sprite;
@@ -302,8 +303,8 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	private void CopyInfo(UIItem p_dragged) {
 		Image image = GetComponent<Image>();
 		Image draggedImage = p_dragged.GetComponent<Image>();
-		Text amount = GetComponentInChildren<Text>();
-		Text otherAmount = draggedImage.GetComponentInChildren<Text>();
+        TextMeshProUGUI amount = GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI otherAmount = draggedImage.GetComponentInChildren<TextMeshProUGUI>();
 
 		image.sprite = draggedImage.sprite;
 		m_ghost.sprite = image.sprite;
@@ -322,7 +323,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		}
 
 		Image image = GetComponent<Image>();
-		Text amount = GetComponentInChildren<Text>();
+        TextMeshProUGUI amount = GetComponentInChildren<TextMeshProUGUI>();
 
 		amount.enabled = true;
 
@@ -341,7 +342,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 	private void HideInfo(bool p_swapItems, Item p_swapped) {
 		Image image = GetComponent<Image>();
-		Text amount = GetComponentInChildren<Text>();
+        TextMeshProUGUI amount = GetComponentInChildren<TextMeshProUGUI>();
 
 		image.color = new Color(1, 1, 1, 0);
 		amount.enabled = false;
@@ -351,7 +352,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 	private void ObscureInfo() {
 		Image image = GetComponent<Image>();
-		Text amount = GetComponentInChildren<Text>();
+        TextMeshProUGUI amount = GetComponentInChildren<TextMeshProUGUI>();
 
 		image.color = new Color(1, 1, 1, 0.5f);
 		amount.color = new Color(1, 1, 1, 0.5f);

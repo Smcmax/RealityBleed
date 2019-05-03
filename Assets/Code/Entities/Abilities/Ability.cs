@@ -61,10 +61,7 @@ public class AbilityWrapper {
 	public List<Ability> ChainedAbilities;
 
 	private float LastUse;
-	private Entity Owner;
-
-	public Entity GetOwner() { return Owner; }
-	public void SetOwner(Entity p_entity) { Owner = p_entity; }
+	
 	public float GetLastUseTime() { return LastUse; }
 
 	public bool Use() {

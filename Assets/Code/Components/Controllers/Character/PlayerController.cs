@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
 		float xMove = m_player.m_rewiredPlayer.GetAxisRaw("MoveX");
 		float yMove = m_player.m_rewiredPlayer.GetAxisRaw("MoveY");
 
-		if(m_player.m_mouse.m_currentMode == CursorModes.CURSOR) {
+        if(MenuHandler.Instance.m_openedMenus.Count > 0) {
 			xMove = 0;
 			yMove = 0;
 		}

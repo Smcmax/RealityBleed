@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
 
 public class CurrentSceneText : MonoBehaviour {
 
 	[Tooltip("The text to set to the current scene title")]
-	public Text m_text;
+	public TextMeshProUGUI m_text;
 
-	void Awake() { 
+	void Start() { 
 		string scene = SceneManager.GetActiveScene().name;
 
 		scene = Regex.Replace(scene, "([a-z])([A-Z])", "$1 $2"); // fix camelCasing

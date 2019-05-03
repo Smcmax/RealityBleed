@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class FadeAwayText : MonoBehaviour {
 
@@ -11,12 +12,12 @@ public class FadeAwayText : MonoBehaviour {
 
 	private float m_startTime;
 	private UIWorldSpaceFollower m_follower;
-	private Text m_text;
+	private TextMeshProUGUI m_text;
 
 	void Awake() {
 		m_startTime = Time.time * 1000;
 		m_follower = GetComponent<UIWorldSpaceFollower>();
-		m_text = GetComponent<Text>();
+		m_text = GetComponent<TextMeshProUGUI>();
 
 		if(m_follower) m_follower.m_freezePosition = m_follower.m_parent.position;
 	}

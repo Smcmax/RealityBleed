@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections.Generic;
 
 public class AbilityContextualMenu : MonoBehaviour {
@@ -10,18 +11,18 @@ public class AbilityContextualMenu : MonoBehaviour {
 	[HideInInspector] public UIAbility m_selectedAbility;
 	[HideInInspector] public List<UIAbility> m_chainedAbilities;
 
-	private Dropdown m_dropdown;
-	private Text m_chainAbilitiesText;
+	private TMP_Dropdown m_dropdown;
+	private TextMeshProUGUI m_chainAbilitiesText;
 	private bool m_chaining;
 
 	void OnEnable() {
-		if(!m_dropdown) m_dropdown = transform.Find("Hotkey Selection").Find("Dropdown").GetComponent<Dropdown>();
+		if(!m_dropdown) m_dropdown = transform.Find("Hotkey Selection").Find("Dropdown").GetComponent<TMP_Dropdown>();
 
 		m_dropdown.ClearOptions();
-		m_dropdown.options.Add(new Dropdown.OptionData("Unbound"));
+		m_dropdown.options.Add(new TMP_Dropdown.OptionData(Game.m_languages.GetLine("Unbound")));
 
 		for(int i = 1; i <= 6; i++) {
-			Dropdown.OptionData option = new Dropdown.OptionData("Hotkey " + i);
+            TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData(Game.m_languages.FormatTexts(Game.m_languages.GetLine("Hotkey {0}"), i.ToString()));
 			m_dropdown.options.Add(option);
 		}
 
@@ -46,11 +47,11 @@ public class AbilityContextualMenu : MonoBehaviour {
 	public bool IsChaining() { return m_chaining; }
 
 	public void StartChaining() { 
-		if(!m_chainAbilitiesText) m_chainAbilitiesText = transform.Find("ChainAbilities").GetComponentInChildren<Text>();
+		if(!m_chainAbilitiesText) m_chainAbilitiesText = transform.Find("ChainAbilities").GetComponentInChildren<TextMeshProUGUI>();
 
 		m_chainedAbilities = new List<UIAbility>();
 		m_chaining = true;
-		m_chainAbilitiesText.text = "Save Chain";
+		m_chainAbilitiesText.text = Game.m_languages.GetLine("Save Chain");
 
 		m_selectedAbility.m_highlightBorder.gameObject.SetActive(true);
 	}
@@ -62,7 +63,7 @@ public class AbilityContextualMenu : MonoBehaviour {
 
 	public void StopChaining(bool p_saveChain) { 
 		m_chaining = false;
-		m_chainAbilitiesText.text = "Chain Abilities";
+		m_chainAbilitiesText.text = Game.m_languages.GetLine("Chain Abilities");
 
 		m_selectedAbility.m_highlightBorder.gameObject.SetActive(false);
 

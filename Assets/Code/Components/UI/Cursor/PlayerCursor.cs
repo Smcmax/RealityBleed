@@ -69,8 +69,8 @@ public class PlayerCursor : MonoBehaviour {
 		if(Player.m_players.Count > 0) m_player = Player.GetPlayerFromId(p_playerId);
 
 		m_mouse.leftButton.actionName = "UIInteract1";
-		m_mouse.rightButton.actionName = "UIInteract2";
-		m_mouse.middleButton.actionName = "UIInteract3";
+		m_mouse.rightButton.actionName = "UIInteract3";
+		//m_mouse.middleButton.actionName = "UIInteract3";
 		m_mouse.wheel.yAxis.actionName = "UIWheelY";
 		m_mouse.pointerSpeed = m_cursorSpeed;
 

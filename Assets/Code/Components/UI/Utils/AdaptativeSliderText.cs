@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +10,7 @@ public class AdaptativeSliderText : MonoBehaviour {
 	public Slider m_slider;
 
 	[Tooltip("The text to update with the slider's value")]
-	public Text m_text;
+	public TextMeshProUGUI m_text;
 
 	[Tooltip("Text shown before the value")]
 	public string m_prefixText;

@@ -8,7 +8,6 @@ using Rewired.UI.ControlMapper;
 public class Language {
 
     public string m_name;
-    public bool m_accentLanguage;
     public List<LanguageEntry> m_entries;
     // TODO: figure out how to get rewired language? or force it
 

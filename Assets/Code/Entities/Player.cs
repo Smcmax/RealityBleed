@@ -42,7 +42,8 @@ public class Player : Entity {
 		if(HideUIOnEvent.ObjectsHidden.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;
 		if(UIItem.HeldItem && this == UIItem.Holder) UIItem.HeldItem.MoveItem(m_mouse.GetPosition());
 
-		if(m_mouse.m_currentMode == CursorModes.CURSOR) return; // stop all actions if we're in a menu, this is also done in PlayerController
+		//if(m_mouse.m_currentMode == CursorModes.CURSOR) return; // stop all actions if we're in a menu, this is also done in PlayerController
+		if(MenuHandler.Instance.m_openedMenus.Count > 0) return;
 
 		if(m_rewiredPlayer.GetButton("Primary Fire")) fire = true;
 		else if(m_rewiredPlayer.GetButton("Secondary Fire")) { fire = true; leftClick = false; }

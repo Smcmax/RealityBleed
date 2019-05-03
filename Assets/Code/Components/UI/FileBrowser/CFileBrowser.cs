@@ -182,7 +182,7 @@ public class CFileBrowser : MonoBehaviour {
 				extensions += ", ." + ext;
 
 			extensions = extensions.Substring(2);
-			m_ui.Error("File needs to have one of the following extensions: " + extensions);
+			m_ui.Error(Game.m_languages.FormatTexts(Game.m_languages.GetLine("File needs to have one of the following extensions: {0}"), extensions));
 
 			return false;
         }

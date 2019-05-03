@@ -15,7 +15,11 @@ public class Container : Interactable {
 	}
 
 	public override void Interact(Entity p_entity) { 
-		if(m_inventory.m_interactor) return;
+		if(m_inventory.m_interactor && MenuHandler.Instance.m_containerMenu.gameObject.activeSelf) {
+			if(m_inventory.m_interactor == p_entity) Close();
+
+			return;
+		}
 
 		m_inventory.m_interactor = p_entity;
 		if(MenuHandler.Instance.m_handlingPlayer == null) MenuHandler.Instance.m_handlingPlayer = (p_entity as Player).m_rewiredPlayer;
