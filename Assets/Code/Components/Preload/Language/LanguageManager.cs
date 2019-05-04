@@ -97,8 +97,6 @@ public class LanguageManager : MonoBehaviour {
     public void UpdateComponentLanguage(Component p_component, Language p_previousLanguage) {
         if(p_component.tag == "No Translation") return;
 
-        Language current = GetCurrentLanguage();
-
         if(p_component is TextMeshProUGUI) {
             TextMeshProUGUI text = (TextMeshProUGUI) p_component;
             string updatedLine = GetLine(p_previousLanguage.FindKey(text.text));

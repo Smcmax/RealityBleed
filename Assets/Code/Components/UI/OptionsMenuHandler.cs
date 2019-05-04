@@ -310,4 +310,28 @@ public class OptionsMenuHandler : MonoBehaviour {
 	////////////////////////////
 	/*   Controls Settings    */
 	////////////////////////////
+
+	// 0% - 200% with 200% being 2
+	public void SetPlayerCursorSpeed(int p_speed) {
+        if(MenuHandler.Instance && MenuHandler.Instance.m_handlingPlayer != null) {
+            if(Player.m_players.Count > 0)
+            	Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id).m_mouse.SetCursorSpeed((float) p_speed / 100f);
+			else {
+                GameObject.Find("PlayerCursor" + MenuHandler.Instance.m_handlingPlayer.id)
+          				  .GetComponent<PlayerCursor>().SetCursorSpeed((float) p_speed / 100f);
+			}
+		}
+	}
+
+	// 0% - 200% with 200% being 1
+	public void SetPlayerCursorSize(int p_size) {
+        if(MenuHandler.Instance && MenuHandler.Instance.m_handlingPlayer != null) {
+			if(Player.m_players.Count > 0)
+            	Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id).m_mouse.SetSpriteScale((float) p_size / 200f);
+			else {
+				GameObject.Find("PlayerCursor" + MenuHandler.Instance.m_handlingPlayer.id)
+						  .GetComponent<PlayerCursor>().SetSpriteScale((float) p_size / 200f);
+			}
+		}
+	}
 }

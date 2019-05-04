@@ -63,6 +63,8 @@ public class MenuHandler : MonoBehaviour {
 	}
 
 	void Update() {
+		UpdateHandlingPlayerAllInputs();
+		
 		if(GetButtonDown("Pause")) Escape();
 		if(GetButtonDown("UIInteract2")) GoBack();
 		if(GetButtonDown("Inventory") && !m_paused && m_onInventoryEvent) m_onInventoryEvent.Raise();
@@ -95,6 +97,21 @@ public class MenuHandler : MonoBehaviour {
 		} else return m_handlingPlayer.GetButtonDown(p_button);
 
 		return false;
+	}
+
+	private void UpdateHandlingPlayerAllInputs() {
+		bool changed = false;
+
+		if(m_listeningToAllInputs) {
+            foreach(Rewired.Player player in Rewired.ReInput.players.Players) {
+				if(player.GetAnyButton() || player.GetAxis("UIAimX") != 0 || player.GetAxis("UIAimY") != 0) {
+                    m_handlingPlayer = player;
+                    changed = true;
+				}
+			}
+		}
+
+		if(changed) Game.m_options.UpdateUIControls();
 	}
 
 	public void Escape() {

@@ -12,12 +12,6 @@ public class PlayerCursor : MonoBehaviour {
 	[Tooltip("How far should the cursor be from the camera?")]
 	public float m_distanceFromCamera;
 
-	[Tooltip("The cursor's speed")]
-	public float m_cursorSpeed = 1f;
-
-	[Tooltip("The sprite scale that should be used for the cursor's sprite")]
-	public float m_spriteScale = 0.05f;
-
 	[Tooltip("The prefab used for the player mouse")]
 	public GameObject m_mousePrefab;
 
@@ -59,7 +53,6 @@ public class PlayerCursor : MonoBehaviour {
 		else m_cursor = Instantiate(m_mousePrefab);
 		
 		m_uiCursor = Instantiate(m_uiCursorPrefab, m_uiCanvas.transform).GetComponent<UICursor>();
-		m_uiCursor.transform.localScale = new Vector3(m_spriteScale, m_spriteScale, m_spriteScale);
 
 		m_mouse = m_cursor.GetComponent<PlayerMouse>();
 		m_mouse.useHardwarePointerPosition = false;
@@ -72,7 +65,12 @@ public class PlayerCursor : MonoBehaviour {
 		m_mouse.rightButton.actionName = "UIInteract3";
 		//m_mouse.middleButton.actionName = "UIInteract3";
 		m_mouse.wheel.yAxis.actionName = "UIWheelY";
-		m_mouse.pointerSpeed = m_cursorSpeed;
+
+		float sens = (float) Game.m_options.LoadOptionInt("Sensitivity" + "_" + p_playerId, 100).GetInt() / 100f;
+		float size = (float) Game.m_options.LoadOptionInt("CursorSize" + "_" + p_playerId, 100).GetInt() / 200f;
+
+        m_mouse.pointerSpeed = sens;
+        m_uiCursor.transform.localScale = new Vector3(size, size, size);
 
 		List<PlayerMouse> mice = Game.m_rewiredEventSystem.PlayerMice;
 		mice.Add(m_mouse);
@@ -82,6 +80,11 @@ public class PlayerCursor : MonoBehaviour {
 
 		m_mouse.ScreenPositionChangedEvent += OnScreenPositionChanged;
 		m_mouse.screenPosition = new Vector2(Screen.width / 2, Screen.height / 2 + 1);
+
+        string cursorSprite = Game.m_options.Get("CursorSprite", p_playerId).GetString();
+        Sprite sprite = SpriteUtils.LoadSpriteFromFile(Application.dataPath + "/Data/Cursors/" + cursorSprite + ".png");
+		
+        if(sprite != null) SetCursorImage(sprite);
 	}
 
 	public void ChangeMode(CursorModes p_mode, bool p_force) { 
@@ -111,6 +114,19 @@ public class PlayerCursor : MonoBehaviour {
 
 	public Vector2 GetPosition() { 
 		return m_mouse.screenPosition;
+	}
+
+	public void SetCursorImage(Sprite p_sprite) {
+		m_uiCursor.m_cursorSprite = p_sprite;
+		m_uiCursor.ChangeModes(m_uiCursor.m_mode);
+	}
+
+	public void SetCursorSpeed(float p_speed) {
+		m_mouse.pointerSpeed = p_speed;
+	}
+
+	public void SetSpriteScale(float p_spriteScale) {
+        m_uiCursor.transform.localScale = new Vector3(p_spriteScale, p_spriteScale, p_spriteScale);
 	}
 
 	private void OnScreenPositionChanged(Vector2 p_position) {

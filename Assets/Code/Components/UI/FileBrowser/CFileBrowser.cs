@@ -13,8 +13,8 @@ public class CFileBrowser : MonoBehaviour {
 	[Tooltip("The UI Prefab to use with this file browser, must have the FileBrowserUI component")]
 	public GameObject m_uiPrefab;
 
-    public event Action<string> OnFileSelect = delegate { };
-    public event Action<string> OnFileBrowserClose = delegate { };
+    public event Action<string> OnFileSelect;
+    public event Action<string> OnFileBrowserClose;
 
 	private static string LAST_OPENED_PATH = "";
 
@@ -30,6 +30,9 @@ public class CFileBrowser : MonoBehaviour {
 	private string[] m_extensions;
 
 	void Setup() {
+		OnFileBrowserClose = delegate { };
+		OnFileSelect = delegate { };
+
 		m_canvas = GetComponentInParent<Canvas>();
 		m_menu = GetComponent<Menu>();
 

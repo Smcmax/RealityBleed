@@ -21,6 +21,8 @@
 		{"m_key":"Apply","m_line":"Apply"},
 		{"m_key":"Enemy Health Bars","m_line":"Enemy Health Bars"},
 		{"m_key":"Auto Loot","m_line":"Auto Loot"},
+		{"m_key":"Sensitivity: {0}%","m_line":"Sensitivity: {0}%"},
+		{"m_key":"Cursor Size: {0}%","m_line":"Cursor Size: {0}%"},
 		{"m_key":"Edit Keybinds","m_line":"Edit Keybinds"},
 		{"m_key":"Video","m_line":"Video"},
 		{"m_key":"Audio","m_line":"Audio"},

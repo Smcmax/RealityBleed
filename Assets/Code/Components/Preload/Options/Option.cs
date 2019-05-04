@@ -104,6 +104,8 @@ public class Option : MonoBehaviour {
 				((TextualSliderText) m_control).m_value = value.GetInt();
 			else if(m_control is Toggle)
 				((Toggle) m_control).isOn = value.GetBool();
+			else if(m_control is CursorSelector)
+				((CursorSelector) m_control).Load();
 		}
 	}
 

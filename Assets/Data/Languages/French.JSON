@@ -82,6 +82,14 @@
             "m_line": "Pillage Auto"
         },
         {
+            "m_key": "Sensitivity: {0}%",
+            "m_line": "Sensibilité: {0}%"
+        },
+        {
+            "m_key": "Cursor Size: {0}%",
+            "m_line": "Taille Curseur: {0}%"
+        },
+        {
             "m_key": "Edit Keybinds",
             "m_line": "Modifier Touches"
         },

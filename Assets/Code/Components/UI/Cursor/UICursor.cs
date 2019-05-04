@@ -12,11 +12,14 @@ public class UICursor : MonoBehaviour {
 	[Tooltip("The sprite used by the cursor when it is in line form")]
 	public Sprite m_lineSprite;
 
+	[HideInInspector] public CursorModes m_mode;
+
 	void Start() {
 		m_image.raycastTarget = false;
 	}
 
 	public void ChangeModes(CursorModes p_mode) {
+		m_mode = p_mode;
 		m_image.type = Image.Type.Simple;
 
 		if(p_mode == CursorModes.LINE) {

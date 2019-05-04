@@ -22,7 +22,17 @@ public class OptionManager : MonoBehaviour {
 			option.UpdateUIControl();
 	}
 
+	public bool Exists(string p_key) {
+		return m_options.Exists(ov => ov.m_key == p_key);
+	}
+
+	public bool Exists(string p_key, int p_playerId) {
+		return Exists(p_key + "_" + p_playerId);
+	}
+
 	public OptionValue Get(string p_key) { 
+		if(!Exists(p_key)) return LoadOptionString(p_key, "");
+
 		return m_options.Find(ov => ov.m_key == p_key);
 	}
 
@@ -31,6 +41,8 @@ public class OptionManager : MonoBehaviour {
 	}
 
 	public OptionValue LoadOption(string p_key, string p_dataType) { 
+		if(Exists(p_key)) return Get(p_key);
+
 		OptionValue val = new OptionValue(p_key, p_dataType);
 
 		val.Load();
@@ -39,7 +51,9 @@ public class OptionManager : MonoBehaviour {
 		return val;
 	}	
 	
-	public OptionValue LoadOptionInt(string p_key, int p_default) { 
+	public OptionValue LoadOptionInt(string p_key, int p_default) {
+        if(Exists(p_key)) return Get(p_key);
+
 		OptionValue val = new OptionValue(p_key, "int");
 
 		val.Load(p_default);
@@ -48,7 +62,9 @@ public class OptionManager : MonoBehaviour {
 		return val;
 	}	
 
-	public OptionValue LoadOptionBool(string p_key, bool p_default) { 
+	public OptionValue LoadOptionBool(string p_key, bool p_default) {
+        if(Exists(p_key)) return Get(p_key);
+
 		OptionValue val = new OptionValue(p_key, "bool");
 
 		val.Load(p_default);
@@ -57,7 +73,9 @@ public class OptionManager : MonoBehaviour {
 		return val;
 	}	
 
-	public OptionValue LoadOptionFloat(string p_key, float p_default) { 
+	public OptionValue LoadOptionFloat(string p_key, float p_default) {
+        if(Exists(p_key)) return Get(p_key);
+
 		OptionValue val = new OptionValue(p_key, "float");
 
 		val.Load(p_default);
@@ -66,7 +84,9 @@ public class OptionManager : MonoBehaviour {
 		return val;
 	}
 
-	public OptionValue LoadOptionString(string p_key, string p_default) { 
+	public OptionValue LoadOptionString(string p_key, string p_default) {
+        if(Exists(p_key)) return Get(p_key);
+
 		OptionValue val = new OptionValue(p_key, "string");
 
 		val.Load(p_default);
