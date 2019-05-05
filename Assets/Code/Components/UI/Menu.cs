@@ -14,7 +14,7 @@ public class Menu : MonoBehaviour {
 
 	private Language m_lastUpdatedLanguage;
 
-	void Awake() {
+	public void Awake() {
 		#if UNITY_EDITOR
         	if(PreloadLoadNextScene.m_loaded)
 				m_lastUpdatedLanguage = Game.m_languages.GetLanguage("English");
@@ -25,7 +25,7 @@ public class Menu : MonoBehaviour {
         m_lastUpdatedLanguage = Game.m_languages.GetLanguage("English");
 	}
 
-	void OnEnable() {
+	public void OnEnable() {
 		#if UNITY_EDITOR
         	if(PreloadLoadNextScene.m_loaded) UpdateMenuLanguage();
 

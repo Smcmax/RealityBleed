@@ -120,8 +120,11 @@ public class FileBrowserUI : MonoBehaviour {
                 Destroy(child.gameObject);
 
 		ScrollRect rect = m_viewerParent.transform.GetComponentInParent<ScrollRect>();
-		rect.verticalNormalizedPosition = 1;
-        rect.horizontalNormalizedPosition = 0;
+
+		if(rect != null) {
+			rect.verticalNormalizedPosition = 1;
+			rect.horizontalNormalizedPosition = 0;
+		}
 	}
 
 	public class FileButton : ClickHandler {

@@ -1,0 +1,445 @@
+{
+    "m_name": "Polski",
+    "m_entries": [
+        {
+            "m_key": "Quality",
+            "m_line": "Jakość"
+        },
+        {
+            "m_key": "Very Low",
+            "m_line": "Bardzo Niska"
+        },
+        {
+            "m_key": "Low",
+            "m_line": "Niska"
+        },
+        {
+            "m_key": "Medium",
+            "m_line": "Średnia"
+        },
+        {
+            "m_key": "High",
+            "m_line": "Wysoka"
+        },
+        {
+            "m_key": "Very High",
+            "m_line": "Bardzo Wysoka"
+        },
+        {
+            "m_key": "Ultra",
+            "m_line": "Ultra"
+        },
+        {
+            "m_key": "Unlimited FPS",
+            "m_line": "Bez Limitu"
+        },
+        {
+            "m_key": "{0} FPS",
+            "m_line": "{0} FPS"
+        },
+        {
+            "m_key": "No Shadows",
+            "m_line": "Brak Cieni"
+        },
+        {
+            "m_key": "No Object Shadows",
+            "m_line": "Brak Cieni Obiektu"
+        },
+        {
+            "m_key": "No Projectile Shadows",
+            "m_line": "Brak Cieni Pocisku"
+        },
+        {
+            "m_key": "All Shadows",
+            "m_line": "Wszystkie Cienie"
+        },
+        {
+            "m_key": "Brightness: {0}%",
+            "m_line": "Jasność: {0}%"
+        },
+        {
+            "m_key": "Master: {0}%",
+            "m_line": "Ogólna: {0}%"
+        },
+        {
+            "m_key": "VSync",
+            "m_line": "VSync"
+        },
+        {
+            "m_key": "Show FPS",
+            "m_line": "Pokaż FPS"
+        },
+        {
+            "m_key": "Apply",
+            "m_line": "Zastosuj"
+        },
+        {
+            "m_key": "Enemy Health Bars",
+            "m_line": "Pasek Zdrowia Przeciwników"
+        },
+        {
+            "m_key": "Auto Loot",
+            "m_line": "Automatyczny Łup"
+        },
+        {
+            "m_key": "Sensitivity: {0}%",
+            "m_line": "Sensivitity: {0}%"
+        },
+        {
+            "m_key": "Cursor Size: {0}%",
+            "m_line": "Cursor Size: {0}%"
+        },
+        {
+            "m_key": "Edit Keybinds",
+            "m_line": "Edytuj klawisze"
+        },
+        {
+            "m_key": "Video",
+            "m_line": "Wideo"
+        },
+        {
+            "m_key": "Audio",
+            "m_line": "Audio"
+        },
+        {
+            "m_key": "Gameplay",
+            "m_line": "Rozgrywka"
+        },
+        {
+            "m_key": "Controls",
+            "m_line": "Sterownie"
+        },
+        {
+            "m_key": "Play",
+            "m_line": "Graj"
+        },
+        {
+            "m_key": "Continue",
+            "m_line": "Kontynuuj"
+        },
+        {
+            "m_key": "Options",
+            "m_line": "Opcje"
+        },
+        {
+            "m_key": "Level Editor",
+            "m_line": "Edytor Poziomów"
+        },
+        {
+            "m_key": "Main Menu",
+            "m_line": "Menu Główne"
+        },
+        {
+            "m_key": "Quit",
+            "m_line": "Wyjście"
+        },
+        {
+            "m_key": "Abilities",
+            "m_line": "Zdolności"
+        },
+        {
+            "m_key": "Skills",
+            "m_line": "Umiejętności"
+        },
+        {
+            "m_key": "Hotkey",
+            "m_line": "Skróty klawiszowe"
+        },
+        {
+            "m_key": "Unbound",
+            "m_line": "Unbound"
+        },
+        {
+            "m_key": "Hotkey {0}",
+            "m_line": "Skrót {0}"
+        },
+        {
+            "m_key": "Chain Abilities",
+            "m_line": "Zdolności Łańcuchowe"
+        },
+        {
+            "m_key": "Save Chain",
+            "m_line": "Zapisz Łańcuch"
+        },
+        {
+            "m_key": "Close",
+            "m_line": "Zamknij"
+        },
+        {
+            "m_key": "Yes",
+            "m_line": "Tak"
+        },
+        {
+            "m_key": "No",
+            "m_line": "Nie"
+        },
+        {
+            "m_key": "You are about to destroy {0}.\nAre you sure you want to do this?",
+            "m_line": "Zaraz zniszczysz {0}.\nJesteś pewien że chcesz to zrobić?"
+        },
+        {
+            "m_key": "Shot {0}",
+            "m_line": "Zraniono {0}"
+        },
+        {
+            "m_key": "{0}s cooldown",
+            "m_line": "{0}s czasu odnowienia"
+        },
+        {
+            "m_key": "Shots: {0}",
+            "m_line": "Strzały: {0}"
+        },
+        {
+            "m_key": "Damage: {0}",
+            "m_line": "Obrażenia: {0}"
+        },
+        {
+            "m_key": "Range: {0}",
+            "m_line": "Zasięg: {0}"
+        },
+        {
+            "m_key": "Piercing",
+            "m_line": "Przebija"
+        },
+        {
+            "m_key": "- Armor",
+            "m_line": "- Pancerz"
+        },
+        {
+            "m_key": "{0} Mana",
+            "m_line": "{0} Mana"
+        },
+        {
+            "m_key": "Durability: {0}%",
+            "m_line": "Wytrzymałość: {0}%"
+        },
+        {
+            "m_key": "Sell Price: {0}g",
+            "m_line": "Wartość: {0}g"
+        },
+        {
+            "m_key": "Active",
+            "m_line": "Aktywny"
+        },
+        {
+            "m_key": "Passive",
+            "m_line": "Pasywny"
+        },
+        {
+            "m_key": "Training Level: {0}",
+            "m_line": "Poziom Szkolenia: {0}"
+        },
+        {
+            "m_key": "EXP to next level: {0}",
+            "m_line": "PD do następnego poziomu: {0}"
+        },
+        {
+            "m_key": "Air",
+            "m_line": "Powietrze"
+        },
+        {
+            "m_key": "Earth",
+            "m_line": "Ziemia"
+        },
+        {
+            "m_key": "Electric",
+            "m_line": "Elektryczność"
+        },
+        {
+            "m_key": "Fire",
+            "m_line": "Ogień"
+        },
+        {
+            "m_key": "Holy",
+            "m_line": "Światło"
+        },
+        {
+            "m_key": "Ice",
+            "m_line": "Lód"
+        },
+        {
+            "m_key": "Normal",
+            "m_line": "Zwykły"
+        },
+        {
+            "m_key": "Poison",
+            "m_line": "Trujący"
+        },
+        {
+            "m_key": "Void",
+            "m_line": "Pustka"
+        },
+        {
+            "m_key": "Water",
+            "m_line": "Woda"
+        },
+        {
+            "m_key": "Main Hand",
+            "m_line": "Główna Dłoń"
+        },
+        {
+            "m_key": "Off Hand",
+            "m_line": "Druga Dłoń"
+        },
+        {
+            "m_key": "One-Hand",
+            "m_line": "Jednoręczny"
+        },
+        {
+            "m_key": "Two-Hand",
+            "m_line": "Dwuręczny"
+        },
+        {
+            "m_key": "Helmet",
+            "m_line": "Hełm"
+        },
+        {
+            "m_key": "Chestpiece",
+            "m_line": "Napierśnik"
+        },
+        {
+            "m_key": "Leggings",
+            "m_line": "Spodnie"
+        },
+        {
+            "m_key": "Boots",
+            "m_line": "Buty"
+        },
+        {
+            "m_key": "Trinket",
+            "m_line": "Talizman"
+        },
+        {
+            "m_key": "Ring",
+            "m_line": "Pierścień"
+        },
+        {
+            "m_key": "Normal Item",
+            "m_line": "Zwykły Przedmiot"
+        },
+        {
+            "m_key": "Sword",
+            "m_line": "Miecz"
+        },
+        {
+            "m_key": "Dagger",
+            "m_line": "Sztylet"
+        },
+        {
+            "m_key": "Axe",
+            "m_line": "Siekiera"
+        },
+        {
+            "m_key": "Polearm",
+            "m_line": "Drzewiec"
+        },
+        {
+            "m_key": "Mace",
+            "m_line": "Maczuga"
+        },
+        {
+            "m_key": "Staff",
+            "m_line": "Laska"
+        },
+        {
+            "m_key": "Wand",
+            "m_line": "Różdżka"
+        },
+        {
+            "m_key": "Crossbow",
+            "m_line": "Kusza"
+        },
+        {
+            "m_key": "Bow",
+            "m_line": "Łuk"
+        },
+        {
+            "m_key": "Test Sword",
+            "m_line": "Miecz Testowy"
+        },
+        {
+            "m_key": "Sample Description",
+            "m_line": "Przykłądowy Opis"
+        },
+        {
+            "m_key": "Test Sword v2",
+            "m_line": "Miecz Testowy v2"
+        },
+        {
+            "m_key": "Arrow",
+            "m_line": "Strzała"
+        },
+        {
+            "m_key": "This is a regular arrow",
+            "m_line": "To zwykła strzała"
+        },
+        {
+            "m_key": "Straight FPS Test Sword",
+            "m_line": "Prosty Miecz Testujący FPS"
+        },
+        {
+            "m_key": "The glorious FPS Testing sword",
+            "m_line": "Wspaniały Miecz Testujący FPS"
+        },
+        {
+            "m_key": "Wavy FPS Test Sword",
+            "m_line": "Falisty Miecz Testujący FPS"
+        },
+        {
+            "m_key": "Test Left Click Extra",
+            "m_line": "Test Lewego Kliknięcia"
+        },
+        {
+            "m_key": "Test Right Click Extra",
+            "m_line": "Test Prawego Kliknięcia"
+        },
+        {
+            "m_key": "Test Air Ability",
+            "m_line": "Testuj Mobilność Powietrzną"
+        },
+        {
+            "m_key": "Summons a gust of wind.",
+            "m_line": "Przywołuje poryw wiatru."
+        },
+        {
+            "m_key": "Summons a gust of wind, dealing {damage} damage.{newLine}Costs {manaCost} mana.",
+            "m_line": "Przywołuje poryw wiatru, zadając {damage} obrażeń.{newLine}Kosztuje {manaCost} many."
+        },
+        {
+            "m_key": "Test Fire Ability",
+            "m_line": "Testowa umiejętność ognista"
+        },
+        {
+            "m_key": "Shoots a fire wave.",
+            "m_line": "Strzela falą ognia."
+        },
+        {
+            "m_key": "Shoots a fire wave, dealing {damage} damage.{newLine}Costs {manaCost} mana.",
+            "m_line": "Strzela falą ognia, zdając {damage} obrażeń.{newLine}Kosztuje {manaCost} many."
+        },
+        {
+            "m_key": "Test Dex Skill",
+            "m_line": "Testowa umiejętność ZRĘ"
+        },
+        {
+            "m_key": "Increases DEX.",
+            "m_line": "Zwiększa ZRĘ."
+        },
+        {
+            "m_key": "Increases DEX by {value}.",
+            "m_line": "Zwiększa ZRĘ o {value}."
+        },
+        {
+            "m_key": "Test Int Skill",
+            "m_line": "Testowa umiejęność INT"
+        },
+        {
+            "m_key": "Increases INT.",
+            "m_line": "Zwiększa INT."
+        },
+        {
+            "m_key": "Increases INT by {value}.",
+            "m_line": "Zwiększa INT o {value}."
+        }
+    ]
+}

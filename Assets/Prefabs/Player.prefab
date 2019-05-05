@@ -430,8 +430,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerId: -1
   m_distanceFromCamera: 2
-  m_cursorSpeed: 1
-  m_spriteScale: 0.5
   m_mousePrefab: {fileID: 1736400387787230, guid: 114f503d46f4260419910cdf3df77251,
     type: 2}
   m_mouseParent: {fileID: 1099763796712776}
@@ -766,6 +764,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_immunityWindow: 0
+  m_useLocalHealth: 0
+  m_maxHealth: 0
+  m_health: 0
   m_healthBarTemplate: {fileID: 0}
   m_healthBarOffset: {x: 0, y: 0.4, z: 0}
   m_damageEvent:
@@ -800,7 +801,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_entity: {fileID: 0}
 --- !u!114 &114269843998028806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -874,7 +874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcaf86420ae0634ab9be7ddb699ece4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_entity: {fileID: 114332108090814936}
 --- !u!114 &114924461057312282
 MonoBehaviour:
   m_ObjectHideFlags: 1

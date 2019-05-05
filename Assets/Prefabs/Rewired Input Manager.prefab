@@ -481,7 +481,7 @@ MonoBehaviour:
     inputBehaviors:
     - _id: 0
       _name: Default
-      _joystickAxisSensitivity: 1
+      _joystickAxisSensitivity: 1.5
       _digitalAxisSimulation: 1
       _digitalAxisSnap: 1
       _digitalAxisInstantReverse: 0
@@ -491,8 +491,8 @@ MonoBehaviour:
       _mouseOtherAxisMode: 0
       _mouseXYAxisSensitivity: 1.5
       _mouseXYAxisDeltaCalc: 0
-      _mouseOtherAxisSensitivity: 1
-      _customControllerAxisSensitivity: 1
+      _mouseOtherAxisSensitivity: 1.5
+      _customControllerAxisSensitivity: 1.5
       _buttonDoublePressSpeed: 0.3
       _buttonShortPressTime: 0.25
       _buttonShortPressExpiresIn: 0
@@ -840,7 +840,7 @@ MonoBehaviour:
         _elementIdentifierId: 19
         _axisRange: 0
         _invert: 0
-        _axisContribution: 1
+        _axisContribution: 0
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0
@@ -851,7 +851,7 @@ MonoBehaviour:
         _elementIdentifierId: 21
         _axisRange: 0
         _invert: 0
-        _axisContribution: 0
+        _axisContribution: 1
         _keyboardKeyCode: 0
         _modifierKey1: 0
         _modifierKey2: 0

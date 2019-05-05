@@ -66,7 +66,7 @@ public class PlayerCursor : MonoBehaviour {
 		//m_mouse.middleButton.actionName = "UIInteract3";
 		m_mouse.wheel.yAxis.actionName = "UIWheelY";
 
-		float sens = (float) Game.m_options.LoadOptionInt("Sensitivity" + "_" + p_playerId, 100).GetInt() / 100f;
+		float sens = (float) Game.m_options.LoadOptionInt("Sensitivity" + "_" + p_playerId, 100).GetInt() / 50f;
 		float size = (float) Game.m_options.LoadOptionInt("CursorSize" + "_" + p_playerId, 100).GetInt() / 200f;
 
         m_mouse.pointerSpeed = sens;

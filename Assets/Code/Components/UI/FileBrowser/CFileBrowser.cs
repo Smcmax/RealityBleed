@@ -197,14 +197,20 @@ public class CFileBrowser : MonoBehaviour {
 		if(!CompatibleFileExtension(m_ui.GetFileName())) return;
 
 		OnFileSelect(m_currentPath + "/" + m_ui.GetFileName());
-        Destroy(m_ui.gameObject);
-        MenuHandler.Instance.OpenMenu(m_menu.m_previousMenu);
+		CloseBrowser();
 	}
 
 	public void CloseFileBrowser() {
 		OnFileBrowserClose("");
+		CloseBrowser();
+	}
+
+	private void CloseBrowser() {
 		Destroy(m_ui.gameObject);
-		MenuHandler.Instance.OpenMenu(m_menu.m_previousMenu);
+
+		if(m_menu.m_previousMenu is TabMenu)
+			MenuHandler.Instance.OpenTabMenu((TabMenu) m_menu.m_previousMenu);
+		else MenuHandler.Instance.OpenMenu(m_menu.m_previousMenu);
 	}
 
 	private void LoadDirectories() {

@@ -154,7 +154,10 @@ public class MenuHandler : MonoBehaviour {
 		if(!gameObject.activeSelf) { MenuHandler.Instance.CloseControlMapper(); return; }
 
 		Game.m_controlMapperMenu.gameObject.transform.parent.GetComponent<ControlMapper>().Close(true); // save settings
-		OpenMenu(m_previousControlMapperMenu);
+
+		if(m_previousControlMapperMenu is TabMenu) OpenTabMenu((TabMenu) m_previousControlMapperMenu);
+		else OpenMenu(m_previousControlMapperMenu);
+
 		CloseMenu(Game.m_controlMapperMenu); // close it internally, it's already closed though
 		m_previousControlMapperMenu = null;
 	}
@@ -176,11 +179,23 @@ public class MenuHandler : MonoBehaviour {
 			}
 		}
 
+		if(p_menu is TabMenu) ((TabMenu) p_menu).ResetTab();
+
 		m_openedMenus.Add(p_menu);
 		m_onMenuChangedEvent.Raise();
 
 		if(m_handlingPlayer != null && Player.m_players.Count > 0) 
 			Player.GetPlayerFromId(m_handlingPlayer.id).m_mouse.ChangeMode(CursorModes.CURSOR, false);
+	}
+
+	public void OpenTabMenu(TabMenu p_menu) { 
+		OpenTabMenu(p_menu, p_menu.m_currentTab);
+	}
+
+	public void OpenTabMenu(TabMenu p_menu, string p_tabName) { 
+		OpenMenu(p_menu);
+
+		p_menu.Select(p_tabName);
 	}
 
 	public void CloseMenu(Menu p_menu) {

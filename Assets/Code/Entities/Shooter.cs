@@ -13,8 +13,9 @@ public class Shooter : MonoBehaviour {
 	public UnityEvent m_shotEvent;
 
 	[HideInInspector] public Entity m_entity;
-	private Dictionary<ShotPattern, DataHolder> m_patterns;
+	private Dictionary<ShotPattern, DataHolder> m_patterns = new Dictionary<ShotPattern, DataHolder>();
 
+	// only if it's an entity, shooter supports non-entities
 	public void Init(Entity p_entity) {
 		m_entity = p_entity;
 		m_patterns = new Dictionary<ShotPattern, DataHolder>();
@@ -25,6 +26,7 @@ public class Shooter : MonoBehaviour {
 	}
 
 	public bool ConsumeMana(ShotPattern p_pattern) {
+		if(!m_entity) return true;
 		if(GetMana() - p_pattern.m_manaPerStep < 0) return false;
 
 		m_entity.m_stats.AddModifier(Stats.MP, (int) -p_pattern.m_manaPerStep, 0);
@@ -39,6 +41,7 @@ public class Shooter : MonoBehaviour {
 		object active = GetPatternInfo(p_pattern, "active");
 		if(m_patterns.ContainsKey(p_pattern) && active != null && (bool) active) return false;
 		if(m_patternCooldown == 0) return true;
+		if(m_entity && GetMana() - p_pattern.m_manaPerStep < 0) return false;
 		if(!CanLoop(p_pattern)) return false;
 		if(p_pattern.m_bypassShooterCooldown) return true;
 
@@ -55,7 +58,6 @@ public class Shooter : MonoBehaviour {
 
 	public void Shoot(ShotPattern p_pattern) {
 		if(!CanShoot(p_pattern)) return;
-		if(GetMana() - p_pattern.m_manaPerStep < 0) return;
 
 		m_lastShot = Time.time * 1000;
 
@@ -115,10 +117,10 @@ public class Shooter : MonoBehaviour {
 	}
 
 	// this is the pure event, with no modifications applied prior
-	public void Damage(Projectile p_projectile, Entity p_entity) {
+	public void Damage(Projectile p_projectile, IDamageable p_damageable) {
 		int finalDamage = p_projectile.m_info.m_damage;
 
 		finalDamage += m_entity.m_stats.GetStatEffect(p_projectile.m_info.m_statApplied);
-		p_entity.Damage(m_entity, p_projectile.m_info.m_damageType, finalDamage, p_projectile.m_info.m_armorPiercing, false);
+		p_damageable.OnDamage(this, p_projectile.m_info.m_damageType, finalDamage, p_projectile.m_info.m_armorPiercing, false);
 	}
 }

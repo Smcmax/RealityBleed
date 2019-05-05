@@ -9,7 +9,8 @@ public class DamageEffect : Effect {
 	[Tooltip("The type of damage inflicted to the entity every time this effects ticks")]
 	public DamageType m_type;
 
-	public override void Tick(Entity p_target){ 
-		p_target.Damage(null, m_type, m_damage, true, true);
+	public override void Tick(IEffectable p_target) { 
+		if(p_target is IDamageable)
+			((IDamageable) p_target).OnDamage(null, m_type, m_damage, true, true);
 	}
 }

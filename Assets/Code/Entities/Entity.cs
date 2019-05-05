@@ -4,7 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Equipment), typeof(Inventory), typeof(UnitStats))]
-public class Entity : MonoBehaviour {
+public class Entity : MonoBehaviour, IDamageable, IEffectable {
 
 	[Tooltip("The movement controller")]
 	public CharController m_controller;
@@ -112,6 +112,19 @@ public class Entity : MonoBehaviour {
 		m_controller.m_speed = m_stats.GetStatEffectFloat(Stats.SPD);
 	}
 
+	public void ApplyEffect(Effect p_effect) {
+		if(!p_effect.TriggerCheck()) return;
+
+		// effects are ticked in the repeating tick loop FIRST to sync it up with everything else
+		// otherwise you could have a 1ms delay between 2 effect ticks
+		m_effectsActive.Add(p_effect, Time.time * 1000);
+	}
+
+	public void ApplyEffects(List<Effect> p_effects) {
+		foreach(Effect effect in p_effects)
+			ApplyEffect(effect);
+	}
+
 	private void TickEffects() {
 		foreach(Effect effect in new List<Effect>(m_effectsActive.Keys)) {
 			effect.Tick(this);
@@ -129,19 +142,6 @@ public class Entity : MonoBehaviour {
 
 			if(remove) m_effectsActive.Remove(effect);
 		}
-	}
-
-	public void ApplyEffects(List<Effect> p_effects) { 
-		foreach(Effect effect in p_effects)
-			ApplyEffect(effect);
-	}
-
-	public void ApplyEffect(Effect p_effect) {
-		if(!p_effect.TriggerCheck()) return;
-
-		// effects are ticked in the repeating tick loop FIRST to sync it up with everything else
-		// otherwise you could have a 1ms delay between 2 effect ticks
-		m_effectsActive.Add(p_effect, Time.time * 1000);
 	}
 
 	public void UseAbility(Ability p_ability) { 
@@ -174,7 +174,7 @@ public class Entity : MonoBehaviour {
 		}
 	}
 
-	public void Damage(Entity p_entity, DamageType p_type, int p_damage, bool p_bypassDefense, bool p_bypassImmunityWindow){
+	public void OnDamage(Shooter p_damager, DamageType p_type, int p_damage, bool p_bypassDefense, bool p_bypassImmunityWindow) {
 		if(m_health) {
 			int finalDamage = p_damage;
 			int effective = p_type.IsEffectiveAgainst(m_type);
@@ -186,42 +186,19 @@ public class Entity : MonoBehaviour {
 			int resistance = Mathf.FloorToInt(m_modifiers.GetModifier(p_type.m_name + " Resistance"));
 			finalDamage -= resistance;
 
-			if(finalDamage > 0) {
-				if(m_feedbackTemplate) GenerateFeedback(p_type, -finalDamage, p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT);
-				m_health.Damage(finalDamage, p_bypassImmunityWindow);
-			} else if(m_feedbackTemplate) GenerateFeedback(p_type, 0, p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT);
+			if(m_feedbackTemplate && (!m_health.IsImmune() || p_bypassImmunityWindow))
+				FeedbackGenerator.GenerateFeedback(transform, m_feedbackTemplate, p_type, -finalDamage, m_feedbackColor,
+												   p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT,
+												   m_feedbackPositionRandomness.x, m_feedbackPositionRandomness.y);
+
+			if(finalDamage > 0) m_health.Damage(finalDamage, p_bypassImmunityWindow);
 		}
 
-		// make sure the AI starts targeting its last damager
-		if(m_ai && p_entity) m_ai.m_target = p_entity;
+		// make sure the AI starts targeting its last damager (if it's an entity)
+		if(m_ai && p_damager && p_damager.m_entity) m_ai.m_target = p_damager.m_entity;
 	}
 
-	// display color is transparent if no specified color
-	public void GenerateFeedback(DamageType p_type, int p_amount, Color p_displayColor) {
-		GameObject feedback = Instantiate(m_feedbackTemplate, m_feedbackTemplate.transform.parent);
-        TextMeshProUGUI feedbackText = feedback.GetComponent<TextMeshProUGUI>();
-		Image damageTypeIcon = feedback.GetComponentInChildren<Image>();
-		UIWorldSpaceFollower follow = feedback.GetComponent<UIWorldSpaceFollower>();
-		Color feedbackColor = m_feedbackColor;
-
-		if(p_displayColor == Constants.TRANSPARENT) { // transparent means nothing specified
-			if(m_feedbackColor == Constants.TRANSPARENT)
-				feedbackColor = p_amount > 0 ? Constants.GREEN : Constants.RED;
-		} else feedbackColor = p_displayColor;
-
-		if(p_type.m_icon) damageTypeIcon.sprite = p_type.m_icon;
-		else damageTypeIcon.enabled = false;
-
-		feedbackText.text = p_amount > 0 ? p_amount.ToString() : Mathf.Abs(p_amount).ToString();
-		feedbackText.color = feedbackColor;
-		follow.m_parent = transform;
-		follow.m_offset += new Vector3(Random.Range(-m_feedbackPositionRandomness.x / 2, m_feedbackPositionRandomness.x / 2), 
-										      Random.Range(-m_feedbackPositionRandomness.y / 2, m_feedbackPositionRandomness.y / 2));
-
-		feedback.SetActive(true);
-	}
-
-	public void Kill() {
+	public void OnDeath() {
 		if(m_canDie && !m_isDead) {
 			m_isDead = true;
 			Die();
@@ -246,4 +223,3 @@ public class Entity : MonoBehaviour {
 		Destroy(m_stats);
 	}
 }
-

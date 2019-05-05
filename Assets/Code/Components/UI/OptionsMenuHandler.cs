@@ -311,14 +311,14 @@ public class OptionsMenuHandler : MonoBehaviour {
 	/*   Controls Settings    */
 	////////////////////////////
 
-	// 0% - 200% with 200% being 2
+	// 0% - 250% with 250% being 5
 	public void SetPlayerCursorSpeed(int p_speed) {
         if(MenuHandler.Instance && MenuHandler.Instance.m_handlingPlayer != null) {
             if(Player.m_players.Count > 0)
-            	Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id).m_mouse.SetCursorSpeed((float) p_speed / 100f);
+            	Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id).m_mouse.SetCursorSpeed((float) p_speed / 50f);
 			else {
                 GameObject.Find("PlayerCursor" + MenuHandler.Instance.m_handlingPlayer.id)
-          				  .GetComponent<PlayerCursor>().SetCursorSpeed((float) p_speed / 100f);
+          				  .GetComponent<PlayerCursor>().SetCursorSpeed((float) p_speed / 50f);
 			}
 		}
 	}

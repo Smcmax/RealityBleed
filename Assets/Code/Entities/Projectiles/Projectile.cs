@@ -94,21 +94,21 @@ public class Projectile : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D p_collision) {
 		Collider2D collider = p_collision.collider;
-
-		bool hitEntity = false;
+		bool hit = false;
 
 		if(collider.gameObject != gameObject) {
 			CollisionRelay relay = collider.GetComponent<CollisionRelay>();
 
 			if(relay != null) {
-				m_shooter.Damage(this, relay.m_entity);
+				m_shooter.Damage(this, relay.m_damageable);
 
-				hitEntity = true;
+				hit = true;
 			}
 		}
 
-		if(m_info.m_piercing && hitEntity) Physics2D.IgnoreCollision(p_collision.otherCollider, collider);
-		if(!m_info.m_piercing || !hitEntity) Disable(true);
+		if(m_info.m_piercing && hit && collider.transform.parent.tag == "NoProjCollision") Disable(true);
+		if(m_info.m_piercing && hit) Physics2D.IgnoreCollision(p_collision.otherCollider, collider);
+		if(collider.tag != "NoProjCollision" && (!m_info.m_piercing || !hit)) Disable(true);
 	}
 
 	public void Disable(bool p_removeFromProjPool) {

@@ -3,8 +3,9 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class CursorSelector : MonoBehaviour {
+public class CursorSelector : Selectable {
 
 	[Tooltip("The image displaying the current cursor")]
 	public Image m_spriteDisplay;
@@ -14,9 +15,24 @@ public class CursorSelector : MonoBehaviour {
 
 	private List<FileSprite> m_sprites;
 	private int m_currentIndex;
+	private bool m_xPressed = false;
 
-	void OnEnable() {
+	protected override void OnEnable() {
+		base.OnEnable();
 		Load();
+	}
+
+	void Update() {
+		if(EventSystem.current.currentSelectedGameObject == gameObject) {
+			float xAxis = MenuHandler.Instance.m_handlingPlayer.GetAxisRaw("UIMoveX");
+
+			if(xAxis != 0 && !m_xPressed) {
+				m_xPressed = true;
+
+				if(xAxis > 0) Next();
+				else if(xAxis < 0) Previous();
+			} else if(Math.Abs(xAxis) < 0.01f) m_xPressed = false;
+		}
 	}
 
 	public void Load() {
@@ -28,7 +44,7 @@ public class CursorSelector : MonoBehaviour {
         string loadedCursor = Game.m_options.Get("CursorSprite", MenuHandler.Instance.m_handlingPlayer.id).GetString();
 		int index = 0;
 
-        foreach(string file in System.IO.Directory.GetFiles(Application.dataPath + "/Data/Cursors/")) {
+        foreach(string file in Directory.GetFiles(Application.dataPath + "/Data/Cursors/")) {
 			if(file.ToLower().EndsWith(".png")) {
 				Sprite sprite = SpriteUtils.LoadSpriteFromFile(file);
 				string name = Path.GetFileNameWithoutExtension(file);
@@ -55,7 +71,9 @@ public class CursorSelector : MonoBehaviour {
 		string copiedFile = Application.dataPath + "/Data/Cursors/" + Path.GetFileName(p_file);
 
 		File.Copy(p_file, copiedFile);
+		Game.m_options.Get("CursorSprite", MenuHandler.Instance.m_handlingPlayer.id).Save(Path.GetFileNameWithoutExtension(p_file));
 		Load();
+		GetPlayerCursor().SetCursorImage(m_sprites[m_currentIndex].Sprite);
 	}
 
 	public void Apply() {

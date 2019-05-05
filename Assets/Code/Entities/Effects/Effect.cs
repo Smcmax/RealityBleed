@@ -12,5 +12,5 @@ public abstract class Effect : ScriptableObject {
 		return Random.Range(0, 100) <= m_triggerChance;
 	}
 
-	public abstract void Tick(Entity p_target);
+	public abstract void Tick(IEffectable p_target);
 }
