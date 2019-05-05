@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
 public class OptionsMenuHandler : MonoBehaviour {
 
 	[Tooltip("The dropdown handling the resolutions")]
-	public Dropdown m_resolutionDropdown;
+	public TMP_Dropdown m_resolutionDropdown;
+
+	[Tooltip("The dropdown handling the language selection")]
+	public TMP_Dropdown m_languageDropdown;
 
 	[Tooltip("The toggle for vsync")]
 	public Toggle m_vsyncToggle;
@@ -15,7 +19,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 	public AdaptativeSliderText m_framerateSlider;
 
 	[Tooltip("The dropdown handling the quality settings")]
-	public Dropdown m_qualityDropdown;
+	public TMP_Dropdown m_qualityDropdown;
 
 	[Tooltip("The canvas containing all the health bars")]
 	public Canvas m_hpBarsCanvas;
@@ -31,6 +35,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 	private int m_originalShadows = -1;
 	private Resolution m_resolution;
 	private Resolution[] m_resolutions;
+	private Language[] m_languages;
 
 	private OptionsMenuHandler() { }
 
@@ -46,34 +51,70 @@ public class OptionsMenuHandler : MonoBehaviour {
 		m_framerateSlider.m_unlimited = -1;
 		m_qualityDropdown.value = m_qualityLevel;
 
-		PopulateResolutions();
+		PopulateResolutions(false);
+		CheckForResolutionIssues();
+        m_resolutionDropdown.RefreshShownValue();
+
+		PopulateLanguages();
+        m_languageDropdown.RefreshShownValue();
+	}
+
+	void OnEnable() {
+		StartCoroutine(UpdateResolution());
+		StartCoroutine(UpdateLanguage());
 	}
 
 	////////////////////////
-	/*  Video Settings  */
+	/*   Video Settings   */
 	////////////////////////
 
-	private void PopulateResolutions() {
+	private void PopulateResolutions(bool p_forceCurrentRefreshRate) {
 		m_resolutions = Screen.resolutions;
+		List<Resolution> resolutions = new List<Resolution>(m_resolutions);
 		List<Resolution> availableResolutions = new List<Resolution>();
 
-		for(int i = 0; i < m_resolutions.Length; i++) {
-			if(Screen.currentResolution.refreshRate != m_resolutions[i].refreshRate) continue;
+		resolutions.Sort(delegate(Resolution p_x, Resolution p_y) {
+			if(p_x.width > p_y.width) return 1;
+			else if(p_x.width < p_y.width) return -1;
+			else if(p_x.height > p_y.height) return 1;
+			else if(p_x.height < p_y.height) return -1;
 
-			Dropdown.OptionData data = new Dropdown.OptionData(ResolutionToString(m_resolutions[i]));
+			return 0;
+		});
+
+		for(int i = 0; i < resolutions.Count; i++) {
+			if(!p_forceCurrentRefreshRate && Screen.currentResolution.refreshRate != m_resolutions[i].refreshRate) continue;
+
+			Resolution res = resolutions[i];
+
+			if(p_forceCurrentRefreshRate) {
+				res = new Resolution();
+
+				res.width = resolutions[i].width;
+				res.height = resolutions[i].height;
+				res.refreshRate = Screen.currentResolution.refreshRate;
+			}
+
+            TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData(ResolutionToString(res));
 			m_resolutionDropdown.options.Add(data);
 
-			availableResolutions.Add(m_resolutions[i]);
+			availableResolutions.Add(res);
+			Debug.Log("Added res: " + ResolutionToString(res) + "@" + res.refreshRate + "hz");
 
 			if(!Screen.fullScreen) { 
-				if(Screen.width == m_resolutions[i].width && Screen.height == m_resolutions[i].height) {
+				if(Screen.width == res.width && Screen.height == res.height) {
 					m_resolutionDropdown.value = i;
-					m_resolution = m_resolutions[i];
+					m_resolution = res;
 				}
-			} else if(Screen.currentResolution.Equals(m_resolutions[i])) {
+			} else if(Screen.currentResolution.Equals(res)) {
 				m_resolutionDropdown.value = i;
-				m_resolution = m_resolutions[i];
+				m_resolution = res;
 			}
+		}
+
+		if(availableResolutions.Count == 0 && !p_forceCurrentRefreshRate) {
+			PopulateResolutions(true);
+			return;
 		}
 
 		m_resolutions = new Resolution[availableResolutions.Count];
@@ -82,11 +123,56 @@ public class OptionsMenuHandler : MonoBehaviour {
 			m_resolutions[i] = availableResolutions[i];
 	}
 
+	private void CheckForResolutionIssues() {
+		if(Screen.currentResolution.width <= 1 || Screen.width <= 1 ||
+		   Screen.currentResolution.height <= 1 || Screen.height <= 1 ||
+		   Screen.currentResolution.refreshRate == 0) {
+			   Debug.Log("Resolution isn't properly set, fixing...");
+			   ApplyResolution(m_resolution.width,
+								m_resolution.height,
+								FullScreenMode.Windowed,
+								m_resolution.refreshRate);
+			   StartCoroutine(SizeBackUp());
+		   }
+	}
+
+	private IEnumerator SizeBackUp() {
+		yield return new WaitForSecondsRealtime(0.5f);
+
+		ApplyResolution();
+
+		Debug.Log("Resolution fixed!");
+	}
+
 	private IEnumerator UpdateResolution() { 
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSecondsRealtime(1f);
 
 		m_resolutionDropdown.ClearOptions();
-		PopulateResolutions();
+		PopulateResolutions(false);
+		CheckForResolutionIssues();
+
+        m_resolutionDropdown.RefreshShownValue();
+	}
+
+	private IEnumerator UpdateLanguage() {
+        yield return new WaitForSecondsRealtime(1f);
+
+        m_languageDropdown.ClearOptions();
+        PopulateLanguages();
+
+        m_languageDropdown.RefreshShownValue();
+	}
+
+	private void PopulateLanguages() {
+		m_languages = Game.m_languages.m_languages.ToArray();
+
+		for(int i = 0; i < m_languages.Length; i++) {
+            TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData(m_languages[i].m_name);
+            m_languageDropdown.options.Add(data);
+
+			if(m_languages[i].m_name == Game.m_languages.GetCurrentLanguage().m_name)
+				m_languageDropdown.value = i;
+		}
 	}
 
 	public void ApplyOptions() {
@@ -131,6 +217,11 @@ public class OptionsMenuHandler : MonoBehaviour {
 								 p_height,
 								 p_fullscreen,
 								 p_refreshRate);
+	}
+
+	public void SetLanguage() {
+		Game.m_options.Get("Language").Save(m_languages[m_languageDropdown.value].m_name);
+		Game.m_languages.UpdateUILanguage();
 	}
 
 	public void SetVSync(bool p_vsync) { 
@@ -201,7 +292,7 @@ public class OptionsMenuHandler : MonoBehaviour {
 	}
 
 	////////////////////////
-	/*  Audio Settings  */
+	/*   Audio Settings   */
 	////////////////////////
 
 	public void SetMasterVolume(int p_volume) { 
@@ -209,20 +300,38 @@ public class OptionsMenuHandler : MonoBehaviour {
 	}
 
 	/////////////////////////////
-	/*  Gameplay Settings  */
-	////////////////////////////
+	/*   Gameplay Settings     */
+	/////////////////////////////
 
 	public void SetEnemyHealthBars(bool p_toggle) { 
 		m_hpBarsCanvas.gameObject.SetActive(p_toggle);
 	}
 
 	////////////////////////////
-	/*  Controls Settings  */
-	///////////////////////////
-	
-	public void SetCurrentKeybindProfile(string p_profile) { 
-		Game.m_keybinds.m_currentProfile = p_profile;
-		Game.m_keybinds.SaveCurrentProfile();
+	/*   Controls Settings    */
+	////////////////////////////
+
+	// 0% - 250% with 250% being 5
+	public void SetPlayerCursorSpeed(int p_speed) {
+        if(MenuHandler.Instance && MenuHandler.Instance.m_handlingPlayer != null) {
+            if(Player.m_players.Count > 0)
+            	Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id).m_mouse.SetCursorSpeed((float) p_speed / 50f);
+			else {
+                GameObject.Find("PlayerCursor" + MenuHandler.Instance.m_handlingPlayer.id)
+          				  .GetComponent<PlayerCursor>().SetCursorSpeed((float) p_speed / 50f);
+			}
+		}
 	}
-	
+
+	// 0% - 200% with 200% being 1
+	public void SetPlayerCursorSize(int p_size) {
+        if(MenuHandler.Instance && MenuHandler.Instance.m_handlingPlayer != null) {
+			if(Player.m_players.Count > 0)
+            	Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id).m_mouse.SetSpriteScale((float) p_size / 200f);
+			else {
+				GameObject.Find("PlayerCursor" + MenuHandler.Instance.m_handlingPlayer.id)
+						  .GetComponent<PlayerCursor>().SetSpriteScale((float) p_size / 200f);
+			}
+		}
+	}
 }

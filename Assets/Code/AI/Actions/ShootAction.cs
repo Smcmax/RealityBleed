@@ -13,6 +13,8 @@ public class ShootAction : Action {
 	public bool m_stopShootingOnTransition;
 
 	public override void Execute(StateController p_controller) {
+		if(m_forceTarget && !p_controller.m_target) return;
+
 		Shoot(p_controller);
 	}
 

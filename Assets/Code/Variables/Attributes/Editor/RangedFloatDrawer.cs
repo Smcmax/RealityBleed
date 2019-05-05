@@ -25,8 +25,8 @@ public class RangedFloatDrawer : PropertyDrawer {
 		var ranges = (MinMaxRangeAttribute[]) fieldInfo.GetCustomAttributes(typeof(MinMaxRangeAttribute), true);
 
 		if(ranges.Length > 0) {
-			rangeMin = ranges[0].Min;
-			rangeMax = ranges[0].Max;
+			rangeMin = ranges[0].FloatMin;
+			rangeMax = ranges[0].FloatMax;
 		}
 
 		const float rangeBoundsLabelWidth = 40f;

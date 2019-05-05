@@ -1,9 +1,12 @@
 ﻿[System.Serializable]
 public class IntReference {
-
 	public bool m_useConstant = true; // Whether or not the reference should use a constant value
-	public int m_constantValue;      // The constant value of this reference
-	public IntVariable m_variable;  // The variable value of this reference
+
+	[ConditionalField("m_useConstant", "true")] 
+	public int m_constantValue;       // The constant value of this reference
+
+	[ConditionalField("m_useConstant", "false")] 
+	public IntVariable m_variable;    // The variable value of this reference
 
 	public IntReference() { }
 

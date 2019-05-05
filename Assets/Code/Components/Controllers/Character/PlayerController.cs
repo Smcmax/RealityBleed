@@ -1,12 +1,25 @@
 ﻿using UnityEngine;
+using Rewired;
 
 public class PlayerController : MonoBehaviour {
 
 	public CharController m_controller;
 
+	[HideInInspector] public Player m_player;
+
 	void FixedUpdate() {
-		Vector2 move = new Vector2(SimpleInput.GetAxisRaw("MoveX") * Time.fixedDeltaTime,
-										  SimpleInput.GetAxisRaw("MoveY") * Time.fixedDeltaTime);
+		float xMove = m_player.m_rewiredPlayer.GetAxisRaw("MoveX");
+		float yMove = m_player.m_rewiredPlayer.GetAxisRaw("MoveY");
+
+        if(MenuHandler.Instance.m_openedMenus.Count > 0) {
+			xMove = 0;
+			yMove = 0;
+		}
+		
+		if(float.IsNaN(xMove)) xMove = 0;
+		if(float.IsNaN(yMove)) yMove = 0;
+
+		Vector2 move = new Vector2(xMove * Time.deltaTime, yMove * Time.deltaTime);
 
 		m_controller.Move(move);
 	}

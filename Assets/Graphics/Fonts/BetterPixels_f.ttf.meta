@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 01201c584a9554f12b005e57a34aeeaa
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: BetterPixels
+  fontNames:
+  - BetterPixels
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 0d5d9080324494c45949a42a91144137, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

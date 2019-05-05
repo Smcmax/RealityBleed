@@ -14,8 +14,6 @@ public class ObjectPooler : MonoBehaviour {
 	public GameObject m_object;
 
 	void Awake() {
-		if(GameObject.Find(gameObject.name) != gameObject) return;
-
 		SceneManager.sceneLoaded += OnSceneLoaded;
 
 		m_pool = new List<GameObject>();

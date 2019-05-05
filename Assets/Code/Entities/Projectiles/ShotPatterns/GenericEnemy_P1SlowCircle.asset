@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638cfabc96f5ad24da7fa947d473f597, type: 3}
+  m_Name: GenericEnemy_P1SlowCircle
+  m_EditorClassIdentifier: 
+  m_projectile: {fileID: 114832594043723404, guid: 8ad9103905720be47a9884ba2198205c,
+    type: 2}
+  m_projectileInfo: {fileID: 11400000, guid: b79c4928d7de44543ab7488f08ff4418, type: 2}
+  m_behaviours:
+  - {fileID: 11400000, guid: e7d1460f9e1b5a646a9011f9ce0921e3, type: 2}
+  - {fileID: 11400000, guid: 4794b7449d15cc44cbd5fb062d34c761, type: 2}
+  m_shots: 8
+  m_manaPerStep: 0
+  m_instant: 0
+  m_loop: 1
+  m_loopsBeforeSwitch: 0
+  m_patternCooldown: 0
+  m_bypassShooterCooldown: 0
+  m_stepDelay: 0.3125
+  m_nextPatterns: []
+  m_nextPatternSwitchDelay: 0
+  m_extraTooltipInfo: 
+  m_angleOffset: 0

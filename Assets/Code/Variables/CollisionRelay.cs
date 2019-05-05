@@ -2,10 +2,12 @@
 
 public class CollisionRelay : MonoBehaviour {
 
-	[Tooltip("The entity to relay the collision to")]
-	public Entity m_entity;
+	[HideInInspector] public IDamageable m_damageable;
 
 	void Awake() { 
-		m_entity.m_collisionRelay = this;
+		m_damageable = GetComponentInParent<IDamageable>();
+
+		if(m_damageable is Entity)
+			((Entity) m_damageable).m_collisionRelay = this;
 	}
 }

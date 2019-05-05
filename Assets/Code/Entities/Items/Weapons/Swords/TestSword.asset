@@ -17,7 +17,10 @@ MonoBehaviour:
   m_maxStackSize: 1
   m_sellPrice: 0
   m_equipmentSlots: 00000000
-  m_nameColor: {r: 0.5568628, g: 0.3254902, b: 0.6784314, a: 1}
+  m_nameColor:
+    m_useConstant: 1
+    m_constantValue: 5
+    m_variable: {r: 0, g: 0, b: 0, a: 0}
   m_description: Sample Description
   m_weaponType: 0
   m_statGainValues: 0f0000000a00000005000000020000000000000000000000000000000000000000000000

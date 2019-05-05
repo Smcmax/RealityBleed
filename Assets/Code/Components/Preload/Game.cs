@@ -1,17 +1,31 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using Rewired.UI.ControlMapper;
+using Rewired.Integration.UnityUI;
+using System.Threading;
 
 static class Game {
 	
-	public static KeybindManager m_keybinds;
+	public static AudioManager m_audio;
 	public static OptionManager m_options;
+	public static LanguageManager m_languages;
 	public static ProjectilePooler m_projPool;
+	public static RewiredStandaloneInputModule m_rewiredEventSystem;
+	public static ControlMapper m_controlMapper;
+	public static Menu m_controlMapperMenu;
 
 	static Game() {
 		GameObject game = SafeFind("_app");
 
-		m_keybinds = (KeybindManager) SafeComponent(game, "KeybindManager");
-		m_options = (OptionManager) SafeComponent(game, "OptionManager");
+        m_options = (OptionManager)SafeComponent(game, "OptionManager");
+        m_languages = (LanguageManager) SafeComponent(game, "LanguageManager");
+		m_audio = (AudioManager) SafeComponent(game, "AudioManager");
 		m_projPool = (ProjectilePooler) SafeComponent(SafeFind("ProjectilePooler"), "ProjectilePooler");
+		m_rewiredEventSystem = (RewiredStandaloneInputModule) SafeComponent(SafeFind("Rewired Event System"), "RewiredStandaloneInputModule");
+        m_controlMapper = (ControlMapper) SafeComponent(SafeFind("ControlMapper"), "ControlMapper");
+		m_controlMapperMenu = (Menu) SafeComponent(SafeFind("Canvas"), "Menu");
+
+		m_controlMapperMenu.gameObject.SetActive(false);
 	}
 
 	private static GameObject SafeFind(string p_name) {

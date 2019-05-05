@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114018483739704796}
   - component: {fileID: 114173102224703342}
   - component: {fileID: 114043605804268206}
+  - component: {fileID: 114011362187835382}
   - component: {fileID: 212086667593845604}
   - component: {fileID: 50532337669514052}
   - component: {fileID: 61202634623878206}
@@ -416,6 +417,28 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114011362187835382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099763796712776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1213c0450f2582f48bd6ab74d51ac8fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_playerId: -1
+  m_distanceFromCamera: 2
+  m_mousePrefab: {fileID: 1736400387787230, guid: 114f503d46f4260419910cdf3df77251,
+    type: 2}
+  m_mouseParent: {fileID: 1099763796712776}
+  m_uiCursorPrefab: {fileID: 1628987892661326, guid: db5418cfbca0b5b438104bc3e5e85ca4,
+    type: 2}
+  m_uiCanvas: {fileID: 0}
+  m_useUICoordinatesOnly: 0
+  m_hideHardwarePointer: 1
+  m_currentMode: 0
 --- !u!114 &114018483739704796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -715,6 +738,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2899fc60f8b6ff941b5c1a41794980e9, type: 2}
   - {fileID: 11400000, guid: 65534cc0fadf5464098f0322b2ff307f, type: 2}
   - {fileID: 11400000, guid: 08202257dc70a1c4c96ef1a1be39d092, type: 2}
+  m_entity: {fileID: 0}
 --- !u!114 &114173102224703342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -727,6 +751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_controller: {fileID: 114043605804268206}
+  m_player: {fileID: 0}
 --- !u!114 &114241594169349478
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -739,7 +764,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_immunityWindow: 0
+  m_useLocalHealth: 0
+  m_maxHealth: 0
+  m_health: 0
   m_healthBarTemplate: {fileID: 0}
+  m_healthBarOffset: {x: 0, y: 0.4, z: 0}
   m_damageEvent:
     m_PersistentCalls:
       m_Calls:
@@ -772,7 +801,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_entity: {fileID: 0}
 --- !u!114 &114269843998028806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -802,9 +830,15 @@ MonoBehaviour:
   m_collisionRelay: {fileID: 0}
   m_canDie: 0
   m_isDead: 0
+  m_type: {fileID: 11400000, guid: 68656f8621f16944bb5a9283acb80212, type: 2}
   m_equipment: {fileID: 114071987786881558}
   m_look: {fileID: 0}
   m_inventory: {fileID: 114018483739704796}
+  m_hasCorpse: 1
+  m_lootTable: {fileID: 0}
+  m_dropInventoryOnDeath: 1
+  m_interactCorpseEvent: {fileID: 11400000, guid: 1d0ce079657fe084db1b55952540e25a,
+    type: 2}
   m_runtimeSets:
   - {fileID: 11400000, guid: 0a26465c1ba21624095d0535607d7b8a, type: 2}
   - {fileID: 11400000, guid: cd4eb962e7b096941b5b3f2a73d69442, type: 2}
@@ -813,9 +847,22 @@ MonoBehaviour:
   m_health: {fileID: 0}
   m_stats: {fileID: 0}
   m_shooter: {fileID: 0}
+  m_temp:
+  - {fileID: 11400000, guid: d0726741aee8b6541b6a23f1b23cbc2c, type: 2}
+  - {fileID: 11400000, guid: f044594494061b84798107311ea31d3b, type: 2}
+  m_skills:
+  - Skill: {fileID: 11400000, guid: 10c95205cf86b644797358be623f7a9e, type: 2}
+    Learned: 0
+    TrainingLevel: 0
+  - Skill: {fileID: 11400000, guid: 21be7a305a1a80145bb1dd9f3b7d366c, type: 2}
+    Learned: 1
+    TrainingLevel: 1
+  m_modifiers: {fileID: 0}
   m_ai: {fileID: 0}
   m_feedbackColor: {r: 0, g: 0, b: 0, a: 0}
+  m_playerId: 0
   m_playerController: {fileID: 0}
+  m_mouse: {fileID: 0}
 --- !u!114 &114406825266347702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -827,7 +874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcaf86420ae0634ab9be7ddb699ece4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_entity: {fileID: 114332108090814936}
 --- !u!114 &114924461057312282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -842,18 +888,7 @@ MonoBehaviour:
   m_patternCooldown: 0.5
   m_shotEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: b9ae62d2df1907347b68c537fea95a8c, type: 2}
-        m_MethodName: Raise
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_entity: {fileID: 0}

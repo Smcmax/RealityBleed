@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class OptionManager : MonoBehaviour {
@@ -12,13 +13,36 @@ public class OptionManager : MonoBehaviour {
 		if(m_wipeAllDataOnStart) PlayerPrefs.DeleteAll();
 
 		m_options = new List<OptionValue>();
+
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	public void UpdateUIControls() {
+		foreach(Option option in Option.m_loadedOptions)
+			option.UpdateUIControl();
+	}
+
+	public bool Exists(string p_key) {
+		return m_options.Exists(ov => ov.m_key == p_key);
+	}
+
+	public bool Exists(string p_key, int p_playerId) {
+		return Exists(p_key + "_" + p_playerId);
 	}
 
 	public OptionValue Get(string p_key) { 
+		if(!Exists(p_key)) return LoadOptionString(p_key, "");
+
 		return m_options.Find(ov => ov.m_key == p_key);
 	}
 
+	public OptionValue Get(string p_key, int p_playerId) {
+		return Get(p_key + "_" + p_playerId);
+	}
+
 	public OptionValue LoadOption(string p_key, string p_dataType) { 
+		if(Exists(p_key)) return Get(p_key);
+
 		OptionValue val = new OptionValue(p_key, p_dataType);
 
 		val.Load();
@@ -27,7 +51,9 @@ public class OptionManager : MonoBehaviour {
 		return val;
 	}	
 	
-	public OptionValue LoadOptionInt(string p_key, int p_default) { 
+	public OptionValue LoadOptionInt(string p_key, int p_default) {
+        if(Exists(p_key)) return Get(p_key);
+
 		OptionValue val = new OptionValue(p_key, "int");
 
 		val.Load(p_default);
@@ -36,7 +62,9 @@ public class OptionManager : MonoBehaviour {
 		return val;
 	}	
 
-	public OptionValue LoadOptionBool(string p_key, bool p_default) { 
+	public OptionValue LoadOptionBool(string p_key, bool p_default) {
+        if(Exists(p_key)) return Get(p_key);
+
 		OptionValue val = new OptionValue(p_key, "bool");
 
 		val.Load(p_default);
@@ -45,7 +73,9 @@ public class OptionManager : MonoBehaviour {
 		return val;
 	}	
 
-	public OptionValue LoadOptionFloat(string p_key, float p_default) { 
+	public OptionValue LoadOptionFloat(string p_key, float p_default) {
+        if(Exists(p_key)) return Get(p_key);
+
 		OptionValue val = new OptionValue(p_key, "float");
 
 		val.Load(p_default);
@@ -54,13 +84,21 @@ public class OptionManager : MonoBehaviour {
 		return val;
 	}
 
-	public OptionValue LoadOptionString(string p_key, string p_default) { 
+	public OptionValue LoadOptionString(string p_key, string p_default) {
+        if(Exists(p_key)) return Get(p_key);
+
 		OptionValue val = new OptionValue(p_key, "string");
 
 		val.Load(p_default);
 		m_options.Add(val);
 
 		return val;
+	}
+
+	void OnSceneLoaded(Scene p_scene, LoadSceneMode p_mode) {
+		Player.m_players.Clear(); // TODO: Replace with PlayerManager
+		HideUIOnEvent.ObjectsHidden.Clear();
+		Option.m_loadedOptions.Clear();
 	}
 }
 

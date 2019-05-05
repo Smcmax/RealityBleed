@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using TMPro;
 
 public abstract class Modal : MonoBehaviour {
 
@@ -8,7 +9,7 @@ public abstract class Modal : MonoBehaviour {
 	public Canvas m_canvas;
 
 	[Tooltip("The description shown to the user before they make a choice")]
-	public Text m_description;
+	public TextMeshProUGUI m_description;
 
 	[Tooltip("Called when opening the modal")]
 	public UnityEvent m_openModalEvent;
@@ -21,10 +22,17 @@ public abstract class Modal : MonoBehaviour {
 
 	[HideInInspector] public object m_info; // the information stored for the modal's use (item to destroy, ability to unlock, etc.)
 
+	private Language m_language = null;
+
 	public void OpenModal() {
+		if(m_language == null) m_language = Game.m_languages.GetLanguage("English");
+
 		m_openModalEvent.Invoke();
 		m_canvas.gameObject.SetActive(true);
 		gameObject.SetActive(true);
+
+		Game.m_languages.UpdateObjectLanguage(gameObject, m_language);
+		m_language = Game.m_languages.GetCurrentLanguage();
 	}
 
 	public void CloseModal() {

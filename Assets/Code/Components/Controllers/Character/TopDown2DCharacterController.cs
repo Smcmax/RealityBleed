@@ -7,19 +7,22 @@ public class TopDown2DCharacterController : CharController {
 	}
 
 	public override void Move(Vector2 p_move) {
-		float targetX = p_move.x * (m_speed / Time.fixedDeltaTime);
-		float targetY = p_move.y * (m_speed / Time.fixedDeltaTime);
+		float targetX = p_move.x * (m_speed / Time.unscaledDeltaTime);
+		float targetY = p_move.y * (m_speed / Time.unscaledDeltaTime);
 		float totalSpeed = Mathf.Abs(targetX) + Mathf.Abs(targetY);
 
 		// scale back target X and Y speeds to fit within the speed limit
-		if (totalSpeed > m_speed) {
+		if(totalSpeed > m_speed) {
 			float scaledDiagonalSpeed = (m_speed * 2) * m_diagonalSpeedPercentage;
 			float scaledX = scaledDiagonalSpeed * (Mathf.Abs(targetX) / totalSpeed);
 			float scaledY = scaledDiagonalSpeed * (Mathf.Abs(targetY) / totalSpeed);
 
+			if(scaledX > m_speed) scaledX = m_speed;
+			if(scaledY > m_speed) scaledY = m_speed;
+
 			// make sure it keeps the orientation after the math is done
-			if (targetX < 0) scaledX *= -1;
-			if (targetY < 0) scaledY *= -1;
+			if(targetX < 0) scaledX *= -1;
+			if(targetY < 0) scaledY *= -1;
 
 			targetX = scaledX;
 			targetY = scaledY;

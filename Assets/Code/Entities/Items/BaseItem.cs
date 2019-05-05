@@ -18,13 +18,13 @@ public class BaseItem : ScriptableObject {
 	[Range(1, 99)] public int m_maxStackSize;
 
 	[Tooltip("How much this item sells for")]
-	public float m_sellPrice;
+	public int m_sellPrice;
 
 	[Tooltip("The equipment slots this item fits into, none if not an equippable item")]
 	public List<EquipmentSlot> m_equipmentSlots;
 
 	[Tooltip("The name's color in the tooltip")]
-	public Color m_nameColor;
+	public ColorReference m_nameColor;
 
 	[Tooltip("The item's description, shows up in the tooltip")]
 	[Multiline] public string m_description;
