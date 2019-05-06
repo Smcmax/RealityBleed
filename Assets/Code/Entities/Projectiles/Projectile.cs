@@ -13,7 +13,6 @@ public class Projectile : MonoBehaviour {
 	private bool m_shot;
 
 	[HideInInspector] public SpriteRenderer m_render;
-	[HideInInspector] public PolygonCollider2D m_polyCollider;
 	[HideInInspector] public BoxCollider2D m_boxCollider;
 
 	void Start() { 
@@ -23,7 +22,6 @@ public class Projectile : MonoBehaviour {
 	private void LoadComponents() { 
 		// preload to improve performance by doing less GetComponent calls
 		if(!m_render) m_render = GetComponent<SpriteRenderer>();
-		if(!m_polyCollider) m_polyCollider = GetComponent<PolygonCollider2D>();
 		if(!m_boxCollider) m_boxCollider = GetComponent<BoxCollider2D>();
 	}
 
@@ -50,7 +48,8 @@ public class Projectile : MonoBehaviour {
 			transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(m_direction.y, m_direction.x) * Mathf.Rad2Deg + m_info.m_spriteRotation, Vector3.forward);
 
 		CollisionRelay relay = m_shooter.m_entity.m_collisionRelay;
-		if(relay) Physics2D.IgnoreCollision(GetComponent<BoxCollider2D>(), relay.GetComponent<BoxCollider2D>());
+
+		if(relay) Physics2D.IgnoreCollision(m_boxCollider, relay.GetComponent<BoxCollider2D>());
 
 		gameObject.SetActive(true);
 
@@ -64,12 +63,9 @@ public class Projectile : MonoBehaviour {
 		LoadComponents();
 
 		SpriteRenderer render = m_render;
-		PolygonCollider2D polyCollider = m_polyCollider;
 		BoxCollider2D collider = m_boxCollider;
 
 		render.sprite = p_projectile.m_render.sprite;
-		polyCollider.points = p_projectile.m_polyCollider.points;
-		polyCollider.offset = p_projectile.m_polyCollider.offset;
 		collider.size = p_projectile.m_boxCollider.size;
 		collider.offset = p_projectile.m_boxCollider.offset;
 
@@ -77,7 +73,6 @@ public class Projectile : MonoBehaviour {
 		p_projectile.Copy(typeof(Projectile), gameObject);
 
 		m_render = render;
-		m_polyCollider = polyCollider;
 		m_boxCollider = collider;
 		m_info = p_projectileInfo;
 		m_behaviourManager = GetComponent<BehaviourManager>();

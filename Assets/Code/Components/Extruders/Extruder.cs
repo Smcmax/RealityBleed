@@ -33,7 +33,7 @@ public abstract class Extruder : MonoBehaviour {
 
 	[HideInInspector] public List<GameObject> m_extrusions;
 
-	void Start() {
+	public virtual void Start() {
 		m_extrusions = new List<GameObject>();
 		OptionsMenuHandler.Instance.AddExtruder(this);
 
@@ -55,59 +55,64 @@ public abstract class Extruder : MonoBehaviour {
 	protected GameObject Create3DMeshObject(Vector2[] p_points, Transform p_parent, string p_name) {
 		Triangulator triangulator = new Triangulator(p_points);
 		int[] tris = triangulator.Triangulate();
-		Mesh mesh = new Mesh();
-		Vector3[] vertices = new Vector3[p_points.Length * 2];
 
-		for(int i = 0; i < p_points.Length; i++) {
-			vertices[i].x = p_points[i].x;
-			vertices[i].y = p_points[i].y;
-			vertices[i].z = m_extrusionHeight - m_extrusionDepth; // front vertex
-			vertices[i + p_points.Length].x = p_points[i].x;
-			vertices[i + p_points.Length].y = p_points[i].y;
-			vertices[i + p_points.Length].z = m_extrusionHeight + m_extrusionDepth; // back vertex    
-		}
+		return Create3DMeshObject(p_points, tris, null, p_parent, p_name);
+	}
 
-		int[] triangles = new int[tris.Length * 2 + p_points.Length * 6];
-		int count_tris = 0;
+	protected GameObject Create3DMeshObject(Vector2[] p_points, int[] p_tris, Vector2[] p_uvs, Transform p_parent, string p_name) {
+        Mesh mesh = new Mesh();
+        Vector3[] vertices = new Vector3[p_points.Length * 2];
 
-		for(int i = 0; i < tris.Length; i += 3) {
-			// front vertices
-			triangles[i] = tris[i];
-			triangles[i + 1] = tris[i + 1];
-			triangles[i + 2] = tris[i + 2];
-		}
+        for(int i = 0; i < p_points.Length; i++) {
+            vertices[i].x = p_points[i].x;
+            vertices[i].y = p_points[i].y;
+            vertices[i].z = m_extrusionHeight - m_extrusionDepth; // front vertex
+            vertices[i + p_points.Length].x = p_points[i].x;
+            vertices[i + p_points.Length].y = p_points[i].y;
+            vertices[i + p_points.Length].z = m_extrusionHeight + m_extrusionDepth; // back vertex    
+        }
 
-		count_tris += tris.Length;
+        int[] triangles = new int[p_tris.Length * 2 + p_points.Length * 6];
+        int count_tris = 0;
 
-		for(int i = 0; i < tris.Length; i += 3) {
-			// back vertices
-			triangles[count_tris + i] = tris[i + 2] + p_points.Length;
-			triangles[count_tris + i + 1] = tris[i + 1] + p_points.Length;
-			triangles[count_tris + i + 2] = tris[i] + p_points.Length;
-		}
+        for(int i = 0; i < p_tris.Length; i += 3) {
+            // front vertices
+            triangles[i] = p_tris[i];
+            triangles[i + 1] = p_tris[i + 1];
+            triangles[i + 2] = p_tris[i + 2];
+        }
 
-		count_tris += tris.Length;
+        count_tris += p_tris.Length;
 
-		for(int i = 0; i < p_points.Length; i++) {
-			// triangles around the perimeter of the object
-			int n = (i + 1) % p_points.Length;
+        for(int i = 0; i < p_tris.Length; i += 3) {
+            // back vertices
+            triangles[count_tris + i] = p_tris[i + 2] + p_points.Length;
+            triangles[count_tris + i + 1] = p_tris[i + 1] + p_points.Length;
+            triangles[count_tris + i + 2] = p_tris[i] + p_points.Length;
+        }
 
-			triangles[count_tris] = i;
-			triangles[count_tris + 1] = n;
-			triangles[count_tris + 2] = i + p_points.Length;
-			triangles[count_tris + 3] = n;
-			triangles[count_tris + 4] = n + p_points.Length;
-			triangles[count_tris + 5] = i + p_points.Length;
+        count_tris += p_tris.Length;
 
-			count_tris += 6;
-		}
+        for(int i = 0; i < p_points.Length; i++) {
+            // triangles around the perimeter of the object
+            int n = (i + 1) % p_points.Length;
 
-		mesh.vertices = vertices;
-		mesh.triangles = triangles;
-		mesh.RecalculateNormals();
-		mesh.RecalculateBounds();
+            triangles[count_tris] = i;
+            triangles[count_tris + 1] = n;
+            triangles[count_tris + 2] = i + p_points.Length;
+            triangles[count_tris + 3] = n;
+            triangles[count_tris + 4] = n + p_points.Length;
+            triangles[count_tris + 5] = i + p_points.Length;
 
-		return CreateGameObjectFromMesh(mesh, p_parent, p_name);
+            count_tris += 6;
+        }
+
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
+
+        return CreateGameObjectFromMesh(mesh, p_parent, p_name);
 	}
 
 	protected GameObject CreateGameObjectFromMesh(Mesh p_mesh, Transform p_parent, string p_name) {
