@@ -33,7 +33,7 @@ public abstract class Extruder : MonoBehaviour {
 
 	[HideInInspector] public List<GameObject> m_extrusions;
 
-	void Start() {
+	public virtual void Start() {
 		m_extrusions = new List<GameObject>();
 		OptionsMenuHandler.Instance.AddExtruder(this);
 

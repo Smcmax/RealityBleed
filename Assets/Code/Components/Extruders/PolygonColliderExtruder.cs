@@ -12,10 +12,12 @@ public class PolygonColliderExtruder : Extruder {
 	public override void Extrude() {
 		if(!CanExtrude()) return;
 
-		if(!m_collider) {
-			m_collider = gameObject.AddComponent<PolygonCollider2D>();
+		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+		List<Vector2> points = new List<Vector2>();
 
-			List<Vector2> f = new List<Vector2>();
+		if(!m_collider && renderer) {
+			Sprite sprite = renderer.sprite;
+			List<Vector2> currentPhysicsPath = new List<Vector2>();
 			Vector2 prev = new Vector2(0, 0);
 			float x1 = 0;
 			float x2 = 0;
@@ -24,24 +26,29 @@ public class PolygonColliderExtruder : Extruder {
 			bool xCommonPrev = true;
 			int set = 0;
 
+			sprite.GetPhysicsShape(0, currentPhysicsPath);
+
 			// converting sprite's physics shape into a singular cohesive path
-			for(int i = 0; i < m_collider.GetTotalPointCount(); i++) {
+			for(int i = 0; i < sprite.GetPhysicsShapeCount() * 4; i++) {
 				if(i % 4 == 0 && i != 0) {
 					bool add = false;
 					if(prev != Vector2.zero) add = true;
 
                     prev = GetPoint(x1, x2, y1, y2, prev);
 					xCommonPrev = y2 == 0;
-					if(add) f.Add(prev);
+					if(add) points.Add(prev);
 
 					set++;
 					x1 = 0;
 					x2 = 0;
 					y1 = 0;
 					y2 = 0;
+
+					currentPhysicsPath.Clear();
+					sprite.GetPhysicsShape(set, currentPhysicsPath);
 				}
 
-				Vector2 vertex = m_collider.GetPath(set)[i % 4];
+				Vector2 vertex = currentPhysicsPath[i % 4];
 
 				if(x1 == 0) x1 = vertex.x;
 				else if(vertex.x != x1 && x2 == 0) x2 = vertex.x;
@@ -51,16 +58,13 @@ public class PolygonColliderExtruder : Extruder {
 			}
 
             prev = GetPoint(x1, x2, y1, y2, prev);
-            f.Add(prev);
-			f.Add(new Vector2(xCommonPrev ? f[0].x : prev.x, xCommonPrev ? prev.y : f[0].y));
-			if(m_reverse) f.Reverse();
+            points.Add(prev);
+            points.Add(new Vector2(xCommonPrev ? points[0].x : prev.x, xCommonPrev ? prev.y : points[0].y));
+			if(m_reverse) points.Reverse();
+		} else if(!m_collider) return;
+		else points.AddRange(m_collider.points);
 
-			m_collider.pathCount = 1;
-            m_collider.SetPath(0, f.ToArray());
-			m_collider.enabled = false;
-		}
-
-		GameObject extruded = Create3DMeshObject(m_collider.points, transform, gameObject.name + "Extrusion");
+		GameObject extruded = Create3DMeshObject(points.ToArray(), transform, gameObject.name + "Extrusion");
 		extruded.transform.position += transform.position;
 		extruded.transform.localScale = new Vector3(1, 1, 1);
 	}
