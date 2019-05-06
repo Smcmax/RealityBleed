@@ -61,7 +61,7 @@ public abstract class ShotPattern : ScriptableObject {
 		proj.transform.rotation = m_projectile.transform.rotation;
 
 		projectile.Clone(m_projectile, m_projectileInfo, m_behaviours);
-		if(projectile.m_original.m_polyCollider.enabled) projectile.GetComponent<PolygonColliderExtruder>().Extrude();
+		projectile.GetComponent<PolygonColliderExtruder>().Extrude();
 
 		return projectile;
 	}
