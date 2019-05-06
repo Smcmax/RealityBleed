@@ -15846,7 +15846,7 @@ MonoBehaviour:
   m_intDefault: 100
   m_boolDefault: 0
   m_floatDefault: -1
-  m_stringDefault: DefaultCrosshairGreen
+  m_stringDefault: crosshair179
   m_postStartupDelay: 0.1
   m_intEvent:
     m_PersistentCalls:
