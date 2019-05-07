@@ -113,6 +113,16 @@
 		{"m_key":"Increases INT by {value}.","m_line":"Increases INT by {value}."},
 		{"m_key":"Open","m_line":"Open"},
 		{"m_key":"Save","m_line":"Save"},
-		{"m_key":"File needs to have one of the following extensions: {0}","m_line":"File needs to have one of the following extensions: {0}"}
+		{"m_key":"File needs to have one of the following extensions: {0}","m_line":"File needs to have one of the following extensions: {0}"},
+		{"m_key":"Hello, I am the test NPC of this developer demo.","m_line":"Hello, I am the test NPC of this developer demo."},
+		{"m_key":"I am here to showcase the features of the dialogue/shop system of this demo!","m_line":"I am here to showcase the features of the dialogue/shop system of this demo!"},
+		{"m_key":"What would you like to do?","m_line":"What would you like to do?"},
+		{"m_key":"What is this?","m_line":"What is this?"},
+		{"m_key":"This game is called Reality Bleed.","m_line":"This game is called Reality Bleed."},
+		{"m_key":"It will be a rogue-like bullet hell inspired by HoH, WoW and others.","m_line":"It will be a rogue-like bullet hell inspired by HoH, WoW and others."},
+		{"m_key":"It is currently being developed by a single person!","m_line":"It is currently being developed by a single person!"},
+		{"m_key":"My discord is Smc#6127, feel free to contact me!","m_line":"My discord is Smc#6127, feel free to contact me!"},
+		{"m_key":"I'll be happy to talk about this all day long! :)","m_line":"I'll be happy to talk about this all day long! :)"},
+		{"m_key":"Thanks!","m_line":"Thanks!"}
 	]
 }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(HealthInfo))]
 public class Destructible : MonoBehaviour, IDamageable {
 
 	[Tooltip("The type associated to this object, it will take damage as such")]
@@ -17,7 +16,7 @@ public class Destructible : MonoBehaviour, IDamageable {
 
 	[HideInInspector] public HealthInfo m_health;
 
-	void Start() { 
+	public virtual void Start() { 
 		m_health = GetComponent<HealthInfo>();
 		m_health.Init(this);
 	}
@@ -38,7 +37,7 @@ public class Destructible : MonoBehaviour, IDamageable {
 		if(finalDamage > 0) m_health.Damage(finalDamage, p_bypassImmunityWindow);
 	}
 
-	public void OnDeath() {
+	public virtual void OnDeath() {
 		// fire sound effects
 
 		Destroy(gameObject);

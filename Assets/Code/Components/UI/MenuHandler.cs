@@ -66,16 +66,19 @@ public class MenuHandler : MonoBehaviour {
 		UpdateHandlingPlayerAllInputs();
 		
 		if(GetButtonDown("Pause")) Escape();
-		if(GetButtonDown("UIInteract2")) GoBack();
-		if(GetButtonDown("Inventory") && !m_paused && m_onInventoryEvent) m_onInventoryEvent.Raise();
-		if(GetButtonDown("Character") && !m_paused && m_onCharacterEvent) m_onCharacterEvent.Raise();
-		if(GetButtonDown("Skillbook") && !m_paused && m_onSkillbookEvent) m_onSkillbookEvent.Raise();
-		if(GetButtonDown("Map") && !m_paused && m_onMapEvent) m_onMapEvent.Raise();
+
+		if(DialogueWindow.m_openedWindows.Count == 0) {
+			if(GetButtonDown("UIInteract2")) GoBack();
+			if(GetButtonDown("Inventory") && !m_paused && m_onInventoryEvent) m_onInventoryEvent.Raise();
+			if(GetButtonDown("Character") && !m_paused && m_onCharacterEvent) m_onCharacterEvent.Raise();
+			if(GetButtonDown("Skillbook") && !m_paused && m_onSkillbookEvent) m_onSkillbookEvent.Raise();
+			if(GetButtonDown("Map") && !m_paused && m_onMapEvent) m_onMapEvent.Raise();
+		}
 
 		GameObject selected = EventSystem.current.currentSelectedGameObject;
 
 		// if the player moves the UI with a selectable way of navigation (d-pad), set the selectable properly (it's unset when moving cursor)
-		if(m_handlingPlayer != null && !selected && (m_handlingPlayer.GetAxis("UIMoveX") != 0 || m_handlingPlayer.GetAxis("UIMoveY") != 0)) { 
+		if(m_handlingPlayer != null && !selected && (m_handlingPlayer.GetAxisRaw("UIMoveX") != 0 || m_handlingPlayer.GetAxisRaw("UIMoveY") != 0)) { 
 			if(m_lastSelectedGameObject != null && m_lastSelectedGameObject.activeSelf)
 				EventSystem.current.SetSelectedGameObject(m_lastSelectedGameObject);
 		} else if(m_handlingPlayer != null && selected && m_lastSelectedGameObject != selected) { // save the last selected game object

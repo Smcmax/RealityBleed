@@ -6,6 +6,8 @@ public static class Constants {
 	public const float CHARACTER_SPEED_UPDATE_RATE = 0.1f;
 	public const float FOG_DISCOVERY_UPDATE_RATE = 0.1f;
 	public const float CORPSE_LIFETIME = 60f;
+	public const int CORPSE_HEALTH_BASE = 5;
+	public const float CORPSE_HEALTH_PERCENTAGE = 0.2f;
 	public const float AUTO_LOOT_DELAY = 0.75f;
 	public const float ABILITY_VIEW_REFRESH = 1f;
 	public const float ABILITY_COOLDOWN_REFRESH = 0.1f;
@@ -43,6 +45,7 @@ public static class Constants {
 	public static Color WATER_COLOR = new Color(64f / 255f, 164f / 255f, 223f / 255f, 255f / 255f);
 
 	public static Color CORPSE_COLOR = new Color(50f / 255f, 50f / 255f, 50f / 255f, 255f / 255f);
+	public static Color DESTROYED_CORPSE_COLOR = new Color(150f / 255f, 50f / 255f, 50f / 255f, 255f / 255f);
 }
 
 // Allows use of constant colors in the inspector from a dropdown

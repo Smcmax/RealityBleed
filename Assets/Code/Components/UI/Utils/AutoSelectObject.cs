@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Collections;
 
 public class AutoSelectObject : MonoBehaviour {
 
 	void OnEnable() {
-		Select();
+		StartCoroutine(Select());
 	}
 
-	public void Select() {
+	public IEnumerator Select() {
+		yield return new WaitForSecondsRealtime(0.01f);
+
 		if(EventSystem.current) {
 			EventSystem.current.SetSelectedGameObject(gameObject);
 			GetComponent<Selectable>().OnSelect(null);

@@ -58,6 +58,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	public List<SkillWrapper> m_skills;
 	[HideInInspector] public Modifiers m_modifiers;
 	[HideInInspector] public StateController m_ai;
+	[HideInInspector] public NPC m_npc;
 	[HideInInspector] public Color m_feedbackColor; // transparent = green/red
 
 	public virtual void Start() {
@@ -206,6 +207,8 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	}
 
 	protected virtual void Die() {
+		if(m_npc) m_npc.Die();
+		
 		Destroy(m_ai);
 		Destroy(m_shooter);
 

@@ -68,6 +68,11 @@ public class HealthInfo : MonoBehaviour {
 		if(m_healthBarSlider) {
 			m_healthBarSlider.maxValue = GetMaxHealth();
 			m_healthBarSlider.value = GetHealth();
+
+			if(GetHealth() == GetMaxHealth() && m_healthBarSlider.gameObject.activeSelf)
+				m_healthBarSlider.gameObject.SetActive(false);
+			else if(GetHealth() < GetMaxHealth() && !m_healthBarSlider.gameObject.activeSelf) 
+				m_healthBarSlider.gameObject.SetActive(true);
 		}
 	}
 

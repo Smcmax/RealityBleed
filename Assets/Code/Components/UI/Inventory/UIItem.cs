@@ -28,6 +28,8 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	void OnDisable() { 
+		if(!m_item.m_item || !m_item.m_inventory) return;
+
 		if(m_item.m_inventory.m_itemTooltip.gameObject.activeSelf)
 			HideTooltip();
 

@@ -94,7 +94,7 @@ public class Projectile : MonoBehaviour {
 		if(collider.gameObject != gameObject) {
 			CollisionRelay relay = collider.GetComponent<CollisionRelay>();
 
-			if(relay != null) {
+			if(relay != null && m_shooter) {
 				m_shooter.Damage(this, relay.m_damageable);
 
 				hit = true;

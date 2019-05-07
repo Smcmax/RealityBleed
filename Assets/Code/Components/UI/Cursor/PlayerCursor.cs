@@ -144,7 +144,10 @@ public class PlayerCursor : MonoBehaviour {
 		else m_cursor.transform.position = pos;
 
 		m_uiCursor.transform.position = pos;
-		if(EventSystem.current.currentSelectedGameObject && EventSystem.current.currentSelectedGameObject.GetComponent<InputField>() == null) 
+
+		GameObject selected = EventSystem.current.currentSelectedGameObject;
+
+		if(selected && selected.GetComponent<InputField>() == null && DialogueWindow.m_openedWindows.Count == 0) 
 			EventSystem.current.SetSelectedGameObject(null);
 	}
 

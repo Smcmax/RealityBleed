@@ -8,6 +8,7 @@ public class Container : Interactable {
 	public bool m_autoLootable;
 
 	[HideInInspector] public Inventory m_inventory;
+	[HideInInspector] public Corpse m_corpse;
 
 	protected override void Awake() { 
 		base.Awake();
@@ -53,7 +54,9 @@ public class Container : Interactable {
 	}
 
 	private void Close() {
-		m_inventory.m_interactor = null;
-		MenuHandler.Instance.CloseMenu(MenuHandler.Instance.m_containerMenu);
+        m_inventory.m_interactor = null;
+        MenuHandler.Instance.CloseMenu(MenuHandler.Instance.m_containerMenu);
+
+        if(m_corpse && m_inventory.Count() == 0) Destroy(gameObject);
 	}
 }

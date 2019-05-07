@@ -47,7 +47,7 @@ public class Inventory : MonoBehaviour {
 		int count = 0;
 
 		foreach(Item item in m_items)
-			if(!item.m_item) count++;
+			if(item.m_item) count++;
 
 		return count;
 	}
