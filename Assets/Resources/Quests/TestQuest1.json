@@ -1,0 +1,20 @@
+{
+	"m_name":"TestQuest1",
+	"m_leadInChoiceLine":"Anything different lately?",
+	"m_leadInDialog":"TestQuest1LeadIn1",
+	"m_leadOutDialog":"TestQuest1LeadOut1",
+	"m_steps":[
+		{
+			"m_stepNumber":0,
+			"m_choiceLine":"I'll talk to them",
+			"m_handInChoiceLine":"I heard you needed help?",
+			"m_goal":"talk Default"
+		},
+		{
+			"m_stepNumber":1,
+			"m_postDialog":"TestQuest1Step1Post1",
+			"m_handInChoiceLine":"Already taken care of..",
+			"m_goal":"talk 0"
+		}
+	]
+}

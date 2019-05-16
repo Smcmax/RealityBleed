@@ -1,34 +1,65 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Entity))]
+[RequireComponent(typeof(Entity), typeof(DialogController))]
 public class NPC : Interactable {
 
-	[HideInInspector] public Entity m_entity;
-	[HideInInspector] public DialogueController m_dialogue;
+	private static int m_npcIds = 0;
+	private static List<NPC> m_npcs = new List<NPC>();
 
-	void Start() {
+	[HideInInspector] public string m_npcId;
+	[HideInInspector] public Entity m_entity;
+	[HideInInspector] public DialogController m_dialog;
+    [HideInInspector] public List<NPCType> m_types;
+	[HideInInspector] public List<string> m_questsAvailable;
+
+	void OnEnable() {
+		m_npcs.Add(this);
+	}
+
+	void OnDisable() {
+		m_npcs.Remove(this);
+	}
+
+	public void Init(List<NPCType> p_types) {
+        m_npcId = m_npcIds.ToString();
+        m_npcIds++;
+
+		m_types = p_types;
+
+		m_dialog = GetComponent<DialogController>();
 		m_entity = GetComponent<Entity>();
+        m_dialog.m_npc = this;
 		m_entity.m_npc = this;
 	}
 
     public override void Interact(Entity p_entity) {
-		if(m_dialogue) m_dialogue.Interact(p_entity);
+		if(m_dialog && p_entity is Player) m_dialog.Interact((Player) p_entity);
 	}
 
     public override void OutOfRange(Entity p_entity) {
-		if(m_dialogue) m_dialogue.ChangeToStartingDialogue();
+		if(m_dialog && p_entity is Player) m_dialog.ChangeToStartingDialog();
 	}
 
 	public void Die() {
-		if(m_dialogue) {
-			m_dialogue.ChangeToStartingDialogue();
-			Destroy(m_dialogue);
+		if(m_dialog) {
+			m_dialog.ChangeToStartingDialog();
+			Destroy(m_dialog);
 		}
 		
 		if(m_tooltipRenderer) Destroy(m_tooltipRenderer);
 		if(m_interactBounds) Destroy(m_interactBounds);
 		Destroy(this);
+	}
+
+	public static NPC FindRandom() { 
+		return m_npcs[Random.Range(0, m_npcs.Count)];
+	}
+
+	public static NPC FindRandomFromType(string p_type) { 
+		List<NPC> eligible = m_npcs.FindAll(n => n.m_types.Find(t => t.m_type == p_type) != null);
+
+		if(eligible.Count == 0) return null;
+		else return eligible[Random.Range(0, eligible.Count)];
 	}
 }

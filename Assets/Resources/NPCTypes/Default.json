@@ -1,0 +1,35 @@
+{
+	"m_type":"Default",
+	"m_questPercentage":50,
+	"m_priorityType":false,
+	"m_incompatibleTypes":[],
+	"m_minimumStats":[
+		25, 25, 10, 10, 10, 10, 10, 10, 10
+	],
+	"m_maximumStats":[
+		50, 50, 25, 25, 25, 25, 25, 25, 25
+	],
+	"m_maleNames":[
+		"Robert",
+		"Bob",
+		"Justin"
+	],
+	"m_femaleNames":[
+		"Laura",
+		"Ashley",
+		"Jessica"
+	],
+	"m_maleSprites":[
+		"hero-idle-front"
+	],
+	"m_femaleSprites":[
+		"mole-idle-front"
+	],
+	"m_greetings":[
+		"DefaultGreeting",
+		"DefaultGreeting2"
+	],
+	"m_quests":[
+		"TestQuest1"
+	]
+}

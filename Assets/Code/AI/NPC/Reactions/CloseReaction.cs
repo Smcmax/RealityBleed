@@ -1,9 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "AI/NPC/Reactions/Close")]
 public class CloseReaction : Reaction {
 
-    public override void React(DialogueController p_controller) {
-        p_controller.ChangeToStartingDialogue();
+    public CloseReaction() : base("close") { }
+
+    public override void React(DialogController p_controller, string[] p_args) {
+        p_controller.ChangeToStartingDialog();
     }
 }

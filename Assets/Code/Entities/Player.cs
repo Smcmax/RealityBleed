@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using Rewired;
 using System.Collections.Generic;
-using Rewired.Integration.UnityUI;
 
 public class Player : Entity {
 
@@ -14,6 +12,8 @@ public class Player : Entity {
 	[HideInInspector] public PlayerController m_playerController;
 	[HideInInspector] public Rewired.Player m_rewiredPlayer;
 	[HideInInspector] public PlayerCursor m_mouse;
+	[HideInInspector] public List<string> m_completedQuests; // quest names
+	[HideInInspector] public List<Quest> m_currentQuests; // actual player-specific quests with instantiated goals
 
 	private bool m_wasHoldingLeftClick = false;
 	private bool m_wasHoldingRightClick = false;
@@ -37,12 +37,10 @@ public class Player : Entity {
 		bool leftClick = true;
 		bool fire = false;
 		GameObject hover = Game.m_rewiredEventSystem.GetGameObjectUnderPointer(m_playerId);
-		bool mouseOverGameObject = hover || UIItem.HeldItem; // change uiitem to support multiple holds...
+		bool mouseOverGameObject = hover || UIItem.HeldItem;
 
 		if(HideUIOnEvent.ObjectsHidden.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;
 		if(UIItem.HeldItem && this == UIItem.Holder) UIItem.HeldItem.MoveItem(m_mouse.GetPosition());
-
-		//if(m_mouse.m_currentMode == CursorModes.CURSOR) return; // stop all actions if we're in a menu, this is also done in PlayerController
 		if(MenuHandler.Instance.m_openedMenus.Count > 0) return;
 
 		if(m_rewiredPlayer.GetButton("Primary Fire")) fire = true;
@@ -74,6 +72,16 @@ public class Player : Entity {
 				if(wrapper != null) UseAbility(wrapper.Ability);
 			}
 		}
+	}
+
+	public bool IsEligible(Quest p_quest) { 
+		if(m_completedQuests.Contains(p_quest.m_name) || m_currentQuests.Exists(q => q.m_name == p_quest.m_name)) return false;
+
+		if(p_quest.m_prerequisites != null && p_quest.m_prerequisites.Count > 0)
+			foreach(string prerequisite in p_quest.m_prerequisites)
+				if(!m_completedQuests.Contains(prerequisite)) return false;
+
+		return true;
 	}
 
 	// to be replaced

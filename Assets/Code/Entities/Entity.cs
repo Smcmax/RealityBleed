@@ -31,7 +31,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	public bool m_hasCorpse;
 
 	[Tooltip("The item table dropped by the entity on death")]
-	[ConditionalField("m_hasCorpse", "true")] public EntityDropRuntimeSet m_lootTable;
+	[ConditionalField("m_hasCorpse", "true")] public DropRuntimeSet m_lootTable;
 
 	[Tooltip("Should the entity's inventory be dropped on death?")]
 	[ConditionalField("m_hasCorpse", "true")] public bool m_dropInventoryOnDeath;

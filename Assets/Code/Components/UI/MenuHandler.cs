@@ -67,7 +67,7 @@ public class MenuHandler : MonoBehaviour {
 		
 		if(GetButtonDown("Pause")) Escape();
 
-		if(DialogueWindow.m_openedWindows.Count == 0) {
+		if(DialogWindow.m_openedWindows.Count == 0) {
 			if(GetButtonDown("UIInteract2")) GoBack();
 			if(GetButtonDown("Inventory") && !m_paused && m_onInventoryEvent) m_onInventoryEvent.Raise();
 			if(GetButtonDown("Character") && !m_paused && m_onCharacterEvent) m_onCharacterEvent.Raise();
@@ -249,7 +249,8 @@ public class MenuHandler : MonoBehaviour {
 		if(m_resumeEvent) m_resumeEvent.Raise();
 	}
 
-	public void Quit() { 
-		Application.Quit();
+	public void Quit() {
+		if(!Application.isEditor) System.Diagnostics.Process.GetCurrentProcess().Kill();
+		else Application.Quit();
 	}
 }

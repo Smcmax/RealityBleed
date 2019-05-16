@@ -31,11 +31,17 @@ public class LanguageManager : MonoBehaviour {
 
     public string GetLine(string p_key) {
         Language current = GetCurrentLanguage();
-        
-        if(!current.HasEntry(p_key)) {
-            if(GetLanguage("English").HasEntry(p_key))
+		Language english = GetLanguage("English");
+
+		if(!current.HasEntry(p_key)) {
+            if(english.HasEntry(p_key))
                 SetDefaults();
-            else return "";
+            else {
+				english.SetLine(p_key, p_key);
+				english.Save();
+
+				SetDefaults();
+			}
         }
 
         return current.GetLine(p_key);

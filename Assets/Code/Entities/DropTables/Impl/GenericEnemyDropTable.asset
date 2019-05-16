@@ -8,45 +8,45 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f3a639f8ae3e5c4bb61b771dc266ebd, type: 3}
+  m_Script: {fileID: 11500000, guid: ee9cb67a736a246bba7a1f2ad0537c84, type: 3}
   m_Name: GenericEnemyDropTable
   m_EditorClassIdentifier: 
   m_items:
   - m_item:
       m_amount: 0
-      m_durability: 100
-      m_outlineSprite: {fileID: 0}
-      m_item: {fileID: 11400000, guid: 4610ef47dd005a44f84812db15be87f7, type: 2}
-      m_holder: {fileID: 0}
-      m_inventory: {fileID: 0}
-      m_inventoryIndex: 0
-    m_dropChance: 40.1
-    m_dropAmount:
-      Min: 5
-      Max: 25
-  - m_item:
-      m_amount: 0
-      m_durability: 100
+      m_durability: 0
       m_outlineSprite: {fileID: 0}
       m_item: {fileID: 11400000, guid: bfe26f13dd4ed1c4daa5962a2cb1f5ea, type: 2}
       m_holder: {fileID: 0}
       m_inventory: {fileID: 0}
       m_inventoryIndex: 0
-    m_dropChance: 15
+    m_dropChance: 30.3
     m_dropAmount:
       Min: 1
       Max: 1
   - m_item:
       m_amount: 0
-      m_durability: 100
+      m_durability: 0
       m_outlineSprite: {fileID: 0}
       m_item: {fileID: 11400000, guid: 24ff97419409e1c4abb561aed9f675ca, type: 2}
       m_holder: {fileID: 0}
       m_inventory: {fileID: 0}
       m_inventoryIndex: 0
-    m_dropChance: 29.9
+    m_dropChance: 50.4
     m_dropAmount:
       Min: 1
       Max: 1
-  m_dropChances: 2
+  - m_item:
+      m_amount: 0
+      m_durability: 0
+      m_outlineSprite: {fileID: 0}
+      m_item: {fileID: 11400000, guid: 4610ef47dd005a44f84812db15be87f7, type: 2}
+      m_holder: {fileID: 0}
+      m_inventory: {fileID: 0}
+      m_inventoryIndex: 0
+    m_dropChance: 60.2
+    m_dropAmount:
+      Min: 5
+      Max: 25
+  m_dropChances: 0
   m_allowDuplicateDrops: 0

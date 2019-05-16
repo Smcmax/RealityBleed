@@ -90,6 +90,25 @@ public class UnitStats : MonoBehaviour {
 		return (int) m_entity.m_modifiers.GetModifier(p_stat.ToString());
 	}
 
+	public void SetBaseStat(Stats p_stat, int p_value) {
+		switch(p_stat) {
+			case Stats.HP: m_maxHP.Value = p_value; break;
+			case Stats.MP: m_maxMP.Value = p_value; break;
+			case Stats.STR: m_strength.Value = p_value; break;
+			case Stats.DEX: m_dexterity.Value = p_value; break;
+			case Stats.INT: m_intellect.Value = p_value; break;
+			case Stats.SPD: m_speed.Value = p_value; break;
+			case Stats.CON: m_constitution.Value = p_value; break;
+			case Stats.DEF: m_defense.Value = p_value; break;
+			case Stats.WIS: m_wisdom.Value = p_value; break;
+		}
+	}
+
+	public void SetStats(params int[] p_stats) { 
+		for(int i = 0; i < p_stats.Length; i++)
+			SetBaseStat((Stats) i, p_stats[i]);
+	}
+
 	public void SetModifier(Stats p_stat, int p_value) { 
 		m_modifiers[(int) p_stat] = p_value;
 	}

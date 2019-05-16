@@ -171,7 +171,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1781234714}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2134,7 +2134,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000076293945}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &804605690
@@ -2977,6 +2977,8 @@ GameObject:
   - component: {fileID: 1429569056}
   - component: {fileID: 1429569052}
   - component: {fileID: 1429569054}
+  - component: {fileID: 1429569057}
+  - component: {fileID: 1429569058}
   m_Layer: 0
   m_Name: _app
   m_TagString: Untagged
@@ -3066,6 +3068,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0014f9cea7d7441998f957dfadd48b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1429569057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1429569049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 999d680f2c11f4036947c366933beedf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_npcTemplate: {fileID: 1794395247628838, guid: b1397b089e657454e8e3787989ddf8e2,
+    type: 2}
+  m_types: []
+--- !u!114 &1429569058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1429569049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2809a2a4068b6c340855b857fb17bd69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_event: {fileID: 11400000, guid: 72ff7e0996a95394ba351ae26d0315c8, type: 2}
+  m_responseDelay: 0
+  m_response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1429569057}
+        m_MethodName: GenerateRandom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1457919214
 GameObject:
   m_ObjectHideFlags: 0
