@@ -253,4 +253,8 @@ public class MenuHandler : MonoBehaviour {
 		if(!Application.isEditor) System.Diagnostics.Process.GetCurrentProcess().Kill();
 		else Application.Quit();
 	}
+
+	public void ReloadConfigs() { 
+		Game.m_npcGenerator.LoadTypes(true);
+	}
 }

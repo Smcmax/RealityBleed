@@ -30,8 +30,8 @@ public class Destructible : MonoBehaviour, IDamageable {
 		else if(effective == -1) finalDamage /= 2;
 
 		if(m_feedbackTemplate && (!m_health.IsImmune() || p_bypassImmunityWindow))
-			FeedbackGenerator.GenerateFeedback(transform, m_feedbackTemplate, p_type, -finalDamage, Constants.YELLOW,
-											   p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT,
+			FeedbackGenerator.GenerateFeedback(transform, m_feedbackTemplate, p_type, finalDamage <= 0 ? 0 : -finalDamage, 
+											   Constants.YELLOW, p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT,
 											   m_feedbackPositionRandomness.x, m_feedbackPositionRandomness.y);
 
 		if(finalDamage > 0) m_health.Damage(finalDamage, p_bypassImmunityWindow);

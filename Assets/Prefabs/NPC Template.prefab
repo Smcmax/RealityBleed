@@ -491,7 +491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_interactBounds: {fileID: 61249666398022574}
   m_tooltipRenderer: {fileID: 212724083400381926}
-  m_showTooltipAtAllTimes: 1
+  m_showTooltipAtAllTimes: 0
   m_onInteractEvent: {fileID: 11400000, guid: 1d0ce079657fe084db1b55952540e25a, type: 2}
   m_npcId: 
   m_entity: {fileID: 0}
@@ -831,7 +831,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 45130ada005413d47bf165c78a065055, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 732c35b7b1cdd344abb15d34abf5c864, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

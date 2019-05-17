@@ -6,7 +6,7 @@ using System.Collections.Generic;
 [Serializable]
 public class Quest {
 
-    private static List<Quest> m_loadedQuests = new List<Quest>();
+    public static List<Quest> m_loadedQuests = new List<Quest>();
 
     [Tooltip("The name of this quest")]
     public string m_name;
@@ -139,7 +139,8 @@ public class Quest {
 
     // reference means to simply return the template quest instead of making a new one
     public static Quest Get(string p_name, bool p_reference) {
-        Quest found = m_loadedQuests.Find(d => d.m_name == p_name);
+		string name = p_name.Replace("-External", "");
+        Quest found = m_loadedQuests.Find(d => d.m_name == name);
 
         if(found != null) {
 			if(p_reference) return found;
@@ -169,8 +170,16 @@ public class Quest {
 			return newQuest;
 		}
 
-        Quest loadedQuest = JsonUtility.FromJson<Quest>(Resources.Load<TextAsset>("Quests/" + p_name).text);
-        m_loadedQuests.Add(loadedQuest);
+		Quest loadedQuest = null;
+
+		if(p_name.EndsWith("-External")) { 
+			StreamReader reader = new StreamReader(Application.dataPath + "/Data/Quests/" + name + ".json");
+
+			loadedQuest = JsonUtility.FromJson<Quest>(reader.ReadToEnd());
+			reader.Close();
+		} else loadedQuest = JsonUtility.FromJson<Quest>(Resources.Load<TextAsset>("Quests/" + name).text);
+
+        if(loadedQuest != null) m_loadedQuests.Add(loadedQuest);
 
         return Get(p_name, p_reference);
     }

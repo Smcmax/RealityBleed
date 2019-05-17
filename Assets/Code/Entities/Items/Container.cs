@@ -57,6 +57,6 @@ public class Container : Interactable {
         m_inventory.m_interactor = null;
         MenuHandler.Instance.CloseMenu(MenuHandler.Instance.m_containerMenu);
 
-        if(m_corpse && m_inventory.Count() == 0) Destroy(gameObject);
+        if(m_corpse && m_inventory.Count() == 0 && m_corpse.m_health.GetHealth() <= 0) Destroy(gameObject);
 	}
 }

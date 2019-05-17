@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Entity), typeof(DialogController))]
+[RequireComponent(typeof(Entity))]
 public class NPC : Interactable {
 
 	private static int m_npcIds = 0;

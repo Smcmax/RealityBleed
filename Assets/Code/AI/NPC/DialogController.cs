@@ -37,8 +37,10 @@ public class DialogController : MonoBehaviour {
 
 	public void Interact(Player p_player) {
 		if(Time.unscaledTime - m_lastReset < 0.25f) return;
-		if(m_interactor && m_interactor != p_player) return;
+		if((m_interactor && m_interactor != p_player) || (!m_interactor && p_player.m_interactingWithNPC)) return;
 		else if(!m_interactor) m_interactor = p_player;
+
+		m_interactor.m_interactingWithNPC = true;
 
 		MenuHandler.Instance.ClearMenu();
 
@@ -147,6 +149,7 @@ public class DialogController : MonoBehaviour {
 
 			Destroy(m_dialogWindow.gameObject);
 			m_dialogWindow = null;
+			m_interactor.m_interactingWithNPC = false;
 			m_interactor = null;
 			m_introducingQuest = null;
 		} else m_dialogWindow.Clear();

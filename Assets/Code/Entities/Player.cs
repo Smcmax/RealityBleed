@@ -12,6 +12,7 @@ public class Player : Entity {
 	[HideInInspector] public PlayerController m_playerController;
 	[HideInInspector] public Rewired.Player m_rewiredPlayer;
 	[HideInInspector] public PlayerCursor m_mouse;
+	[HideInInspector] public bool m_interactingWithNPC = false;
 	[HideInInspector] public List<string> m_completedQuests; // quest names
 	[HideInInspector] public List<Quest> m_currentQuests; // actual player-specific quests with instantiated goals
 
@@ -42,6 +43,8 @@ public class Player : Entity {
 		if(HideUIOnEvent.ObjectsHidden.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;
 		if(UIItem.HeldItem && this == UIItem.Holder) UIItem.HeldItem.MoveItem(m_mouse.GetPosition());
 		if(MenuHandler.Instance.m_openedMenus.Count > 0) return;
+
+		if(m_rewiredPlayer.GetButtonDown("SpawnNPC")) Game.m_npcGenerator.GenerateRandom(1);
 
 		if(m_rewiredPlayer.GetButton("Primary Fire")) fire = true;
 		else if(m_rewiredPlayer.GetButton("Secondary Fire")) { fire = true; leftClick = false; }

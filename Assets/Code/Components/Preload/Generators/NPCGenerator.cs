@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,23 +8,75 @@ public class NPCGenerator : MonoBehaviour {
     [Tooltip("The template to use for every NPC in the game")]
     public GameObject m_npcTemplate;
 
-    [Tooltip("All loaded possible types of npcs in the game")]
-    [HideInInspector] public List<NPCType> m_types;
+	[Tooltip("Are we using external data to generate npcs?")]
+	public bool m_useExternalTypes;
 
-    void Awake() {
+    [Tooltip("All included possible types of npcs in the game")]
+    [HideInInspector] public List<NPCType> m_types = new List<NPCType>();
+
+	[Tooltip("All externally loaded types of npcs (includes existing types from m_types if they contain modifications)")]
+	[HideInInspector] public List<NPCType> m_externalTypes = new List<NPCType>();
+
+	[Tooltip("Internal and external types merged together")]
+	[HideInInspector] public List<NPCType> m_combinedTypes = new List<NPCType>();
+
+	void Awake() {
+		LoadTypes(false);
+	}
+
+	public void LoadTypes(bool p_clearCaches) {
+		m_types.Clear();
+		m_externalTypes.Clear();
+		m_combinedTypes.Clear();
+
+		if(p_clearCaches) { 
+			Dialog.m_loadedDialogs.Clear();
+			Quest.m_loadedQuests.Clear();
+
+			CleanUp();
+		}
+
 		TextAsset[] types = Resources.LoadAll<TextAsset>("NPCTypes");
 
 		foreach(TextAsset type in types)
 			m_types.Add(JsonUtility.FromJson<NPCType>(type.text));
+
+		string[] files = Directory.GetFiles(Application.dataPath + "/Data/NPCTypes/");
+
+		if(files.Length > 0)
+			foreach(string file in files) { 
+				if(file.ToLower().EndsWith(".json")) {
+					StreamReader reader = new StreamReader(file);
+
+					m_externalTypes.Add(JsonUtility.FromJson<NPCType>(reader.ReadToEnd()));
+					reader.Close();
+				}
+			}
+
+		foreach(NPCType type in m_types) { 
+			NPCType external = m_externalTypes.Find(nt => nt.m_type == type.m_type);
+
+			if(external != null) { 
+				NPCType combined = type.Clone();
+				
+				combined.Combine(external, true);
+				m_combinedTypes.Add(combined);
+			} else m_combinedTypes.Add(type);
+		}
+
+		if(m_externalTypes.Count > 0)
+			foreach(NPCType external in m_externalTypes)
+				if(!m_types.Exists(nt => nt.m_type == external.m_type))
+					m_combinedTypes.Add(external);
 	}
 
-	public void GenerateRandom() { 
-		GenerateRandom(1);
+	public void CleanUp() { 
+		Resources.UnloadUnusedAssets();
 	}
 
-    public NPC GenerateRandom(int p_typeAmount) {
+    public void GenerateRandom(int p_typeAmount) {
         List<NPCType> selected = new List<NPCType>();
-        List<NPCType> leftover = new List<NPCType>(m_types);
+        List<NPCType> leftover = new List<NPCType>(m_useExternalTypes ? m_combinedTypes : m_types);
 		bool addedPriorityType = false;
 
         while(selected.Count < p_typeAmount && leftover.Count > 0) {
@@ -38,12 +91,12 @@ public class NPCGenerator : MonoBehaviour {
 			}
         }
 
-        return Generate(selected);
+        Generate(selected);
     }
 
-    public NPC GenerateRandomWithExclusions(int p_typeAmount, List<NPCType> p_exclusions) {
+    public void GenerateRandomWithExclusions(int p_typeAmount, List<NPCType> p_exclusions) {
         List<NPCType> selected = new List<NPCType>();
-        List<NPCType> leftover = new List<NPCType>(m_types);
+        List<NPCType> leftover = new List<NPCType>(m_useExternalTypes ? m_combinedTypes : m_types);
 		bool addedPriorityType = false;
 
 		foreach(NPCType type in p_exclusions)
@@ -61,16 +114,15 @@ public class NPCGenerator : MonoBehaviour {
 			}
 		}
 
-        return Generate(selected);
+        Generate(selected);
     }
 
-    public NPC Generate(List<NPCType> p_specificTypes) {
+    public void Generate(List<NPCType> p_specificTypes) {
         GameObject npcObject = Instantiate(m_npcTemplate);
 		SpriteRenderer renderer = npcObject.GetComponent<SpriteRenderer>();
         NPC npc = npcObject.GetComponent<NPC>();
 
-        npc.Init(p_specificTypes);
-
+		List<NPCType> allTypes = new List<NPCType>();
         List<string> possibleGreetings = new List<string>();
         List<string> quests = new List<string>();
 		List<string> names = new List<string>();
@@ -80,7 +132,12 @@ public class NPCGenerator : MonoBehaviour {
 		bool male = Random.Range(0, 100) >= 50;
 		bool priorityTypeProcessed = false;
 
-        foreach(NPCType type in p_specificTypes) {
+        foreach(NPCType specific in p_specificTypes) {
+			NPCType type = specific;
+
+			if(m_useExternalTypes) type = m_combinedTypes.Find(nt => nt.m_type == specific.m_type);
+			allTypes.Add(type);
+
 			if(type.m_priorityType && !priorityTypeProcessed) { 
 				names.Clear();
 				sprites.Clear();
@@ -145,10 +202,15 @@ public class NPCGenerator : MonoBehaviour {
             }
         }
 
+		npc.Init(allTypes);
+
 		npcObject.name = names[Random.Range(0, names.Count)];
 
-		string spriteName = sprites[Random.Range(0, sprites.Count)];
-		renderer.sprite = SpriteUtils.LoadNPCSprite(male ? "Male/" + spriteName : "Female/" + spriteName);
+		string spriteName = (male ? "Male/" : "Female/") + sprites[Random.Range(0, sprites.Count)];
+
+		if(spriteName.EndsWith("-External"))
+			renderer.sprite = SpriteUtils.LoadSpriteFromFile(Application.dataPath + "/Data/Sprites/" + spriteName.Replace("-External", ".json"));
+		else renderer.sprite = SpriteUtils.LoadSpriteFromResources(spriteName);
 
         npc.m_questsAvailable = quests;
 		npc.m_dialog.m_dialogTemplate = GameObject.Find("UI").transform.Find("Dialogue Canvas").Find("Speech Bubble").gameObject;
@@ -159,8 +221,6 @@ public class NPCGenerator : MonoBehaviour {
 		npc.m_entity.m_feedbackTemplate = GameObject.Find("UI").transform.Find("Feedback Canvas").Find("Feedback").gameObject;
 
 		StartCoroutine(SetStats(npc, minStats, maxStats));
-
-        return npc;
     }
 
 	private IEnumerator SetStats(NPC p_npc, List<int> p_minStats, List<int> p_maxStats) {

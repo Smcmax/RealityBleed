@@ -171,7 +171,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1781234714}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.37722933
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3081,7 +3081,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_npcTemplate: {fileID: 1794395247628838, guid: b1397b089e657454e8e3787989ddf8e2,
     type: 2}
+  m_useExternalTypes: 1
   m_types: []
+  m_externalTypes: []
+  m_combinedTypes: []
 --- !u!114 &1429569058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3100,11 +3103,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1429569057}
         m_MethodName: GenerateRandom
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

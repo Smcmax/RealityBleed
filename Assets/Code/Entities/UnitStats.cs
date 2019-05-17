@@ -92,15 +92,15 @@ public class UnitStats : MonoBehaviour {
 
 	public void SetBaseStat(Stats p_stat, int p_value) {
 		switch(p_stat) {
-			case Stats.HP: m_maxHP.Value = p_value; break;
-			case Stats.MP: m_maxMP.Value = p_value; break;
-			case Stats.STR: m_strength.Value = p_value; break;
-			case Stats.DEX: m_dexterity.Value = p_value; break;
-			case Stats.INT: m_intellect.Value = p_value; break;
-			case Stats.SPD: m_speed.Value = p_value; break;
-			case Stats.CON: m_constitution.Value = p_value; break;
-			case Stats.DEF: m_defense.Value = p_value; break;
-			case Stats.WIS: m_wisdom.Value = p_value; break;
+			case Stats.HP: m_maxHP.Value = p_value; m_maxHP.m_constantValue = p_value; break;
+			case Stats.MP: m_maxMP.Value = p_value; m_maxMP.m_constantValue = p_value; break;
+			case Stats.STR: m_strength.Value = p_value; m_strength.m_constantValue = p_value; break;
+			case Stats.DEX: m_dexterity.Value = p_value; m_dexterity.m_constantValue = p_value; break;
+			case Stats.INT: m_intellect.Value = p_value; m_intellect.m_constantValue = p_value; break;
+			case Stats.SPD: m_speed.Value = p_value; m_speed.m_constantValue = p_value; break;
+			case Stats.CON: m_constitution.Value = p_value; m_constitution.m_constantValue = p_value; break;
+			case Stats.DEF: m_defense.Value = p_value; m_defense.m_constantValue = p_value; break;
+			case Stats.WIS: m_wisdom.Value = p_value; m_wisdom.m_constantValue = p_value; break;
 		}
 	}
 

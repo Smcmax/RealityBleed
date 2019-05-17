@@ -6,7 +6,7 @@ public static class SpriteUtils {
 
 	private static List<FileSprite> m_loadedSprites = new List<FileSprite>();
 
-	public static Sprite LoadNPCSprite(string p_name) {
+	public static Sprite LoadSpriteFromResources(string p_name) {
 		FileSprite loaded = m_loadedSprites.Find(fs => fs.Name == p_name);
 		if(loaded != null && loaded.Sprite) return loaded.Sprite;
 

@@ -52,7 +52,7 @@ public abstract class Interactable : MonoBehaviour {
         if(Time.timeScale == 0f) return;
 
 		if(m_interactors.Count > 0) { 
-			foreach(Player player in m_interactors)
+			foreach(Player player in new List<Player>(m_interactors))
 				if(player.m_rewiredPlayer.GetButtonDown("Interact")) {
 					if(m_onInteractEvent) m_onInteractEvent.Raise();
 					Interact(player);
