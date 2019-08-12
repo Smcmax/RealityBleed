@@ -18,7 +18,7 @@ public class AbilityLoader : MonoBehaviour {
 	[Range(0, 255)] public int m_nonLearnedAlpha;
 
 	[Tooltip("The list of domains which will have their abilities listed")]
-	public List<DamageType> m_domains;
+	public List<DamageType> m_domains; // TODO: potentially needs syncing with DamageType
 
 	[Tooltip("The tooltip used to display every ability")]
 	public AbilitySkillTooltip m_tooltip;
@@ -65,26 +65,27 @@ public class AbilityLoader : MonoBehaviour {
 
 			Transform contentParent = domainObject.transform.Find("Scroll View").GetChild(0).GetChild(0);
 
-			List<AbilityWrapper> sortedDomainAbilities = new List<AbilityWrapper>(m_entity.m_abilities.FindAll(a => a.Ability.m_domain == domain));
+			List<AbilityWrapper> sortedDomainAbilities = new List<AbilityWrapper>(m_entity.m_abilities.FindAll(a => a.GetAbility().m_domain == domain.m_name));
 			sortedDomainAbilities.Sort(new AbilityComparer());
 			sortedDomainAbilities.Reverse();
 
-			foreach(AbilityWrapper ability in sortedDomainAbilities) {
+			foreach(AbilityWrapper wrapper in sortedDomainAbilities) {
 				GameObject abilityObject = Instantiate(m_abilityPrefab, contentParent);
 				Image abilityIcon = abilityObject.GetComponent<Image>();
 				TextMeshProUGUI trainingLevel = abilityObject.GetComponentInChildren<TextMeshProUGUI>();
+				Ability ability = wrapper.GetAbility();
 
-				abilityIcon.sprite = ability.Ability.m_icon;
-				trainingLevel.text = ability.TrainingLevel.ToString();
+				abilityIcon.sprite = ability.m_icon;
+				trainingLevel.text = wrapper.TrainingLevel.ToString();
 
-				if(!ability.Learned) {
+				if(!wrapper.Learned) {
 					trainingLevel.text = "";
 					abilityIcon.color = new Color(1, 1, 1, m_nonLearnedAlpha / 255f);
 				}
 				
 				UIAbility uiAbility = abilityObject.GetComponent<UIAbility>();
 
-				uiAbility.m_ability = ability;
+				uiAbility.m_ability = wrapper;
 				uiAbility.m_loader = this;
 				uiAbility.Init();
 

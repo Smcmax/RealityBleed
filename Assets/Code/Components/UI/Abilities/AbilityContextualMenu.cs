@@ -68,11 +68,11 @@ public class AbilityContextualMenu : MonoBehaviour {
 		m_selectedAbility.m_highlightBorder.gameObject.SetActive(false);
 
 		if(p_saveChain) {
-			List<Ability> chained = new List<Ability>();
+			List<string> chained = new List<string>();
 
 			foreach(UIAbility ability in m_chainedAbilities) { 
 				ability.m_highlightBorder.gameObject.SetActive(false);
-				chained.Add(ability.m_ability.Ability);
+				chained.Add(ability.m_ability.AbilityName);
 			}
 
 			m_selectedAbility.m_ability.ChainedAbilities = chained;

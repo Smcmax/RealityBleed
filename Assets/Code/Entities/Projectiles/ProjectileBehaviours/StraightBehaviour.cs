@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Projectile Behaviours/Straight")]
+[System.Serializable]
 public class StraightBehaviour : ProjectileBehaviour {
 
-	public override void Move(Projectile p_projectile, DataHolder p_data) { }
+	public override void Move(Projectile p_projectile) { }
 
 	public override void Die(Projectile p_projectile) { }
 }

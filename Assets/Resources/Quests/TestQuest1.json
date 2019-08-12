@@ -16,5 +16,22 @@
 			"m_handInChoiceLine":"Already taken care of..",
 			"m_goal":"talk 0"
 		}
-	]
+	],
+	"m_rewardTable": {
+		"m_items": [
+			{
+				"m_item": {
+					"m_durability": 100,
+					"m_itemRef": "Test Sword"
+				},
+				"m_dropChance": 100,
+				"m_dropAmount": {
+					"Min": 1,
+					"Max": 1
+				}
+			}
+		],
+		"m_dropChances": 1,
+		"m_allowDuplicateDrops": false
+	}
 }

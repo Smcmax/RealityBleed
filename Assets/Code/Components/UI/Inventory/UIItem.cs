@@ -13,6 +13,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	public Image m_ghost;
 	private TextMeshProUGUI m_ghostAmount;
 
+	public static Transform GhostCanvas;
 	public static UIItem HeldItem; // not dragged, held
 	public static Player Holder;
 
@@ -365,7 +366,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 		m_ghost.transform.position = Input.mousePosition;
 		m_ghost.gameObject.SetActive(true);
-		m_ghost.transform.SetParent(GetComponentInParent<Canvas>().transform);
+		m_ghost.transform.SetParent(GhostCanvas);
 	}
 
 	public void HideHeldItem() {

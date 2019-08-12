@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(menuName = "Skills/Modifier")]
+[System.Serializable]
 public class ModifierSkill : Skill {
 
 	[Header("Specific Attributes")]
@@ -15,7 +15,7 @@ public class ModifierSkill : Skill {
 	public List<TrainingLevelFloatWrapper> m_ttls;
 
 	[TextArea]
-	[Tooltip("Simple inspector comment zone")]
+	[Tooltip("Simple inspector comment zone, do not fill in json files")]
 	public string DescriptionVariables = "Description's auto-filled variables: {newLine} {modifier} {value} {ttl}";
 
 	public override string GetDescription(int p_trainingLevel, bool p_translate) {

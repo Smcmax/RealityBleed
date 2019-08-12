@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(menuName = "Abilities/Shot Pattern")]
+[System.Serializable]
 public class ShotPatternAbility : Ability {
 
 	[Header("Specific Attributes")]
@@ -13,11 +13,11 @@ public class ShotPatternAbility : Ability {
 	public bool m_aimAtCursor;
 
 	[TextArea]
-	[Tooltip("Simple inspector comment zone")]
+	[Tooltip("Simple inspector comment zone, do not fill in json files")]
 	public string DescriptionVariables = "Description's auto-filled variables: {newLine} {damage} {manaCost} {manaPerStep} {cooldown} {shots} {statApplied} {range} {speed}";
 
 	public override string GetDescription(int p_trainingLevel, bool p_translate) {
-		ShotPattern pattern = m_shotPatterns.Find(s => s.TrainingLevel == p_trainingLevel).Pattern;
+		ShotPattern pattern = ShotPattern.Get(m_shotPatterns.Find(s => s.TrainingLevel == p_trainingLevel).Pattern, true);
 		string description = m_descriptions.Find(d => d.TrainingLevel == p_trainingLevel).Description;
 
 		if(p_translate) description = Game.m_languages.GetLine(description);
@@ -34,10 +34,12 @@ public class ShotPatternAbility : Ability {
 	}
 
 	public override void Use(Entity p_entity, int p_trainingLevel) {
-		ShotPattern pattern = m_shotPatterns.Find(s => s.TrainingLevel == p_trainingLevel).Pattern;
+		ShotPattern pattern = ShotPattern.Get(m_shotPatterns.Find(s => s.TrainingLevel == p_trainingLevel).Pattern, false);
 
-		if(m_aimAtCursor) 
-			p_entity.m_shooter.SetPatternInfo(pattern, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint((p_entity as Player).m_mouse.GetPosition()));
+		if(m_aimAtCursor)
+			pattern.m_forcedTarget = Camera.main.ScreenToWorldPoint((p_entity as Player).m_mouse.GetPosition());
+
+		pattern.m_manaPerStep = 0;
 
 		p_entity.m_shooter.Shoot(pattern);
 	}
@@ -46,5 +48,5 @@ public class ShotPatternAbility : Ability {
 [System.Serializable]
 public struct ShotPatternLevelWrapper {
 	public int TrainingLevel;
-	public ShotPattern Pattern;
+	public string Pattern;
 }

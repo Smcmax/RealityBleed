@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(menuName = "AI/Enemy/Actions/Shoot")]
 public class ShootAction : Action {
 
 	[Tooltip("The pattern to start shooting in this action, will shoot as fast as possible")]
-	public ShotPattern m_patternToShoot;
+	public string m_patternToShoot;
 
 	[Tooltip("Whether or not the shot pattern aims at the target")]
 	public bool m_forceTarget;
@@ -13,7 +14,7 @@ public class ShootAction : Action {
 	public bool m_stopShootingOnTransition;
 
 	public override void Execute(StateController p_controller) {
-		if(m_forceTarget && !p_controller.m_target) return;
+		if((m_forceTarget && !p_controller.m_target) || !p_controller.m_entity.m_shooter) return;
 
 		Shoot(p_controller);
 	}
@@ -21,13 +22,36 @@ public class ShootAction : Action {
 	public override void OnTransition(StateController p_controller) {
 		base.OnTransition(p_controller);
 
-		if(m_stopShootingOnTransition) p_controller.m_entity.m_shooter.StopShooting(m_patternToShoot);
+		if(!p_controller.m_entity.m_shooter) return;
+
+		List<ShotPattern> patterns = new List<ShotPattern>();
+
+		if(p_controller.m_shotPatterns.ContainsKey(this))
+			p_controller.m_shotPatterns.TryGetValue(this, out patterns);
+
+		if(patterns.Count > 0) {
+			if(m_stopShootingOnTransition)
+				foreach(ShotPattern pattern in patterns)
+					p_controller.m_entity.m_shooter.StopShooting(pattern); 
+
+			foreach(ShotPattern pattern in new List<ShotPattern>(patterns))
+				if(!pattern.m_active) patterns.Remove(pattern);
+		}
 	}
 
 	private void Shoot(StateController p_controller) {
-		if(m_forceTarget)
-			p_controller.m_entity.m_shooter.SetPatternInfo(m_patternToShoot, "forcedTarget", (Vector2) p_controller.m_target.transform.position);
+		ShotPattern pattern = ShotPattern.Get(m_patternToShoot, false);
+		List<ShotPattern> patterns = new List<ShotPattern>();
+		
+		if(p_controller.m_shotPatterns.ContainsKey(this))
+			p_controller.m_shotPatterns.TryGetValue(this, out patterns);
 
-		p_controller.m_entity.m_shooter.Shoot(m_patternToShoot);
+		patterns.Add(pattern);
+		p_controller.m_shotPatterns[this] = patterns;
+
+		if(m_forceTarget)
+			pattern.m_forcedTarget = p_controller.m_target.transform.position;
+
+		p_controller.m_entity.m_shooter.Shoot(pattern);
 	}
 }

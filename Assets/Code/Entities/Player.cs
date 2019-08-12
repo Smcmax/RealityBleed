@@ -32,6 +32,21 @@ public class Player : Entity {
 		m_playerController.m_player = this;
 
 		m_feedbackColor = Constants.TRANSPARENT;
+
+		// TODO: TEMP
+		int hotkey = 1;
+		foreach(Ability ability in Ability.m_abilities) {
+			AbilityWrapper wrapper = new AbilityWrapper();
+
+			wrapper.AbilityName = ability.m_name;
+			wrapper.Learned = true;
+			wrapper.TrainingLevel = 1;
+			wrapper.HotkeySlot = hotkey;
+
+			m_abilities.Add(wrapper);
+
+			hotkey++;
+		}
 	}
 
 	void Update() {
@@ -59,20 +74,19 @@ public class Player : Entity {
 
 		if(fire && !mouseOverGameObject) {
 			Weapon weapon = m_equipment.GetWeaponHandlingClick(leftClick);
-			ShotPattern toFire = m_equipment.GetShotPatternHandlingClick(leftClick);
+			string toFire = m_equipment.GetShotPatternHandlingClick(leftClick);
 
 			if(weapon == null) return;
-			if(toFire == null) return;
+			if(string.IsNullOrEmpty(toFire)) return;
 
-			m_shooter.SetPatternInfo(toFire, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint(m_mouse.GetPosition()));
-			weapon.Use(this, new string[]{ weapon.m_leftClickPattern == toFire ? "true" : "false" }); // using weapon in case it has specific code to execute
+			weapon.Use(this, new string[]{ weapon.m_leftClickPattern == toFire ? "true" : "false", "true" }); // using weapon in case it has specific code to execute
 		}
 
 		for(int i = 1; i <= 6; i++) { 
 			if(m_rewiredPlayer.GetButtonDown("Hotkey " + i)) { 
 				AbilityWrapper wrapper = m_abilities.Find(a => a.HotkeySlot == i);
 
-				if(wrapper != null) UseAbility(wrapper.Ability);
+				if(wrapper != null) UseAbility(wrapper.AbilityName);
 			}
 		}
 	}

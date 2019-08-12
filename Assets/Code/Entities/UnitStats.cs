@@ -63,11 +63,11 @@ public class UnitStats : MonoBehaviour {
 	}
 
 	public int GetBaseStatWithGear(Stats p_stat) { 
-		return GetBaseStat(p_stat) + m_gearModifiers[(int) p_stat];
+		return Mathf.Clamp(GetBaseStat(p_stat) + m_gearModifiers[(int) p_stat], 0, 999);
 	}
 
 	public int GetStat(Stats p_stat) { 
-		return GetBaseStat(p_stat) + GetModifier(p_stat) + GetGearModifier(p_stat) + GetExternalModifiers(p_stat);
+		return Mathf.Clamp(GetBaseStat(p_stat) + GetModifier(p_stat) + GetGearModifier(p_stat) + GetExternalModifiers(p_stat), 0, 999);
 	}
 
 	public int GetStatEffect(Stats p_stat) { 
@@ -158,19 +158,30 @@ public class UnitStats : MonoBehaviour {
 
 	public IEnumerator RegenHealth() {
 		while(m_healthRegen) {
-			if(GetBaseStatWithGear(Stats.HP) - (GetStat(Stats.HP) + 1) >= 0)
-				AddModifier(Stats.HP, 1, 0);
+			float con = GetStatEffectFloat(Stats.CON);
 
-			yield return new WaitForSeconds(1f / GetStatEffectFloat(Stats.CON));
+			if(con <= 0.0f) yield return new WaitForSeconds(Constants.EFFECT_TICK_RATE);
+			else {
+				if(GetBaseStatWithGear(Stats.HP) - (GetStat(Stats.HP) + 1) >= 0)
+					AddModifier(Stats.HP, 1, 0);
+
+				yield return new WaitForSeconds(1f / con);
+			}
+
 		}
 	}
 
 	public IEnumerator RegenMana() {
 		while(m_manaRegen) {
-			if(GetBaseStatWithGear(Stats.MP) - (GetStat(Stats.MP) + 1) >= 0)
-				AddModifier(Stats.MP, 1, 0);
+			float wis = GetStatEffectFloat(Stats.WIS);
 
-			yield return new WaitForSeconds(1f / GetStatEffectFloat(Stats.WIS));
+			if(wis <= 0.0f) yield return new WaitForSeconds(Constants.EFFECT_TICK_RATE);
+			else {
+				if(GetBaseStatWithGear(Stats.MP) - (GetStat(Stats.MP) + 1) >= 0)
+					AddModifier(Stats.MP, 1, 0);
+
+				yield return new WaitForSeconds(1f / wis);
+			}
 		}
 	}
 }

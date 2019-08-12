@@ -246,6 +246,7 @@ public class MenuHandler : MonoBehaviour {
 	}
 
 	void OnSceneLoad(Scene p_scene, LoadSceneMode p_mode) {
+		UIItem.GhostCanvas = GameObject.Find("Mouse Canvas").transform;
 		if(m_resumeEvent) m_resumeEvent.Raise();
 	}
 
@@ -255,6 +256,8 @@ public class MenuHandler : MonoBehaviour {
 	}
 
 	public void ReloadConfigs() { 
+		ShotPattern.LoadAll();
+		BaseItem.LoadAll();
 		Game.m_npcGenerator.LoadTypes(true);
 	}
 }

@@ -1,0 +1,14 @@
+{
+    "m_name": "Arrow",
+    "m_type": "Item",
+    "m_sprite": {
+        "m_name": "Arrow"
+    },
+    "m_maxStackSize": 64,
+    "m_sellPrice": 2,
+    "m_nameColor": {
+        "m_useConstant": true,
+        "m_constantValue": 6
+    },
+    "m_description": "This is a regular arrow"
+}

@@ -1,0 +1,24 @@
+{
+    "m_name": "Test Sword",
+    "m_type": "Weapon",
+    "m_sprite": {
+        "m_name": "TestSword"
+    },
+    "m_maxStackSize": 1,
+    "m_sellPrice": 50,
+    "m_equipmentSlots": [
+        "MainHand",
+        "OffHand"
+    ],
+    "m_nameColor": {
+        "m_useConstant": true,
+        "m_constantValue": 5
+    },
+    "m_description": "Sample Description",
+    "m_weaponType": "Sword",
+    "m_statGainValues": [
+        0, 0, 10, 3, 0, -8, 5, 0, 0
+    ],
+    "m_leftClickPattern": "TestLeftClick",
+    "m_rightClickPattern": "TestRightClick"
+}

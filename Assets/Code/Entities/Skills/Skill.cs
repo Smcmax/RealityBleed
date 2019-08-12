@@ -1,20 +1,35 @@
 ﻿using UnityEngine;
+using System;
+using System.IO;
 using System.Collections.Generic;
 
-public abstract class Skill : ScriptableObject {
+[Serializable]
+public class Skill {
+
+	[Tooltip("All included skills in the game")]
+	public static List<Skill> m_skills = new List<Skill>();
+
+	[Tooltip("All externally loaded skills")]
+	public static List<Skill> m_externalSkills = new List<Skill>();
+
+	[Tooltip("Internal and external skills in a single list. Note that if an external and an internal skill have the same name, the external will load over it")]
+	public static List<Skill> m_combinedSkills = new List<Skill>();
+
+	[Tooltip("Are we using external skills on top of the internal ones?")]
+	public static bool m_useExternalSkills = true; // TODO: change to reflect modded usage instead of a hard true
 
 	[Header("Generic Attributes")]
 	[Tooltip("The skill's name")]
 	public string m_name;
 
+	[Tooltip("The skill's type (Modifier)")]
+	public string m_type;
+
 	[Tooltip("The skill's displayed icon")]
-	public Sprite m_icon;
+	public SerializableSprite m_icon;
 
 	[Tooltip("Color to use in tooltips")]
 	public ColorReference m_nameColor;
-
-	[Tooltip("Whether or not the effect is activated by the game or by the player")]
-	public bool m_isPassive;
 
 	[Tooltip("How much this skill costs to train (to hire someone to train the player)")]
 	public int m_sellPrice;
@@ -27,20 +42,90 @@ public abstract class Skill : ScriptableObject {
 	[Tooltip("The list containing the appropriate description for each training level")]
 	public List<DescriptionLevelWrapper> m_descriptions;
 
-	public abstract string GetDescription(int p_trainingLevel, bool p_translate);
-	public abstract void Use(Entity p_entity, int p_trainingLevel);
-	public abstract void Remove(Entity p_entity, int p_trainingLevel);
+	// basically 3 abstract functions, but the class can't be abstract due to the json loading
+	public virtual string GetDescription(int p_trainingLevel, bool p_translate) { return ""; }
+	public virtual void Use(Entity p_entity, int p_trainingLevel) {}
+	public virtual void Remove(Entity p_entity, int p_trainingLevel) {}
+
+	public static void LoadAll() {
+		m_skills.Clear();
+		m_externalSkills.Clear();
+		m_combinedSkills.Clear();
+
+		TextAsset[] skills = Resources.LoadAll<TextAsset>("Skills");
+
+		foreach(TextAsset loadedSkill in skills) {
+			Skill skill = Load(loadedSkill.text);
+
+			skill.m_icon.m_name = "Skills/" + skill.m_icon.m_name;
+
+			if(skill != null) m_skills.Add(skill);
+		}
+
+		string[] files = Directory.GetFiles(Application.dataPath + "/Data/Skills/");
+
+		if(files.Length > 0)
+			foreach(string file in files) {
+				if(file.ToLower().EndsWith(".json")) {
+					StreamReader reader = new StreamReader(file);
+					Skill skill = Load(reader.ReadToEnd());
+
+					skill.m_icon.m_name = "Skills/" + skill.m_icon.m_name;
+					skill.m_icon.m_internal = false;
+
+					if(skill != null) m_externalSkills.Add(skill);
+					reader.Close();
+				}
+			}
+
+		foreach(Skill skill in m_skills) { 
+			Skill external = m_externalSkills.Find(s => s.m_type == skill.m_type);
+
+			if(external != null) m_combinedSkills.Add(external);
+			else m_combinedSkills.Add(skill);
+		}
+
+		if(m_externalSkills.Count > 0)
+			foreach(Skill external in m_externalSkills)
+				if(!m_skills.Exists(s => s.m_type == external.m_type))
+					m_combinedSkills.Add(external);
+	}
+
+	private static Skill Load(string p_json) { 
+		Skill skill = JsonUtility.FromJson<Skill>(p_json);
+		Type type = null;
+
+		switch(skill.m_type.ToLower()) {
+			case "modifier": type = typeof(ModifierSkill); break;
+		}
+
+		if(type == null) return null;
+
+		return (Skill) JsonUtility.FromJson(p_json, type);
+	}
+
+	public static Skill Get(string p_name) { 
+		List<Skill> availableSkills = m_useExternalSkills ? m_combinedSkills : m_skills;
+		Skill found = availableSkills.Find(s => s.m_name == p_name);
+
+		if(found != null) return found;
+		
+		return null;
+	}
 }
 
-[System.Serializable]
-public struct TrainingLevelFloatWrapper {
-	public int TrainingLevel;
-	public float Value;
-}
-
-[System.Serializable]
+[Serializable]
 public class SkillWrapper {
-	public Skill Skill;
+	public string SkillName;
 	public bool Learned;
 	public int TrainingLevel;
+
+	private Skill LoadedSkill;
+
+	public Skill GetSkill() {
+		if(LoadedSkill == null || LoadedSkill.m_name != SkillName)
+			LoadedSkill = Skill.Get(SkillName);
+
+		return LoadedSkill;
+	}
 }

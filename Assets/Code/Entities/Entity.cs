@@ -31,7 +31,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	public bool m_hasCorpse;
 
 	[Tooltip("The item table dropped by the entity on death")]
-	[ConditionalField("m_hasCorpse", "true")] public DropRuntimeSet m_lootTable;
+	[ConditionalField("m_hasCorpse", "true")] public DropTable m_lootTable;
 
 	[Tooltip("Should the entity's inventory be dropped on death?")]
 	[ConditionalField("m_hasCorpse", "true")] public bool m_dropInventoryOnDeath;
@@ -53,9 +53,8 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	[HideInInspector] public UnitHealth m_health;
 	[HideInInspector] public UnitStats m_stats;
 	[HideInInspector] public Shooter m_shooter;
-	public List<Ability> m_temp;
 	[HideInInspector] public List<AbilityWrapper> m_abilities;
-	public List<SkillWrapper> m_skills;
+	[HideInInspector] public List<SkillWrapper> m_skills;
 	[HideInInspector] public Modifiers m_modifiers;
 	[HideInInspector] public StateController m_ai;
 	[HideInInspector] public NPC m_npc;
@@ -67,7 +66,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 		m_stats = GetComponent<UnitStats>();
 		m_shooter = GetComponent<Shooter>();
 		m_abilities = new List<AbilityWrapper>();
-		//m_skills = new List<SkillWrapper>();
+		m_skills = new List<SkillWrapper>();
 		m_modifiers = gameObject.AddComponent<Modifiers>();
 		m_feedbackColor = Constants.YELLOW;
 
@@ -77,23 +76,11 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 		if(m_inventory) m_inventory.Init(this);
 		if(m_equipment) m_equipment.Init(this);
 
-		if(m_temp.Count > 0) // very temporary, just for testing
-			for(int i = 0; i < m_temp.Count; i++) {
-				AbilityWrapper wrapper = new AbilityWrapper();
-
-				wrapper.Ability = m_temp[i];
-				wrapper.Learned = true;
-				wrapper.TrainingLevel = 1;
-				wrapper.HotkeySlot = i + 1;
-
-				m_abilities.Add(wrapper);
-			}
-
 		// TODO: load abilities, skills and modifiers?
 
-		foreach(SkillWrapper wrapper in m_skills)
-			if(wrapper.Skill.m_isPassive)
-                wrapper.Skill.Use(this, wrapper.TrainingLevel);
+		//foreach(SkillWrapper wrapper in m_skills)
+			//if(wrapper.Skill.m_isPassive)
+                //wrapper.Skill.Use(this, wrapper.TrainingLevel);
 
 		InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
 		InvokeRepeating("UpdateCharacterSpeed", Constants.CHARACTER_SPEED_UPDATE_RATE, Constants.CHARACTER_SPEED_UPDATE_RATE);
@@ -145,30 +132,34 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 		}
 	}
 
-	public void UseAbility(Ability p_ability) { 
-		AbilityWrapper ability = m_abilities.Find(a => a.Ability == p_ability);
+	public void UseAbility(string p_ability) { 
+		AbilityWrapper wrapper = m_abilities.Find(a => a.AbilityName == p_ability);
 
-		if(ability == null) return;
+		if(wrapper == null && wrapper.Learned) return;
 
-		int cost = ability.Ability.m_manaCosts.Find(m => m.TrainingLevel == ability.TrainingLevel).Value;
+		Ability ability = wrapper.GetAbility();
+
+		int cost = ability.m_manaCosts.Find(m => m.TrainingLevel == wrapper.TrainingLevel).Value;
 		int leftoverMana = m_stats.GetStat(Stats.MP) - cost;
 
-		if(leftoverMana >= 0 && ability.Use()) {
+		if(leftoverMana >= 0 && wrapper.Use()) {
 			m_stats.AddModifier(Stats.MP, -cost, 0);
-			p_ability.Use(this, ability.TrainingLevel);
+			ability.Use(this, wrapper.TrainingLevel);
 
-			if(ability.ChainedAbilities != null && ability.ChainedAbilities.Count > 0) { 
-				foreach(Ability chain in ability.ChainedAbilities) {
-					AbilityWrapper wrapper = m_abilities.Find(a => a.Ability == chain);
+			if(wrapper.ChainedAbilities != null && wrapper.ChainedAbilities.Count > 0) { 
+				foreach(string chain in wrapper.ChainedAbilities) {
+					AbilityWrapper chainWrapper = m_abilities.Find(a => a.AbilityName == chain);
 
-					if(wrapper == null) continue;
+					if(chainWrapper == null && chainWrapper.Learned) continue;
 
-					cost = chain.m_manaCosts.Find(m => m.TrainingLevel == wrapper.TrainingLevel).Value;
+					Ability chainAbility = Ability.Get(chain);
+
+					cost = chainAbility.m_manaCosts.Find(m => m.TrainingLevel == chainWrapper.TrainingLevel).Value;
 					leftoverMana = m_stats.GetStat(Stats.MP) - cost;
 
-					if(leftoverMana >= 0 && wrapper.Use()) {
+					if(leftoverMana >= 0 && chainWrapper.Use()) {
 						m_stats.AddModifier(Stats.MP, -cost, 0);
-						chain.Use(this, wrapper.TrainingLevel);
+						chainAbility.Use(this, chainWrapper.TrainingLevel);
 					}
 				}
 			}
@@ -208,6 +199,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 
 	protected virtual void Die() {
 		if(m_npc) m_npc.Die();
+		if(m_shooter && m_shooter.m_patterns.Count > 0) m_shooter.StopShooting();
 		
 		Destroy(m_ai);
 		Destroy(m_shooter);

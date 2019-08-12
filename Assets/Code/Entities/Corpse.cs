@@ -53,7 +53,7 @@ public class Corpse : Destructible {
 				if(p_entity.m_equipment.m_items[i].m_item)
                     m_container.m_inventory.Add(p_entity.m_equipment.m_items[i]);
 
-		if(p_entity.m_lootTable) p_entity.m_lootTable.Drop(m_container.m_inventory);
+		if(p_entity.m_lootTable != null && p_entity.m_lootTable.m_items.Count > 0) p_entity.m_lootTable.Drop(m_container.m_inventory);
 
 		m_renderer = p_entity.GetComponent<SpriteRenderer>();
 		FadeCorpse(p_entity);

@@ -93,7 +93,7 @@ public class InventoryLoader : MonoBehaviour {
 				float border = m_inventoryBorderSize + m_padding;
 
 				rect.anchoredPosition = new Vector2(border * 2 + (col * (slotWidth + m_padding)),
-															-(border * 2 + (row * (slotHeight + m_padding))));
+													-(border * 2 + (row * (slotHeight + m_padding))));
 
 				UIItem uiItem = slot.GetComponentInChildren<UIItem>();
 				uiItem.m_loader = this;

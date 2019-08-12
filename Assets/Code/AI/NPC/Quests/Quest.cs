@@ -29,8 +29,8 @@ public class Quest {
     [Tooltip("All steps pertaining to this quest")]
     public List<QuestStep> m_steps;
 
-    //[Tooltip("The reward drop table for this quest")]
-    //public DropRuntimeSet m_rewardTable;
+    [Tooltip("The reward drop table for this quest")]
+    public DropTable m_rewardTable;
 
 	[HideInInspector] public List<NPC> m_npcHistory = new List<NPC>();
 	[HideInInspector] public NPC m_currentNPC;
@@ -128,7 +128,7 @@ public class Quest {
     }
 
 	public void Complete() { 
-		//m_rewardTable.Drop(m_player.m_inventory);
+		m_rewardTable.Drop(m_player.m_inventory);
 
 		// assigned dynamically to reduce generation times and to improve accuracy 
 		if(m_nextQuests.Count > 0)
@@ -142,33 +142,7 @@ public class Quest {
 		string name = p_name.Replace("-External", "");
         Quest found = m_loadedQuests.Find(d => d.m_name == name);
 
-        if(found != null) {
-			if(p_reference) return found;
-
-			Quest newQuest = new Quest();
-
-			newQuest.m_name = found.m_name;
-			newQuest.m_leadInChoiceLine = found.m_leadInChoiceLine;
-			newQuest.m_leadInDialog = found.m_leadInDialog;
-			newQuest.m_leadOutDialog = found.m_leadOutDialog;
-			newQuest.m_prerequisites = new List<string>(found.m_prerequisites);
-			newQuest.m_nextQuests = new List<string>(found.m_nextQuests);
-			newQuest.m_steps = new List<QuestStep>();
-
-			foreach(QuestStep step in found.m_steps) {
-				QuestStep newStep = new QuestStep();
-
-				newStep.m_stepNumber = step.m_stepNumber;
-				newStep.m_choiceLine = step.m_choiceLine;
-				newStep.m_postDialog = step.m_postDialog;
-				newStep.m_handInChoiceLine = step.m_handInChoiceLine;
-				newStep.m_goal = step.m_goal;
-
-				newQuest.m_steps.Add(newStep);
-			}
-
-			return newQuest;
-		}
+        if(found != null) return p_reference ? found : found.Clone();
 
 		Quest loadedQuest = null;
 
@@ -183,6 +157,33 @@ public class Quest {
 
         return Get(p_name, p_reference);
     }
+
+	public Quest Clone() {
+		Quest newQuest = new Quest();
+
+		newQuest.m_name = m_name;
+		newQuest.m_leadInChoiceLine = m_leadInChoiceLine;
+		newQuest.m_leadInDialog = m_leadInDialog;
+		newQuest.m_leadOutDialog = m_leadOutDialog;
+		newQuest.m_prerequisites = new List<string>(m_prerequisites);
+		newQuest.m_nextQuests = new List<string>(m_nextQuests);
+		newQuest.m_steps = new List<QuestStep>();
+		newQuest.m_rewardTable = m_rewardTable;
+
+		foreach(QuestStep step in m_steps) {
+			QuestStep newStep = new QuestStep();
+
+			newStep.m_stepNumber = step.m_stepNumber;
+			newStep.m_choiceLine = step.m_choiceLine;
+			newStep.m_postDialog = step.m_postDialog;
+			newStep.m_handInChoiceLine = step.m_handInChoiceLine;
+			newStep.m_goal = step.m_goal;
+
+			newQuest.m_steps.Add(newStep);
+		}
+
+		return newQuest;
+	}
 }
 
 [Serializable]

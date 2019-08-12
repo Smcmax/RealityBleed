@@ -28,11 +28,11 @@ public class NPCType {
 	[Tooltip("All available female names for npcs")]
 	public List<string> m_femaleNames;
 
-	[Tooltip("All available male sprites for npcs based on their file names")]
-	public List<string> m_maleSprites;
+	[Tooltip("All available male sprites for npcs")]
+	public List<SerializableSprite> m_maleSprites;
 
-	[Tooltip("All available female sprites for npcs based on their file names")]
-	public List<string> m_femaleSprites;
+	[Tooltip("All available female sprites for npcs")]
+	public List<SerializableSprite> m_femaleSprites;
 
 	[Tooltip("All dialogues associated to this npc type, determines which dialogues are allowed to be used for this type")]
     public List<string> m_greetings;
@@ -51,8 +51,8 @@ public class NPCType {
 		newType.m_maximumStats = new List<int>(m_maximumStats);
 		newType.m_maleNames = new List<string>(m_maleNames);
 		newType.m_femaleNames = new List<string>(m_femaleNames);
-		newType.m_maleSprites = new List<string>(m_maleSprites);
-		newType.m_femaleSprites = new List<string>(m_femaleSprites);
+		newType.m_maleSprites = new List<SerializableSprite>(m_maleSprites);
+		newType.m_femaleSprites = new List<SerializableSprite>(m_femaleSprites);
 		newType.m_greetings = new List<string>(m_greetings);
 		newType.m_quests = new List<string>(m_quests);
 
@@ -83,12 +83,18 @@ public class NPCType {
 			m_femaleNames.AddRange(type.m_femaleNames);
 
 		if(type.m_maleSprites.Count > 0)
-			foreach(string sprite in type.m_maleSprites)
-				m_maleSprites.Add(sprite + (p_appendDataMarker ? "-External" : ""));
+			foreach(SerializableSprite sprite in type.m_maleSprites) {
+				if(p_appendDataMarker) sprite.m_internal = false;
+
+				m_maleSprites.Add(sprite);
+			}
 
 		if(type.m_femaleSprites.Count > 0)
-			foreach(string sprite in type.m_femaleSprites)
-				m_femaleSprites.Add(sprite + (p_appendDataMarker ? "-External" : ""));
+			foreach(SerializableSprite sprite in type.m_femaleSprites) {
+				if(p_appendDataMarker) sprite.m_internal = false;
+
+				m_maleSprites.Add(sprite);
+			}
 
 		if(type.m_greetings.Count > 0)
 			foreach(string greeting in type.m_greetings)
@@ -97,5 +103,31 @@ public class NPCType {
 		if(type.m_quests.Count > 0)
 			foreach(string quest in type.m_quests)
 				m_quests.Add(quest + (p_appendDataMarker ? "-External" : ""));
+	}
+
+	public void AppendDataMarker() {
+		if(m_maleSprites.Count > 0)
+			foreach(SerializableSprite sprite in m_maleSprites)
+				sprite.m_internal = false;
+
+		if(m_femaleSprites.Count > 0)
+			foreach(SerializableSprite sprite in m_femaleSprites)
+				sprite.m_internal = false;
+
+		if(m_greetings.Count > 0) {
+			List<string> clonedGreetings = new List<string>(m_greetings);
+			m_greetings.Clear();
+
+			foreach(string greeting in clonedGreetings)
+				m_greetings.Add(greeting + "-External");
+		}
+
+		if(m_quests.Count > 0) {
+			List<string> clonedQuests = new List<string>(m_quests);
+			m_quests.Clear();
+
+			foreach(string quest in clonedQuests)
+				m_quests.Add(quest + "-External");
+		}
 	}
 }

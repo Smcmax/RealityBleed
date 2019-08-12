@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Entity))]
 public class StateController : MonoBehaviour {
@@ -20,9 +21,11 @@ public class StateController : MonoBehaviour {
 	[HideInInspector] public float m_stateTimeElapsed;
 	[HideInInspector] public int m_nextWaypoint;
 	[HideInInspector] public bool m_patrolFinished;
+	[HideInInspector] public Dictionary<ShootAction, List<ShotPattern>> m_shotPatterns;
 
 	void Awake() {
 		m_entity = GetComponent<Entity>();
+		m_shotPatterns = new Dictionary<ShootAction, List<ShotPattern>>();
 		m_look = m_entity.m_look;
 		m_entity.m_ai = this;
 	}

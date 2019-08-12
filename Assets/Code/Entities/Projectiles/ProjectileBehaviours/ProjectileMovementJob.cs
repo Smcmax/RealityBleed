@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using Unity.Jobs;
-using Unity.Burst;
-using Unity.Mathematics;
 using UnityEngine.Jobs;
-using Unity.Collections;
 using System.Collections.Generic;
 
 public abstract class ProjectileMovementJob : MonoBehaviour {

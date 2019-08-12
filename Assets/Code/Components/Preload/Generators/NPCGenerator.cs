@@ -66,8 +66,10 @@ public class NPCGenerator : MonoBehaviour {
 
 		if(m_externalTypes.Count > 0)
 			foreach(NPCType external in m_externalTypes)
-				if(!m_types.Exists(nt => nt.m_type == external.m_type))
+				if(!m_types.Exists(nt => nt.m_type == external.m_type)) {
+					external.AppendDataMarker();
 					m_combinedTypes.Add(external);
+				}
 	}
 
 	public void CleanUp() { 
@@ -126,7 +128,7 @@ public class NPCGenerator : MonoBehaviour {
         List<string> possibleGreetings = new List<string>();
         List<string> quests = new List<string>();
 		List<string> names = new List<string>();
-		List<string> sprites = new List<string>();
+		List<SerializableSprite> sprites = new List<SerializableSprite>();
 		List<int> minStats = new List<int>();
 		List<int> maxStats = new List<int>();
 		bool male = Random.Range(0, 100) >= 50;
@@ -206,11 +208,9 @@ public class NPCGenerator : MonoBehaviour {
 
 		npcObject.name = names[Random.Range(0, names.Count)];
 
-		string spriteName = (male ? "Male/" : "Female/") + sprites[Random.Range(0, sprites.Count)];
-
-		if(spriteName.EndsWith("-External"))
-			renderer.sprite = SpriteUtils.LoadSpriteFromFile(Application.dataPath + "/Data/Sprites/" + spriteName.Replace("-External", ".json"));
-		else renderer.sprite = SpriteUtils.LoadSpriteFromResources(spriteName);
+		SerializableSprite sprite = sprites[Random.Range(0, sprites.Count)];
+		sprite.m_name = (male ? "Male/" : "Female/") + sprite.m_name;
+		renderer.sprite = sprite.Sprite;
 
         npc.m_questsAvailable = quests;
 		npc.m_dialog.m_dialogTemplate = GameObject.Find("UI").transform.Find("Dialogue Canvas").Find("Speech Bubble").gameObject;
