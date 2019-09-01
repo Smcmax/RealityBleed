@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Weapon : BaseItem { 
+public class Weapon : BaseItem {
 
 	[Tooltip("The type of weapon this item is")]
 	public string m_weaponType;

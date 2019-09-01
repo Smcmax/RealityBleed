@@ -357,8 +357,8 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		Image image = GetComponent<Image>();
         TextMeshProUGUI amount = GetComponentInChildren<TextMeshProUGUI>();
 
-		image.color = new Color(1, 1, 1, 0.5f);
-		amount.color = new Color(1, 1, 1, 0.5f);
+		image.color = new Color(1, 1, 1, 0.25f);
+		amount.color = new Color(1, 1, 1, 0.25f);
 	}
 
 	private void ActivateGhost() {

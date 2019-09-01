@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class BehaviourManager : MonoBehaviour {
 
-	[HideInInspector] public Dictionary<ProjectileBehaviour, bool> m_behaviours;
+	public Dictionary<ProjectileBehaviour, bool> m_behaviours;
 
 	public void SetUsingJob(ProjectileBehaviour p_behaviour) { 
 		if(m_behaviours.ContainsKey(p_behaviour))

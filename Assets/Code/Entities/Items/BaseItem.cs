@@ -53,13 +53,21 @@ public class BaseItem {
 		m_externalItems.Clear();
 		m_combinedItems.Clear();
 
-		TextAsset[] items = Resources.LoadAll<TextAsset>("Items");
+        Dictionary<TextAsset, string> items = new Dictionary<TextAsset, string>(); // string = subdir path
 
-		foreach(TextAsset loadedItem in items) {
+        List<string> subdirs = JsonUtility.FromJson<Subdirs>(Resources.Load<TextAsset>("Items/Subdirs").text).m_subdirs;
+
+        foreach(string subdir in subdirs)
+            foreach(TextAsset item in Resources.LoadAll<TextAsset>("Items/" + subdir))
+                items.Add(item, subdir);
+
+        foreach(TextAsset loadedItem in Resources.LoadAll<TextAsset>("Items")) {
+            if(loadedItem.name == "Subdirs") continue;
+
 			BaseItem item = Load(loadedItem.text);
 
 			item.m_id = ITEM_ID++;
-			item.m_sprite.m_name = "Items/" + item.m_sprite.m_name;
+			item.m_sprite.m_name = "Items/" + items[loadedItem] + "/" + item.m_sprite.m_name; // TODO: check
 
 			if(item) m_items.Add(item);
 		}
@@ -72,13 +80,16 @@ public class BaseItem {
 					StreamReader reader = new StreamReader(file);
 					BaseItem item = Load(reader.ReadToEnd());
 
-					item.m_id = ITEM_ID++;
-					item.m_sprite.m_name = "Items/" + item.m_sprite.m_name;
-					item.m_sprite.m_internal = false;
+                    if(item) {
+                        item.m_id = ITEM_ID++;
+                        item.m_sprite.m_name = file.Replace(Application.dataPath + "/Data/", "") + item.m_sprite.m_name;
+                        item.m_sprite.m_internal = false;
 
-					if(item) m_externalItems.Add(item);
-					reader.Close();
-				}
+                        m_externalItems.Add(item);
+                    }
+
+                    reader.Close();
+                }
 			}
 
 		foreach(BaseItem item in m_items) { 
@@ -98,6 +109,8 @@ public class BaseItem {
 		BaseItem item = JsonUtility.FromJson<BaseItem>(p_json);
 		Type type = null;
 
+        if(!item) return null;
+
 		switch(item.m_type.ToLower()) {
 			case "weapon": type = typeof(Weapon); break;
 			case "armor": type = typeof(Armor); break;
@@ -113,7 +126,7 @@ public class BaseItem {
 		List<BaseItem> availableItems = m_useExternalItems ? m_combinedItems : m_items;
 		BaseItem found = availableItems.Find(bi => bi.m_name == p_name);
 
-		if(found != null) return found;
+		if(found) return found;
 		
 		return null;
 	}

@@ -62,14 +62,22 @@ public class Ability {
 		m_externalAbilities.Clear();
 		m_combinedAbilities.Clear();
 
-		TextAsset[] abilities = Resources.LoadAll<TextAsset>("Abilities");
+        Dictionary<TextAsset, string> abilities = new Dictionary<TextAsset, string>(); // string = subdir path
 
-		foreach(TextAsset loadedAbility in abilities) {
-			Ability ability = Load(loadedAbility.text);
+        List<string> subdirs = JsonUtility.FromJson<Subdirs>(Resources.Load<TextAsset>("Abilities/Subdirs").text).m_subdirs;
 
-			ability.m_icon.m_name = "Abilities/" + ability.m_icon.m_name;
+        foreach(string subdir in subdirs)
+            foreach(TextAsset ability in Resources.LoadAll<TextAsset>("Abilities/" + subdir))
+                abilities.Add(ability, subdir);
 
-			if(ability != null) m_abilities.Add(ability);
+		foreach(TextAsset loadedAbility in Resources.LoadAll<TextAsset>("Abilities")) {
+            if(loadedAbility.name == "Subdirs") continue;
+
+            Ability ability = Load(loadedAbility.text);
+
+			ability.m_icon.m_name = "Abilities/" + abilities[loadedAbility] + "/" + ability.m_icon.m_name;
+
+			if(ability) m_abilities.Add(ability);
 		}
 
 		string[] files = Directory.GetFiles(Application.dataPath + "/Data/Abilities/");
@@ -80,10 +88,13 @@ public class Ability {
 					StreamReader reader = new StreamReader(file);
 					Ability ability = Load(reader.ReadToEnd());
 
-					ability.m_icon.m_name = "Abilities/" + ability.m_icon.m_name;
-					ability.m_icon.m_internal = false;
+                    if(ability) {
+                        ability.m_icon.m_name = "Abilities/" + ability.m_icon.m_name;
+                        ability.m_icon.m_internal = false;
 
-					if(ability != null) m_externalAbilities.Add(ability);
+                        m_externalAbilities.Add(ability);
+                    }
+
 					reader.Close();
 				}
 			}
@@ -91,7 +102,7 @@ public class Ability {
 		foreach(Ability ability in m_abilities) { 
 			Ability external = m_externalAbilities.Find(a => a.m_type == ability.m_type);
 
-			if(external != null) m_combinedAbilities.Add(external);
+			if(external) m_combinedAbilities.Add(external);
 			else m_combinedAbilities.Add(ability);
 		}
 
@@ -104,6 +115,8 @@ public class Ability {
 	private static Ability Load(string p_json) { 
 		Ability ability = JsonUtility.FromJson<Ability>(p_json);
 		Type type = null;
+
+        if(!ability) return null;
 
 		switch(ability.m_type.ToLower()) {
 			case "shotpattern": type = typeof(ShotPatternAbility); break;
@@ -118,10 +131,14 @@ public class Ability {
 		List<Ability> availableAbilities = m_useExternalAbilities ? m_combinedAbilities : m_abilities;
 		Ability found = availableAbilities.Find(a => a.m_name == p_name);
 
-		if(found != null) return found;
+		if(found) return found;
 		
 		return null;
 	}
+
+    public static implicit operator bool(Ability p_instance) {
+        return p_instance != null;
+    }
 }
 
 [Serializable]

@@ -17,12 +17,10 @@ public class ProjectileBehaviour {
 	public static void LoadAll() {
 		m_loadedBehaviours.Clear();
 
-		TextAsset[] behaviours = Resources.LoadAll<TextAsset>("ProjectileBehaviours");
-
-		foreach(TextAsset loadedBehaviour in behaviours) {
+		foreach(TextAsset loadedBehaviour in Resources.LoadAll<TextAsset>("ProjectileBehaviours")) {
 			ProjectileBehaviour behaviour = Load(loadedBehaviour.text);
 
-			if(behaviour != null) m_loadedBehaviours.Add(behaviour);
+			if(behaviour) m_loadedBehaviours.Add(behaviour);
 		}
 
 		string[] files = Directory.GetFiles(Application.dataPath + "/Data/ProjectileBehaviours/");
@@ -33,7 +31,7 @@ public class ProjectileBehaviour {
 					StreamReader reader = new StreamReader(file);
 					ProjectileBehaviour behaviour = Load(reader.ReadToEnd());
 
-					if(behaviour != null) m_loadedBehaviours.Add(behaviour);
+					if(behaviour) m_loadedBehaviours.Add(behaviour);
 					reader.Close();
 				}
 			}
@@ -42,6 +40,8 @@ public class ProjectileBehaviour {
 	private static ProjectileBehaviour Load(string p_json) {
 		ProjectileBehaviour behaviour = JsonUtility.FromJson<ProjectileBehaviour>(p_json);
 		Type type = null;
+
+        if(!behaviour) return null;
 
 		switch(behaviour.m_type.ToLower()) {
 			case "straight": case "line":
@@ -62,7 +62,7 @@ public class ProjectileBehaviour {
 	public static ProjectileBehaviour Get(string p_name, bool p_reference) {
 		ProjectileBehaviour found = m_loadedBehaviours.Find(pb => pb.m_name == p_name);
 
-		if(found != null) return p_reference ? found : found.Clone();
+		if(found) return p_reference ? found : found.Clone();
 
 		return null;
 	}
@@ -79,4 +79,8 @@ public class ProjectileBehaviour {
 
 		return behaviour;
 	}
+
+    public static implicit operator bool(ProjectileBehaviour p_instance){
+        return p_instance != null;
+    }
 }

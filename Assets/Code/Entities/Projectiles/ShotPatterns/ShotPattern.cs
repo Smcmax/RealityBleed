@@ -78,12 +78,10 @@ public class ShotPattern { // currently not shooting references
 		m_externalPatterns.Clear();
 		m_combinedPatterns.Clear();
 
-		TextAsset[] patterns = Resources.LoadAll<TextAsset>("ShotPatterns");
-
-		foreach(TextAsset loadedPattern in patterns) {
+		foreach(TextAsset loadedPattern in Resources.LoadAll<TextAsset>("ShotPatterns")) {
 			ShotPattern pattern = Load(loadedPattern.text);
 
-			if(pattern != null) m_patterns.Add(pattern);
+			if(pattern) m_patterns.Add(pattern);
 		}
 
 		string[] files = Directory.GetFiles(Application.dataPath + "/Data/ShotPatterns/");
@@ -94,9 +92,9 @@ public class ShotPattern { // currently not shooting references
 					StreamReader reader = new StreamReader(file);
 					ShotPattern pattern = Load(reader.ReadToEnd());
 
-					if(pattern != null) m_externalPatterns.Add(pattern);
-					reader.Close();
-				}
+                    if(pattern) m_externalPatterns.Add(pattern);
+                    reader.Close();
+                }
 			}
 
 		foreach(ShotPattern pattern in m_patterns) { 
@@ -119,7 +117,9 @@ public class ShotPattern { // currently not shooting references
 		ShotPattern pattern = JsonUtility.FromJson<ShotPattern>(p_json);
 		Type type = null;
 
-		switch(pattern.m_type.ToLower()) {
+        if(!pattern) return null;
+
+        switch(pattern.m_type.ToLower()) {
 			case "circle": type = typeof(CirclePattern); break;
 			case "circlesection": type = typeof(CircleSectionPattern); break;
 			case "shape": type = typeof(ShapePattern); break;
@@ -135,7 +135,7 @@ public class ShotPattern { // currently not shooting references
 		List<ShotPattern> availablePatterns = m_useExternalPatterns ? m_combinedPatterns : m_patterns;
 		ShotPattern found = availablePatterns.Find(sp => sp.m_name == p_name);
 
-		if(found != null) return p_reference ? found : found.Clone();
+		if(found) return p_reference ? found : found.Clone();
 		
 		return null;
 	}
@@ -153,6 +153,7 @@ public class ShotPattern { // currently not shooting references
 		proj.transform.rotation = referenceProj.transform.rotation;
 
 		projectile.Clone(referenceProj, m_projectileInfo, m_behaviours);
+        projectile.m_reference = false;
 		projectile.GetComponent<PolygonColliderExtruder>().Extrude();
 
 		return projectile;
@@ -248,4 +249,8 @@ public class ShotPattern { // currently not shooting references
 
 		return pattern;
 	}
+
+    public static implicit operator bool(ShotPattern p_instance) {
+        return p_instance != null;
+    }
 }

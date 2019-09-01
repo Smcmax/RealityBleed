@@ -52,14 +52,22 @@ public class Skill {
 		m_externalSkills.Clear();
 		m_combinedSkills.Clear();
 
-		TextAsset[] skills = Resources.LoadAll<TextAsset>("Skills");
+        Dictionary<TextAsset, string> skills = new Dictionary<TextAsset, string>(); // string = subdir path
 
-		foreach(TextAsset loadedSkill in skills) {
-			Skill skill = Load(loadedSkill.text);
+        List<string> subdirs = JsonUtility.FromJson<Subdirs>(Resources.Load<TextAsset>("Skills/Subdirs").text).m_subdirs;
 
-			skill.m_icon.m_name = "Skills/" + skill.m_icon.m_name;
+        foreach(string subdir in subdirs)
+            foreach(TextAsset skill in Resources.LoadAll<TextAsset>("Skills/" + subdir))
+                skills.Add(skill, subdir);
 
-			if(skill != null) m_skills.Add(skill);
+        foreach(TextAsset loadedSkill in Resources.LoadAll<TextAsset>("Skills")) {
+            if(loadedSkill.name == "Subdirs") continue;
+
+            Skill skill = Load(loadedSkill.text);
+
+			skill.m_icon.m_name = "Skills/" + skills[loadedSkill] + "/" + skill.m_icon.m_name;
+
+			if(skill) m_skills.Add(skill);
 		}
 
 		string[] files = Directory.GetFiles(Application.dataPath + "/Data/Skills/");
@@ -70,10 +78,13 @@ public class Skill {
 					StreamReader reader = new StreamReader(file);
 					Skill skill = Load(reader.ReadToEnd());
 
-					skill.m_icon.m_name = "Skills/" + skill.m_icon.m_name;
-					skill.m_icon.m_internal = false;
+                    if(skill) {
+                        skill.m_icon.m_name = "Skills/" + skill.m_icon.m_name;
+                        skill.m_icon.m_internal = false;
 
-					if(skill != null) m_externalSkills.Add(skill);
+                        m_externalSkills.Add(skill);
+                    }
+
 					reader.Close();
 				}
 			}
@@ -81,7 +92,7 @@ public class Skill {
 		foreach(Skill skill in m_skills) { 
 			Skill external = m_externalSkills.Find(s => s.m_type == skill.m_type);
 
-			if(external != null) m_combinedSkills.Add(external);
+			if(external) m_combinedSkills.Add(external);
 			else m_combinedSkills.Add(skill);
 		}
 
@@ -94,6 +105,8 @@ public class Skill {
 	private static Skill Load(string p_json) { 
 		Skill skill = JsonUtility.FromJson<Skill>(p_json);
 		Type type = null;
+
+        if(!skill) return null;
 
 		switch(skill.m_type.ToLower()) {
 			case "modifier": type = typeof(ModifierSkill); break;
@@ -108,10 +121,14 @@ public class Skill {
 		List<Skill> availableSkills = m_useExternalSkills ? m_combinedSkills : m_skills;
 		Skill found = availableSkills.Find(s => s.m_name == p_name);
 
-		if(found != null) return found;
+		if(found) return found;
 		
 		return null;
 	}
+
+    public static implicit operator bool(Skill p_instance) {
+        return p_instance != null;
+    }
 }
 
 [Serializable]
