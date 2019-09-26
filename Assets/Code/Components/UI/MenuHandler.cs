@@ -259,5 +259,6 @@ public class MenuHandler : MonoBehaviour {
 		ShotPattern.LoadAll();
 		BaseItem.LoadAll();
 		Game.m_npcGenerator.LoadTypes(true);
+        Game.m_enemyGenerator.LoadTypes();
 	}
 }

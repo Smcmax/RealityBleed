@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(menuName = "AI/Enemy/Actions/Shoot")]
+[System.Serializable]
 public class ShootAction : Action {
 
 	[Tooltip("The pattern to start shooting in this action, will shoot as fast as possible")]

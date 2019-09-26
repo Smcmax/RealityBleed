@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "AI/Enemy/Look")]
-public class Look : ScriptableObject {
+[System.Serializable]
+public class Look {
+
 	[Tooltip("Entity's viewing distance")]
 	[Range(0, 15)] public float m_lookRange;
 
@@ -17,7 +18,11 @@ public class Look : ScriptableObject {
 	[Tooltip("Length of time (in seconds) before the entity stops scanning and switches states")]
 	[Range(0, 30)] public float m_scanDuration;
 
-	public static void LookAt(Entity p_entity, Vector2 p_direction) {
+    public static implicit operator bool(Look p_instance) {
+        return p_instance != null;
+    }
+
+    public static void LookAt(Entity p_entity, Vector2 p_direction) {
 		float angle = Mathf.Atan2(p_direction.y, p_direction.x) * Mathf.Rad2Deg;
 		p_entity.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 	}

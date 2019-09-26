@@ -8,10 +8,10 @@ public class StateController : MonoBehaviour {
 	public State m_currentState;
 
 	[Tooltip("Patrol waypoints")]
-	public Transform[] m_waypoints;
+	public List<Transform> m_waypoints; // TODO: loadable?
 
 	[Tooltip("The list of possible enemy entities for this entity, entities it can acquire as targets")]
-	public EntityRuntimeSet m_enemyEntities;
+	public EntityRuntimeSet m_enemyEntities; // TODO: loadable?
 
 	public bool m_drawGizmos;
 
@@ -23,7 +23,7 @@ public class StateController : MonoBehaviour {
 	[HideInInspector] public bool m_patrolFinished;
 	[HideInInspector] public Dictionary<ShootAction, List<ShotPattern>> m_shotPatterns;
 
-	void Awake() {
+	public void Setup() {
 		m_entity = GetComponent<Entity>();
 		m_shotPatterns = new Dictionary<ShootAction, List<ShotPattern>>();
 		m_look = m_entity.m_look;
@@ -31,7 +31,7 @@ public class StateController : MonoBehaviour {
 	}
 
 	void Update() { 
-		if(m_look) m_currentState.UpdateState(this);
+		if(m_look && m_currentState) m_currentState.UpdateState(this);
 	}
 
 	public bool TransitionToState(State p_nextState) {
@@ -62,9 +62,11 @@ public class StateController : MonoBehaviour {
 	}
 
 	void OnDrawGizmos() {
-		if(m_currentState != null && m_drawGizmos) {
+		if(m_currentState && m_drawGizmos) {
 			if(m_look) {
-				Gizmos.color = m_currentState.m_sceneGizmoColor;
+                if(m_currentState.m_sceneGizmoColor != null)
+				    Gizmos.color = m_currentState.m_sceneGizmoColor;
+
 				Gizmos.DrawWireSphere(m_entity.transform.position, m_look.m_lookSphereRadius);
 
 				Debug.DrawRay(transform.position,

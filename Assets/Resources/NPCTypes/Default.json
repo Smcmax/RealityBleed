@@ -20,10 +20,14 @@
 		"Jessica"
 	],
 	"m_maleSprites":[
-		"hero-idle-front"
+		{
+			"m_name": "hero-idle-front"
+		}
 	],
 	"m_femaleSprites":[
-		"mole-idle-front"
+		{
+			"m_name": "mole-idle-front"
+		}
 	],
 	"m_greetings":[
 		"DefaultGreeting",

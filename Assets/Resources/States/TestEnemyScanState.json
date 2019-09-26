@@ -1,0 +1,11 @@
+{
+	"m_name":"TestEnemyScanState",
+	"m_actions":[
+		{
+			"m_type":"Scan"
+		}
+	],
+	"m_sceneGizmoColor":{
+		"m_color":[1, 0, 0, 1]
+	}
+}

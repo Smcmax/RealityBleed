@@ -72,9 +72,10 @@ public class BaseItem {
 			if(item) m_items.Add(item);
 		}
 
-		string[] files = Directory.GetFiles(Application.dataPath + "/Data/Items/");
+        List<string> files = new List<string>();
+        FileSearch.RecursiveRetrieval(Application.dataPath + "/Data/Items/", ref files);
 
-		if(files.Length > 0)
+		if(files.Count > 0)
 			foreach(string file in files) {
 				if(file.ToLower().EndsWith(".json")) {
 					StreamReader reader = new StreamReader(file);
@@ -93,7 +94,7 @@ public class BaseItem {
 			}
 
 		foreach(BaseItem item in m_items) { 
-			BaseItem external = m_externalItems.Find(bi => bi.m_type == item.m_type);
+			BaseItem external = m_externalItems.Find(bi => bi.m_name == item.m_name);
 
 			if(external) m_combinedItems.Add(external);
 			else m_combinedItems.Add(item);
@@ -101,7 +102,7 @@ public class BaseItem {
 
 		if(m_externalItems.Count > 0)
 			foreach(BaseItem external in m_externalItems)
-				if(!m_items.Exists(bi => bi.m_type == external.m_type))
+				if(!m_items.Exists(bi => bi.m_name == external.m_name))
 					m_combinedItems.Add(external);
 	}
 

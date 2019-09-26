@@ -1,14 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-[Serializable]
+[System.Serializable]
 public class Transition {
+
 	[Tooltip("The deciding factor in this transition, basically the meat of an if statement")]
 	public Condition m_condition;
 
 	[Tooltip("The state to transition to if the condition is true")]
-	public State m_trueState;
+	public string m_trueState;
 
 	[Tooltip("The state to transition to if the condition is false")]
-	public State m_falseState;
+	public string m_falseState;
 }

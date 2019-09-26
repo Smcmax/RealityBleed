@@ -14,11 +14,11 @@ public class NPC : Interactable {
 	[HideInInspector] public List<string> m_questsAvailable;
 
 	void OnEnable() {
-		m_npcs.Add(this);
+		if(!(this is Enemy)) m_npcs.Add(this);
 	}
 
 	void OnDisable() {
-		m_npcs.Remove(this);
+        if(!(this is Enemy)) m_npcs.Remove(this);
 	}
 
 	public void Init(List<NPCType> p_types) {
@@ -49,6 +49,7 @@ public class NPC : Interactable {
 		
 		if(m_tooltipRenderer) Destroy(m_tooltipRenderer);
 		if(m_interactBounds) Destroy(m_interactBounds);
+
 		Destroy(this);
 	}
 

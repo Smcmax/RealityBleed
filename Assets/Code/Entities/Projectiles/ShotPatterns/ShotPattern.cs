@@ -84,9 +84,10 @@ public class ShotPattern { // currently not shooting references
 			if(pattern) m_patterns.Add(pattern);
 		}
 
-		string[] files = Directory.GetFiles(Application.dataPath + "/Data/ShotPatterns/");
+        List<string> files = new List<string>();
+        FileSearch.RecursiveRetrieval(Application.dataPath + "/Data/ShotPatterns/", ref files);
 
-		if(files.Length > 0)
+		if(files.Count > 0)
 			foreach(string file in files) {
 				if(file.ToLower().EndsWith(".json")) {
 					StreamReader reader = new StreamReader(file);
@@ -98,15 +99,15 @@ public class ShotPattern { // currently not shooting references
 			}
 
 		foreach(ShotPattern pattern in m_patterns) { 
-			ShotPattern external = m_externalPatterns.Find(sp => sp.m_type == pattern.m_type);
+			ShotPattern external = m_externalPatterns.Find(sp => sp.m_name == pattern.m_name);
 
-			if(external != null) m_combinedPatterns.Add(external);
+			if(external) m_combinedPatterns.Add(external);
 			else m_combinedPatterns.Add(pattern);
 		}
 
 		if(m_externalPatterns.Count > 0)
 			foreach(ShotPattern external in m_externalPatterns)
-				if(!m_patterns.Exists(sp => sp.m_type == external.m_type))
+				if(!m_patterns.Exists(sp => sp.m_name == external.m_name))
 					m_combinedPatterns.Add(external);
 
 		// foreach(ShotPattern pattern in m_combinedPatterns)

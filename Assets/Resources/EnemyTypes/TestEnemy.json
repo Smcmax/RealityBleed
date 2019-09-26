@@ -1,0 +1,25 @@
+{
+	"m_type":"TestEnemy",
+	"m_minimumStats":[
+		25, 25, 10, 10, 10, 10, 10, 10, 10
+	],
+	"m_maximumStats":[
+		50, 50, 25, 25, 25, 25, 25, 25, 25
+	],
+	"m_maleSprites":[
+		{
+			"m_name": "mole-idle-front"
+		}
+	],
+	"m_femaleSprites":[
+		{
+			"m_name": "mole-idle-front"
+		}
+	],
+	"m_defaultStates":[
+		"TestEnemyScanState"
+	],
+	"m_greetings":[
+		"Enemy/TestEnemyGreeting"
+	]
+}

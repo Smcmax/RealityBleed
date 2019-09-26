@@ -80,9 +80,10 @@ public class Ability {
 			if(ability) m_abilities.Add(ability);
 		}
 
-		string[] files = Directory.GetFiles(Application.dataPath + "/Data/Abilities/");
+        List<string> files = new List<string>();
+        FileSearch.RecursiveRetrieval(Application.dataPath + "/Data/Abilities/", ref files);
 
-		if(files.Length > 0)
+		if(files.Count > 0)
 			foreach(string file in files) {
 				if(file.ToLower().EndsWith(".json")) {
 					StreamReader reader = new StreamReader(file);
@@ -100,7 +101,7 @@ public class Ability {
 			}
 
 		foreach(Ability ability in m_abilities) { 
-			Ability external = m_externalAbilities.Find(a => a.m_type == ability.m_type);
+			Ability external = m_externalAbilities.Find(a => a.m_name == ability.m_name);
 
 			if(external) m_combinedAbilities.Add(external);
 			else m_combinedAbilities.Add(ability);
@@ -108,7 +109,7 @@ public class Ability {
 
 		if(m_externalAbilities.Count > 0)
 			foreach(Ability external in m_externalAbilities)
-				if(!m_abilities.Exists(a => a.m_type == external.m_type))
+				if(!m_abilities.Exists(a => a.m_name == external.m_name))
 					m_combinedAbilities.Add(external);
 	}
 

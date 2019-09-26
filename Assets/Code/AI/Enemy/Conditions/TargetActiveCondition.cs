@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "AI/Enemy/Conditions/TargetActive")]
+[System.Serializable]
 public class TargetActiveCondition : Condition {
 
 	[Tooltip("Whether or not this condition will let the entity drop its target whenever he's out of range")]

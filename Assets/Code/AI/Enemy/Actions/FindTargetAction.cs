@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "AI/Enemy/Actions/FindTarget")]
+[System.Serializable]
 public class FindTargetAction : Action {
 
 	public override void Execute(StateController p_controller) {

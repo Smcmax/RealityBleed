@@ -23,9 +23,10 @@ public class ProjectileBehaviour {
 			if(behaviour) m_loadedBehaviours.Add(behaviour);
 		}
 
-		string[] files = Directory.GetFiles(Application.dataPath + "/Data/ProjectileBehaviours/");
+        List<string> files = new List<string>();
+        FileSearch.RecursiveRetrieval(Application.dataPath + "/Data/ProjectileBehaviours/", ref files);
 
-		if(files.Length > 0)
+		if(files.Count > 0)
 			foreach(string file in files) {
 				if(file.ToLower().EndsWith(".json")) {
 					StreamReader reader = new StreamReader(file);

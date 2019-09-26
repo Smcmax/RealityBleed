@@ -60,6 +60,7 @@ public class Player : Entity {
 		if(MenuHandler.Instance.m_openedMenus.Count > 0) return;
 
 		if(m_rewiredPlayer.GetButtonDown("SpawnNPC")) Game.m_npcGenerator.GenerateRandom(1);
+        if(m_rewiredPlayer.GetButtonDown("SpawnEnemy")) Game.m_enemyGenerator.Generate("TestEnemy");
 
 		if(m_rewiredPlayer.GetButton("Primary Fire")) fire = true;
 		else if(m_rewiredPlayer.GetButton("Secondary Fire")) { fire = true; leftClick = false; }

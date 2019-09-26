@@ -70,9 +70,10 @@ public class Skill {
 			if(skill) m_skills.Add(skill);
 		}
 
-		string[] files = Directory.GetFiles(Application.dataPath + "/Data/Skills/");
+        List<string> files = new List<string>();
+        FileSearch.RecursiveRetrieval(Application.dataPath + "/Data/Skills/", ref files);
 
-		if(files.Length > 0)
+		if(files.Count > 0)
 			foreach(string file in files) {
 				if(file.ToLower().EndsWith(".json")) {
 					StreamReader reader = new StreamReader(file);
@@ -90,7 +91,7 @@ public class Skill {
 			}
 
 		foreach(Skill skill in m_skills) { 
-			Skill external = m_externalSkills.Find(s => s.m_type == skill.m_type);
+			Skill external = m_externalSkills.Find(s => s.m_name == skill.m_name);
 
 			if(external) m_combinedSkills.Add(external);
 			else m_combinedSkills.Add(skill);
@@ -98,7 +99,7 @@ public class Skill {
 
 		if(m_externalSkills.Count > 0)
 			foreach(Skill external in m_externalSkills)
-				if(!m_skills.Exists(s => s.m_type == external.m_type))
+				if(!m_skills.Exists(s => s.m_name == external.m_name))
 					m_combinedSkills.Add(external);
 	}
 

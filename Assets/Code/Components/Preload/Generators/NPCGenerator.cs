@@ -38,8 +38,11 @@ public class NPCGenerator : MonoBehaviour {
 
 		TextAsset[] types = Resources.LoadAll<TextAsset>("NPCTypes");
 
-		foreach(TextAsset type in types)
-			m_types.Add(JsonUtility.FromJson<NPCType>(type.text));
+        foreach(TextAsset typeText in types) {
+            NPCType type = JsonUtility.FromJson<NPCType>(typeText.text);
+
+            if(type != null) m_types.Add(type);
+        }
 
 		string[] files = Directory.GetFiles(Application.dataPath + "/Data/NPCTypes/");
 
@@ -47,8 +50,9 @@ public class NPCGenerator : MonoBehaviour {
 			foreach(string file in files) { 
 				if(file.ToLower().EndsWith(".json")) {
 					StreamReader reader = new StreamReader(file);
+                    NPCType type = JsonUtility.FromJson<NPCType>(reader.ReadToEnd());
 
-					m_externalTypes.Add(JsonUtility.FromJson<NPCType>(reader.ReadToEnd()));
+                    if(type != null) m_externalTypes.Add(type);
 					reader.Close();
 				}
 			}
@@ -228,7 +232,7 @@ public class NPCGenerator : MonoBehaviour {
 
 		for(int i = 0; i < UnitStats.STAT_AMOUNT; i++) {
 			bool defaultStat = p_minStats.Count <= i || p_maxStats.Count <= i;
-			p_npc.m_entity.m_stats.SetBaseStat((Stats)i, defaultStat ? 5 : Random.Range(p_minStats[i], p_maxStats[i]));
+			p_npc.m_entity.m_stats.SetBaseStat((Stats) i, defaultStat ? 5 : Random.Range(p_minStats[i], p_maxStats[i]));
 		}
 	}
 

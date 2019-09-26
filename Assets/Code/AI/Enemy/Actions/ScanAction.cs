@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "AI/Enemy/Actions/Scan")]
+[System.Serializable]
 public class ScanAction : Action {
 
 	public override void Execute(StateController p_controller) {

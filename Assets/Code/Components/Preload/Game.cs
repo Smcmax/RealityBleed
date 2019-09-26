@@ -11,6 +11,7 @@ static class Game {
 	public static LanguageManager m_languages;
 	public static ProjectilePooler m_projPool;
 	public static NPCGenerator m_npcGenerator;
+    public static EnemyGenerator m_enemyGenerator;
 	public static RewiredStandaloneInputModule m_rewiredEventSystem;
 	public static ControlMapper m_controlMapper;
 	public static Menu m_controlMapperMenu;
@@ -23,6 +24,7 @@ static class Game {
 		m_audio = (AudioManager) SafeComponent(game, "AudioManager");
 		m_projPool = (ProjectilePooler) SafeComponent(SafeFind("ProjectilePooler"), "ProjectilePooler");
 		m_npcGenerator = (NPCGenerator) SafeComponent(game, "NPCGenerator");
+        m_enemyGenerator = (EnemyGenerator) SafeComponent(game, "EnemyGenerator");
 		m_rewiredEventSystem = (RewiredStandaloneInputModule) SafeComponent(SafeFind("Rewired Event System"), "RewiredStandaloneInputModule");
         m_controlMapper = (ControlMapper) SafeComponent(SafeFind("ControlMapper"), "ControlMapper");
 		m_controlMapperMenu = (Menu) SafeComponent(SafeFind("Canvas"), "Menu");
@@ -32,6 +34,7 @@ static class Game {
 		BaseItem.LoadAll();
 		Ability.LoadAll();
 		Skill.LoadAll();
+        State.LoadAll();
 
 		m_controlMapperMenu.gameObject.SetActive(false);
 	}

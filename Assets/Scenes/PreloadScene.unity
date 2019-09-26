@@ -170,8 +170,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1781234716}
   m_HandleRect: {fileID: 1781234714}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2134,7 +2134,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0.000015258789}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &804605690
@@ -2978,7 +2978,9 @@ GameObject:
   - component: {fileID: 1429569052}
   - component: {fileID: 1429569054}
   - component: {fileID: 1429569057}
+  - component: {fileID: 1429569059}
   - component: {fileID: 1429569058}
+  - component: {fileID: 1429569060}
   m_Layer: 0
   m_Name: _app
   m_TagString: Untagged
@@ -3097,6 +3099,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_event: {fileID: 11400000, guid: 72ff7e0996a95394ba351ae26d0315c8, type: 2}
+  m_responseDelay: 0
+  m_response:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityDataHolderEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+--- !u!114 &1429569059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1429569049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6ddde535343630458ed292e2c5655de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_enemyTemplate: {fileID: 1852100763219802, guid: 91986ac9bb144924ebb0774c5d9e4185,
+    type: 2}
+  m_useExternalTypes: 1
+  m_types: []
+  m_externalTypes: []
+  m_combinedTypes: []
+--- !u!114 &1429569060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1429569049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2809a2a4068b6c340855b857fb17bd69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_event: {fileID: 11400000, guid: 88b9df2503a2d644f99ca691d04380de, type: 2}
   m_responseDelay: 0
   m_response:
     m_PersistentCalls:

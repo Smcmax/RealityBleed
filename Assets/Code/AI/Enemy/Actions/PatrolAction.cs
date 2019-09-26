@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "AI/Enemy/Actions/Patrol")]
+[System.Serializable]
 public class PatrolAction : Action {
 
 	public override void Execute(StateController p_controller) {
@@ -16,7 +16,7 @@ public class PatrolAction : Action {
 		Look.LookAt(p_controller.m_entity, direction);
 
 		if(Vector2.Distance(position, waypoint) <= 0.15) {
-			int nextWaypoint = (p_controller.m_nextWaypoint + 1) % p_controller.m_waypoints.Length;
+			int nextWaypoint = (p_controller.m_nextWaypoint + 1) % p_controller.m_waypoints.Count;
 			p_controller.m_nextWaypoint = nextWaypoint;
 
 			if(nextWaypoint == 0) p_controller.m_patrolFinished = true;

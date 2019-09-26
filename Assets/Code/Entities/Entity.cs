@@ -22,7 +22,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	public Equipment m_equipment;
 
 	[Tooltip("The entity's viewing variables, only set if this entity uses AI, otherwise leave it empty")]
-	public Look m_look;
+	public Look m_look; // TODO: assignable at loading?
 
 	[Tooltip("The inventory carried by this entity")]
 	public Inventory m_inventory;

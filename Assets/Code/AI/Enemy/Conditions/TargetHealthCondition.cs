@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "AI/Enemy/Conditions/TargetHealth")]
+[System.Serializable]
 public class TargetHealthCondition : Condition {
 
 	[Tooltip("Percentage of target's health at which this condition becomes true")]
-	public FloatReference m_healthPercentThreshold;
+	public float m_healthPercentThreshold;
 
 	public override bool Test(StateController p_controller) {
 		UnitHealth health = p_controller.m_target.m_health;
