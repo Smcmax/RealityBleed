@@ -1,0 +1,24 @@
+{
+	"m_name":"TestEnemy/ScanState",
+	"m_actions":[
+		{
+			"m_type":"Scan"
+		},
+		{
+			"m_type":"FindTarget"
+		}
+	],
+	"m_transitions":[
+		{
+			"m_condition":{
+				"m_type":"TargetActive",
+				"m_canDropCombat":false
+			},
+			"m_trueState":"TestEnemy/ShootState",
+			"m_falseState":"TestEnemy/ScanState"
+		}
+	],
+	"m_sceneGizmoColor":{
+		"m_color":[1, 0, 0, 1]
+	}
+}

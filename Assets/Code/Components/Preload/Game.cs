@@ -12,6 +12,7 @@ static class Game {
 	public static ProjectilePooler m_projPool;
 	public static NPCGenerator m_npcGenerator;
     public static EnemyGenerator m_enemyGenerator;
+    public static PersistentSetManager m_setManager;
 	public static RewiredStandaloneInputModule m_rewiredEventSystem;
 	public static ControlMapper m_controlMapper;
 	public static Menu m_controlMapperMenu;
@@ -25,6 +26,7 @@ static class Game {
 		m_projPool = (ProjectilePooler) SafeComponent(SafeFind("ProjectilePooler"), "ProjectilePooler");
 		m_npcGenerator = (NPCGenerator) SafeComponent(game, "NPCGenerator");
         m_enemyGenerator = (EnemyGenerator) SafeComponent(game, "EnemyGenerator");
+        m_setManager = (PersistentSetManager) SafeComponent(game, "PersistentSetManager");
 		m_rewiredEventSystem = (RewiredStandaloneInputModule) SafeComponent(SafeFind("Rewired Event System"), "RewiredStandaloneInputModule");
         m_controlMapper = (ControlMapper) SafeComponent(SafeFind("ControlMapper"), "ControlMapper");
 		m_controlMapperMenu = (Menu) SafeComponent(SafeFind("Canvas"), "Menu");

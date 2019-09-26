@@ -22,6 +22,9 @@ public class EnemyType {
     [Tooltip("All available default states from which one will be selected at random")]
     public List<string> m_defaultStates; // TODO: add % chance to have?
 
+    [Tooltip("All available default look variables from which one will be selected at random")]
+    public List<Look> m_looks;
+
     [Tooltip("All dialogues associated to this enemy type, determines which dialogues are allowed to be used for this type")]
     public List<string> m_greetings;
 
@@ -34,6 +37,7 @@ public class EnemyType {
         newType.m_maleSprites = new List<SerializableSprite>(m_maleSprites);
         newType.m_femaleSprites = new List<SerializableSprite>(m_femaleSprites);
         newType.m_defaultStates = new List<string>(m_defaultStates);
+        newType.m_looks = new List<Look>(m_looks);
         newType.m_greetings = new List<string>(m_greetings);
 
         return newType;
@@ -67,6 +71,11 @@ public class EnemyType {
         if(type.m_defaultStates.Count > 0) {
             m_defaultStates.Clear();
             m_defaultStates.AddRange(type.m_defaultStates);
+        }
+
+        if(type.m_looks.Count > 0) {
+            m_looks.Clear();
+            m_looks.AddRange(type.m_looks);
         }
 
         if(type.m_greetings.Count > 0)

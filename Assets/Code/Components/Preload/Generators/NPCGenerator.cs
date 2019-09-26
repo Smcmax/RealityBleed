@@ -126,6 +126,7 @@ public class NPCGenerator : MonoBehaviour {
     public void Generate(List<NPCType> p_specificTypes) {
         GameObject npcObject = Instantiate(m_npcTemplate);
 		SpriteRenderer renderer = npcObject.GetComponent<SpriteRenderer>();
+        StateController controller = npcObject.GetComponent<StateController>();
         NPC npc = npcObject.GetComponent<NPC>();
 
 		List<NPCType> allTypes = new List<NPCType>();
@@ -135,6 +136,8 @@ public class NPCGenerator : MonoBehaviour {
 		List<SerializableSprite> sprites = new List<SerializableSprite>();
 		List<int> minStats = new List<int>();
 		List<int> maxStats = new List<int>();
+        List<string> states = new List<string>();
+        List<Look> looks = new List<Look>();
 		bool male = Random.Range(0, 100) >= 50;
 		bool priorityTypeProcessed = false;
 
@@ -171,6 +174,12 @@ public class NPCGenerator : MonoBehaviour {
 					minStats = type.m_minimumStats;
 					maxStats = type.m_maximumStats;
 				}
+
+                if(type.m_defaultStates.Count > 0)
+                    states.AddRange(type.m_defaultStates);
+
+                if(type.m_looks.Count > 0)
+                    looks.AddRange(type.m_looks);
 			}
 
             if(type.m_greetings.Count > 0)
@@ -208,7 +217,7 @@ public class NPCGenerator : MonoBehaviour {
             }
         }
 
-		npc.Init(allTypes);
+		npc.Init(allTypes, "npcs");
 
 		npcObject.name = names[Random.Range(0, names.Count)];
 
@@ -224,7 +233,15 @@ public class NPCGenerator : MonoBehaviour {
 		npc.transform.position = Player.GetPlayerFromId(0).transform.position;
 		npc.m_entity.m_feedbackTemplate = GameObject.Find("UI").transform.Find("Feedback Canvas").Find("Feedback").gameObject;
 
-		StartCoroutine(SetStats(npc, minStats, maxStats));
+        if(states.Count > 0 && looks.Count > 0) {
+            npc.m_entity.m_look = looks[Random.Range(0, looks.Count)];
+
+            controller.m_enemyEntitiesSets.Add("enemies");
+            controller.m_currentState = State.Get(states[Random.Range(0, states.Count)]);
+            controller.Setup();
+        }
+
+        StartCoroutine(SetStats(npc, minStats, maxStats));
     }
 
 	private IEnumerator SetStats(NPC p_npc, List<int> p_minStats, List<int> p_maxStats) {

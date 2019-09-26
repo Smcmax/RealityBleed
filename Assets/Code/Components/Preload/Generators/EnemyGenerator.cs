@@ -115,8 +115,14 @@ public class EnemyGenerator : MonoBehaviour {
         enemy.transform.position = Player.GetPlayerFromId(0).transform.position;
         enemy.m_entity.m_feedbackTemplate = GameObject.Find("UI").transform.Find("Feedback Canvas").Find("Feedback").gameObject;
 
-        controller.m_currentState = State.Get(type.m_defaultStates[Random.Range(0, type.m_defaultStates.Count)]);
-        controller.Setup();
+        if(type.m_defaultStates.Count > 0 && type.m_looks.Count > 0) {
+            enemy.m_entity.m_look = type.m_looks[Random.Range(0, type.m_looks.Count)];
+
+            controller.m_enemyEntitiesSets.Add("players");
+            controller.m_enemyEntitiesSets.Add("npcs");
+            controller.m_currentState = State.Get(type.m_defaultStates[Random.Range(0, type.m_defaultStates.Count)]);
+            controller.Setup();
+        }
 
         StartCoroutine(SetStats(enemy, minStats, maxStats));
     }

@@ -17,7 +17,16 @@
 		}
 	],
 	"m_defaultStates":[
-		"TestEnemyScanState"
+		"TestEnemy/ScanState"
+	],
+	"m_looks":[
+		{
+			"m_lookRange":6,
+			"m_lookSphereRadius":1,
+			"m_fieldOfView":120,
+			"m_scanSpeed":6,
+			"m_scanDuration":6
+		}
 	],
 	"m_greetings":[
 		"Enemy/TestEnemyGreeting"

@@ -3,7 +3,7 @@
 public class Enemy : NPC {
 
     public void Init() {
-        Init(new List<NPCType>());
+        Init(new List<NPCType>(), "enemies");
     }
 
     public override void Interact(Entity p_entity) {

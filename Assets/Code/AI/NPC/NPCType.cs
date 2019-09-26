@@ -34,7 +34,13 @@ public class NPCType {
 	[Tooltip("All available female sprites for npcs")]
 	public List<SerializableSprite> m_femaleSprites;
 
-	[Tooltip("All dialogues associated to this npc type, determines which dialogues are allowed to be used for this type")]
+    [Tooltip("All available default states from which one will be selected at random")]
+    public List<string> m_defaultStates; // TODO: add % chance to have?
+
+    [Tooltip("All available default look variables from which one will be selected at random")]
+    public List<Look> m_looks;
+
+    [Tooltip("All dialogues associated to this npc type, determines which dialogues are allowed to be used for this type")]
     public List<string> m_greetings;
 
     [Tooltip("All starting quests associated to this npc type (no follow-up quests in here), determines which quests are allowed to be generated for this type")]
@@ -53,6 +59,8 @@ public class NPCType {
 		newType.m_femaleNames = new List<string>(m_femaleNames);
 		newType.m_maleSprites = new List<SerializableSprite>(m_maleSprites);
 		newType.m_femaleSprites = new List<SerializableSprite>(m_femaleSprites);
+        newType.m_defaultStates = new List<string>(m_defaultStates);
+        newType.m_looks = new List<Look>(m_looks);
 		newType.m_greetings = new List<string>(m_greetings);
 		newType.m_quests = new List<string>(m_quests);
 
@@ -95,6 +103,16 @@ public class NPCType {
 
 				m_maleSprites.Add(sprite);
 			}
+
+        if(type.m_defaultStates.Count > 0) {
+            m_defaultStates.Clear();
+            m_defaultStates.AddRange(type.m_defaultStates);
+        }
+
+        if(type.m_looks.Count > 0) {
+            m_looks.Clear();
+            m_looks.AddRange(type.m_looks);
+        }
 
 		if(type.m_greetings.Count > 0)
 			foreach(string greeting in type.m_greetings)

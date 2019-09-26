@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 114521393189708362}
   - component: {fileID: 114402205288830944}
   - component: {fileID: 114887391669606416}
+  - component: {fileID: 114952405315489764}
   m_Layer: 11
   m_Name: NPC Template
   m_TagString: Untagged
@@ -385,7 +386,12 @@ MonoBehaviour:
   m_isDead: 0
   m_type: {fileID: 11400000, guid: 68656f8621f16944bb5a9283acb80212, type: 2}
   m_equipment: {fileID: 114018273887417816}
-  m_look: {fileID: 11400000, guid: f213fe302a30e9d4a8c65ddcc055f562, type: 2}
+  m_look:
+    m_lookRange: 10
+    m_lookSphereRadius: 3
+    m_fieldOfView: 120
+    m_scanSpeed: 3.34
+    m_scanDuration: 10
   m_inventory: {fileID: 114691234279531632}
   m_hasCorpse: 1
   m_lootTable:
@@ -395,7 +401,7 @@ MonoBehaviour:
   m_dropInventoryOnDeath: 1
   m_interactCorpseEvent: {fileID: 11400000, guid: 1d0ce079657fe084db1b55952540e25a,
     type: 2}
-  m_runtimeSets: []
+  m_sets: []
   m_feedbackTemplate: {fileID: 0}
   m_feedbackPositionRandomness: {x: 0.25, y: 1}
   m_health: {fileID: 0}
@@ -712,6 +718,41 @@ MonoBehaviour:
   m_dialogTemplate: {fileID: 0}
   m_npc: {fileID: 0}
   m_interactor: {fileID: 0}
+--- !u!114 &114952405315489764
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1794395247628838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf7c4ee55c090fe458dea3c222cbdc6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_currentState:
+    m_name: 
+    m_actions: []
+    m_transitions: []
+    m_sceneGizmoColor:
+      m_colors:
+      - 1
+      - 1
+      - 1
+      - 1
+  m_waypoints: []
+  m_enemyEntitiesSets: []
+  m_drawGizmos: 1
+  m_entity: {fileID: 0}
+  m_look:
+    m_lookRange: 0
+    m_lookSphereRadius: 0
+    m_fieldOfView: 0
+    m_scanSpeed: 0
+    m_scanDuration: 0
+  m_target: {fileID: 0}
+  m_stateTimeElapsed: 0
+  m_nextWaypoint: 0
+  m_patrolFinished: 0
 --- !u!212 &212039153738848050
 SpriteRenderer:
   m_ObjectHideFlags: 1

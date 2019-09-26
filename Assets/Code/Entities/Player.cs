@@ -22,6 +22,9 @@ public class Player : Entity {
 	public override void Start() { 
 		base.Start();
 
+        m_sets.Add("players");
+        HandleSets(true);
+
 		// to be replaced
 		m_players.Add(this);
 

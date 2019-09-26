@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Equipment), typeof(Inventory), typeof(UnitStats))]
@@ -22,7 +23,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	public Equipment m_equipment;
 
 	[Tooltip("The entity's viewing variables, only set if this entity uses AI, otherwise leave it empty")]
-	public Look m_look; // TODO: assignable at loading?
+	public Look m_look;
 
 	[Tooltip("The inventory carried by this entity")]
 	public Inventory m_inventory;
@@ -39,8 +40,8 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	[Tooltip("Event called when interacting with the corpse")]
 	[ConditionalField("m_hasCorpse", "true")] public GameEvent m_interactCorpseEvent;
 
-	[Tooltip("All runtime sets this entity is a part of")]
-	public List<EntityRuntimeSet> m_runtimeSets;
+	[Tooltip("All persistent sets this entity is a part of")]
+	public List<string> m_sets;
 
 	[Tooltip("This entity's feedback template")]
 	public GameObject m_feedbackTemplate;
@@ -86,15 +87,29 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 		InvokeRepeating("UpdateCharacterSpeed", Constants.CHARACTER_SPEED_UPDATE_RATE, Constants.CHARACTER_SPEED_UPDATE_RATE);
 	}
 
-	void OnEnable() { 
-		foreach(EntityRuntimeSet set in m_runtimeSets)
-			set.Add(this);
+	void OnDisable() {
+        HandleSets(false);
 	}
 
-	void OnDisable() {
-		foreach(EntityRuntimeSet set in m_runtimeSets)
-			set.Remove(this);
-	}
+    public void HandleSets(bool p_add) {
+        foreach(string set in m_sets) {
+            if(!Game.m_setManager.Contains(set)) {
+                Game.m_setManager.Set(set, new List<Entity>());
+
+                if(!p_add) return;
+            }
+
+            IList list = Game.m_setManager.Get(set);
+
+            if(list is List<Entity>) {
+                if(p_add) ((List<Entity>) list).Add(this);
+                else if(((List<Entity>) list).Contains(this)) 
+                    ((List<Entity>) list).Remove(this);
+
+                Game.m_setManager.Set(set, list);
+            }
+        }
+    }
 
 	private void UpdateCharacterSpeed() { 
 		m_controller.m_speed = m_stats.GetStatEffectFloat(Stats.SPD);

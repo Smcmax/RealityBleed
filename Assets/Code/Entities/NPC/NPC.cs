@@ -13,15 +13,15 @@ public class NPC : Interactable {
     [HideInInspector] public List<NPCType> m_types;
 	[HideInInspector] public List<string> m_questsAvailable;
 
-	void OnEnable() {
+    void OnEnable() {
 		if(!(this is Enemy)) m_npcs.Add(this);
-	}
+    }
 
 	void OnDisable() {
         if(!(this is Enemy)) m_npcs.Remove(this);
 	}
 
-	public void Init(List<NPCType> p_types) {
+	public void Init(List<NPCType> p_types, string p_set) {
         m_npcId = m_npcIds.ToString();
         m_npcIds++;
 
@@ -31,6 +31,9 @@ public class NPC : Interactable {
 		m_entity = GetComponent<Entity>();
         m_dialog.m_npc = this;
 		m_entity.m_npc = this;
+
+        m_entity.m_sets.Add(p_set);
+        m_entity.HandleSets(true);
 	}
 
     public override void Interact(Entity p_entity) {

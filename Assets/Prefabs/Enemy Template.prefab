@@ -380,7 +380,7 @@ MonoBehaviour:
       - 1
       - 1
   m_waypoints: []
-  m_enemyEntities: {fileID: 0}
+  m_enemyEntitiesSets: []
   m_drawGizmos: 1
   m_entity: {fileID: 0}
   m_look:
@@ -674,11 +674,11 @@ MonoBehaviour:
   m_type: {fileID: 11400000, guid: 68656f8621f16944bb5a9283acb80212, type: 2}
   m_equipment: {fileID: 114360778338608042}
   m_look:
-    m_lookRange: 5.99
-    m_lookSphereRadius: 15
-    m_fieldOfView: 100
-    m_scanSpeed: 0.97
-    m_scanDuration: 7.7
+    m_lookRange: 10
+    m_lookSphereRadius: 3
+    m_fieldOfView: 120
+    m_scanSpeed: 3.34
+    m_scanDuration: 10
   m_inventory: {fileID: 114538737427246302}
   m_hasCorpse: 1
   m_lootTable:
@@ -688,7 +688,7 @@ MonoBehaviour:
   m_dropInventoryOnDeath: 0
   m_interactCorpseEvent: {fileID: 11400000, guid: 1d0ce079657fe084db1b55952540e25a,
     type: 2}
-  m_runtimeSets: []
+  m_sets: []
   m_feedbackTemplate: {fileID: 0}
   m_feedbackPositionRandomness: {x: 0.25, y: 0.5}
   m_health: {fileID: 0}

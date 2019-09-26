@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class FindTargetAction : Action {
@@ -9,28 +11,31 @@ public class FindTargetAction : Action {
 
 	private void Find(StateController p_controller) {
 		Transform transform = p_controller.m_entity.transform;
-		EntityRuntimeSet enemies = p_controller.m_enemyEntities;
-		Look look = p_controller.m_look;
+        Look look = p_controller.m_look;
 
-		if(!enemies) return;
+        foreach(string set in p_controller.m_enemyEntitiesSets) {
+            IList enemies = Game.m_setManager.Get(set);
 
-		foreach(Entity enemy in enemies.m_items) {
-			Transform enemyTransform = enemy.transform;
-			float distance = Vector2.Distance(transform.position, enemyTransform.position);
+            if(!(enemies is List<Entity>) || enemies.Count == 0) return;
 
-			if(distance <= p_controller.m_look.m_lookRange) {
-				Vector2 direction = enemyTransform.position - transform.position;
-				float angle = Vector2.Angle(direction, transform.right);
+            foreach(Entity enemy in (List<Entity>) enemies) {
+                Transform enemyTransform = enemy.transform;
+                float distance = Vector2.Distance(transform.position, enemyTransform.position);
 
-				if(look.m_fieldOfView / 2 >= angle || distance <= look.m_lookSphereRadius) {
-					RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, distance + 1);
+                if(distance <= p_controller.m_look.m_lookRange) {
+                    Vector2 direction = enemyTransform.position - transform.position;
+                    float angle = Vector2.Angle(direction, transform.right);
 
-					if(hit.collider && hit.collider.gameObject == enemy.gameObject) {
-						p_controller.m_target = enemy;
-						return;
-					}
-				}
-			}
-		}
+                    if(look.m_fieldOfView / 2 >= angle || distance <= look.m_lookSphereRadius) {
+                        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, distance + 1);
+
+                        if(hit.collider && hit.collider.gameObject == enemy.gameObject) {
+                            p_controller.m_target = enemy;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
 	}
 }

@@ -10,8 +10,8 @@ public class StateController : MonoBehaviour {
 	[Tooltip("Patrol waypoints")]
 	public List<Transform> m_waypoints; // TODO: loadable?
 
-	[Tooltip("The list of possible enemy entities for this entity, entities it can acquire as targets")]
-	public EntityRuntimeSet m_enemyEntities; // TODO: loadable?
+	[Tooltip("The list of possible enemy entity lists for this entity, entities it can acquire as targets")]
+	public List<string> m_enemyEntitiesSets;
 
 	public bool m_drawGizmos;
 
@@ -34,12 +34,12 @@ public class StateController : MonoBehaviour {
 		if(m_look && m_currentState) m_currentState.UpdateState(this);
 	}
 
-	public bool TransitionToState(State p_nextState) {
-		if(p_nextState != m_currentState) { 
+	public bool TransitionToState(string p_nextState) {
+		if(p_nextState != m_currentState.m_name) { 
 			foreach(Action action in m_currentState.m_actions)
 				action.OnTransition(this);
 
-			m_currentState = p_nextState;
+			m_currentState = State.Get(p_nextState);
 			OnExitState();
 
 			return true;

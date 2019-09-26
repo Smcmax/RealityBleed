@@ -85,17 +85,21 @@ public class State {
         if(p_json.Contains("m_transitions")) {
             string jsonTransitions = p_json.Split(new string[]{ "m_transitions" }, StringSplitOptions.RemoveEmptyEntries)[1]
                                            .Split('[')[1].Split(']')[0];
+            List<string> transitions = new List<string>();
 
-            foreach(string split in jsonTransitions.Split('{'))
-                foreach(string jsonTransition in split.Split('}'))
-                    if(jsonTransition.Contains("m_condition")) {
-                        string jsonCondition = jsonTransition.Split(new string[] { "m_condition" }, StringSplitOptions.RemoveEmptyEntries)[1]
-                                                             .Split('{')[1].Split('}')[0];
-                        Transition transition = JsonUtility.FromJson<Transition>("{" + jsonTransition + "}");
+            if(jsonTransitions.Contains(",")) transitions.AddRange(jsonTransitions.Split(','));
+            else transitions.Add(jsonTransitions);
 
-                        transition.m_condition = Condition.Load("{" + jsonCondition + "}");
-                        state.m_transitions.Add(transition);
+            foreach(string jsonTransition in transitions) {
+                if(jsonTransition.Contains("m_condition")) {
+                    string jsonCondition = jsonTransition.Split(new string[] { "m_condition" }, StringSplitOptions.RemoveEmptyEntries)[1]
+                                                         .Split('{')[1].Split('}')[0];
+                    Transition transition = JsonUtility.FromJson<Transition>(jsonTransitions);
+
+                    transition.m_condition = Condition.Load("{" + jsonCondition + "}");
+                    state.m_transitions.Add(transition);
                 }
+            }
         }
 
         return state;
@@ -122,9 +126,9 @@ public class State {
 
 		foreach(Transition transition in m_transitions)
 			if(transition.m_condition.Test(p_controller)) {
-				if(p_controller.TransitionToState(Get(transition.m_trueState))) return;
+				if(p_controller.TransitionToState(transition.m_trueState)) return;
 			} else {
-				if(p_controller.TransitionToState(Get(transition.m_falseState))) return;
+				if(p_controller.TransitionToState(transition.m_falseState)) return;
 			}
 	}
 
