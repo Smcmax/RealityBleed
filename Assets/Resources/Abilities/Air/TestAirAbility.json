@@ -1,8 +1,8 @@
 {
-	"m_name": "Test Air Ability",
+	"m_name": "Air/Test Air Ability",
 	"m_type": "ShotPattern",
 	"m_icon": {
-		"m_name":"emerald (1)"
+		"m_name":"Air/emerald (1)"
 	},
 	"m_domain": "Air",
 	"m_isPassive": false,
@@ -54,11 +54,11 @@
 	"m_shotPatterns": [
 		{
 			"TrainingLevel": 1,
-			"Pattern": "TestLeftClick"
+			"Pattern": "Test/TestLeftClick"
 		},
 		{
 			"TrainingLevel": 2,
-			"Pattern": "TestLeftClick"
+			"Pattern": "Test/TestLeftClick"
 		}
 	],
 	"m_aimAtCursor": true

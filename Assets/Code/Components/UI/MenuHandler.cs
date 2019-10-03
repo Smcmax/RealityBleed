@@ -118,14 +118,14 @@ public class MenuHandler : MonoBehaviour {
 	}
 
 	public void Escape() {
-		if(!gameObject.activeSelf) { MenuHandler.Instance.Escape(); return; }
+		if(!gameObject.activeSelf) { Instance.Escape(); return; }
 
 		if(m_openedMenus.Count == 0) m_pauseEvent.Raise();
 		else GoBack();
 	}
 
 	public void GoBack() {
-		if(!gameObject.activeSelf) { MenuHandler.Instance.GoBack(); return; }
+		if(!gameObject.activeSelf) { Instance.GoBack(); return; }
 
 		if(m_openedMenus.Count > 0) {
 			if(m_previousControlMapperMenu) CloseControlMapper();
@@ -137,7 +137,7 @@ public class MenuHandler : MonoBehaviour {
 
 	// it does its own stuff so it needs its own special snowflake functions to integrate into this handler properly
 	public void OpenControlMapper() {
-		if(!gameObject.activeSelf) { MenuHandler.Instance.OpenControlMapper(); return; }
+		if(!gameObject.activeSelf) { Instance.OpenControlMapper(); return; }
 
         Game.m_controlMapper.Open();
 		OpenMenu(Game.m_controlMapperMenu);
@@ -154,7 +154,7 @@ public class MenuHandler : MonoBehaviour {
 	}
 
 	public void CloseControlMapper() {
-		if(!gameObject.activeSelf) { MenuHandler.Instance.CloseControlMapper(); return; }
+		if(!gameObject.activeSelf) { Instance.CloseControlMapper(); return; }
 
 		Game.m_controlMapperMenu.gameObject.transform.parent.GetComponent<ControlMapper>().Close(true); // save settings
 
@@ -166,7 +166,7 @@ public class MenuHandler : MonoBehaviour {
 	}
 
 	public void OpenMenu(Menu p_menu) {
-		if(!gameObject.activeSelf) { MenuHandler.Instance.OpenMenu(p_menu); return; }
+		if(!gameObject.activeSelf) { Instance.OpenMenu(p_menu); return; }
 
 		if(m_openedMenus.Contains(p_menu)) {
 			CloseMenu(p_menu);

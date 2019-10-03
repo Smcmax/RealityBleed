@@ -53,21 +53,11 @@ public class BaseItem {
 		m_externalItems.Clear();
 		m_combinedItems.Clear();
 
-        Dictionary<TextAsset, string> items = new Dictionary<TextAsset, string>(); // string = subdir path
-
-        List<string> subdirs = JsonUtility.FromJson<Subdirs>(Resources.Load<TextAsset>("Items/Subdirs").text).m_subdirs;
-
-        foreach(string subdir in subdirs)
-            foreach(TextAsset item in Resources.LoadAll<TextAsset>("Items/" + subdir))
-                items.Add(item, subdir);
-
         foreach(TextAsset loadedItem in Resources.LoadAll<TextAsset>("Items")) {
-            if(loadedItem.name == "Subdirs") continue;
-
 			BaseItem item = Load(loadedItem.text);
 
 			item.m_id = ITEM_ID++;
-			item.m_sprite.m_name = "Items/" + items[loadedItem] + "/" + item.m_sprite.m_name; // TODO: check
+			item.m_sprite.m_name = "Items/" + item.m_sprite.m_name; // TODO: check
 
 			if(item) m_items.Add(item);
 		}
@@ -83,7 +73,7 @@ public class BaseItem {
 
                     if(item) {
                         item.m_id = ITEM_ID++;
-                        item.m_sprite.m_name = file.Replace(Application.dataPath + "/Data/", "") + item.m_sprite.m_name;
+                        item.m_sprite.m_name = "Items/" + item.m_sprite.m_name;
                         item.m_sprite.m_internal = false;
 
                         m_externalItems.Add(item);
@@ -131,6 +121,16 @@ public class BaseItem {
 		
 		return null;
 	}
+
+    public string GetDisplayName() {
+        if(m_name.Contains("/")) {
+            string[] split = m_name.Split('/');
+
+            return split[split.Length - 1];
+        }
+
+        return m_name;
+    }
 
 	public List<EquipmentSlot> GetSlots() { 
 		List<EquipmentSlot> slots = new List<EquipmentSlot>();

@@ -1,5 +1,5 @@
 {
-    "m_name": "TestRightClick",
+    "m_name": "Test/TestRightClick",
     "m_type": "Shape",
     "m_projectile": "PlayerRightClick",
     "m_projectileInfo": {
@@ -14,7 +14,7 @@
         "m_faceAtTarget": true
     },
     "m_behaviours": [
-        "Straight"
+        "Test/Straight"
     ],
     "m_shots": 5,
     "m_manaPerStep": 1,

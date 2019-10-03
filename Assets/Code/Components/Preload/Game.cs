@@ -20,13 +20,13 @@ static class Game {
 	static Game() {
 		GameObject game = SafeFind("_app");
 
+        m_setManager = (PersistentSetManager) SafeComponent(game, "PersistentSetManager");
         m_options = (OptionManager) SafeComponent(game, "OptionManager");
         m_languages = (LanguageManager) SafeComponent(game, "LanguageManager");
 		m_audio = (AudioManager) SafeComponent(game, "AudioManager");
 		m_projPool = (ProjectilePooler) SafeComponent(SafeFind("ProjectilePooler"), "ProjectilePooler");
 		m_npcGenerator = (NPCGenerator) SafeComponent(game, "NPCGenerator");
         m_enemyGenerator = (EnemyGenerator) SafeComponent(game, "EnemyGenerator");
-        m_setManager = (PersistentSetManager) SafeComponent(game, "PersistentSetManager");
 		m_rewiredEventSystem = (RewiredStandaloneInputModule) SafeComponent(SafeFind("Rewired Event System"), "RewiredStandaloneInputModule");
         m_controlMapper = (ControlMapper) SafeComponent(SafeFind("ControlMapper"), "ControlMapper");
 		m_controlMapperMenu = (Menu) SafeComponent(SafeFind("Canvas"), "Menu");

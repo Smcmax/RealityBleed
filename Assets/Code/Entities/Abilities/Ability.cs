@@ -62,20 +62,10 @@ public class Ability {
 		m_externalAbilities.Clear();
 		m_combinedAbilities.Clear();
 
-        Dictionary<TextAsset, string> abilities = new Dictionary<TextAsset, string>(); // string = subdir path
-
-        List<string> subdirs = JsonUtility.FromJson<Subdirs>(Resources.Load<TextAsset>("Abilities/Subdirs").text).m_subdirs;
-
-        foreach(string subdir in subdirs)
-            foreach(TextAsset ability in Resources.LoadAll<TextAsset>("Abilities/" + subdir))
-                abilities.Add(ability, subdir);
-
 		foreach(TextAsset loadedAbility in Resources.LoadAll<TextAsset>("Abilities")) {
-            if(loadedAbility.name == "Subdirs") continue;
-
             Ability ability = Load(loadedAbility.text);
 
-			ability.m_icon.m_name = "Abilities/" + abilities[loadedAbility] + "/" + ability.m_icon.m_name;
+			ability.m_icon.m_name = "Abilities/" + ability.m_icon.m_name;
 
 			if(ability) m_abilities.Add(ability);
 		}
@@ -136,6 +126,16 @@ public class Ability {
 		
 		return null;
 	}
+
+    public string GetDisplayName() {
+        if(m_name.Contains("/")) {
+            string[] split = m_name.Split('/');
+
+            return split[split.Length - 1];
+        }
+
+        return m_name;
+    }
 
     public static implicit operator bool(Ability p_instance) {
         return p_instance != null;

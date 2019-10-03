@@ -25,7 +25,7 @@ public class ItemTooltip : Tooltip {
         Show(m_panelHeight, true); // activating the tooltip (out of sight) to allow preferred heights to be fetched
 
         TextMeshProUGUI name = m_modifiableInfo.Find(ti => ti.m_name == "Item Name Text").Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		name.text = Get(item.m_name);
+		name.text = Get(item.GetDisplayName());
 		name.color = item.m_nameColor.Value;
 
 		if(item is Armor || item is Weapon) {

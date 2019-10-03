@@ -456,7 +456,7 @@ MonoBehaviour:
     m_outlineSprite:
       m_name: 
       m_internal: 1
-    m_itemRef: Test Sword
+    m_itemRef: Test/Test Sword
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
@@ -637,7 +637,7 @@ MonoBehaviour:
     m_outlineSprite:
       m_name: 
       m_internal: 1
-    m_itemRef: Test Sword
+    m_itemRef: Test/Test Sword
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
@@ -646,7 +646,7 @@ MonoBehaviour:
     m_outlineSprite:
       m_name: 
       m_internal: 1
-    m_itemRef: Test Sword v2
+    m_itemRef: Test/Test Sword v2
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
@@ -884,7 +884,12 @@ MonoBehaviour:
   m_isDead: 0
   m_type: {fileID: 11400000, guid: 68656f8621f16944bb5a9283acb80212, type: 2}
   m_equipment: {fileID: 114071987786881558}
-  m_look: {fileID: 0}
+  m_look:
+    m_lookRange: 0
+    m_lookSphereRadius: 0
+    m_fieldOfView: 0
+    m_scanSpeed: 0
+    m_scanDuration: 0
   m_inventory: {fileID: 114018483739704796}
   m_hasCorpse: 1
   m_lootTable:
@@ -894,9 +899,7 @@ MonoBehaviour:
   m_dropInventoryOnDeath: 1
   m_interactCorpseEvent: {fileID: 11400000, guid: 1d0ce079657fe084db1b55952540e25a,
     type: 2}
-  m_runtimeSets:
-  - {fileID: 11400000, guid: 0a26465c1ba21624095d0535607d7b8a, type: 2}
-  - {fileID: 11400000, guid: cd4eb962e7b096941b5b3f2a73d69442, type: 2}
+  m_sets: []
   m_feedbackTemplate: {fileID: 0}
   m_feedbackPositionRandomness: {x: 0.25, y: 1}
   m_health: {fileID: 0}

@@ -52,20 +52,10 @@ public class Skill {
 		m_externalSkills.Clear();
 		m_combinedSkills.Clear();
 
-        Dictionary<TextAsset, string> skills = new Dictionary<TextAsset, string>(); // string = subdir path
-
-        List<string> subdirs = JsonUtility.FromJson<Subdirs>(Resources.Load<TextAsset>("Skills/Subdirs").text).m_subdirs;
-
-        foreach(string subdir in subdirs)
-            foreach(TextAsset skill in Resources.LoadAll<TextAsset>("Skills/" + subdir))
-                skills.Add(skill, subdir);
-
         foreach(TextAsset loadedSkill in Resources.LoadAll<TextAsset>("Skills")) {
-            if(loadedSkill.name == "Subdirs") continue;
-
             Skill skill = Load(loadedSkill.text);
 
-			skill.m_icon.m_name = "Skills/" + skills[loadedSkill] + "/" + skill.m_icon.m_name;
+			skill.m_icon.m_name = "Skills/" + skill.m_icon.m_name;
 
 			if(skill) m_skills.Add(skill);
 		}
@@ -126,6 +116,16 @@ public class Skill {
 		
 		return null;
 	}
+
+    public string GetDisplayName() {
+        if(m_name.Contains("/")) {
+            string[] split = m_name.Split('/');
+
+            return split[split.Length - 1];
+        }
+
+        return m_name;
+    }
 
     public static implicit operator bool(Skill p_instance) {
         return p_instance != null;

@@ -44,9 +44,10 @@ public class NPCGenerator : MonoBehaviour {
             if(type != null) m_types.Add(type);
         }
 
-		string[] files = Directory.GetFiles(Application.dataPath + "/Data/NPCTypes/");
+        List<string> files = new List<string>();
+        FileSearch.RecursiveRetrieval(Application.dataPath + "/Data/NPCTypes/", ref files);
 
-		if(files.Length > 0)
+		if(files.Count > 0)
 			foreach(string file in files) { 
 				if(file.ToLower().EndsWith(".json")) {
 					StreamReader reader = new StreamReader(file);
