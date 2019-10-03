@@ -2,11 +2,14 @@
 	"m_name":"TestEnemy/ShootState",
 	"m_actions":[
 		{
-			"m_type":"Chase"
+			"m_type":"Shoot",
+			"m_patternToShoot":"TestEnemy/ArrowExplosion",
+			"m_forceTarget":true,
+			"m_stopShootingOnTransition":true
 		},
 		{
 			"m_type":"Shoot",
-			"m_patternToShoot":"TestLeftClick",
+			"m_patternToShoot":"TestEnemy/SlowExplodingCircle",
 			"m_forceTarget":true,
 			"m_stopShootingOnTransition":true
 		}
