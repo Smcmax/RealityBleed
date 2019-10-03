@@ -1,5 +1,5 @@
 {
-    "m_name": "TestLeftClick",
+    "m_name": "Test/TestLeftClick",
     "m_type": "CircleSection",
     "m_projectile": "PlayerLeftClick",
     "m_projectileInfo": {
@@ -14,7 +14,7 @@
         "m_faceAtTarget": true
     },
     "m_behaviours": [
-        "DefaultWave"
+        "Test/DefaultWave"
     ],
     "m_shots": 1,
     "m_manaPerStep": 2,

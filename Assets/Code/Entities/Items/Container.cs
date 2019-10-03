@@ -23,8 +23,11 @@ public class Container : Interactable {
 		}
 
 		m_inventory.m_interactor = p_entity;
-		if(MenuHandler.Instance.m_handlingPlayer == null) MenuHandler.Instance.m_handlingPlayer = (p_entity as Player).m_rewiredPlayer;
-		MenuHandler.Instance.m_containerMenu.GetComponent<InventoryLoader>().m_inventory = m_inventory;
+
+		if(MenuHandler.Instance.m_handlingPlayer == null)
+            MenuHandler.Instance.m_handlingPlayer = (p_entity as Player).m_rewiredPlayer;
+		
+        MenuHandler.Instance.m_containerMenu.GetComponent<InventoryLoader>().m_inventory = m_inventory;
 		MenuHandler.Instance.OpenMenu(MenuHandler.Instance.m_containerMenu);
 
 		if(m_autoLootable && p_entity is Player)

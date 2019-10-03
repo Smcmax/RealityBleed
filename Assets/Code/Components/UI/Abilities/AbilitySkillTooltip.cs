@@ -24,7 +24,7 @@ public class AbilitySkillTooltip : Tooltip {
 
 		TextMeshProUGUI name = m_modifiableInfo.Find(ti => ti.m_name == "AbilitySkill Name Text")
 											   .Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		name.text = Get(p_wrapper.GetName());
+		name.text = Get(p_wrapper.GetDisplayName());
 		name.color = ability != null ? type.m_nameColor.Value : skill.m_nameColor.Value;
 
 		if(ability != null) {
@@ -102,11 +102,38 @@ public class AbilitySkillWrapper {
 	public AbilitySkillWrapper(SkillWrapper p_wrapper) { SkillWrapper = p_wrapper; }
 
 	public bool IsEmpty() { return !(AbilityWrapper != null || SkillWrapper != null); }
-	public string GetName() { return IsEmpty() ? "" : (AbilityWrapper != null ? AbilityWrapper.AbilityName : SkillWrapper.SkillName); }
-	public bool Learned() { return IsEmpty() ? false : (AbilityWrapper != null ? AbilityWrapper.Learned : SkillWrapper.Learned); }
-	public int GetTrainingLevel() { return IsEmpty() ? 0 : (AbilityWrapper != null ? AbilityWrapper.TrainingLevel : SkillWrapper.TrainingLevel); }
-	public int GetSellPrice() { return IsEmpty() ? 0 : (AbilityWrapper != null ? AbilityWrapper.GetAbility().m_sellPrice : SkillWrapper.GetSkill().m_sellPrice); }
-	public int GetManaCost(int p_trainingLevel) {
+
+	public string GetName() { 
+        return IsEmpty() ? "" : 
+               (AbilityWrapper != null ? AbilityWrapper.AbilityName : 
+                                         SkillWrapper.SkillName); 
+    }
+
+	public string GetDisplayName() { 
+        return IsEmpty() ? "" : 
+               (AbilityWrapper != null ? AbilityWrapper.GetAbility().GetDisplayName() :
+                                         SkillWrapper.GetSkill().GetDisplayName()); 
+    }
+
+    public bool Learned() { 
+        return IsEmpty() ? false : 
+               (AbilityWrapper != null ? AbilityWrapper.Learned : 
+                                         SkillWrapper.Learned); 
+    }
+	
+    public int GetTrainingLevel() { 
+        return IsEmpty() ? 0 : 
+               (AbilityWrapper != null ? AbilityWrapper.TrainingLevel : 
+                                         SkillWrapper.TrainingLevel);
+    }
+	
+    public int GetSellPrice() { 
+        return IsEmpty() ? 0 : 
+               (AbilityWrapper != null ? AbilityWrapper.GetAbility().m_sellPrice : 
+                                         SkillWrapper.GetSkill().m_sellPrice); 
+    }
+	
+    public int GetManaCost(int p_trainingLevel) {
 		return IsEmpty() ? 0 :
 			(AbilityWrapper != null ?
 			AbilityWrapper.GetAbility().m_manaCosts.Find(m => m.TrainingLevel == p_trainingLevel).Value :

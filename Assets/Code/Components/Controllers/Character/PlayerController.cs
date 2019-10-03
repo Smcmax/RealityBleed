@@ -11,10 +11,10 @@ public class PlayerController : MonoBehaviour {
 		float xMove = m_player.m_rewiredPlayer.GetAxisRaw("MoveX");
 		float yMove = m_player.m_rewiredPlayer.GetAxisRaw("MoveY");
 
-        if(MenuHandler.Instance.m_openedMenus.Count > 0) {
+        /*if(MenuHandler.Instance.m_openedMenus.Count > 0) {
 			xMove = 0;
 			yMove = 0;
-		}
+		}*/
 		
 		if(float.IsNaN(xMove)) xMove = 0;
 		if(float.IsNaN(yMove)) yMove = 0;

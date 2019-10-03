@@ -1073,6 +1073,15 @@ Prefab:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1473646328442552, guid: 1722a6d17d631c54cbc2664427b326cf, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 223631250123070602, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1722a6d17d631c54cbc2664427b326cf, type: 2}
   m_IsPrefabAsset: 0
@@ -1425,36 +1434,36 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 114071987786881558, guid: c8f178c0b7b80014a9b1557be1e060ce,
-        type: 2}
-      propertyPath: m_itemDestroyModal
-      value: 
-      objectReference: {fileID: 1292071301}
-    - target: {fileID: 114071987786881558, guid: c8f178c0b7b80014a9b1557be1e060ce,
-        type: 2}
-      propertyPath: m_itemTooltip
-      value: 
-      objectReference: {fileID: 1181717885}
-    - target: {fileID: 114018483739704796, guid: c8f178c0b7b80014a9b1557be1e060ce,
-        type: 2}
-      propertyPath: m_itemDestroyModal
-      value: 
-      objectReference: {fileID: 1292071301}
-    - target: {fileID: 114018483739704796, guid: c8f178c0b7b80014a9b1557be1e060ce,
-        type: 2}
-      propertyPath: m_itemTooltip
-      value: 
-      objectReference: {fileID: 1181717885}
-    - target: {fileID: 114011362187835382, guid: c8f178c0b7b80014a9b1557be1e060ce,
-        type: 2}
-      propertyPath: m_uiCanvas
-      value: 
-      objectReference: {fileID: 1172693827}
     - target: {fileID: 114241594169349478, guid: c8f178c0b7b80014a9b1557be1e060ce,
         type: 2}
       propertyPath: m_healthBarTemplate
       value: 
       objectReference: {fileID: 704143344}
+    - target: {fileID: 114011362187835382, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_uiCanvas
+      value: 
+      objectReference: {fileID: 1172693827}
+    - target: {fileID: 114018483739704796, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_itemDestroyModal
+      value: 
+      objectReference: {fileID: 1292071301}
+    - target: {fileID: 114018483739704796, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_itemTooltip
+      value: 
+      objectReference: {fileID: 1181717885}
+    - target: {fileID: 114071987786881558, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_itemDestroyModal
+      value: 
+      objectReference: {fileID: 1292071301}
+    - target: {fileID: 114071987786881558, guid: c8f178c0b7b80014a9b1557be1e060ce,
+        type: 2}
+      propertyPath: m_itemTooltip
+      value: 
+      objectReference: {fileID: 1181717885}
     - target: {fileID: 114332108090814936, guid: c8f178c0b7b80014a9b1557be1e060ce,
         type: 2}
       propertyPath: m_feedbackTemplate
@@ -1628,7 +1637,7 @@ MonoBehaviour:
     m_outlineSprite:
       m_name: 
       m_internal: 1
-    m_itemRef: Arrow
+    m_itemRef: Test/Arrow
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
@@ -1637,7 +1646,7 @@ MonoBehaviour:
     m_outlineSprite:
       m_name: 
       m_internal: 1
-    m_itemRef: Arrow
+    m_itemRef: Test/Arrow
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0

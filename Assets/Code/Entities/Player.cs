@@ -60,7 +60,7 @@ public class Player : Entity {
 
 		if(HideUIOnEvent.ObjectsHidden.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;
 		if(UIItem.HeldItem && this == UIItem.Holder) UIItem.HeldItem.MoveItem(m_mouse.GetPosition());
-		if(MenuHandler.Instance.m_openedMenus.Count > 0) return;
+		//if(MenuHandler.Instance.m_openedMenus.Count > 0) return;
 
 		if(m_rewiredPlayer.GetButtonDown("SpawnNPC")) Game.m_npcGenerator.GenerateRandom(1);
         if(m_rewiredPlayer.GetButtonDown("SpawnEnemy")) Game.m_enemyGenerator.Generate("TestEnemy");

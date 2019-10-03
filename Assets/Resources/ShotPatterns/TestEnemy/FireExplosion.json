@@ -1,0 +1,27 @@
+{
+    "m_name": "TestEnemy/FireExplosion",
+    "m_type": "Circle",
+    "m_projectile": "DeathExplosion",
+    "m_projectileInfo": {
+        "m_damage": 5,
+        "m_statApplied": "INT",
+        "m_damageType": "Fire",
+        "m_piercing": false,
+        "m_armorPiercing": true,
+        "m_range": 2,
+        "m_speed": 6,
+        "m_rotate": false,
+        "m_faceAtTarget": true
+    },
+    "m_behaviours": [
+        "Test/Straight"
+    ],
+    "m_shots": 6,
+    "m_manaPerStep": 0,
+    "m_instant": true,
+    "m_loop": false,
+    "m_patternCooldown": 0,
+    "m_bypassShooterCooldown": true,
+    "m_stepDelay": 0,
+    "m_angleOffset": 0
+}

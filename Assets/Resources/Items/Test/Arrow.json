@@ -1,8 +1,8 @@
 {
-    "m_name": "Arrow",
+    "m_name": "Test/Arrow",
     "m_type": "Item",
     "m_sprite": {
-        "m_name": "Arrow"
+        "m_name": "Test/Arrow"
     },
     "m_maxStackSize": 64,
     "m_sellPrice": 2,
