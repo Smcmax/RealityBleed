@@ -36,28 +36,32 @@ public class CursorSelector : Selectable {
 	}
 
 	public void Load() {
-		m_sprites = new List<FileSprite>();
+		List<FileSprite> sprites = new List<FileSprite>();
 		m_currentIndex = 0;
 
 		if(!MenuHandler.Instance || MenuHandler.Instance.m_handlingPlayer == null) return;
 
         string loadedCursor = Game.m_options.Get("CursorSprite", MenuHandler.Instance.m_handlingPlayer.id).GetString();
-		int index = 0;
 
         foreach(string file in Directory.GetFiles(Application.dataPath + "/Data/Cursors/")) {
 			if(file.ToLower().EndsWith(".png")) {
-				Sprite sprite = SpriteUtils.LoadSpriteFromFile(file);
-				string name = Path.GetFileNameWithoutExtension(file);
+                string name = Path.GetFileNameWithoutExtension(file);
 
-				if(sprite == null) continue;
+                try {
+                    FileSprite existingSprite = m_sprites.Find(fs => fs.Name.Equals(name));
+                    sprites.Add(existingSprite);
+                } catch(NullReferenceException) {
+                    Sprite sprite = SpriteUtils.LoadSpriteFromFile(file);
 
-				m_sprites.Add(new FileSprite(name, sprite));
+                    if(sprite == null) continue;
 
-				if(name.Equals(loadedCursor)) m_currentIndex = index;
-
-				index++;
+                    sprites.Add(new FileSprite(name, sprite));
+                }
 			}
 		}
+
+        m_sprites = sprites;
+        m_currentIndex = m_sprites.FindIndex(fs => fs.Name.Equals(loadedCursor));
 
 		Display(m_currentIndex);
 	}
