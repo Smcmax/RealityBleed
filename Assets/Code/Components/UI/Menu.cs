@@ -12,6 +12,12 @@ public class Menu : MonoBehaviour {
 	[Tooltip("Can this menu be closed?")]
 	public bool m_closeable;
 
+    [Tooltip("Is this menu supposed to be the only player menu opened on screen?")]
+    public bool m_singleOpenedMenu;
+
+    [Tooltip("The name of the button required to open this menu")]
+    public string m_menuButtonName;
+
 	private Language m_lastUpdatedLanguage;
 
 	public void Awake() {

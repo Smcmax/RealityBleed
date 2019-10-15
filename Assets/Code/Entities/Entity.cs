@@ -4,7 +4,7 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(Equipment), typeof(Inventory), typeof(UnitStats))]
+[RequireComponent(typeof(Equipment), typeof(Inventory))]
 public class Entity : MonoBehaviour, IDamageable, IEffectable {
 
 	[Tooltip("The movement controller")]
@@ -229,7 +229,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 		m_controller.Stop();
 		Destroy(m_controller);
 		Destroy(m_health);
-		Destroy(this);
-		Destroy(m_stats);
+        Destroy(m_stats);
+        Destroy(this);
 	}
 }

@@ -6,8 +6,12 @@ using System.Collections;
 public class AutoSelectObject : MonoBehaviour {
 
 	void OnEnable() {
-		StartCoroutine(Select());
+        StartSelectCoroutine();
 	}
+
+    public void StartSelectCoroutine() {
+        StartCoroutine(Select());
+    }
 
 	public IEnumerator Select() {
 		yield return new WaitForSecondsRealtime(0.01f);

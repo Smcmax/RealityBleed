@@ -33,7 +33,10 @@ public class MenuHandler : MonoBehaviour {
 	[Tooltip("The game event raised when the map screen is brought up")]
 	public GameEvent m_onMapEvent;
 
-	public List<Menu> m_openedMenus;
+    [Tooltip("The game event raised when the quest log is brought up")]
+    public GameEvent m_onQuestLogEvent;
+
+    public List<Menu> m_openedMenus;
 	[HideInInspector] public Rewired.Player m_handlingPlayer; // The player handling the menu
 
 	private bool m_paused;
@@ -69,10 +72,25 @@ public class MenuHandler : MonoBehaviour {
 
 		if(DialogWindow.m_openedWindows.Count == 0) {
 			if(GetButtonDown("UIInteract2")) GoBack();
-			if(GetButtonDown("Inventory") && !m_paused && m_onInventoryEvent) m_onInventoryEvent.Raise();
-			if(GetButtonDown("Character") && !m_paused && m_onCharacterEvent) m_onCharacterEvent.Raise();
-			if(GetButtonDown("Skillbook") && !m_paused && m_onSkillbookEvent) m_onSkillbookEvent.Raise();
-			if(GetButtonDown("Map") && !m_paused && m_onMapEvent) m_onMapEvent.Raise();
+
+            string openedMenuButton = GetButtonRelatedToSingleOpenMenu();
+
+			if(openedMenuButton == "" && GetButtonDown("Inventory") && !m_paused && m_onInventoryEvent) 
+                m_onInventoryEvent.Raise();
+
+			if(openedMenuButton == "" && GetButtonDown("Character") && !m_paused && m_onCharacterEvent) 
+                m_onCharacterEvent.Raise();
+
+			if((openedMenuButton == "" || openedMenuButton == "Skillbook") && 
+                GetButtonDown("Skillbook") && !m_paused && m_onSkillbookEvent) 
+                m_onSkillbookEvent.Raise();
+
+			if((openedMenuButton == "" || openedMenuButton == "Map") && 
+                GetButtonDown("Map") && !m_paused && m_onMapEvent) 
+                m_onMapEvent.Raise();
+
+			if(openedMenuButton == "" && GetButtonDown("QuestLog") && !m_paused && m_onQuestLogEvent) 
+                m_onQuestLogEvent.Raise();
 		}
 
 		GameObject selected = EventSystem.current.currentSelectedGameObject;
@@ -173,6 +191,12 @@ public class MenuHandler : MonoBehaviour {
 			return;
 		}
 
+        if(p_menu.m_singleOpenedMenu && m_openedMenus.Count > 0)
+            foreach(Menu opened in new List<Menu>(m_openedMenus)) {
+                m_openedMenus.Remove(opened);
+                opened.gameObject.SetActive(false);
+            }
+
 		p_menu.gameObject.SetActive(true);
 
 		foreach(Menu opened in new List<Menu>(m_openedMenus)) {
@@ -230,6 +254,20 @@ public class MenuHandler : MonoBehaviour {
 		m_handlingPlayer = null;
 		m_lastSelectedGameObject = null;
 	}
+
+    private bool IsSingleOpenMenuOpen() {
+        foreach(Menu opened in m_openedMenus)
+            if(opened.m_singleOpenedMenu) return true;
+
+        return false;
+    }
+
+    private string GetButtonRelatedToSingleOpenMenu() {
+        foreach(Menu opened in m_openedMenus)
+            if(opened.m_singleOpenedMenu) return opened.m_menuButtonName;
+
+        return "";
+    }
 
 	public void ChangeScenes(string scene) {
 		SceneManager.LoadScene(scene);
