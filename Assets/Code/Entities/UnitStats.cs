@@ -63,11 +63,11 @@ public class UnitStats : MonoBehaviour {
 	}
 
 	public int GetBaseStatWithGear(Stats p_stat) { 
-		return GetBaseStat(p_stat) + m_gearModifiers[(int) p_stat];
+		return Mathf.Clamp(GetBaseStat(p_stat) + m_gearModifiers[(int) p_stat], 0, 999);
 	}
 
 	public int GetStat(Stats p_stat) { 
-		return GetBaseStat(p_stat) + GetModifier(p_stat) + GetGearModifier(p_stat) + GetExternalModifiers(p_stat);
+		return Mathf.Clamp(GetBaseStat(p_stat) + GetModifier(p_stat) + GetGearModifier(p_stat) + GetExternalModifiers(p_stat), 0, 999);
 	}
 
 	public int GetStatEffect(Stats p_stat) { 
@@ -88,6 +88,25 @@ public class UnitStats : MonoBehaviour {
 
 	public int GetExternalModifiers(Stats p_stat) { 
 		return (int) m_entity.m_modifiers.GetModifier(p_stat.ToString());
+	}
+
+	public void SetBaseStat(Stats p_stat, int p_value) {
+		switch(p_stat) {
+			case Stats.HP: m_maxHP.Value = p_value; m_maxHP.m_constantValue = p_value; break;
+			case Stats.MP: m_maxMP.Value = p_value; m_maxMP.m_constantValue = p_value; break;
+			case Stats.STR: m_strength.Value = p_value; m_strength.m_constantValue = p_value; break;
+			case Stats.DEX: m_dexterity.Value = p_value; m_dexterity.m_constantValue = p_value; break;
+			case Stats.INT: m_intellect.Value = p_value; m_intellect.m_constantValue = p_value; break;
+			case Stats.SPD: m_speed.Value = p_value; m_speed.m_constantValue = p_value; break;
+			case Stats.CON: m_constitution.Value = p_value; m_constitution.m_constantValue = p_value; break;
+			case Stats.DEF: m_defense.Value = p_value; m_defense.m_constantValue = p_value; break;
+			case Stats.WIS: m_wisdom.Value = p_value; m_wisdom.m_constantValue = p_value; break;
+		}
+	}
+
+	public void SetStats(params int[] p_stats) { 
+		for(int i = 0; i < p_stats.Length; i++)
+			SetBaseStat((Stats) i, p_stats[i]);
 	}
 
 	public void SetModifier(Stats p_stat, int p_value) { 
@@ -139,19 +158,30 @@ public class UnitStats : MonoBehaviour {
 
 	public IEnumerator RegenHealth() {
 		while(m_healthRegen) {
-			if(GetBaseStatWithGear(Stats.HP) - (GetStat(Stats.HP) + 1) >= 0)
-				AddModifier(Stats.HP, 1, 0);
+			float con = GetStatEffectFloat(Stats.CON);
 
-			yield return new WaitForSeconds(1f / GetStatEffectFloat(Stats.CON));
+			if(con <= 0.0f) yield return new WaitForSeconds(Constants.EFFECT_TICK_RATE);
+			else {
+				if(GetBaseStatWithGear(Stats.HP) - (GetStat(Stats.HP) + 1) >= 0)
+					AddModifier(Stats.HP, 1, 0);
+
+				yield return new WaitForSeconds(1f / con);
+			}
+
 		}
 	}
 
 	public IEnumerator RegenMana() {
 		while(m_manaRegen) {
-			if(GetBaseStatWithGear(Stats.MP) - (GetStat(Stats.MP) + 1) >= 0)
-				AddModifier(Stats.MP, 1, 0);
+			float wis = GetStatEffectFloat(Stats.WIS);
 
-			yield return new WaitForSeconds(1f / GetStatEffectFloat(Stats.WIS));
+			if(wis <= 0.0f) yield return new WaitForSeconds(Constants.EFFECT_TICK_RATE);
+			else {
+				if(GetBaseStatWithGear(Stats.MP) - (GetStat(Stats.MP) + 1) >= 0)
+					AddModifier(Stats.MP, 1, 0);
+
+				yield return new WaitForSeconds(1f / wis);
+			}
 		}
 	}
 }

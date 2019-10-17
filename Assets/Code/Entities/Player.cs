@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using Rewired;
 using System.Collections.Generic;
-using Rewired.Integration.UnityUI;
 
 public class Player : Entity {
 
@@ -14,12 +12,20 @@ public class Player : Entity {
 	[HideInInspector] public PlayerController m_playerController;
 	[HideInInspector] public Rewired.Player m_rewiredPlayer;
 	[HideInInspector] public PlayerCursor m_mouse;
+	[HideInInspector] public bool m_interactingWithNPC = false;
+    private float m_lastNPCInteract;
+
+	[HideInInspector] public List<Quest> m_completedQuests; // replaced with quest cause they already need to be saved for current anyways
+	[HideInInspector] public List<Quest> m_currentQuests; // actual player-specific quests with instantiated goals
 
 	private bool m_wasHoldingLeftClick = false;
 	private bool m_wasHoldingRightClick = false;
 
 	public override void Start() { 
 		base.Start();
+
+        m_sets.Add("players");
+        HandleSets(true);
 
 		// to be replaced
 		m_players.Add(this);
@@ -31,19 +37,39 @@ public class Player : Entity {
 		m_playerController.m_player = this;
 
 		m_feedbackColor = Constants.TRANSPARENT;
+
+		// TODO: TEMP
+		int hotkey = 1;
+		foreach(Ability ability in Ability.m_abilities) {
+			AbilityWrapper wrapper = new AbilityWrapper();
+
+			wrapper.AbilityName = ability.m_name;
+			wrapper.Learned = true;
+			wrapper.TrainingLevel = 1;
+			wrapper.HotkeySlot = hotkey;
+
+			m_abilities.Add(wrapper);
+
+			hotkey++;
+		}
 	}
 
-	void Update() {
+	void LateUpdate() {
 		bool leftClick = true;
 		bool fire = false;
 		GameObject hover = Game.m_rewiredEventSystem.GetGameObjectUnderPointer(m_playerId);
-		bool mouseOverGameObject = hover || UIItem.HeldItem; // change uiitem to support multiple holds...
+		bool mouseOverGameObject = hover || UIItem.HeldItem;
 
 		if(HideUIOnEvent.ObjectsHidden.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;
 		if(UIItem.HeldItem && this == UIItem.Holder) UIItem.HeldItem.MoveItem(m_mouse.GetPosition());
+        if(MenuHandler.Instance.m_openedMenus.Count > 0 || m_interactingWithNPC || 
+            Time.time - m_lastNPCInteract <= 0.5f) {
+            if(m_interactingWithNPC) m_lastNPCInteract = Time.time;
+            return;
+        }
 
-		//if(m_mouse.m_currentMode == CursorModes.CURSOR) return; // stop all actions if we're in a menu, this is also done in PlayerController
-		if(MenuHandler.Instance.m_openedMenus.Count > 0) return;
+		if(m_rewiredPlayer.GetButtonDown("SpawnNPC")) Game.m_npcGenerator.GenerateRandom(1);
+        if(m_rewiredPlayer.GetButtonDown("SpawnEnemy")) Game.m_enemyGenerator.Generate("TestEnemy");
 
 		if(m_rewiredPlayer.GetButton("Primary Fire")) fire = true;
 		else if(m_rewiredPlayer.GetButton("Secondary Fire")) { fire = true; leftClick = false; }
@@ -58,22 +84,33 @@ public class Player : Entity {
 
 		if(fire && !mouseOverGameObject) {
 			Weapon weapon = m_equipment.GetWeaponHandlingClick(leftClick);
-			ShotPattern toFire = m_equipment.GetShotPatternHandlingClick(leftClick);
+			string toFire = m_equipment.GetShotPatternHandlingClick(leftClick);
 
 			if(weapon == null) return;
-			if(toFire == null) return;
+			if(string.IsNullOrEmpty(toFire)) return;
 
-			m_shooter.SetPatternInfo(toFire, "forcedTarget", (Vector2) Camera.main.ScreenToWorldPoint(m_mouse.GetPosition()));
-			weapon.Use(this, new string[]{ weapon.m_leftClickPattern == toFire ? "true" : "false" }); // using weapon in case it has specific code to execute
+			weapon.Use(this, new string[]{ weapon.m_leftClickPattern == toFire ? "true" : "false", "true" }); // using weapon in case it has specific code to execute
 		}
 
 		for(int i = 1; i <= 6; i++) { 
 			if(m_rewiredPlayer.GetButtonDown("Hotkey " + i)) { 
 				AbilityWrapper wrapper = m_abilities.Find(a => a.HotkeySlot == i);
 
-				if(wrapper != null) UseAbility(wrapper.Ability);
+				if(wrapper != null) UseAbility(wrapper.AbilityName);
 			}
 		}
+	}
+
+	public bool IsEligible(Quest p_quest) { 
+		if(m_completedQuests.Exists(q => q.m_name.Equals(p_quest.m_name)) || 
+            m_currentQuests.Exists(q => q.m_name == p_quest.m_name)) return false;
+
+		if(p_quest.m_prerequisites != null && p_quest.m_prerequisites.Count > 0)
+			foreach(string prerequisite in p_quest.m_prerequisites)
+				if(!m_completedQuests.Exists(q => q.m_name.Equals(prerequisite))) 
+                    return false;
+
+		return true;
 	}
 
 	// to be replaced

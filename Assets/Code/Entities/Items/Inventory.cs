@@ -47,7 +47,7 @@ public class Inventory : MonoBehaviour {
 		int count = 0;
 
 		foreach(Item item in m_items)
-			if(!item.m_item) count++;
+			if(item.m_item) count++;
 
 		return count;
 	}
@@ -120,9 +120,9 @@ public class Inventory : MonoBehaviour {
 	public bool SetAtIndex(Item p_item, int p_index) {
 		Item atIndex = m_items[p_index];
 		
-		if(atIndex.m_item == null) {
+		if(!atIndex.m_item) {
 			m_items[p_index] = p_item;
-		} else if (atIndex.m_item.m_id == p_item.m_item.m_id) { 
+		} else if(atIndex.m_item.m_id == p_item.m_item.m_id) { 
 			if(atIndex.m_amount + p_item.m_amount > atIndex.m_item.m_maxStackSize) return false;
 
 			atIndex.m_amount += p_item.m_amount;
@@ -161,8 +161,8 @@ public class Inventory : MonoBehaviour {
 		if(firstIndex == -1 || secondIndex == -1) return false;
 
 		// check if items are compatible in their respective slots
-		if(isFirstEquipped && (p_second.m_item && !p_second.m_item.m_equipmentSlots.Contains((EquipmentSlot) firstIndex))) return false;
-		if(isSecondEquipped && (p_first.m_item && !p_first.m_item.m_equipmentSlots.Contains((EquipmentSlot) secondIndex))) return false;
+		if(isFirstEquipped && (p_second.m_item && !p_second.m_item.m_equipmentSlots.Contains(((EquipmentSlot) firstIndex).ToString()))) return false;
+		if(isSecondEquipped && (p_first.m_item && !p_first.m_item.m_equipmentSlots.Contains(((EquipmentSlot) secondIndex).ToString()))) return false;
 
 		p_first.m_inventory.RemoveAt(firstIndex);
 		p_second.m_inventory.RemoveAt(secondIndex);

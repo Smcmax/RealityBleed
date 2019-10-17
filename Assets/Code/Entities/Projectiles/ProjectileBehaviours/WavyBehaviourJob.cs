@@ -25,7 +25,7 @@ public class WavyBehaviourJob : ProjectileMovementJob {
 			Frequency = behaviour.m_frequency,
 			Magnitude = behaviour.m_magnitude,
 			Axis = p_projectile.transform.right,
-			SpriteRotation = p_projectile.m_info.m_spriteRotation,
+			SpriteRotation = -90,
 			StartTime = Time.time
 		};
 	}

@@ -2,13 +2,17 @@
 
 [System.Serializable]
 public class ColorReference {
-	public bool m_useConstant = true;      // Whether or not the reference should use a constant value
 
+	[Tooltip("Whether or not the reference should use a constant value")]
+	public bool m_useConstant = true;
+
+	[Tooltip("The constant value of this reference (if loading json, use enum number or m_variable instead)")]
 	[ConditionalField("m_useConstant", "true")]
-	public ConstantColors m_constantValue; // The constant value of this reference
+	public ConstantColors m_constantValue;
 
+	[Tooltip("The variable value of this reference")]
 	[ConditionalField("m_useConstant", "false")]
-	public Color m_variable;			   // The variable value of this reference
+	public SerializableColor m_variable;
 
 	public ColorReference() { }
 
@@ -19,7 +23,7 @@ public class ColorReference {
 
 	// The reference's current value
 	public Color Value {
-		get { return m_useConstant ? m_constantValue.GetColor() : m_variable; }
+		get { return m_useConstant ? m_constantValue.GetColor() : (Color) m_variable; }
 		set { if(!m_useConstant) m_variable = value; }
 	}
 }

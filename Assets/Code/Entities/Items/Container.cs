@@ -8,6 +8,7 @@ public class Container : Interactable {
 	public bool m_autoLootable;
 
 	[HideInInspector] public Inventory m_inventory;
+	[HideInInspector] public Corpse m_corpse;
 
 	protected override void Awake() { 
 		base.Awake();
@@ -22,8 +23,11 @@ public class Container : Interactable {
 		}
 
 		m_inventory.m_interactor = p_entity;
-		if(MenuHandler.Instance.m_handlingPlayer == null) MenuHandler.Instance.m_handlingPlayer = (p_entity as Player).m_rewiredPlayer;
-		MenuHandler.Instance.m_containerMenu.GetComponent<InventoryLoader>().m_inventory = m_inventory;
+
+		if(MenuHandler.Instance.m_handlingPlayer == null)
+            MenuHandler.Instance.m_handlingPlayer = (p_entity as Player).m_rewiredPlayer;
+		
+        MenuHandler.Instance.m_containerMenu.GetComponent<InventoryLoader>().m_inventory = m_inventory;
 		MenuHandler.Instance.OpenMenu(MenuHandler.Instance.m_containerMenu);
 
 		if(m_autoLootable && p_entity is Player)
@@ -53,7 +57,9 @@ public class Container : Interactable {
 	}
 
 	private void Close() {
-		m_inventory.m_interactor = null;
-		MenuHandler.Instance.CloseMenu(MenuHandler.Instance.m_containerMenu);
+        m_inventory.m_interactor = null;
+        MenuHandler.Instance.CloseMenu(MenuHandler.Instance.m_containerMenu);
+
+        if(m_corpse && m_inventory.Count() == 0 && m_corpse.m_health.GetHealth() <= 0) Destroy(gameObject);
 	}
 }

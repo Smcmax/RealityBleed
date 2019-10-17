@@ -40,22 +40,22 @@ public class SkillLoader : MonoBehaviour {
 		sortedSkills.Sort(new SkillComparer());
 		sortedSkills.Reverse();
 
-		foreach(SkillWrapper skill in sortedSkills) {
+		foreach(SkillWrapper wrapper in sortedSkills) {
 			GameObject skillObject = Instantiate(m_skillPrefab, m_contentParent);
 			Image skillIcon = skillObject.GetComponent<Image>();
             TextMeshProUGUI trainingLevel = skillObject.GetComponentInChildren<TextMeshProUGUI>();
 
-			skillIcon.sprite = skill.Skill.m_icon;
-			trainingLevel.text = skill.TrainingLevel.ToString();
+			skillIcon.sprite = wrapper.GetSkill().m_icon;
+			trainingLevel.text = wrapper.TrainingLevel.ToString();
 
-			if(!skill.Learned) {
+			if(!wrapper.Learned) {
 				trainingLevel.text = "";
 				skillIcon.color = new Color(1, 1, 1, m_nonLearnedAlpha / 255f);
 			}
 				
 			UISkill uiSkill = skillObject.GetComponent<UISkill>();
 
-			uiSkill.m_skill = skill;
+			uiSkill.m_skill = wrapper;
 			uiSkill.m_loader = this;
 		}
 	}

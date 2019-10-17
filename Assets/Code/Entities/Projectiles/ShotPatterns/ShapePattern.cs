@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Shot Patterns/Shape")]
+[System.Serializable]
 public class ShapePattern : ShotPattern {
 
-	[Header("Specific Attributes")]
 	[Tooltip("When parallel, will shift both ways simultaneously")]
 	public bool m_symmetrical;
 
@@ -17,17 +16,22 @@ public class ShapePattern : ShotPattern {
 	public float m_shiftDistance;
 
 	[Tooltip("How far from the entity the shot starts, this helps curb shapes starting from far behind the entity")]
-	[Range(-2.5f, 2.5f)] public float m_startDistance;
+	public float m_startDistance;
+
+	private Vector2 m_shift;
+	private float m_localShiftAngle;
+	private bool m_shiftReverse;
+	private bool m_shiftOverHalf;
 	
 	public override void Init(Shooter p_shooter) {
-		p_shooter.SetPatternInfo(this, "shift", Vector2.zero);
-		p_shooter.SetPatternInfo(this, "shiftReverse", false);
-		p_shooter.SetPatternInfo(this, "localShiftAngle", m_shiftAngle);
+		m_shift = Vector2.zero;
+		m_shiftReverse = false;
+		m_localShiftAngle = m_shiftAngle;
 
 		if(m_shots % 2 == 0) {
-			p_shooter.SetPatternInfo(this, "shiftOverHalf", true);
-			p_shooter.SetPatternInfo(this, "shiftReverse", true);
-		} else p_shooter.SetPatternInfo(this, "shiftOverHalf", false);
+			m_shiftOverHalf = true;
+			m_shiftReverse = true;
+		} else m_shiftOverHalf = false;
 	}
 
 	public override void Step(Shooter p_shooter) {
@@ -37,35 +41,47 @@ public class ShapePattern : ShotPattern {
 
 		proj.transform.position += (Vector3) (m_startDistance * direction);
 
-		if((bool) p_shooter.GetPatternInfo(this, "shiftOverHalf")) {
-			p_shooter.SetPatternInfo(this, "shiftOverHalf", false);
+		if(m_shiftOverHalf) {
+			m_shiftOverHalf = false;
 			Shift(p_shooter, direction, m_shiftDistance / 2, false);
 		}
 
-		Vector2 shift = (Vector2) p_shooter.GetPatternInfo(this, "shift");
-
-		proj.transform.position += (Vector3) shift;
+		proj.transform.position += (Vector3) m_shift;
 		proj.Shoot(p_shooter, target, direction);
 
 		Shift(p_shooter, direction, m_shiftDistance, true);
 	}
 
 	private void Shift(Shooter p_shooter, Vector2 p_direction, float p_distance, bool p_reverse) {
-		float localShiftAngle = (float) p_shooter.GetPatternInfo(this, "localShiftAngle");
-		Vector2 rotation = p_direction.Rotate(localShiftAngle) * p_distance;
-		Vector2 shift = (Vector2) p_shooter.GetPatternInfo(this, "shift");
-		bool shiftReverse = (bool) p_shooter.GetPatternInfo(this, "shiftReverse");
+		Vector2 rotation = p_direction.Rotate(m_localShiftAngle) * p_distance;
 
 		if(p_reverse) {
-			shift = -shift;
+			m_shift = -m_shift;
 
-			if(m_symmetrical) shift = Vector2.Reflect(shift, p_direction);
-			if(shiftReverse) rotation = Vector2.zero;
+			if(m_symmetrical) m_shift = Vector2.Reflect(m_shift, p_direction);
+			if(m_shiftReverse) rotation = Vector2.zero;
 
-			p_shooter.SetPatternInfo(this, "shiftReverse", !shiftReverse);
+			m_shiftReverse = !m_shiftReverse;
 		}
 
-		p_shooter.SetPatternInfo(this, "localShiftAngle", localShiftAngle + m_shiftAngleIncrement);
-		p_shooter.SetPatternInfo(this, "shift", shift + rotation);
+		m_localShiftAngle += m_shiftAngleIncrement;
+		m_shift += rotation;
+	}
+
+	public override ShotPattern Clone() {
+		ShapePattern pattern = (ShapePattern) base.Clone();
+
+		pattern.m_symmetrical = m_symmetrical;
+		pattern.m_shiftAngle = m_shiftAngle;
+		pattern.m_shiftAngleIncrement = m_shiftAngleIncrement;
+		pattern.m_shiftDistance = m_shiftDistance;
+		pattern.m_startDistance = m_startDistance;
+
+		m_shift = Vector2.zero;
+		m_localShiftAngle = 0;
+		m_shiftReverse = false;
+		m_shiftOverHalf = false;
+
+		return pattern;
 	}
 }

@@ -13,18 +13,39 @@ public class Item {
 	[Range(0, 100)] public float m_durability;
 
 	[Tooltip("The sprite shown when there's no item in the slot")]
-	public Sprite m_outlineSprite;
+	public SerializableSprite m_outlineSprite;
 
-	[Tooltip("The basic item representing this item")]
-	public BaseItem m_item;
+	[Tooltip("The basic item reference representing this item")]
+	public string m_itemRef;
 
-	public Entity m_holder;
-	public Inventory m_inventory;
+	[HideInInspector] private BaseItem item;
+	[HideInInspector] public BaseItem m_item { 
+		get {
+			if(item == null) UpdateItemRef();
+
+			return item;
+		} set { 
+			item = value;
+		}
+	}
+	[HideInInspector] public Entity m_holder;
+	[HideInInspector] public Inventory m_inventory;
 	[HideInInspector] public int m_inventoryIndex;
 
-	public Item(Inventory p_inventory, int p_index) { 
+	public Item(Inventory p_inventory, int p_index) {
+		m_item = BaseItem.Get(m_itemRef);
 		m_holder = p_inventory.m_entity;
 		m_inventory = p_inventory;
 		m_inventoryIndex = p_index;
+	}
+
+	public void UpdateItemRef() { 
+		UpdateItemRef(m_itemRef);
+	}
+
+	// this is mostly there just in case the ref needs to be updated
+	public void UpdateItemRef(string p_itemRef) {
+		m_itemRef = p_itemRef;
+		m_item = BaseItem.Get(m_itemRef);
 	}
 }

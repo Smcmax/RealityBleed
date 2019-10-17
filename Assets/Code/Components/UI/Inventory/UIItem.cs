@@ -13,6 +13,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	public Image m_ghost;
 	private TextMeshProUGUI m_ghostAmount;
 
+	public static Transform GhostCanvas;
 	public static UIItem HeldItem; // not dragged, held
 	public static Player Holder;
 
@@ -28,6 +29,8 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	void OnDisable() { 
+		if(!m_item.m_item || !m_item.m_inventory) return;
+
 		if(m_item.m_inventory.m_itemTooltip.gameObject.activeSelf)
 			HideTooltip();
 
@@ -354,8 +357,8 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		Image image = GetComponent<Image>();
         TextMeshProUGUI amount = GetComponentInChildren<TextMeshProUGUI>();
 
-		image.color = new Color(1, 1, 1, 0.5f);
-		amount.color = new Color(1, 1, 1, 0.5f);
+		image.color = new Color(1, 1, 1, 0.25f);
+		amount.color = new Color(1, 1, 1, 0.25f);
 	}
 
 	private void ActivateGhost() {
@@ -363,7 +366,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 		m_ghost.transform.position = Input.mousePosition;
 		m_ghost.gameObject.SetActive(true);
-		m_ghost.transform.SetParent(GetComponentInParent<Canvas>().transform);
+		m_ghost.transform.SetParent(GhostCanvas);
 	}
 
 	public void HideHeldItem() {

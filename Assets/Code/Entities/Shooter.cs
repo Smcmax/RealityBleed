@@ -2,6 +2,7 @@
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Shooter : MonoBehaviour {
 
@@ -13,12 +14,13 @@ public class Shooter : MonoBehaviour {
 	public UnityEvent m_shotEvent;
 
 	[HideInInspector] public Entity m_entity;
-	private Dictionary<ShotPattern, DataHolder> m_patterns = new Dictionary<ShotPattern, DataHolder>();
+	[HideInInspector] public List<ShotPattern> m_patterns;
+    [HideInInspector] public Dictionary<string, float> m_patternLoopTimes;
 
 	// only if it's an entity, shooter supports non-entities
 	public void Init(Entity p_entity) {
 		m_entity = p_entity;
-		m_patterns = new Dictionary<ShotPattern, DataHolder>();
+        m_patternLoopTimes = new Dictionary<string, float>();
 	}
 
 	private float GetMana() {
@@ -27,7 +29,7 @@ public class Shooter : MonoBehaviour {
 
 	public bool ConsumeMana(ShotPattern p_pattern) {
 		if(!m_entity) return true;
-		if(GetMana() - p_pattern.m_manaPerStep < 0) return false;
+		if(p_pattern.m_manaPerStep > 0 && GetMana() - p_pattern.m_manaPerStep < 0) return false;
 
 		m_entity.m_stats.AddModifier(Stats.MP, (int) -p_pattern.m_manaPerStep, 0);
 		m_shotEvent.Invoke();
@@ -38,41 +40,40 @@ public class Shooter : MonoBehaviour {
 	public bool CanShoot(ShotPattern p_pattern) {
 		if(Time.timeScale == 0f) return false;
 
-		object active = GetPatternInfo(p_pattern, "active");
-		if(m_patterns.ContainsKey(p_pattern) && active != null && (bool) active) return false;
+		if(p_pattern.m_active) return false;
 		if(m_patternCooldown == 0) return true;
 		if(m_entity && GetMana() - p_pattern.m_manaPerStep < 0) return false;
 		if(!CanLoop(p_pattern)) return false;
 		if(p_pattern.m_bypassShooterCooldown) return true;
 
-		return Time.time * 1000 >= m_lastShot + m_patternCooldown * 1000;
+		return Time.time >= m_lastShot + m_patternCooldown;
 	}
 
 	public bool CanLoop(ShotPattern p_pattern) {
-		object lastLoopTimeObj = GetPatternInfo(p_pattern, "lastLoopTime");
-		Stats statApplied = p_pattern.m_projectileInfo.m_statApplied;
+		Stats statApplied = (Stats) Enum.Parse(typeof(Stats), p_pattern.m_projectileInfo.m_statApplied);
 		float patternCooldown = p_pattern.m_patternCooldown * statApplied.GetAlternateEffect(m_entity.m_stats.GetStat(statApplied));
 
-		return lastLoopTimeObj == null ? true : Time.time * 1000 >= (float) lastLoopTimeObj + patternCooldown * 1000;
+		return !m_patternLoopTimes.ContainsKey(p_pattern.m_name) ? true : 
+                Time.time >= m_patternLoopTimes[p_pattern.m_name] + patternCooldown;
 	}
 
 	public void Shoot(ShotPattern p_pattern) {
 		if(!CanShoot(p_pattern)) return;
 
-		m_lastShot = Time.time * 1000;
+		m_lastShot = Time.time;
 
-		if(!m_patterns.ContainsKey(p_pattern)) m_patterns.Add(p_pattern, new DataHolder());
+		m_patterns.Add(p_pattern);
 
-		SetPatternInfo(p_pattern, "shotsFired", 0);
-		SetPatternInfo(p_pattern, "loops", 0);
+		p_pattern.m_shotsFired = 0;
+		p_pattern.m_loops = 0;
 		p_pattern.Init(this);
-		SetPatternInfo(p_pattern, "active", true);
+		p_pattern.m_active = true;
 
 		StartCoroutine(PatternStep(p_pattern));
 	}
 
 	private IEnumerator PatternStep(ShotPattern p_pattern) {
-		while((bool) GetPatternInfo(p_pattern, "active")) { 
+		while(p_pattern.m_active) { 
 			float delay = p_pattern.m_stepDelay;
 
 			if(p_pattern.m_instant) delay = p_pattern.Instant(this);
@@ -80,34 +81,27 @@ public class Shooter : MonoBehaviour {
 
 			if(delay == -1) delay = p_pattern.m_stepDelay;
 
+            m_patternLoopTimes[p_pattern.m_name] = p_pattern.m_lastLoopTime;
+
 			yield return new WaitForSeconds(delay);
 		}
 	}
 
-	public object GetPatternInfo(ShotPattern p_pattern, string p_key) {
-		DataHolder data = null;
-
-		bool success = m_patterns.TryGetValue(p_pattern, out data);
-
-		return success ? data.Get(p_key) : null;
-	}
-
-	public void SetPatternInfo(ShotPattern p_pattern, string p_key, object p_value) { 
-		if(!m_patterns.ContainsKey(p_pattern)) m_patterns.Add(p_pattern, new DataHolder());
-
-		m_patterns[p_pattern].Set(p_key, p_value);
-	}
-
 	public void StopShooting() {
 		if(m_patterns.Count > 0)
-			foreach(ShotPattern pattern in m_patterns.Keys)
+			foreach(ShotPattern pattern in m_patterns)
 				StopShooting(pattern);
 	}
 
 	public void StopShooting(ShotPattern p_pattern) {
-		SetPatternInfo(p_pattern, "active", false);
+		if(!m_patterns.Contains(p_pattern)) return;
 
-		if(p_pattern.m_nextPatterns.Count > 0) StartCoroutine(Transition(p_pattern));
+		p_pattern.m_active = false;
+		m_patterns.Remove(p_pattern);
+
+        m_patternLoopTimes[p_pattern.m_name] = p_pattern.m_lastLoopTime;
+
+        if(p_pattern.m_nextPatterns.Count > 0) StartCoroutine(Transition(p_pattern));
 	}
 
 	private IEnumerator Transition(ShotPattern p_pattern) { 
@@ -120,7 +114,7 @@ public class Shooter : MonoBehaviour {
 	public void Damage(Projectile p_projectile, IDamageable p_damageable) {
 		int finalDamage = p_projectile.m_info.m_damage;
 
-		finalDamage += m_entity.m_stats.GetStatEffect(p_projectile.m_info.m_statApplied);
-		p_damageable.OnDamage(this, p_projectile.m_info.m_damageType, finalDamage, p_projectile.m_info.m_armorPiercing, false);
+		finalDamage += m_entity.m_stats.GetStatEffect((Stats) Enum.Parse(typeof(Stats), p_projectile.m_info.m_statApplied));
+		p_damageable.OnDamage(this, DamageType.Get(p_projectile.m_info.m_damageType), finalDamage, p_projectile.m_info.m_armorPiercing, false);
 	}
 }

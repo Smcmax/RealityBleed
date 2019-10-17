@@ -1,0 +1,37 @@
+{
+	"m_name":"TestQuest1",
+	"m_leadInChoiceLine":"Anything different lately?",
+	"m_leadInDialog":"TestQuest1LeadIn1",
+	"m_leadOutDialog":"TestQuest1LeadOut1",
+	"m_steps":[
+		{
+			"m_stepNumber":0,
+			"m_choiceLine":"I'll talk to them",
+			"m_handInChoiceLine":"I heard you needed help?",
+			"m_goal":"talk Default"
+		},
+		{
+			"m_stepNumber":1,
+			"m_postDialog":"TestQuest1Step1Post1",
+			"m_handInChoiceLine":"Already taken care of..",
+			"m_goal":"talk 0"
+		}
+	],
+	"m_rewardTable": {
+		"m_items": [
+			{
+				"m_item": {
+					"m_durability": 100,
+					"m_itemRef": "Test/Test Sword"
+				},
+				"m_dropChance": 100,
+				"m_dropAmount": {
+					"Min": 1,
+					"Max": 1
+				}
+			}
+		],
+		"m_dropChances": 1,
+		"m_allowDuplicateDrops": false
+	}
+}

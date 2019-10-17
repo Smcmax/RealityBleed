@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using System.Collections;
 
 public class GameEventListener : MonoBehaviour {
@@ -10,7 +9,7 @@ public class GameEventListener : MonoBehaviour {
 	[Tooltip("How long to wait before invoking the response")]
 	[Range(0, 2.5f)] public float m_responseDelay;
 
-	public UnityEvent m_response;
+	public UnityDataHolderEvent m_response;
 
 	protected virtual void OnEnable() { 
 		m_event.RegisterListener(this);
@@ -21,12 +20,16 @@ public class GameEventListener : MonoBehaviour {
 	}
 
 	public void OnEventRaised() { 
-		if(m_responseDelay == 0f) m_response.Invoke();
-		else StartCoroutine(InvokeLater(m_responseDelay));
+		OnEventRaised(null);
 	}
 
-	IEnumerator InvokeLater(float p_wait){
+	public void OnEventRaised(DataHolder p_data) { 
+		if(m_responseDelay == 0f) m_response.Invoke(p_data);
+		else StartCoroutine(InvokeLater(m_responseDelay, p_data));
+	}
+
+	IEnumerator InvokeLater(float p_wait, DataHolder p_data){
 		yield return new WaitForSeconds(p_wait);
-		m_response.Invoke();
+		m_response.Invoke(p_data);
 	}
 }

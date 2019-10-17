@@ -13,7 +13,7 @@ public class ObjectPooler : MonoBehaviour {
 	[Tooltip("The object to pool")]
 	public GameObject m_object;
 
-	void Awake() {
+	public virtual void Awake() {
 		SceneManager.sceneLoaded += OnSceneLoaded;
 
 		m_pool = new List<GameObject>();

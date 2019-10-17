@@ -1,0 +1,30 @@
+{
+    "m_name": "Test/TestLeftClick",
+    "m_type": "CircleSection",
+    "m_projectile": "PlayerLeftClick",
+    "m_projectileInfo": {
+        "m_damage": 5,
+        "m_statApplied": "STR",
+        "m_damageType": "Earth",
+        "m_piercing": true,
+        "m_armorPiercing": true,
+        "m_range": 6,
+        "m_speed": 5,
+        "m_rotate": false,
+        "m_faceAtTarget": true
+    },
+    "m_behaviours": [
+        "Test/DefaultWave"
+    ],
+    "m_shots": 1,
+    "m_manaPerStep": 2,
+    "m_instant": true,
+    "m_loop": false,
+    "m_patternCooldown": 1,
+    "m_bypassShooterCooldown": false,
+    "m_stepDelay": 0,
+    "m_extraTooltipInfo": "Test Left Click Extra",
+    "m_angleRange": 0,
+    "m_angleOffset": 0,
+    "m_centeredOnDirection": false
+}

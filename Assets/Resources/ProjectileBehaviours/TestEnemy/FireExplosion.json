@@ -1,0 +1,6 @@
+{
+    "m_name": "TestEnemy/FireExplosion",
+    "m_type": "ExplodeOnDeath",
+    "m_explosionPattern": "TestEnemy/FireExplosion",
+    "m_chanceToExplode": 100
+}

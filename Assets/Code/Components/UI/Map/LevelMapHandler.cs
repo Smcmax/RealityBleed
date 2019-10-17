@@ -16,26 +16,26 @@ public class LevelMapHandler : MonoBehaviour {
 	[Tooltip("Color used for the walls")]
 	public Color m_wallsColor;
 
-	[Tooltip("RuntimeSet of entities allowed to remove the fog around them")]
-	public EntityRuntimeSet m_fogRemovers;
-
 	[Tooltip("The radius around the removers where the fog will be removed")]
 	[Range(0, 10)] public int m_removalRadius;
 
 	private Tilemap m_levelMapWalls;
 	private Tilemap m_levelMapGround;
 
-	void Awake() {
+	void Start() {
 		if(!m_levelMapWalls)
 			m_levelMapWalls = CopyAndColorTilemap("LevelMapWalls", m_wallsTilemap, m_wallsColor, 0);
 		if(!m_levelMapGround)
 			m_levelMapGround = CopyAndColorTilemap("LevelMapGround", m_groundTilemap, m_wallsColor, -1);
 
-		foreach(Entity entity in m_fogRemovers.m_items) {
-			MapDiscoverer discoverer = entity.gameObject.AddComponent<MapDiscoverer>();
-			discoverer.m_tilemap = m_levelMapGround;
-			discoverer.m_removalRadius = m_removalRadius;
-		}
+        List<Entity> entities = (List<Entity>) Game.m_setManager.Get("players");
+
+        if(entities != null && entities.Count > 0)
+            foreach(Entity entity in entities) {
+			    MapDiscoverer discoverer = entity.gameObject.AddComponent<MapDiscoverer>();
+			    discoverer.m_tilemap = m_levelMapGround;
+			    discoverer.m_removalRadius = m_removalRadius;
+		    }
 	}
 
 	private Tilemap CopyAndColorTilemap(string p_newTilemapName, Tilemap p_original, Color p_color, int p_zPosition) {

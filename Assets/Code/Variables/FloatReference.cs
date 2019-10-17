@@ -1,5 +1,6 @@
 ﻿[System.Serializable]
 public class FloatReference {
+
 	public bool m_useConstant = true; // Whether or not the reference should use a constant value
 
 	[ConditionalField("m_useConstant", "true")] 

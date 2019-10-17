@@ -3,7 +3,13 @@ using System.Collections.Generic;
 
 [CreateAssetMenu(menuName = "Damage Type")]
 public class DamageType : ScriptableObject { 
-	
+
+	public static List<DamageType> m_damageTypes = new List<DamageType>();
+
+	void OnEnable() {
+		m_damageTypes.Add(this);
+	}
+
 	[Tooltip("The type's name")]
 	public string m_name;
 
@@ -25,5 +31,9 @@ public class DamageType : ScriptableObject {
 		else if(m_weakAgainst.Contains(p_type)) return -1;
 
 		return 0;
+	}
+
+	public static DamageType Get(string p_name) { 
+		return m_damageTypes.Find(dt => dt.m_name == p_name);
 	}
 }

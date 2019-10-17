@@ -453,113 +453,145 @@ MonoBehaviour:
   m_items:
   - m_amount: 1
     m_durability: 100
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 11400000, guid: 9640eb97282528f479166c0586201571, type: 2}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: Test/Test Sword
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 1
     m_durability: 100
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 11400000, guid: 3c3ca1530459d644c84a854b662beec5, type: 2}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
@@ -602,71 +634,91 @@ MonoBehaviour:
   m_items:
   - m_amount: 1
     m_durability: 100
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 11400000, guid: bfe26f13dd4ed1c4daa5962a2cb1f5ea, type: 2}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: Test/Test Sword
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 1
     m_durability: 100
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 11400000, guid: 24ff97419409e1c4abb561aed9f675ca, type: 2}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: Test/Test Sword v2
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
   - m_amount: 0
     m_durability: 0
-    m_outlineSprite: {fileID: 0}
-    m_item: {fileID: 0}
+    m_outlineSprite:
+      m_name: 
+      m_internal: 1
+    m_itemRef: 
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
@@ -832,37 +884,44 @@ MonoBehaviour:
   m_isDead: 0
   m_type: {fileID: 11400000, guid: 68656f8621f16944bb5a9283acb80212, type: 2}
   m_equipment: {fileID: 114071987786881558}
-  m_look: {fileID: 0}
+  m_look:
+    m_lookRange: 0
+    m_lookSphereRadius: 0
+    m_fieldOfView: 0
+    m_scanSpeed: 0
+    m_scanDuration: 0
   m_inventory: {fileID: 114018483739704796}
   m_hasCorpse: 1
-  m_lootTable: {fileID: 0}
+  m_lootTable:
+    m_items: []
+    m_dropChances: 0
+    m_allowDuplicateDrops: 0
   m_dropInventoryOnDeath: 1
   m_interactCorpseEvent: {fileID: 11400000, guid: 1d0ce079657fe084db1b55952540e25a,
     type: 2}
-  m_runtimeSets:
-  - {fileID: 11400000, guid: 0a26465c1ba21624095d0535607d7b8a, type: 2}
-  - {fileID: 11400000, guid: cd4eb962e7b096941b5b3f2a73d69442, type: 2}
+  m_sets: []
   m_feedbackTemplate: {fileID: 0}
   m_feedbackPositionRandomness: {x: 0.25, y: 1}
   m_health: {fileID: 0}
   m_stats: {fileID: 0}
   m_shooter: {fileID: 0}
-  m_temp:
-  - {fileID: 11400000, guid: d0726741aee8b6541b6a23f1b23cbc2c, type: 2}
-  - {fileID: 11400000, guid: f044594494061b84798107311ea31d3b, type: 2}
   m_skills:
-  - Skill: {fileID: 11400000, guid: 10c95205cf86b644797358be623f7a9e, type: 2}
+  - SkillName: 
     Learned: 0
     TrainingLevel: 0
-  - Skill: {fileID: 11400000, guid: 21be7a305a1a80145bb1dd9f3b7d366c, type: 2}
+  - SkillName: 
     Learned: 1
     TrainingLevel: 1
   m_modifiers: {fileID: 0}
   m_ai: {fileID: 0}
+  m_npc: {fileID: 0}
   m_feedbackColor: {r: 0, g: 0, b: 0, a: 0}
   m_playerId: 0
   m_playerController: {fileID: 0}
   m_mouse: {fileID: 0}
+  m_interactingWithNPC: 0
+  m_completedQuests: []
+  m_currentQuests: []
 --- !u!114 &114406825266347702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -892,6 +951,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_entity: {fileID: 0}
+  m_patterns: []
 --- !u!212 &212086667593845604
 SpriteRenderer:
   m_ObjectHideFlags: 1

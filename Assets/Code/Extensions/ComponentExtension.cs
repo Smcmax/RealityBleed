@@ -10,7 +10,7 @@ public static class ComponentExtension {
 		// Copied fields can be restricted with BindingFlags
 		System.Reflection.FieldInfo[] fields = p_type.GetFields();
 
-		foreach (System.Reflection.FieldInfo field in fields)
+		foreach(System.Reflection.FieldInfo field in fields)
 			field.SetValue(copy, field.GetValue(p_original));
 
 		return copy;

@@ -18,18 +18,19 @@ public class AbilitySkillTooltip : Tooltip {
 
 		m_panelHeight = m_tooltipBorderSize * 2 + 12;
 		m_tooltipInfoOffset = -(m_panelHeight / 2);
-		Ability ability = p_wrapper.Ability != null ? p_wrapper.Ability.Ability : null;
-		Skill skill = p_wrapper.Skill != null ? p_wrapper.Skill.Skill : null;
+		Ability ability = p_wrapper.AbilityWrapper != null ? p_wrapper.AbilityWrapper.GetAbility() : null;
+		Skill skill = p_wrapper.SkillWrapper != null ? p_wrapper.SkillWrapper.GetSkill() : null;
+		DamageType type = ability != null ? DamageType.Get(ability.m_domain) : null;
 
-        TextMeshProUGUI name = m_modifiableInfo.Find(ti => ti.m_name == "AbilitySkill Name Text")
+		TextMeshProUGUI name = m_modifiableInfo.Find(ti => ti.m_name == "AbilitySkill Name Text")
 											   .Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		name.text = Get(p_wrapper.GetName());
-		name.color = ability != null ? ability.m_domain.m_nameColor.Value : skill.m_nameColor.Value;
+		name.text = Get(p_wrapper.GetDisplayName());
+		name.color = ability != null ? type.m_nameColor.Value : skill.m_nameColor.Value;
 
 		if(ability != null) {
             TextMeshProUGUI domain = m_modifiableInfo.Find(ti => ti.m_name == "Domain Text").GetAligned<TextMeshProUGUI>(ref m_tooltipInfoOffset);
-			domain.text = Get(ability.m_domain.m_name);
-			domain.color = ability.m_domain.m_nameColor.Value;
+			domain.text = Get(ability.m_domain);
+			domain.color = type.m_nameColor.Value;
 
             TextMeshProUGUI active = m_modifiableInfo.Find(ti => ti.m_name == "Active Text")
 													 .Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
@@ -94,49 +95,76 @@ public class AbilitySkillTooltip : Tooltip {
 }
 
 public class AbilitySkillWrapper {
-	public AbilityWrapper Ability;
-	public SkillWrapper Skill;
+	public AbilityWrapper AbilityWrapper;
+	public SkillWrapper SkillWrapper;
 
-	public AbilitySkillWrapper(AbilityWrapper p_ability) { Ability = p_ability; }
-	public AbilitySkillWrapper(SkillWrapper p_skill) { Skill = p_skill; }
+	public AbilitySkillWrapper(AbilityWrapper p_wrapper) { AbilityWrapper = p_wrapper; }
+	public AbilitySkillWrapper(SkillWrapper p_wrapper) { SkillWrapper = p_wrapper; }
 
-	public bool IsEmpty() { return !(Ability != null || Skill != null); }
-	public string GetName() { return IsEmpty() ? "" : (Ability != null ? Ability.Ability.m_name : Skill.Skill.m_name); }
-	public bool Learned() { return IsEmpty() ? false : (Ability != null ? Ability.Learned : Skill.Learned); }
-	public int GetTrainingLevel() { return IsEmpty() ? 0 : (Ability != null ? Ability.TrainingLevel : Skill.TrainingLevel); }
-	public int GetSellPrice() { return IsEmpty() ? 0 : (Ability != null ? Ability.Ability.m_sellPrice : Skill.Skill.m_sellPrice); }
-	public int GetManaCost(int p_trainingLevel) {
+	public bool IsEmpty() { return !(AbilityWrapper != null || SkillWrapper != null); }
+
+	public string GetName() { 
+        return IsEmpty() ? "" : 
+               (AbilityWrapper != null ? AbilityWrapper.AbilityName : 
+                                         SkillWrapper.SkillName); 
+    }
+
+	public string GetDisplayName() { 
+        return IsEmpty() ? "" : 
+               (AbilityWrapper != null ? AbilityWrapper.GetAbility().GetDisplayName() :
+                                         SkillWrapper.GetSkill().GetDisplayName()); 
+    }
+
+    public bool Learned() { 
+        return IsEmpty() ? false : 
+               (AbilityWrapper != null ? AbilityWrapper.Learned : 
+                                         SkillWrapper.Learned); 
+    }
+	
+    public int GetTrainingLevel() { 
+        return IsEmpty() ? 0 : 
+               (AbilityWrapper != null ? AbilityWrapper.TrainingLevel : 
+                                         SkillWrapper.TrainingLevel);
+    }
+	
+    public int GetSellPrice() { 
+        return IsEmpty() ? 0 : 
+               (AbilityWrapper != null ? AbilityWrapper.GetAbility().m_sellPrice : 
+                                         SkillWrapper.GetSkill().m_sellPrice); 
+    }
+	
+    public int GetManaCost(int p_trainingLevel) {
 		return IsEmpty() ? 0 :
-			(Ability != null ?
-			Ability.Ability.m_manaCosts.Find(m => m.TrainingLevel == p_trainingLevel).Value :
+			(AbilityWrapper != null ?
+			AbilityWrapper.GetAbility().m_manaCosts.Find(m => m.TrainingLevel == p_trainingLevel).Value :
 			0);
 	}
 
 	public float GetCooldown(int p_trainingLevel) {
 		return IsEmpty() ? 0 :
-			(Ability != null ?
-			Ability.Ability.m_cooldowns.Find(m => m.TrainingLevel == p_trainingLevel).Value :
+			(AbilityWrapper != null ?
+			AbilityWrapper.GetAbility().m_cooldowns.Find(m => m.TrainingLevel == p_trainingLevel).Value :
 			0);
 	}
 
 	public int GetMaxTrainingLevel() {
 		return IsEmpty() ? 0 :
-			(Ability != null ?
-			Ability.Ability.m_trainingExpCosts[Ability.Ability.m_trainingExpCosts.Count - 1].TrainingLevel :
-			Skill.Skill.m_trainingExpCosts[Skill.Skill.m_trainingExpCosts.Count - 1].TrainingLevel);
+			(AbilityWrapper != null ?
+			AbilityWrapper.GetAbility().m_trainingExpCosts[AbilityWrapper.GetAbility().m_trainingExpCosts.Count - 1].TrainingLevel :
+			SkillWrapper.GetSkill().m_trainingExpCosts[SkillWrapper.GetSkill().m_trainingExpCosts.Count - 1].TrainingLevel);
 	}
 
 	public int GetTrainingExpCost(int p_trainingLevel) {
 		return IsEmpty() ? 0 :
-			(Ability != null ?
-			Ability.Ability.m_trainingExpCosts.Find(t => t.TrainingLevel == p_trainingLevel).Value :
-			Skill.Skill.m_trainingExpCosts.Find(t => t.TrainingLevel == p_trainingLevel).Value);
+			(AbilityWrapper != null ?
+			AbilityWrapper.GetAbility().m_trainingExpCosts.Find(t => t.TrainingLevel == p_trainingLevel).Value :
+			SkillWrapper.GetSkill().m_trainingExpCosts.Find(t => t.TrainingLevel == p_trainingLevel).Value);
 	}
 
 	public string GetDescription(int p_trainingLevel, bool p_translate) {
 		return IsEmpty() ? "" :
-			(Ability != null ?
-			Ability.Ability.GetDescription(p_trainingLevel, p_translate) :
-			Skill.Skill.GetDescription(p_trainingLevel, p_translate));
+			(AbilityWrapper != null ?
+			AbilityWrapper.GetAbility().GetDescription(p_trainingLevel, p_translate) :
+			SkillWrapper.GetSkill().GetDescription(p_trainingLevel, p_translate));
 	}
 }

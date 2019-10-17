@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 public class Projectile : MonoBehaviour {
 
+	public static List<Projectile> m_loadedProjectiles = new List<Projectile>();
+
+	[Tooltip("Is this a projectile that can be used across the game using shot patterns with its name?")]
+	public bool m_reference;
+
 	[HideInInspector] public ProjectileInfo m_info;
 	[HideInInspector] public BehaviourManager m_behaviourManager;
 	[HideInInspector] public Shooter m_shooter;
@@ -17,6 +22,14 @@ public class Projectile : MonoBehaviour {
 
 	void Start() { 
 		LoadComponents();
+
+		if(m_reference) m_loadedProjectiles.Add(this);
+	}
+
+	public static Projectile Get(string p_name) {
+		Projectile found = m_loadedProjectiles.Find(p => p.gameObject.name == p_name);
+
+		return found;
 	}
 
 	private void LoadComponents() { 
@@ -45,12 +58,14 @@ public class Projectile : MonoBehaviour {
 		m_shooter = p_shooter;
 
 		if(m_info.m_faceAtTarget)
-			transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(m_direction.y, m_direction.x) * Mathf.Rad2Deg + m_info.m_spriteRotation, Vector3.forward);
+			transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(m_direction.y, m_direction.x) * Mathf.Rad2Deg - 90, Vector3.forward);
 
 		CollisionRelay relay = m_shooter.m_entity.m_collisionRelay;
 
 		if(relay) Physics2D.IgnoreCollision(m_boxCollider, relay.GetComponent<BoxCollider2D>());
 
+		m_render.enabled = true;
+		m_boxCollider.enabled = true;
 		gameObject.SetActive(true);
 
 		m_behaviourManager.Init(this);
@@ -58,7 +73,9 @@ public class Projectile : MonoBehaviour {
 	}
 
 	// it is assumed the current projectile is a generic projectile with an empty reference behaviour to fill up
-	public void Clone(Projectile p_projectile, ProjectileInfo p_projectileInfo, List<ProjectileBehaviour> p_extraBehaviours) {
+	public void Clone(Projectile p_projectile, ProjectileInfo p_projectileInfo, List<string> p_extraBehaviours) {
+		m_reference = false;
+
 		p_projectile.LoadComponents();
 		LoadComponents();
 
@@ -78,11 +95,11 @@ public class Projectile : MonoBehaviour {
 		m_behaviourManager = GetComponent<BehaviourManager>();
 		m_behaviourManager.m_behaviours = new Dictionary<ProjectileBehaviour, bool>();
 
-		foreach(ProjectileBehaviour behaviour in m_info.m_behaviours)
-			m_behaviourManager.m_behaviours.Add(behaviour, false);
+		foreach(string behaviour in p_extraBehaviours) {
+			ProjectileBehaviour clone = ProjectileBehaviour.Get(behaviour, false);
 
-		foreach(ProjectileBehaviour behaviour in p_extraBehaviours)
-			m_behaviourManager.m_behaviours.Add(behaviour, false);
+			if(clone != null) m_behaviourManager.m_behaviours.Add(clone, false);
+		}
 
 		m_original = p_projectile;
 	}
@@ -94,7 +111,7 @@ public class Projectile : MonoBehaviour {
 		if(collider.gameObject != gameObject) {
 			CollisionRelay relay = collider.GetComponent<CollisionRelay>();
 
-			if(relay != null) {
+			if(relay != null && m_shooter) {
 				m_shooter.Damage(this, relay.m_damageable);
 
 				hit = true;

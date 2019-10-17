@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ItemTooltip : Tooltip {
 
@@ -24,15 +25,15 @@ public class ItemTooltip : Tooltip {
         Show(m_panelHeight, true); // activating the tooltip (out of sight) to allow preferred heights to be fetched
 
         TextMeshProUGUI name = m_modifiableInfo.Find(ti => ti.m_name == "Item Name Text").Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		name.text = Get(item.m_name);
+		name.text = Get(item.GetDisplayName());
 		name.color = item.m_nameColor.Value;
 
 		if(item is Armor || item is Weapon) {
             TextMeshProUGUI type = m_modifiableInfo.Find(ti => ti.m_name == "Item Type Text").GetAligned<TextMeshProUGUI>(ref m_tooltipInfoOffset);
 			string itemType = "";
 
-			if(item is Armor) itemType = (item as Armor).m_armorType.ToString();
-			if(item is Weapon) itemType = (item as Weapon).m_weaponType.ToString();
+			if(item is Armor) itemType = (item as Armor).GetArmorType().ToString();
+			if(item is Weapon) itemType = (item as Weapon).GetWeaponType().ToString();
 
 			type.text = Get(itemType);
 		}
@@ -42,15 +43,24 @@ public class ItemTooltip : Tooltip {
 		
 		ShowSeparator(1);
 
+		bool leftShotPattern = false;
+		bool rightShotPattern = false;
+
 		if(item is Weapon) { 
 			Weapon weapon = item as Weapon;
 
-			ShowShotPattern(1, weapon.m_leftClickPattern, ref m_panelHeight);
-			ShowSeparator(2);
+			leftShotPattern = !String.IsNullOrEmpty(weapon.m_leftClickPattern) && ShotPattern.Get(weapon.m_leftClickPattern, true) != null;
 
-			if(weapon.m_rightClickPattern) {
-				ShowShotPattern(2, weapon.m_rightClickPattern, ref m_panelHeight);
-				ShowSeparator(3);
+			if(leftShotPattern) {
+				ShowShotPattern(1, ShotPattern.Get(weapon.m_leftClickPattern, true), ref m_panelHeight);
+				ShowSeparator(2);
+
+				rightShotPattern = !String.IsNullOrEmpty(weapon.m_rightClickPattern) && ShotPattern.Get(weapon.m_rightClickPattern, true) != null;
+
+				if(rightShotPattern) {
+					ShowShotPattern(2, ShotPattern.Get(weapon.m_rightClickPattern, true), ref m_panelHeight);
+					ShowSeparator(3);
+				}
 			}
 		}
 
@@ -140,10 +150,8 @@ public class ItemTooltip : Tooltip {
 			m_panelHeight += basePrefHeight;
 		}
 
-		if(item is Weapon) {
-            PositionDamageType(1);
-			if(((Weapon) item).m_rightClickPattern) PositionDamageType(2);
-		}
+		if(leftShotPattern) PositionDamageType(1);
+		if(rightShotPattern) PositionDamageType(2);
 
 		Show(m_panelHeight, false); // resizing the panel again to fit and actually showing it
 	}
@@ -181,7 +189,7 @@ public class ItemTooltip : Tooltip {
 		cd.text = Game.m_languages.FormatTexts(Get("{0}s cooldown"), prefixColorTag + p_pattern.m_patternCooldown.ToString() + suffixColorTag);
 		cd.color = Constants.WHITE;
 		
-		string statColor = ColorUtility.ToHtmlStringRGBA(p_pattern.m_projectileInfo.m_statApplied.GetColor());
+		string statColor = ColorUtility.ToHtmlStringRGBA(((Stats) Enum.Parse(typeof(Stats), p_pattern.m_projectileInfo.m_statApplied)).GetColor());
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Label").Get<TextMeshProUGUI>(ref p_panelHeight, ref m_tooltipInfoOffset).text = 
 																  Game.m_languages.FormatTexts(Get("Shot {0}"), p_shotNumber.ToString()) + 
 																  " (+<color=#" + statColor + ">" + 
@@ -193,7 +201,7 @@ public class ItemTooltip : Tooltip {
 
 		m_modifiableInfo.Find(ti => ti.m_name == shot + " Background").GetAligned<Image>(ref m_tooltipInfoOffset);
 		Image shotSprite = m_modifiableInfo.Find(ti => ti.m_name == shot + " Sprite").Get<Image>();
-		shotSprite.sprite = p_pattern.m_projectile.GetComponent<SpriteRenderer>().sprite;
+		shotSprite.sprite = Projectile.Get(p_pattern.m_projectile).GetComponent<SpriteRenderer>().sprite;
 
         TextMeshProUGUI shots = m_modifiableInfo.Find(ti => ti.m_name == shot + " Shots").Get<TextMeshProUGUI>(ref p_panelHeight, ref m_tooltipInfoOffset);
 		shots.text = Game.m_languages.FormatTexts(Get("Shots: {0}"), prefixColorTag + p_pattern.m_shots.ToString() + suffixColorTag);
@@ -208,9 +216,11 @@ public class ItemTooltip : Tooltip {
 		damage.text = Game.m_languages.FormatTexts(Get("Damage: {0}"), prefixColorTag + p_pattern.m_projectileInfo.m_damage.ToString() + suffixColorTag);
 		damage.color = Constants.WHITE;
 
-		if(p_pattern.m_projectileInfo.m_damageType.m_icon) {
+		Sprite damageTypeIcon = DamageType.Get(p_pattern.m_projectileInfo.m_damageType).m_icon;
+
+		if(damageTypeIcon) {
 			Image damageType = m_modifiableInfo.Find(ti => ti.m_name == shot + " DamageType").Get<Image>();
-			damageType.sprite = p_pattern.m_projectileInfo.m_damageType.m_icon;
+			damageType.sprite = damageTypeIcon;
 		}
 
         TextMeshProUGUI mana = m_modifiableInfo.Find(ti => ti.m_name == shot + " Mana").GetAligned<TextMeshProUGUI>(ref m_tooltipInfoOffset);

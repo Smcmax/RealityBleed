@@ -1,0 +1,48 @@
+{
+	"m_type":"Default",
+	"m_questPercentage":50,
+	"m_priorityType":false,
+	"m_incompatibleTypes":[],
+	"m_minimumStats":[
+		25, 25, 10, 10, 10, 10, 10, 10, 10
+	],
+	"m_maximumStats":[
+		50, 50, 25, 25, 25, 25, 25, 25, 25
+	],
+	"m_maleNames":[
+		"Robert",
+		"Bob",
+		"Justin"
+	],
+	"m_femaleNames":[
+		"Laura",
+		"Ashley",
+		"Jessica"
+	],
+	"m_maleSprites":[
+		{
+			"m_name": "hero-idle-front"
+		}
+	],
+	"m_femaleSprites":[
+		{
+			"m_name": "mole-idle-front"
+		}
+	],
+	"m_looks":[
+		{
+			"m_lookRange":6,
+			"m_lookSphereRadius":1,
+			"m_fieldOfView":120,
+			"m_scanSpeed":2,
+			"m_scanDuration":10
+		}
+	],
+	"m_greetings":[
+		"DefaultGreeting",
+		"DefaultGreeting2"
+	],
+	"m_quests":[
+		"TestQuest1"
+	]
+}

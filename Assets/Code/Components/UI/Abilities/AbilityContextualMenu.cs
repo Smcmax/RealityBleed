@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 public class AbilityContextualMenu : MonoBehaviour {
 
+    [Tooltip("The object to auto-focus whenever this menu closes")]
+    public AutoSelectObject m_focusOnClose;
+
 	[Tooltip("The event to raise when an hotkey is set")]
 	public GameEvent m_hotkeySetEvent;
 
@@ -30,7 +33,11 @@ public class AbilityContextualMenu : MonoBehaviour {
 		m_dropdown.RefreshShownValue();
 	}
 
-	public void SetHotkey() {
+    void OnDisable() {
+        m_focusOnClose.StartSelectCoroutine();
+    }
+
+    public void SetHotkey() {
 		AbilityWrapper existingBind = m_selectedAbility.m_loader.m_entity.m_abilities.Find(a => a.HotkeySlot == m_dropdown.value);
 
 		if(existingBind != null) {
@@ -68,11 +75,11 @@ public class AbilityContextualMenu : MonoBehaviour {
 		m_selectedAbility.m_highlightBorder.gameObject.SetActive(false);
 
 		if(p_saveChain) {
-			List<Ability> chained = new List<Ability>();
+			List<string> chained = new List<string>();
 
 			foreach(UIAbility ability in m_chainedAbilities) { 
 				ability.m_highlightBorder.gameObject.SetActive(false);
-				chained.Add(ability.m_ability.Ability);
+				chained.Add(ability.m_ability.AbilityName);
 			}
 
 			m_selectedAbility.m_ability.ChainedAbilities = chained;

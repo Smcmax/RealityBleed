@@ -8,7 +8,7 @@ using Rewired.UI.ControlMapper;
 public class Language {
 
     public string m_name;
-    public List<LanguageEntry> m_entries;
+    public List<LanguageEntry> m_entries; // TODO: separate modded entries to facilitate adding different things into the game
     // TODO: figure out how to get rewired language? or force it
 
     private string m_file;
@@ -24,12 +24,12 @@ public class Language {
     public string FindKey(string p_line) {
         LanguageEntry entry = m_entries.Find(le => le.m_line == p_line);
 
-        if (entry != null && HasEntry(entry.m_key)) return entry.m_key;
+        if(entry != null && HasEntry(entry.m_key)) return entry.m_key;
         else return "";
     }
 
     public void SetLine(string p_key, string p_line) {
-        if (HasEntry(p_key))
+        if(HasEntry(p_key))
             m_entries.Find(le => le.m_key == p_key).m_line = p_line;
         else m_entries.Add(new LanguageEntry(p_key, p_line));
     }

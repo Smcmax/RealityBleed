@@ -32,13 +32,13 @@ public class AbilityViewer : MonoBehaviour {
 		while(true) {
 			AbilityWrapper wrapper = m_entity.m_abilities.Find(a => a.HotkeySlot == m_hotkey);
 
-			if(wrapper != null && (m_wrapper == null || wrapper.Ability != m_wrapper.Ability)) {
+			if(wrapper != null && (m_wrapper == null || wrapper.AbilityName != m_wrapper.AbilityName)) {
 				m_wrapper = wrapper;
 
 				m_icon.enabled = true;
 				m_backgroundIcon.enabled = true;
-				m_icon.sprite = m_wrapper.Ability.m_icon;
-				m_backgroundIcon.sprite = m_wrapper.Ability.m_icon;
+				m_icon.sprite = wrapper.GetAbility().m_icon;
+				m_backgroundIcon.sprite = wrapper.GetAbility().m_icon;
 			} else if(wrapper == null) {
 				m_wrapper = null;
 
@@ -78,7 +78,7 @@ public class AbilityViewer : MonoBehaviour {
 				float lastUse = m_wrapper.GetLastUseTime();
 
 				if(lastUse > 0) {
-					float cooldown = m_wrapper.Ability.m_cooldowns.Find(c => c.TrainingLevel == m_wrapper.TrainingLevel).Value * 1000;
+					float cooldown = m_wrapper.GetAbility().m_cooldowns.Find(c => c.TrainingLevel == m_wrapper.TrainingLevel).Value * 1000;
 					float time = Time.time * 1000;
 
 					if(time >= lastUse + cooldown && m_icon.fillAmount != 1) m_icon.fillAmount = 1;

@@ -1,0 +1,28 @@
+{
+    "m_name": "TestEnemy/SlowExplodingCircle",
+    "m_type": "Circle",
+    "m_projectile": "ExplodeOnDeath",
+    "m_projectileInfo": {
+        "m_damage": 15,
+        "m_statApplied": "STR",
+        "m_damageType": "Normal",
+        "m_piercing": false,
+        "m_armorPiercing": true,
+        "m_range": 5,
+        "m_speed": 2,
+        "m_rotate": false,
+        "m_faceAtTarget": true
+    },
+    "m_behaviours": [
+        "Test/Straight",
+        "TestEnemy/FireExplosion"
+    ],
+    "m_shots": 8,
+    "m_manaPerStep": 0,
+    "m_instant": false,
+    "m_loop": false,
+    "m_patternCooldown": 2,
+    "m_bypassShooterCooldown": false,
+    "m_stepDelay": 0.25,
+    "m_angleOffset": 0
+}
