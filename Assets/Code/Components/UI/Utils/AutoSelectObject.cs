@@ -10,7 +10,7 @@ public class AutoSelectObject : MonoBehaviour {
 	}
 
     public void StartSelectCoroutine() {
-        StartCoroutine(Select());
+        if(gameObject.activeSelf) StartCoroutine(Select());
     }
 
 	public IEnumerator Select() {

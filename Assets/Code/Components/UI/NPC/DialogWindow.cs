@@ -23,8 +23,8 @@ public class DialogWindow : Selectable {
     private float m_openedTime;
 
     void Update() {
-        if((IsPressed() || ((Player) m_controller.m_interactor).m_rewiredPlayer.GetButtonDown("UISubmit")) && 
-            !m_pressed && Time.unscaledTime - m_openedTime > 0.25f) {
+        if((IsPressed() || m_controller.m_interactor.m_rewiredPlayer.GetButtonDown("UISubmit")) && 
+            !m_pressed && Time.unscaledTime - m_openedTime > 0.2f) {
             m_pressed = true;
             m_controller.Interact();
         }

@@ -12,18 +12,22 @@
 			else {
 				m_handInNPC = NPC.FindRandom();
 
-				while(m_handInNPC == m_associatedQuest.m_currentNPC)
+				while(m_associatedQuest.m_currentNPCs.Contains(m_handInNPC))
 					m_handInNPC = NPC.FindRandom();
 			}
 		} else {
 			m_handInNPC = NPC.FindRandomFromType(p_args[0]);
 
-			while(m_handInNPC == m_associatedQuest.m_currentNPC)
+			while(m_associatedQuest.m_currentNPCs.Contains(m_handInNPC))
 				m_handInNPC = NPC.FindRandomFromType(p_args[0]);
 		}
-
-		m_completed = true;
 	}
 
-	public override void Deactivate(Entity p_entity) { }
+    public override void CheckRequirements(Entity p_entity) { }
+
+    public override void Deactivate(Entity p_entity) { }
+
+    public override string GetDisplayName() {
+        return "Talk to " + m_handInNPC.gameObject.name;
+    }
 }

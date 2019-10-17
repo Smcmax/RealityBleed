@@ -26,7 +26,11 @@ public abstract class Goal {
 
     public abstract void Activate(Entity p_entity, string[] p_args);
 
+    public abstract void CheckRequirements(Entity p_entity); // will set to complete if complete
+
     public abstract void Deactivate(Entity p_entity);
+
+    public abstract string GetDisplayName();
 
     public static Goal Activate(Entity p_entity, Quest p_quest, string p_goal) {
         if(m_defaultGoals.Count == 0) LoadGoals();

@@ -33,14 +33,15 @@ public class Quest {
     public DropTable m_rewardTable;
 
 	[HideInInspector] public List<NPC> m_npcHistory = new List<NPC>();
-	[HideInInspector] public NPC m_currentNPC;
+	[HideInInspector] public List<NPC> m_currentNPCs;
 
 	private Player m_player;
     private int m_currentStepNumber = -1;
 
 	public void Accept(NPC p_questGiver, Player p_player) {
 		m_npcHistory.Add(p_questGiver);
-		m_currentNPC = p_questGiver;
+        m_currentNPCs = new List<NPC>();
+        m_currentNPCs.Add(p_questGiver);
 		m_player = p_player;
 		m_player.m_currentQuests.Add(this);
         m_currentStepNumber = -1;
@@ -107,6 +108,8 @@ public class Quest {
         List<QuestStep> steps = GetCurrentSteps();
 
         if(steps != null && steps.Count > 0) {
+            List<NPC> currentNPCs = new List<NPC>();
+
             foreach(QuestStep step in steps)
                 if(p_activate) {
                     step.SetGoal(Goal.Activate(m_player, this, step.m_goal));
@@ -114,14 +117,18 @@ public class Quest {
 					NPC handInNPC = step.GetGoal().m_handInNPC;
 
 					if(handInNPC && handInNPC != null) {
-						m_currentNPC = handInNPC;
+						if(!currentNPCs.Contains(handInNPC))
+                            currentNPCs.Add(handInNPC);
 
-						if(!m_npcHistory.Contains(m_currentNPC))
-							m_npcHistory.Add(m_currentNPC);
+						if(!m_npcHistory.Contains(handInNPC))
+							m_npcHistory.Add(handInNPC);
 					}
 				} else step.GetGoal().Deactivate(m_player);
 
-			return true;
+            m_currentNPCs.Clear();
+            m_currentNPCs.AddRange(currentNPCs);
+
+            return true;
         }
 
 		return false;
@@ -129,12 +136,14 @@ public class Quest {
 
 	public void Complete() { 
 		m_rewardTable.Drop(m_player.m_inventory);
+        m_player.m_currentQuests.Remove(this);
+        m_player.m_completedQuests.Add(this);
 
 		// assigned dynamically to reduce generation times and to improve accuracy 
 		if(m_nextQuests.Count > 0)
-			foreach(string next in m_nextQuests)
-				if(!m_currentNPC.m_questsAvailable.Contains(next))
-					m_currentNPC.m_questsAvailable.Add(next);
+			foreach(string next in m_nextQuests) // 0 for now, just make it so last hand in is singular
+				if(!m_currentNPCs[0].m_questsAvailable.Contains(next))
+					m_currentNPCs[0].m_questsAvailable.Add(next);
 	}
 
     // reference means to simply return the template quest instead of making a new one

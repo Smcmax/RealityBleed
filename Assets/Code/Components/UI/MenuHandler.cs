@@ -89,7 +89,8 @@ public class MenuHandler : MonoBehaviour {
                 GetButtonDown("Map") && !m_paused && m_onMapEvent) 
                 m_onMapEvent.Raise();
 
-			if(openedMenuButton == "" && GetButtonDown("QuestLog") && !m_paused && m_onQuestLogEvent) 
+			if((openedMenuButton == "" || openedMenuButton == "QuestLog") && 
+                GetButtonDown("QuestLog") && !m_paused && m_onQuestLogEvent) 
                 m_onQuestLogEvent.Raise();
 		}
 
@@ -102,7 +103,7 @@ public class MenuHandler : MonoBehaviour {
 		} else if(m_handlingPlayer != null && selected && m_lastSelectedGameObject != selected) { // save the last selected game object
 			m_lastSelectedGameObject = selected;
 		}
-	}
+    }
 
 	private bool GetButtonDown(string p_button) { 
 		if(m_listeningToAllInputs || m_handlingPlayer == null) {
@@ -168,7 +169,6 @@ public class MenuHandler : MonoBehaviour {
 
 				break;
 			}
-		
 	}
 
 	public void CloseControlMapper() {
@@ -242,7 +242,7 @@ public class MenuHandler : MonoBehaviour {
 
 	public void ClearMenu() {
 		if(m_openedMenus.Count > 0)
-			foreach(Menu menu in m_openedMenus)
+			foreach(Menu menu in new List<Menu>(m_openedMenus))
 				menu.gameObject.SetActive(false);
 
 		if(m_openedMenus.Count > 0) m_onMenuChangedEvent.Raise();

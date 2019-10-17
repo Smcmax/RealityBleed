@@ -22,7 +22,7 @@
 			{
 				"m_item": {
 					"m_durability": 100,
-					"m_itemRef": "Test Sword"
+					"m_itemRef": "Test/Test Sword"
 				},
 				"m_dropChance": 100,
 				"m_dropAmount": {

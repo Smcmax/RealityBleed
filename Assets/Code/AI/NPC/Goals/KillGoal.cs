@@ -8,7 +8,15 @@ public class KillGoal : Goal {
         // listen to killing events and find if entity is killer?
     }
 
+    public override void CheckRequirements(Entity p_entity) {
+        m_completed = true;
+    }
+
     public override void Deactivate(Entity p_entity) {
-		m_completed = true;
+
+    }
+
+    public override string GetDisplayName() {
+        return "Kill x";
     }
 }

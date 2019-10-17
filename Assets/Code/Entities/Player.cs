@@ -13,7 +13,9 @@ public class Player : Entity {
 	[HideInInspector] public Rewired.Player m_rewiredPlayer;
 	[HideInInspector] public PlayerCursor m_mouse;
 	[HideInInspector] public bool m_interactingWithNPC = false;
-	[HideInInspector] public List<string> m_completedQuests; // quest names
+    private float m_lastNPCInteract;
+
+	[HideInInspector] public List<Quest> m_completedQuests; // replaced with quest cause they already need to be saved for current anyways
 	[HideInInspector] public List<Quest> m_currentQuests; // actual player-specific quests with instantiated goals
 
 	private bool m_wasHoldingLeftClick = false;
@@ -52,7 +54,7 @@ public class Player : Entity {
 		}
 	}
 
-	void Update() {
+	void LateUpdate() {
 		bool leftClick = true;
 		bool fire = false;
 		GameObject hover = Game.m_rewiredEventSystem.GetGameObjectUnderPointer(m_playerId);
@@ -60,7 +62,11 @@ public class Player : Entity {
 
 		if(HideUIOnEvent.ObjectsHidden.Contains(hover)) mouseOverGameObject = UIItem.HeldItem;
 		if(UIItem.HeldItem && this == UIItem.Holder) UIItem.HeldItem.MoveItem(m_mouse.GetPosition());
-		//if(MenuHandler.Instance.m_openedMenus.Count > 0) return;
+        if(MenuHandler.Instance.m_openedMenus.Count > 0 || m_interactingWithNPC || 
+            Time.time - m_lastNPCInteract <= 0.5f) {
+            if(m_interactingWithNPC) m_lastNPCInteract = Time.time;
+            return;
+        }
 
 		if(m_rewiredPlayer.GetButtonDown("SpawnNPC")) Game.m_npcGenerator.GenerateRandom(1);
         if(m_rewiredPlayer.GetButtonDown("SpawnEnemy")) Game.m_enemyGenerator.Generate("TestEnemy");
@@ -96,11 +102,13 @@ public class Player : Entity {
 	}
 
 	public bool IsEligible(Quest p_quest) { 
-		if(m_completedQuests.Contains(p_quest.m_name) || m_currentQuests.Exists(q => q.m_name == p_quest.m_name)) return false;
+		if(m_completedQuests.Exists(q => q.m_name.Equals(p_quest.m_name)) || 
+            m_currentQuests.Exists(q => q.m_name == p_quest.m_name)) return false;
 
 		if(p_quest.m_prerequisites != null && p_quest.m_prerequisites.Count > 0)
 			foreach(string prerequisite in p_quest.m_prerequisites)
-				if(!m_completedQuests.Contains(prerequisite)) return false;
+				if(!m_completedQuests.Exists(q => q.m_name.Equals(prerequisite))) 
+                    return false;
 
 		return true;
 	}

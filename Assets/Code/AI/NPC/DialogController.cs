@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(NPC))]
 public class DialogController : MonoBehaviour {
@@ -70,8 +72,8 @@ public class DialogController : MonoBehaviour {
 			if(m_currentDialog == m_startingDialog) { 
 				if(m_interactor.m_currentQuests.Count > 0)
 					foreach(Quest currentQuest in m_interactor.m_currentQuests)
-						if(currentQuest.GetHandInChoiceLine() != "" && currentQuest.m_currentNPC == m_npc) { 
-							Choice advanceChoice = new Choice();
+						if(currentQuest.GetHandInChoiceLine() != "" && currentQuest.m_currentNPCs.Contains(m_npc)) { 
+                            Choice advanceChoice = new Choice();
 
 							advanceChoice.m_line = currentQuest.GetHandInChoiceLine();
 							advanceChoice.m_reactions = new List<string>();
@@ -124,7 +126,15 @@ public class DialogController : MonoBehaviour {
 
 			m_dialogWindow.DisplayChoices(choices);
 			m_selectingChoice = true;
-		} else ChangeToStartingDialog();
+		} else {
+            GameObject obj = EventSystem.current.currentSelectedGameObject;
+
+            if(obj) {
+                Button button = obj.GetComponent<Button>();
+
+                if(button) button.onClick.Invoke();
+            }
+        }
 	}
 
     public string GetFormattedLine(string p_line) {
