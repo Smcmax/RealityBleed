@@ -228,6 +228,7 @@ public class NPCGenerator : MonoBehaviour {
 
         npc.m_questsAvailable = quests;
 		npc.m_dialog.m_dialogTemplate = GameObject.Find("UI").transform.Find("Dialogue Canvas").Find("Speech Bubble").gameObject;
+        npc.m_dialog.m_shopTemplate = GameObject.Find("UI").transform.Find("Dialogue Canvas").Find("Shop Panel").gameObject;
         npc.m_dialog.m_currentDialog = Dialog.Get(possibleGreetings[Random.Range(0, possibleGreetings.Count)]);
         npc.m_dialog.Init();
 

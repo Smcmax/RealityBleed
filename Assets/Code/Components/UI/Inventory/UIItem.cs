@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using Rewired.Integration.UnityUI;
 
 public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler {
+
+    public event EventHandler OnPickup;
 
 	[Tooltip("The item represented in the UI")]
 	public Item m_item;
@@ -14,21 +17,25 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	private TextMeshProUGUI m_ghostAmount;
 
 	public static Transform GhostCanvas;
-	public static UIItem HeldItem; // not dragged, held
+	public static UIItem HeldItem;
 	public static Player Holder;
 
 	[HideInInspector] public InventoryLoader m_loader;
+    [HideInInspector] public bool m_isShopItem = false;
 
-	private bool m_validDrop;
+    private bool m_validDrop;
 
 	void Awake() {
 		m_ghost.raycastTarget = false;
 		m_ghost.gameObject.SetActive(false);
 		m_ghostAmount = m_ghost.GetComponentInChildren<TextMeshProUGUI>();
 		m_ghostAmount.raycastTarget = false;
+
+        OnPickup += PickupItem;
 	}
 
-	void OnDisable() { 
+	void OnDisable() {
+        CloseDestructionModal();
 		if(!m_item.m_item || !m_item.m_inventory) return;
 
 		if(m_item.m_inventory.m_itemTooltip.gameObject.activeSelf)
@@ -36,6 +43,10 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 		if(this == HeldItem) KillHeldItem();
 	}
+
+    public void UnbindPickup() {
+        OnPickup -= PickupItem;
+    }
 
 	public void ShowTooltip() {
 		if(!m_item.m_item) return;
@@ -65,24 +76,19 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		else modal.m_eventToFireOnSuccess = null;
 
 		modal.m_info = this;
-		modal.m_description.text = Game.m_languages.FormatKeys("You are about to destroy {0}.\nAre you sure you want to do this?", m_item.m_item.m_name);
+		modal.m_description.text = Game.m_languages.FormatKeys("You are about to destroy {0}.\nAre you sure you want to do this?", m_item.m_item.GetDisplayName());
 		modal.OpenModal();
 	}
 
 	private void CloseDestructionModal() {
 		if(!m_item.m_inventory) return;
-        if(Game.m_rewiredEventSystem.IsPointerOverGameObject(RewiredPointerInputModule.kMouseLeftId) &&
-            m_item.m_inventory.m_itemDestroyModal && m_item.m_inventory.m_itemDestroyModal.gameObject.activeSelf) {
+        if(m_item.m_inventory.m_itemDestroyModal && m_item.m_inventory.m_itemDestroyModal.gameObject.activeSelf)
             m_item.m_inventory.m_itemDestroyModal.CloseModal();
-        }
 	}
 
-	protected override void OnAnyClick(GameObject p_clicked, Player p_clicker) {
-		CloseDestructionModal();
-	}
-
-	protected override void OnLeftDoubleClick(GameObject p_clicked, Player p_clicker) { 
-		if(!m_item.m_item) return;
+	protected override void OnLeftDoubleClick(GameObject p_clicked, Player p_clicker) {
+        if(m_isShopItem) return;
+		if(p_clicker.m_playerId != MenuHandler.Instance.m_handlingPlayer.id || !m_item.m_item) return;
 
 		if(this == HeldItem) HideHeldItem();
 
@@ -139,21 +145,22 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	protected override void OnLeftSingleClick(GameObject p_clicked, Player p_clicker) {
-		if(HeldItem == null && m_item.m_item) {
-			ActivateGhost();
-			HeldItem = this;
-			Holder = p_clicker;
-			ObscureInfo();
-		} else if(HeldItem != null && HeldItem.gameObject == p_clicked) HideHeldItem();
-		else if(HeldItem != null) Swap(HeldItem, true); // swap stacks / drop in a slot
+        if(p_clicker.m_playerId != MenuHandler.Instance.m_handlingPlayer.id) return;
+
+        if(HeldItem == null && m_item.m_item) OnPickup.Invoke(this, EventArgs.Empty);
+        else if(HeldItem != null && HeldItem.gameObject == p_clicked) HideHeldItem();
+        else if(HeldItem != null) Swap(HeldItem, true); // swap stacks / drop in a slot
 	}
 
 	protected override void OnRightDoubleClick(GameObject p_clicked, Player p_clicker) {
 		OnRightSingleClick(p_clicked, p_clicker);
 	}
 
-	protected override void OnRightSingleClick(GameObject p_clicked, Player p_clicker) { 
-		if(HeldItem != null && HeldItem.gameObject == p_clicked) HideHeldItem();
+	protected override void OnRightSingleClick(GameObject p_clicked, Player p_clicker) {
+        if(m_isShopItem) return;
+        if(p_clicker.m_playerId != MenuHandler.Instance.m_handlingPlayer.id) return;
+
+        if(HeldItem != null && HeldItem.gameObject == p_clicked) HideHeldItem();
 		else if(HeldItem != null) {
 			if(m_item.m_amount > 0) // adding 1 to an existing slot
 				Add(HeldItem, 1, false);
@@ -176,38 +183,34 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	public void OnBeginDrag(PointerEventData p_eventData) {
-		if(!m_item.m_item) return;
-		if(HeldItem != null) HideHeldItem();
+        PlayerPointerEventData playerEventData = (PlayerPointerEventData) p_eventData;
 
-		ActivateGhost();
+        if(playerEventData.playerId != MenuHandler.Instance.m_handlingPlayer.id) return;
+
+        if(HeldItem != null) HideHeldItem();
+        if(m_item.m_item) OnPickup.Invoke(this, EventArgs.Empty);
 	}
 
-	public void OnDrag(PointerEventData p_eventData) {
-		if(!m_item.m_item) return;
+    public void OnDrag(PointerEventData p_eventData) { }
 
-		m_ghost.transform.position += (Vector3) p_eventData.delta;
+    public void OnEndDrag(PointerEventData p_eventData) {
+        if(m_isShopItem) return;
 
-		foreach(GameObject hovered in p_eventData.hovered)
-			if(hovered.name.Contains("Canvas")) {
-				Canvas hover = hovered.GetComponent<Canvas>();
-
-				m_ghost.transform.SetParent(hover.transform);
-				break;
-			}
-	}
-
-	public void OnEndDrag(PointerEventData p_eventData) {
-		HideGhost();
+        HeldItem = this;
+        HideHeldItem();
 
 		// making sure that when destroying, you can only drop out of a window and not in the middle of the UI and destroy
-		if(m_item.m_item && !m_validDrop && !p_eventData.hovered.Find(h => h.name.Contains("Canvas")) && m_item.m_inventory.m_itemDestroyModal)
+		if(m_item.m_item && !m_validDrop && !p_eventData.hovered.Find(h => h.name.Contains("Canvas")) && 
+            m_item.m_inventory.m_itemDestroyModal)
 			OpenDestructionModal();
 
 		m_validDrop = false;
 	}
 
 	public void OnDrop(PointerEventData p_eventData) {
-		CloseDestructionModal();
+        if(m_isShopItem) return;
+
+        CloseDestructionModal();
 		m_validDrop = true;
 
 		GameObject draggedItem = p_eventData.pointerDrag;
@@ -369,7 +372,14 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		m_ghost.transform.SetParent(GhostCanvas);
 	}
 
-	public void HideHeldItem() {
+    private void PickupItem(object sender, EventArgs e) {
+        ActivateGhost();
+        HeldItem = this;
+        Holder = Player.GetPlayerFromId(MenuHandler.Instance.m_handlingPlayer.id);
+        ObscureInfo();
+    }
+
+    public void HideHeldItem() {
 		HeldItem.HideGhost();
 		HeldItem.UpdateInfo();
 		HeldItem = null;

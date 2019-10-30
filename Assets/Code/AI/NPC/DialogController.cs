@@ -13,23 +13,32 @@ public class DialogController : MonoBehaviour {
 	[Tooltip("The template used to display the dialog on screen")]
 	public GameObject m_dialogTemplate;
 
+    [Tooltip("The template used to display the shop on screen")]
+    public GameObject m_shopTemplate;
+
 	[HideInInspector] public NPC m_npc;
     [HideInInspector] public Player m_interactor;
 
 	private DialogWindow m_dialogWindow;
+    private ShopWindow m_shopWindow;
     private int m_currentDialogLine = 0;
 	private bool m_selectingChoice = false;
 	private float m_lastReset = 0;
 	private Dialog m_startingDialog;
+    private Choice m_shopChoice;
 	private Choice m_closeChoice;
 	private Quest m_introducingQuest;
 
 	public void Init() {
         m_startingDialog = m_currentDialog;
+        m_shopChoice = new Choice();
         m_closeChoice = new Choice();
 
+        m_shopChoice.m_line = "Shop";
         m_closeChoice.m_line = "Close";
+        m_shopChoice.m_reactions = new List<string>();
         m_closeChoice.m_reactions = new List<string>();
+        m_shopChoice.m_reactions.Add("shop");
         m_closeChoice.m_reactions.Add("close");
 	}
 
@@ -44,7 +53,9 @@ public class DialogController : MonoBehaviour {
 
 		m_interactor.m_interactingWithNPC = true;
 
-		MenuHandler.Instance.ClearMenu();
+        if(m_shopWindow) { ChangeToStartingDialog(true); return; }
+
+        MenuHandler.Instance.ClearMenu();
 
 		if(m_currentDialog.m_lines.Count > m_currentDialogLine) {
 			Display(GetFormattedLine(m_currentDialog.m_lines[m_currentDialogLine]));
@@ -120,7 +131,10 @@ public class DialogController : MonoBehaviour {
 					}
 			}
 
-			if(choices.Count == 0) { ChangeToStartingDialog(); return; }
+            if(m_npc.m_hasShop && m_npc.m_entity.m_inventory.Count() > 0)
+                choices.Add(m_shopChoice);
+
+            if(choices.Count == 0) { ChangeToStartingDialog(true); return; }
 
 			choices.Add(m_closeChoice);
 
@@ -149,33 +163,58 @@ public class DialogController : MonoBehaviour {
 		}
 
 		m_dialogWindow.Display(p_text);
+
+        MenuHandler.Instance.m_handlingPlayer = m_interactor.m_rewiredPlayer;
+    }
+
+    public void DisplayShop() {
+        if(m_shopWindow || m_dialogWindow) ChangeToStartingDialog(false);
+
+        if(!m_npc.m_entity.m_inventory.m_itemTooltip)
+            m_npc.m_entity.m_inventory.m_itemTooltip = m_interactor.m_inventory.m_itemTooltip;
+
+        m_shopWindow = Instantiate(m_shopTemplate, m_shopTemplate.transform.parent).GetComponent<ShopWindow>();
+        m_shopWindow.Setup(this, m_npc.m_entity.m_inventory, gameObject.name);
+
+        MenuHandler.Instance.m_handlingPlayer = m_interactor.m_rewiredPlayer;
+    }
+
+	private void CleanDisplay(bool p_removeWindow, bool p_wipeVariables) {
+		if(!m_dialogWindow && !m_shopWindow) return;
+
+        if(p_removeWindow) {
+            if(m_dialogWindow) {
+                DialogWindow.m_openedWindows.Remove(m_dialogWindow);
+
+                Destroy(m_dialogWindow.gameObject);
+                m_dialogWindow = null;
+            } else if(m_shopWindow) {
+                ShopWindow.m_openedWindows.Remove(m_shopWindow);
+
+                Destroy(m_shopWindow.gameObject);
+                m_shopWindow = null;
+            }
+
+            if(p_wipeVariables) {
+                m_interactor.m_interactingWithNPC = false;
+                m_interactor = null;
+                m_introducingQuest = null;
+                MenuHandler.Instance.m_handlingPlayer = null;
+            }
+        } else if(m_dialogWindow) m_dialogWindow.Clear();
 	}
 
-	private void CleanDisplay(bool p_removeDialogWindow) {
-		if(!m_dialogWindow) return;
-
-		if(p_removeDialogWindow) {
-			DialogWindow.m_openedWindows.Remove(m_dialogWindow);
-
-			Destroy(m_dialogWindow.gameObject);
-			m_dialogWindow = null;
-			m_interactor.m_interactingWithNPC = false;
-			m_interactor = null;
-			m_introducingQuest = null;
-		} else m_dialogWindow.Clear();
-	}
-
-	public void ChangeToStartingDialog() {
+	public void ChangeToStartingDialog(bool p_wipeVariables) {
         m_lastReset = Time.unscaledTime;
-		ChangeDialog(m_startingDialog, false);
+		ChangeDialog(m_startingDialog, false, p_wipeVariables);
 	}
 
-	public void ChangeDialog(Dialog p_dialog, bool p_display) {
+	public void ChangeDialog(Dialog p_dialog, bool p_display, bool p_wipeVariables) {
 		m_currentDialog = p_dialog;
 		m_currentDialogLine = 0;
 		m_selectingChoice = false;
 
-		CleanDisplay(!p_display);
+		CleanDisplay(!p_display, p_wipeVariables);
 
 		if(p_display) Interact(m_interactor);
 	}

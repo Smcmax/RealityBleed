@@ -78,20 +78,22 @@ public class MenuHandler : MonoBehaviour {
 			if(openedMenuButton == "" && GetButtonDown("Inventory") && !m_paused && m_onInventoryEvent) 
                 m_onInventoryEvent.Raise();
 
-			if(openedMenuButton == "" && GetButtonDown("Character") && !m_paused && m_onCharacterEvent) 
-                m_onCharacterEvent.Raise();
+            if(ShopWindow.m_openedWindows.Count == 0) {
+                if(openedMenuButton == "" && GetButtonDown("Character") && !m_paused && m_onCharacterEvent)
+                    m_onCharacterEvent.Raise();
 
-			if((openedMenuButton == "" || openedMenuButton == "Skillbook") && 
-                GetButtonDown("Skillbook") && !m_paused && m_onSkillbookEvent) 
-                m_onSkillbookEvent.Raise();
+                if((openedMenuButton == "" || openedMenuButton == "Skillbook") &&
+                    GetButtonDown("Skillbook") && !m_paused && m_onSkillbookEvent)
+                    m_onSkillbookEvent.Raise();
 
-			if((openedMenuButton == "" || openedMenuButton == "Map") && 
-                GetButtonDown("Map") && !m_paused && m_onMapEvent) 
-                m_onMapEvent.Raise();
+                if((openedMenuButton == "" || openedMenuButton == "Map") &&
+                    GetButtonDown("Map") && !m_paused && m_onMapEvent)
+                    m_onMapEvent.Raise();
 
-			if((openedMenuButton == "" || openedMenuButton == "QuestLog") && 
-                GetButtonDown("QuestLog") && !m_paused && m_onQuestLogEvent) 
-                m_onQuestLogEvent.Raise();
+                if((openedMenuButton == "" || openedMenuButton == "QuestLog") &&
+                    GetButtonDown("QuestLog") && !m_paused && m_onQuestLogEvent)
+                    m_onQuestLogEvent.Raise();
+            }
 		}
 
 		GameObject selected = EventSystem.current.currentSelectedGameObject;

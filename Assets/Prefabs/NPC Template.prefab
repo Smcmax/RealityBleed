@@ -521,6 +521,7 @@ MonoBehaviour:
   m_tooltipRenderer: {fileID: 212724083400381926}
   m_showTooltipAtAllTimes: 0
   m_onInteractEvent: {fileID: 11400000, guid: 1d0ce079657fe084db1b55952540e25a, type: 2}
+  m_hasShop: 1
   m_npcId: 
   m_entity: {fileID: 0}
   m_dialog: {fileID: 0}
@@ -549,21 +550,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_items:
-  - m_amount: 0
+  - m_amount: 6
     m_durability: 0
     m_outlineSprite:
       m_name: 
       m_internal: 1
-    m_itemRef: 
+    m_itemRef: Test/Arrow
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
-  - m_amount: 0
-    m_durability: 0
+  - m_amount: 1
+    m_durability: 100
     m_outlineSprite:
       m_name: 
       m_internal: 1
-    m_itemRef: 
+    m_itemRef: Test/Test Sword
     m_holder: {fileID: 0}
     m_inventory: {fileID: 0}
     m_inventoryIndex: 0
@@ -695,7 +696,8 @@ MonoBehaviour:
     m_inventoryIndex: 0
   m_itemDestroyModal: {fileID: 0}
   m_itemTooltip: {fileID: 0}
-  m_onInventoryActionEvent: {fileID: 0}
+  m_onInventoryActionEvent: {fileID: 11400000, guid: a4f56fa06604b3b48959b37344914f6c,
+    type: 2}
   m_onItemDestroyEvent: {fileID: 0}
   m_entity: {fileID: 0}
   m_interactor: {fileID: 0}
@@ -716,6 +718,7 @@ MonoBehaviour:
     m_lines: []
     m_choices: []
   m_dialogTemplate: {fileID: 0}
+  m_shopTemplate: {fileID: 0}
   m_npc: {fileID: 0}
   m_interactor: {fileID: 0}
 --- !u!114 &114952405315489764

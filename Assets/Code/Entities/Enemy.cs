@@ -12,6 +12,6 @@ public class Enemy : NPC {
     }
 
     public void ForceCloseDialog() {
-        if(m_dialog) m_dialog.ChangeToStartingDialog();
+        if(m_dialog) m_dialog.ChangeToStartingDialog(true);
     }
 }

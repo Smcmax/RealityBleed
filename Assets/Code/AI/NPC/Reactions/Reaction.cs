@@ -34,5 +34,6 @@ public abstract class Reaction {
 		new AdvanceQuestReaction();
 		new CloseReaction();
 		new DialogReaction();
+        new VendorReaction();
 	}
 }

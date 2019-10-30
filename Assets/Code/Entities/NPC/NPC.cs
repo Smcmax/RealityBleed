@@ -7,6 +7,9 @@ public class NPC : Interactable {
 	private static int m_npcIds = 0;
 	private static List<NPC> m_npcs = new List<NPC>();
 
+    [Tooltip("Whether or not this npc can sell things using its inventory")]
+    public bool m_hasShop = true;
+
 	[HideInInspector] public string m_npcId;
 	[HideInInspector] public Entity m_entity;
 	[HideInInspector] public DialogController m_dialog;
@@ -41,12 +44,12 @@ public class NPC : Interactable {
 	}
 
     public override void OutOfRange(Entity p_entity) {
-		if(m_dialog && p_entity is Player) m_dialog.ChangeToStartingDialog();
+		if(m_dialog && p_entity is Player) m_dialog.ChangeToStartingDialog(true);
 	}
 
 	public void Die() {
 		if(m_dialog) {
-			m_dialog.ChangeToStartingDialog();
+			m_dialog.ChangeToStartingDialog(true);
 			Destroy(m_dialog);
 		}
 		
