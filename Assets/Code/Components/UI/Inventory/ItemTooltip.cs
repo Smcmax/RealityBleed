@@ -13,6 +13,7 @@ public class ItemTooltip : Tooltip {
 
 	public void SetItem(Item p_item) {
 		Entity holder = p_item.m_holder ? p_item.m_holder : p_item.m_inventory.m_interactor;
+
 		if(m_modifiableInfo.Count == 0) FillModifiableInfo();
 
 		foreach(TooltipInfo info in m_modifiableInfo)
@@ -126,7 +127,7 @@ public class ItemTooltip : Tooltip {
 
         TextMeshProUGUI sellPrice = m_modifiableInfo.Find(ti => ti.m_name == "Sell Price")
 													.Get<TextMeshProUGUI>(ref m_panelHeight, ref m_tooltipInfoOffset);
-		sellPrice.text = Game.m_languages.FormatTexts(Get("Sell Price: {0}g"), prefixColorTag + item.m_sellPrice + suffixColorTag);
+		sellPrice.text = Game.m_languages.FormatTexts(Get("Sell Price: {0}g"), prefixColorTag + item.GetSellPrice(holder) + suffixColorTag);
 		sellPrice.color = Constants.WHITE;
 
 		TooltipInfo descInfo = m_modifiableInfo.Find(ti => ti.m_name == "Item Description Text");

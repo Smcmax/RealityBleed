@@ -126,11 +126,17 @@ public class AbilitySkillWrapper {
                (AbilityWrapper != null ? AbilityWrapper.TrainingLevel : 
                                          SkillWrapper.TrainingLevel);
     }
-	
+
+    public Entity GetHolder() {
+        return IsEmpty() ? null :
+               (AbilityWrapper != null ? AbilityWrapper.Holder :
+                                         SkillWrapper.Holder);
+    }
+
     public int GetSellPrice() { 
         return IsEmpty() ? 0 : 
-               (AbilityWrapper != null ? AbilityWrapper.GetAbility().m_sellPrice : 
-                                         SkillWrapper.GetSkill().m_sellPrice); 
+               (AbilityWrapper != null ? AbilityWrapper.GetAbility().GetSellPrice(GetHolder()) : 
+                                         SkillWrapper.GetSkill().GetSellPrice(GetHolder())); 
     }
 	
     public int GetManaCost(int p_trainingLevel) {

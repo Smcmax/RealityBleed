@@ -31,7 +31,7 @@ public class Skill {
 	[Tooltip("Color to use in tooltips")]
 	public ColorReference m_nameColor;
 
-	[Tooltip("How much this skill costs to train (to hire someone to train the player)")]
+	[Tooltip("How much this skill costs to train (to hire someone to train the player) (base price without markups)")]
 	public int m_sellPrice;
 
 	[Space]
@@ -127,6 +127,13 @@ public class Skill {
         return m_name;
     }
 
+    public int GetSellPrice(Entity p_holder) {
+        if(p_holder.m_npc)
+            return Mathf.RoundToInt((float) m_sellPrice * (1f + (float) p_holder.m_npc.m_saleMarkupPercentage / 100f));
+
+        return m_sellPrice;
+    }
+
     public static implicit operator bool(Skill p_instance) {
         return p_instance != null;
     }
@@ -137,8 +144,16 @@ public class SkillWrapper {
 	public string SkillName;
 	public bool Learned;
 	public int TrainingLevel;
+    public Entity Holder;
 
 	private Skill LoadedSkill;
+
+    public SkillWrapper(string p_skillName, bool p_learned, int p_trainingLevel, Entity p_holder) {
+        SkillName = p_skillName;
+        Learned = p_learned;
+        TrainingLevel = p_trainingLevel;
+        Holder = p_holder;
+    }
 
 	public Skill GetSkill() {
 		if(LoadedSkill == null || LoadedSkill.m_name != SkillName)

@@ -174,9 +174,10 @@ public class DialogController : MonoBehaviour {
             m_npc.m_entity.m_inventory.m_itemTooltip = m_interactor.m_inventory.m_itemTooltip;
 
         m_shopWindow = Instantiate(m_shopTemplate, m_shopTemplate.transform.parent).GetComponent<ShopWindow>();
-        m_shopWindow.Setup(this, m_npc.m_entity.m_inventory, gameObject.name);
 
         MenuHandler.Instance.m_handlingPlayer = m_interactor.m_rewiredPlayer;
+
+        m_shopWindow.Setup(this, m_npc.m_entity.m_inventory, gameObject.name);
     }
 
 	private void CleanDisplay(bool p_removeWindow, bool p_wipeVariables) {

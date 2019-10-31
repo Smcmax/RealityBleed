@@ -522,6 +522,7 @@ MonoBehaviour:
   m_showTooltipAtAllTimes: 0
   m_onInteractEvent: {fileID: 11400000, guid: 1d0ce079657fe084db1b55952540e25a, type: 2}
   m_hasShop: 1
+  m_saleMarkupPercentage: 50
   m_npcId: 
   m_entity: {fileID: 0}
   m_dialog: {fileID: 0}

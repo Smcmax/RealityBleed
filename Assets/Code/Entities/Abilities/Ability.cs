@@ -34,7 +34,7 @@ public class Ability {
 	[Tooltip("Whether or not the effect is activated by the game or by the player")]
 	public bool m_isPassive;
 
-	[Tooltip("How much this ability sells for in shops (base price)")]
+	[Tooltip("How much this ability sells for (base price without markups)")]
 	public int m_sellPrice;
 
 	[Space]
@@ -137,6 +137,13 @@ public class Ability {
         return m_name;
     }
 
+    public int GetSellPrice(Entity p_holder) {
+        if(p_holder.m_npc)
+            return Mathf.RoundToInt((float) m_sellPrice * (1f + (float) p_holder.m_npc.m_saleMarkupPercentage / 100f));
+
+        return m_sellPrice;
+    }
+
     public static implicit operator bool(Ability p_instance) {
         return p_instance != null;
     }
@@ -167,10 +174,19 @@ public class AbilityWrapper {
 	public bool Learned;
 	public int TrainingLevel;
 	public int HotkeySlot; // 0 - 6
+    public Entity Holder;
 	public List<string> ChainedAbilities;
 
 	private Ability LoadedAbility;
 	private float LastUse;
+
+    public AbilityWrapper(string p_abilityName, bool p_learned, int p_trainingLevel, int p_hotkeySlot, Entity p_holder) {
+        AbilityName = p_abilityName;
+        Learned = p_learned;
+        TrainingLevel = p_trainingLevel;
+        HotkeySlot = p_hotkeySlot;
+        Holder = p_holder;
+    }
 	
 	public float GetLastUseTime() { return LastUse; }
 

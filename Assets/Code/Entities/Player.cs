@@ -41,12 +41,7 @@ public class Player : Entity {
 		// TODO: TEMP
 		int hotkey = 1;
 		foreach(Ability ability in Ability.m_abilities) {
-			AbilityWrapper wrapper = new AbilityWrapper();
-
-			wrapper.AbilityName = ability.m_name;
-			wrapper.Learned = true;
-			wrapper.TrainingLevel = 1;
-			wrapper.HotkeySlot = hotkey;
+			AbilityWrapper wrapper = new AbilityWrapper(ability.m_name, true, 1, hotkey, this);
 
 			m_abilities.Add(wrapper);
 

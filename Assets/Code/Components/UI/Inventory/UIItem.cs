@@ -21,7 +21,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	public static Player Holder;
 
 	[HideInInspector] public InventoryLoader m_loader;
-    [HideInInspector] public bool m_isShopItem = false;
+    [HideInInspector] public bool m_blockItemBehaviours = false;
 
     private bool m_validDrop;
 
@@ -87,7 +87,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	protected override void OnLeftDoubleClick(GameObject p_clicked, Player p_clicker) {
-        if(m_isShopItem) return;
+        if(m_blockItemBehaviours) return;
 		if(p_clicker.m_playerId != MenuHandler.Instance.m_handlingPlayer.id || !m_item.m_item) return;
 
 		if(this == HeldItem) HideHeldItem();
@@ -157,7 +157,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	protected override void OnRightSingleClick(GameObject p_clicked, Player p_clicker) {
-        if(m_isShopItem) return;
+        if(m_blockItemBehaviours) return;
         if(p_clicker.m_playerId != MenuHandler.Instance.m_handlingPlayer.id) return;
 
         if(HeldItem != null && HeldItem.gameObject == p_clicked) HideHeldItem();
@@ -194,7 +194,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
     public void OnDrag(PointerEventData p_eventData) { }
 
     public void OnEndDrag(PointerEventData p_eventData) {
-        if(m_isShopItem) return;
+        if(m_blockItemBehaviours) return;
 
         HeldItem = this;
         HideHeldItem();
@@ -208,7 +208,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	public void OnDrop(PointerEventData p_eventData) {
-        if(m_isShopItem) return;
+        if(m_blockItemBehaviours) return;
 
         CloseDestructionModal();
 		m_validDrop = true;

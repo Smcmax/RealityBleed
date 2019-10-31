@@ -33,7 +33,7 @@ public class BaseItem {
 	[Tooltip("The maximum amount of this item that can be stacked together in a single inventory slot")]
 	public int m_maxStackSize;
 
-	[Tooltip("How much this item sells for")]
+	[Tooltip("How much this item sells for (base price without markups)")]
 	public int m_sellPrice;
 
 	[Tooltip("The equipment slots this item fits into, none if not an equippable item")]
@@ -130,6 +130,13 @@ public class BaseItem {
         }
 
         return m_name;
+    }
+
+    public int GetSellPrice(Entity p_holder) {
+        if(p_holder.m_npc)
+            return Mathf.RoundToInt((float) m_sellPrice * (1f + (float) p_holder.m_npc.m_saleMarkupPercentage / 100f));
+        
+        return m_sellPrice;
     }
 
 	public List<EquipmentSlot> GetSlots() { 

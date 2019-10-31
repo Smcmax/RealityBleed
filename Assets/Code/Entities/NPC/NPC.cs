@@ -10,6 +10,9 @@ public class NPC : Interactable {
     [Tooltip("Whether or not this npc can sell things using its inventory")]
     public bool m_hasShop = true;
 
+    [Tooltip("The extra percentage of the price added onto every item sold by this npc")]
+    [ConditionalField("m_hasShop", "true")] public int m_saleMarkupPercentage = 50;
+
 	[HideInInspector] public string m_npcId;
 	[HideInInspector] public Entity m_entity;
 	[HideInInspector] public DialogController m_dialog;
