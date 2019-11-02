@@ -909,9 +909,11 @@ MonoBehaviour:
   - SkillName: 
     Learned: 0
     TrainingLevel: 0
+    Holder: {fileID: 0}
   - SkillName: 
     Learned: 1
     TrainingLevel: 1
+    Holder: {fileID: 0}
   m_modifiers: {fileID: 0}
   m_ai: {fileID: 0}
   m_npc: {fileID: 0}

@@ -26,10 +26,12 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
     private bool m_validDrop;
 
 	void Awake() {
-		m_ghost.raycastTarget = false;
-		m_ghost.gameObject.SetActive(false);
-		m_ghostAmount = m_ghost.GetComponentInChildren<TextMeshProUGUI>();
-		m_ghostAmount.raycastTarget = false;
+        if(m_ghost) {
+            m_ghost.raycastTarget = false;
+            m_ghost.gameObject.SetActive(false);
+            m_ghostAmount = m_ghost.GetComponentInChildren<TextMeshProUGUI>();
+            m_ghostAmount.raycastTarget = false;
+        }
 
         OnPickup += PickupItem;
 	}
@@ -61,7 +63,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	public void MoveItem(Vector3 p_position) {
-		HeldItem.m_ghost.transform.position = p_position;
+		if(m_ghost) HeldItem.m_ghost.transform.position = p_position;
 
 		if(HeldItem.m_item.m_inventory.m_itemDestroyModal && Holder.m_rewiredPlayer.GetButtonDown("UIInteract1") &&
 			!Game.m_rewiredEventSystem.IsPointerOverGameObject(RewiredPointerInputModule.kMouseLeftId))
@@ -313,10 +315,10 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
         TextMeshProUGUI otherAmount = draggedImage.GetComponentInChildren<TextMeshProUGUI>();
 
 		image.sprite = draggedImage.sprite;
-		m_ghost.sprite = image.sprite;
+		if(m_ghost) m_ghost.sprite = image.sprite;
 		
 		amount.text = otherAmount.text;
-		m_ghostAmount.text = otherAmount.text;
+        if(m_ghost) m_ghostAmount.text = otherAmount.text;
 
 		image.color = draggedImage.color;
 		amount.enabled = otherAmount.enabled;
@@ -338,12 +340,12 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 		else amount.text = m_item.m_amount.ToString();
 
 		image.sprite = m_item.m_item.m_sprite;
-		m_ghost.sprite = m_item.m_item.m_sprite;
+		if(m_ghost) m_ghost.sprite = m_item.m_item.m_sprite;
 
 		image.color = new Color(1, 1, 1, 1);
 		amount.color = new Color(1, 1, 1, 1);
 
-		UpdateGhostAmountText();
+		if(m_ghost) UpdateGhostAmountText();
 	}
 
 	private void HideInfo(bool p_swapItems, Item p_swapped) {

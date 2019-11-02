@@ -31,7 +31,7 @@ public class CursorSelector : Selectable {
 
 				if(xAxis > 0) Next();
 				else if(xAxis < 0) Previous();
-			} else if(Math.Abs(xAxis) < 0.01f) m_xPressed = false;
+			} else if(Mathf.Abs(xAxis) < 0.01f) m_xPressed = false;
 		}
 	}
 
