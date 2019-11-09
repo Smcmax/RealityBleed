@@ -175,23 +175,11 @@ public class Inventory : MonoBehaviour {
 		return true;
 	}
 
-	public Item Take(Item p_item, int p_amount) { 
-		return Take(p_item.m_item.m_id, p_amount);
-	}
-
-	public Item Take(int p_id, int p_amount) {
-		if(!Contains(p_id)) return new Item(this, -1);
-
-		int maxStack = GetMaxStackSize(p_id);
-
-		return TakeAll(p_id, p_amount > maxStack ? maxStack : p_amount)[0];
-	}
-
 	public Item[] TakeAll(Item p_item, int p_amount) { 
 		return TakeAll(p_item.m_item.m_id, p_amount);
 	}
 
-	public Item[] TakeAll(int p_id, int p_amount) {
+	public Item[] TakeAll(int p_id, int p_amount) { // this doesn't really work, pls fix
 		if(!Contains(p_id)) return new Item[]{};
 
 		Item[] items = GetAll(p_id);
@@ -204,17 +192,23 @@ public class Inventory : MonoBehaviour {
 		int totalTaken = 0;
 
 		foreach(Item item in items) {
-			if(currentItem == null) { 
-				currentItem = item;
-				totalTaken += item.m_amount;
-				RemoveAt(Array.FindIndex(m_items, i => i == item));
-				continue;
-			}
+            if(currentItem == null) {
+                currentItem = new Item(this, -1);
+                itemsTaken.Add(currentItem);
+            }
 
 			int takenAmount = item.m_amount;
 
-			if(takenAmount + currentItem.m_amount > maxStack)
-				takenAmount = maxStack - currentItem.m_amount;
+            while(takenAmount + currentItem.m_amount > maxStack) {
+                takenAmount = maxStack - currentItem.m_amount;
+                currentItem.m_amount += takenAmount;
+                totalTaken += takenAmount;
+                item.m_amount -= takenAmount;
+
+                currentItem = new Item(this, -1);
+                itemsTaken.Add(currentItem);
+                takenAmount = item.m_amount;
+            }
 
 			if(takenAmount + totalTaken > p_amount)
 				takenAmount = p_amount - totalTaken;
@@ -222,16 +216,9 @@ public class Inventory : MonoBehaviour {
 			currentItem.m_amount += takenAmount;
 			totalTaken += takenAmount;
 
-			if(currentItem.m_amount == maxStack) { 
-				itemsTaken.Add(currentItem);
-
-				currentItem = item;
-				currentItem.m_amount = 0;
-			}
-
 			RemoveAt(Array.FindIndex(m_items, i => i == item));
 
-			if(totalTaken == p_amount) break;
+			if(totalTaken >= p_amount) break;
 		}
 
 		itemsTaken.Add(currentItem);

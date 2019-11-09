@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
@@ -18,6 +19,9 @@ public class ShopWindow : MonoBehaviour {
     private GameObject m_npcTitlePanel;
     private UIItem m_tradeItemDisplay;
     private TMP_Text m_itemNameDisplay;
+    private QuantitySelector m_quantitySelector;
+    private Button m_tradeAcceptButton;
+    private TMP_Text m_priceText;
 
     private void Init() {
         m_shopLoader = GetComponent<InventoryLoader>();
@@ -32,6 +36,12 @@ public class ShopWindow : MonoBehaviour {
         m_tradeItemDisplay.UnbindPickup();
 
         m_itemNameDisplay = m_tradePanel.transform.Find("Item Name").GetComponent<TMP_Text>();
+
+        m_quantitySelector = m_tradePanel.transform.Find("QuantitySelection").GetComponent<QuantitySelector>();
+        m_quantitySelector.m_window = this;
+
+        m_tradeAcceptButton = m_tradePanel.transform.Find("TradeAcceptButton").GetComponent<Button>();
+        m_priceText = m_tradeAcceptButton.transform.Find("Sizer").Find("Price Text").GetComponent<TMP_Text>();
     }
 
     public void Setup(DialogController p_controller, Inventory p_inventory, string p_title) {
@@ -65,8 +75,6 @@ public class ShopWindow : MonoBehaviour {
         tradePos.y = -(shopHeight + playerHeight) / 2f + shopHeight / 2f;
         npcTitlePos.y = shopHeight / 2f + npcTitleRect.sizeDelta.y / 2f - m_borderSize * 2f;
 
-        tradeRect.sizeDelta = new Vector2(tradeRect.sizeDelta.x, shopHeight + playerHeight);
-
         playerRect.localPosition = playerPos;
         shopRect.localPosition = shopPos;
         tradeRect.localPosition = tradePos;
@@ -80,6 +88,8 @@ public class ShopWindow : MonoBehaviour {
             item.UnbindPickup();
             item.OnPickup += Trade;
         }
+
+        m_tradeAcceptButton.onClick.AddListener(delegate { AcceptTrade(); });
     }
 
     public void Trade(object sender, EventArgs e) {
@@ -91,5 +101,42 @@ public class ShopWindow : MonoBehaviour {
 
         m_itemNameDisplay.text = Game.m_languages.GetLine(selected.m_item.GetDisplayName());
         m_itemNameDisplay.color = selected.m_item.m_nameColor.Value;
+
+        m_quantitySelector.m_minimumQuantity = 1;
+        m_quantitySelector.m_quantity = 1;
+        m_quantitySelector.m_maximumQuantity = selected.m_amount;
+
+        m_quantitySelector.UpdateText();
+
+        UpdateSellPrice();
+
+        if(GetOtherInventory().IsFull()) m_tradeAcceptButton.enabled = false;
+        else m_tradeAcceptButton.enabled = true;
+    }
+
+    public void AcceptTrade() {
+        // TODO: check player/npc money, then make the transaction
+        Item selected = m_tradeItemDisplay.m_item;
+        Item[] takenItems = selected.m_inventory.TakeAll(selected, m_quantitySelector.m_quantity);
+
+        foreach(Item taken in takenItems)
+            GetOtherInventory().Add(taken);
+    }
+
+    public void UpdateSellPrice() {
+        Item item = m_tradeItemDisplay.m_item;
+
+        if(item != null && item.m_item) {
+            m_priceText.text = (item.m_item.GetSellPrice(item.m_inventory.m_entity) * m_quantitySelector.m_quantity).ToString();
+            m_priceText.color = item.m_inventory.m_entity.m_npc == m_controller.m_npc ?
+                                ConstantColors.RED.GetColor() : ConstantColors.GREEN.GetColor();
+        } else {
+            m_priceText.text = "0";
+            m_priceText.color = ConstantColors.WHITE.GetColor();
+        }
+    }
+    public Inventory GetOtherInventory() {
+        return m_tradeItemDisplay.m_item.m_inventory.m_entity.m_npc == m_controller.m_npc ?
+               m_playerLoader.m_inventory : m_shopLoader.m_inventory;
     }
 }
