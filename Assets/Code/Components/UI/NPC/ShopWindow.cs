@@ -120,7 +120,7 @@ public class ShopWindow : MonoBehaviour {
         Item[] takenItems = selected.m_inventory.TakeAll(selected, m_quantitySelector.m_quantity);
 
         foreach(Item taken in takenItems)
-            GetOtherInventory().Add(taken);
+            GetOtherInventory().Add(taken); // maybe check how many were actually taken and price according to that
     }
 
     public void UpdateSellPrice() {
@@ -128,8 +128,7 @@ public class ShopWindow : MonoBehaviour {
 
         if(item != null && item.m_item) {
             m_priceText.text = (item.m_item.GetSellPrice(item.m_inventory.m_entity) * m_quantitySelector.m_quantity).ToString();
-            m_priceText.color = item.m_inventory.m_entity.m_npc == m_controller.m_npc ?
-                                ConstantColors.RED.GetColor() : ConstantColors.GREEN.GetColor();
+            m_priceText.color = ConstantColors.GREEN.GetColor(); // change based on coins left
         } else {
             m_priceText.text = "0";
             m_priceText.color = ConstantColors.WHITE.GetColor();

@@ -179,7 +179,7 @@ public class Inventory : MonoBehaviour {
 		return TakeAll(p_item.m_item.m_id, p_amount);
 	}
 
-	public Item[] TakeAll(int p_id, int p_amount) { // this doesn't really work, pls fix
+	public Item[] TakeAll(int p_id, int p_amount) {
 		if(!Contains(p_id)) return new Item[]{};
 
 		Item[] items = GetAll(p_id);
@@ -194,6 +194,7 @@ public class Inventory : MonoBehaviour {
 		foreach(Item item in items) {
             if(currentItem == null) {
                 currentItem = new Item(this, -1);
+                currentItem.UpdateItemRef(item.m_item.m_name);
                 itemsTaken.Add(currentItem);
             }
 
@@ -206,6 +207,7 @@ public class Inventory : MonoBehaviour {
                 item.m_amount -= takenAmount;
 
                 currentItem = new Item(this, -1);
+                currentItem.UpdateItemRef(item.m_item.m_name);
                 itemsTaken.Add(currentItem);
                 takenAmount = item.m_amount;
             }
@@ -215,13 +217,16 @@ public class Inventory : MonoBehaviour {
 			
 			currentItem.m_amount += takenAmount;
 			totalTaken += takenAmount;
+            item.m_amount -= takenAmount;
 
-			RemoveAt(Array.FindIndex(m_items, i => i == item));
+            if(item.m_amount <= 0)
+                RemoveAt(item.m_inventoryIndex);
 
-			if(totalTaken >= p_amount) break;
+            if(m_uiItems != null && m_uiItems.Length >= item.m_inventoryIndex + 1)
+                m_uiItems[item.m_inventoryIndex].UpdateInfo();
+
+            if(totalTaken >= p_amount) break;
 		}
-
-		itemsTaken.Add(currentItem);
 
 		return itemsTaken.ToArray();
 	}
@@ -276,6 +281,11 @@ public class Inventory : MonoBehaviour {
 			SetEntity(item);
 		}
 	}
+
+    public void RefreshUIItems() {
+        foreach(UIItem item in m_uiItems)
+            item.UpdateInfo();
+    }
 
 	public virtual void RaiseInventoryEvent(bool p_raise) { 
 		if(p_raise) m_onInventoryActionEvent.Raise();
