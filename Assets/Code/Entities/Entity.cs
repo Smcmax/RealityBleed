@@ -57,6 +57,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	[HideInInspector] public List<AbilityWrapper> m_abilities;
 	[HideInInspector] public List<SkillWrapper> m_skills;
 	[HideInInspector] public Modifiers m_modifiers;
+    [HideInInspector] public int m_currency;
 	[HideInInspector] public StateController m_ai;
 	[HideInInspector] public NPC m_npc;
 	[HideInInspector] public Color m_feedbackColor; // transparent = green/red

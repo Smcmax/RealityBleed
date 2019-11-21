@@ -83,7 +83,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	private void CloseDestructionModal() {
-		if(!m_item.m_inventory) return;
+		if(m_item == null || !m_item.m_inventory) return;
         if(m_item.m_inventory.m_itemDestroyModal && m_item.m_inventory.m_itemDestroyModal.gameObject.activeSelf)
             m_item.m_inventory.m_itemDestroyModal.CloseModal();
 	}
@@ -325,7 +325,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	}
 
 	public void UpdateInfo() {
-		if(!m_item.m_item || m_item.m_amount == 0) {
+		if(m_item == null || !m_item.m_item || m_item.m_amount == 0) {
 			HideInfo(false, null);
 			return;
 		}

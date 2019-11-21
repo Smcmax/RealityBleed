@@ -11,6 +11,12 @@ public class InventoryLoader : MonoBehaviour {
 	[Tooltip("If the panel is to resize to fit the inventory, put it here")]
 	public Image m_panelImage;
 
+    [Tooltip("The currency panel to place according to the panel's adjusted size")]
+    public RectTransform m_currencyPanel;
+
+    [Tooltip("The text to update with the entity's currency")]
+    public TMP_Text m_currencyText;
+
 	[Tooltip("How many items to fit in per row")]
 	[Range(0, 16)] public int m_itemsPerRow;
 
@@ -41,6 +47,9 @@ public class InventoryLoader : MonoBehaviour {
 			if(m_showEquipment) m_inventory = player.m_equipment;
 			else m_inventory = player.m_inventory;
 		} else m_inventory.UpdateItemInfo();
+
+        if(m_currencyText && m_inventory.m_entity)
+            m_currencyText.text = m_inventory.m_entity.m_currency.ToString();
 
 		Load();
 	}
@@ -81,6 +90,9 @@ public class InventoryLoader : MonoBehaviour {
 			float calculatedInvHeight = rows * (slotHeight + m_padding) + m_inventoryBorderSize * 2 + m_padding / 2;
 
 			m_panelImage.rectTransform.sizeDelta = new Vector2(calculatedInvWidth, calculatedInvHeight);
+            
+            if(m_currencyPanel)
+                m_currencyPanel.localPosition = new Vector3(0, -calculatedInvHeight / 2f, 0);
 		}
 
 		for(int row = 0; row < rows; ++row) { 

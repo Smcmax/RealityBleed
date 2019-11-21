@@ -115,27 +115,55 @@ public class ShopWindow : MonoBehaviour {
     }
 
     public void AcceptTrade() {
-        // TODO: check player/npc money, then make the transaction
         Item selected = m_tradeItemDisplay.m_item;
-        Item[] takenItems = selected.m_inventory.TakeAll(selected, m_quantitySelector.m_quantity);
+        Entity buyer = GetOtherInventory().m_entity;
+        Entity seller = selected.m_inventory.m_entity;
+        int sellPrice = selected.m_item.GetSellPrice(seller) * m_quantitySelector.m_quantity;
 
-        foreach(Item taken in takenItems)
-            GetOtherInventory().Add(taken); // maybe check how many were actually taken and price according to that
+        if(buyer.m_currency < sellPrice) return;
+        
+        Item[] takenItems = selected.m_inventory.TakeAll(selected, m_quantitySelector.m_quantity);
+        int takenCount = 0;
+
+        foreach(Item taken in takenItems) {
+            takenCount += taken.m_amount;
+            GetOtherInventory().Add(taken);
+        }
+
+        sellPrice = selected.m_item.GetSellPrice(seller) * takenCount;
+        buyer.m_currency -= sellPrice;
+        seller.m_currency += sellPrice;
+
+        ClearTrade();
     }
 
     public void UpdateSellPrice() {
         Item item = m_tradeItemDisplay.m_item;
 
-        if(item != null && item.m_item) {
-            m_priceText.text = (item.m_item.GetSellPrice(item.m_inventory.m_entity) * m_quantitySelector.m_quantity).ToString();
-            m_priceText.color = ConstantColors.GREEN.GetColor(); // change based on coins left
-        } else {
+        if(item == null || !item.m_item) {
             m_priceText.text = "0";
             m_priceText.color = ConstantColors.WHITE.GetColor();
+        } else {
+            int buyerCurrency = GetOtherInventory().m_entity.m_currency;
+            int sellPrice = item.m_item.GetSellPrice(item.m_inventory.m_entity) * m_quantitySelector.m_quantity;
+
+            m_priceText.text = sellPrice.ToString();
+            m_priceText.color = buyerCurrency >= sellPrice ? ConstantColors.GREEN.GetColor() :
+                                                             ConstantColors.RED.GetColor();
         }
     }
+
     public Inventory GetOtherInventory() {
         return m_tradeItemDisplay.m_item.m_inventory.m_entity.m_npc == m_controller.m_npc ?
                m_playerLoader.m_inventory : m_shopLoader.m_inventory;
+    }
+
+    private void ClearTrade() {
+        m_tradeItemDisplay.m_item = null;
+        m_tradeItemDisplay.UpdateInfo();
+
+        m_itemNameDisplay.text = "";
+
+        UpdateSellPrice();
     }
 }

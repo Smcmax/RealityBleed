@@ -47,6 +47,8 @@ public class Player : Entity {
 
 			hotkey++;
 		}
+
+        m_currency = 100; // TODO: also temp
 	}
 
 	void LateUpdate() {
