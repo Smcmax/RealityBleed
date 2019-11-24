@@ -113,4 +113,8 @@ public class DialogWindow : Selectable {
             m_spawnedChoices.Clear();
         }
     }
+
+    public void Remove() {
+        m_controller.ChangeToStartingDialog(false, true);
+    }
 }

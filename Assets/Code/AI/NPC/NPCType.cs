@@ -22,7 +22,16 @@ public class NPCType {
 	[Tooltip("The upper stat bounds for this npc type, leave blank if using default stats")]
 	public List<int> m_maximumStats;
 
-	[Tooltip("All available male names for npcs")]
+    [Tooltip("The currency range for this npc")]
+    public RangedInt m_currencyRange;
+
+    [Tooltip("The drop table used to equip this npc")]
+    public DropTable m_equipmentTable;
+
+    [Tooltip("The drop table dropped on death, if not set, will drop the npc's inventory")]
+    public DropTable m_dropTable;
+
+    [Tooltip("All available male names for npcs")]
 	public List<string> m_maleNames;
 
 	[Tooltip("All available female names for npcs")]
@@ -55,6 +64,9 @@ public class NPCType {
 		newType.m_incompatibleTypes = new List<string>(m_incompatibleTypes);
 		newType.m_minimumStats = new List<int>(m_minimumStats);
 		newType.m_maximumStats = new List<int>(m_maximumStats);
+        newType.m_currencyRange = m_currencyRange;
+        newType.m_equipmentTable = m_equipmentTable;
+        newType.m_dropTable = m_dropTable;
 		newType.m_maleNames = new List<string>(m_maleNames);
 		newType.m_femaleNames = new List<string>(m_femaleNames);
 		newType.m_maleSprites = new List<SerializableSprite>(m_maleSprites);

@@ -141,7 +141,8 @@ public class MenuHandler : MonoBehaviour {
 	public void Escape() {
 		if(!gameObject.activeSelf) { Instance.Escape(); return; }
 
-		if(m_openedMenus.Count == 0) m_pauseEvent.Raise();
+		if(m_openedMenus.Count == 0 && DialogWindow.m_openedWindows.Count == 0 &&
+            ShopWindow.m_openedWindows.Count == 0) m_pauseEvent.Raise();
 		else GoBack();
 	}
 
@@ -154,7 +155,15 @@ public class MenuHandler : MonoBehaviour {
 			else if(m_paused) m_resumeEvent.Raise();
 			else if(!m_openedMenus.Exists(m => !m.m_closeable)) ClearMenu();
 		}
-	}
+
+        if(DialogWindow.m_openedWindows.Count > 0)
+            foreach(DialogWindow dw in new List<DialogWindow>(DialogWindow.m_openedWindows))
+                dw.Remove();
+
+        if(ShopWindow.m_openedWindows.Count > 0)
+            foreach(ShopWindow sw in new List<ShopWindow>(ShopWindow.m_openedWindows))
+                sw.Remove();
+    }
 
 	// it does its own stuff so it needs its own special snowflake functions to integrate into this handler properly
 	public void OpenControlMapper() {

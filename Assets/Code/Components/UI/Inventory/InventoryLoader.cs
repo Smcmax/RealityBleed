@@ -48,10 +48,8 @@ public class InventoryLoader : MonoBehaviour {
 			else m_inventory = player.m_inventory;
 		} else m_inventory.UpdateItemInfo();
 
-        if(m_currencyText && m_inventory.m_entity)
-            m_currencyText.text = m_inventory.m_entity.m_currency.ToString();
-
-		Load();
+        UpdateCurrency();
+        Load();
 	}
 
 	void OnDisable() { 
@@ -60,7 +58,7 @@ public class InventoryLoader : MonoBehaviour {
 		for(int i = children - 1; i >= 0; --i) {
 			GameObject child = transform.GetChild(i).gameObject;
 
-			Destroy(child);
+            if(child != m_currencyPanel.gameObject) Destroy(child);
 		}
 
 		m_inventory.m_uiItems = new UIItem[0];
@@ -150,4 +148,9 @@ public class InventoryLoader : MonoBehaviour {
 		image.color = new Color(1, 1, 1, 0);
 		p_uiItem.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 	}
+
+    public void UpdateCurrency() {
+        if(m_currencyText && m_inventory.m_entity)
+            m_currencyText.text = m_inventory.m_entity.m_currency.ToString();
+    }
 }

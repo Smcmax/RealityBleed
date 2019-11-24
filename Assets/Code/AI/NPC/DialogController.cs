@@ -205,7 +205,11 @@ public class DialogController : MonoBehaviour {
         } else if(m_dialogWindow) m_dialogWindow.Clear();
 	}
 
-	public void ChangeToStartingDialog(bool p_wipeVariables) {
+    public void ChangeToStartingDialog(bool p_wipeVariables) {
+        ChangeToStartingDialog(false, p_wipeVariables);
+    }
+
+	public void ChangeToStartingDialog(bool p_display, bool p_wipeVariables) {
         m_lastReset = Time.unscaledTime;
 		ChangeDialog(m_startingDialog, false, p_wipeVariables);
 	}

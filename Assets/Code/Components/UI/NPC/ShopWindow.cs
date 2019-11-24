@@ -24,7 +24,7 @@ public class ShopWindow : MonoBehaviour {
     private TMP_Text m_priceText;
 
     private void Init() {
-        m_shopLoader = GetComponent<InventoryLoader>();
+        m_shopLoader = transform.Find("ShopInventory").GetComponent<InventoryLoader>();
         m_playerLoader = transform.Find("PlayerInventory").GetComponent<InventoryLoader>();
         m_tradePanel = transform.Find("Trade Panel").gameObject;
 
@@ -68,12 +68,13 @@ public class ShopWindow : MonoBehaviour {
         float playerHeight = playerRect.sizeDelta.y;
         float shopHeight = shopRect.sizeDelta.y;
 
-        playerPos.y = -playerHeight / 2f - shopHeight / 2f + m_borderSize / 2f;
-        shopPos.x = -shopRect.sizeDelta.x / 6f; // moves everything
+        playerPos.y = -playerHeight / 2f + m_borderSize / 2f;
         shopPos.y = shopHeight / 2f;
         tradePos.x = shopRect.sizeDelta.x / 2f + tradeRect.sizeDelta.x / 2f;
-        tradePos.y = -(shopHeight + playerHeight) / 2f + shopHeight / 2f;
-        npcTitlePos.y = shopHeight / 2f + npcTitleRect.sizeDelta.y / 2f - m_borderSize * 2f;
+        npcTitlePos.y = shopHeight + npcTitleRect.sizeDelta.y / 2f - m_borderSize * 2f;
+
+        m_shopLoader.m_currencyPanel.localPosition = Vector3.zero;
+        m_playerLoader.m_currencyPanel.localPosition = new Vector3(0, -playerHeight, 0);
 
         playerRect.localPosition = playerPos;
         shopRect.localPosition = shopPos;
@@ -135,6 +136,8 @@ public class ShopWindow : MonoBehaviour {
         seller.m_currency += sellPrice;
 
         ClearTrade();
+        m_shopLoader.UpdateCurrency();
+        m_playerLoader.UpdateCurrency();
     }
 
     public void UpdateSellPrice() {
@@ -165,5 +168,9 @@ public class ShopWindow : MonoBehaviour {
         m_itemNameDisplay.text = "";
 
         UpdateSellPrice();
+    }
+
+    public void Remove() {
+        m_controller.ChangeToStartingDialog(false, true);
     }
 }
