@@ -141,6 +141,9 @@ public class NPCGenerator : MonoBehaviour {
         List<Look> looks = new List<Look>();
 		bool male = Random.Range(0, 100) >= 50;
 		bool priorityTypeProcessed = false;
+        RangedInt currencyRange = new RangedInt();
+        DropTable equipmentTable = new DropTable();
+        DropTable dropTable = new DropTable();
 
         foreach(NPCType specific in p_specificTypes) {
 			NPCType type = specific;
@@ -151,6 +154,10 @@ public class NPCGenerator : MonoBehaviour {
 			if(type.m_priorityType && !priorityTypeProcessed) { 
 				names.Clear();
 				sprites.Clear();
+                looks.Clear();
+                states.Clear();
+                equipmentTable = new DropTable();
+                dropTable = new DropTable();
 
 				priorityTypeProcessed = true;
 			}
@@ -181,6 +188,10 @@ public class NPCGenerator : MonoBehaviour {
 
                 if(type.m_looks.Count > 0)
                     looks.AddRange(type.m_looks);
+
+                currencyRange = type.m_currencyRange;
+                if(type.m_equipmentTable) equipmentTable = type.m_equipmentTable;
+                if(type.m_dropTable) dropTable = type.m_dropTable;
 			}
 
             if(type.m_greetings.Count > 0)
@@ -242,6 +253,16 @@ public class NPCGenerator : MonoBehaviour {
             controller.m_currentState = State.Get(states[Random.Range(0, states.Count)]);
             controller.Setup();
         }
+
+        npc.m_entity.m_currency = Random.Range(currencyRange.Min, currencyRange.Max);
+
+        if(equipmentTable && equipmentTable.m_items.Count > 0)
+            equipmentTable.DropAndEquip(npc.m_entity.m_equipment);
+
+        if(dropTable && dropTable.m_items.Count > 0) {
+            npc.m_entity.m_dropInventoryOnDeath = false;
+            npc.m_entity.m_lootTable = dropTable;
+        } else npc.m_entity.m_dropInventoryOnDeath = true;
 
         StartCoroutine(SetStats(npc, minStats, maxStats));
     }

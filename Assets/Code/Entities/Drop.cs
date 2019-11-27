@@ -20,4 +20,9 @@ public class Drop {
 		m_item.m_amount = Random.Range(m_dropAmount.Min, m_dropAmount.Max);
 		p_inventory.Add(m_item);
 	}
+
+    public void Equip(Equipment p_equipment) {
+        m_item.m_amount = Random.Range(m_dropAmount.Min, m_dropAmount.Max);
+        p_equipment.SetAtIndex(m_item, p_equipment.FindBestSwappableItemSlot(m_item.m_item.m_equipmentSlots));
+    }
 }

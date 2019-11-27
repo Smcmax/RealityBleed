@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(Entity))]
 public class StateController : MonoBehaviour {
 
 	[Tooltip("The state currently in execution in this controller")]
@@ -63,7 +62,7 @@ public class StateController : MonoBehaviour {
 
 	void OnDrawGizmos() {
 		if(m_currentState && m_drawGizmos) {
-			if(m_look) {
+			if(m_entity && m_look) {
                 if(m_currentState.m_sceneGizmoColor != null)
 				    Gizmos.color = m_currentState.m_sceneGizmoColor;
 

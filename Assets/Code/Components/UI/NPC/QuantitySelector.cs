@@ -26,7 +26,8 @@ public class QuantitySelector : Selectable {
     }
 
     void Update() {
-        if(EventSystem.current.currentSelectedGameObject == gameObject) {
+        if(MenuHandler.Instance.m_handlingPlayer != null && 
+            EventSystem.current.currentSelectedGameObject == gameObject) {
             float xAxis = MenuHandler.Instance.m_handlingPlayer.GetAxisRaw("UIMoveX");
 
             if(xAxis != 0 && Time.time - m_xLastPress >= 0.2f) {

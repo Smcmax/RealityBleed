@@ -9,6 +9,37 @@
 	"m_maximumStats":[
 		50, 50, 25, 25, 25, 25, 25, 25, 25
 	],
+	"m_currencyRange":{
+		"Min":0,
+		"Max":100
+	},
+	"m_equipmentTable":{
+		"m_items":[
+			{
+				"m_item":{
+					"m_durability":100,
+					"m_itemRef": "Test/Test Sword"
+				},
+				"m_dropChance":75,
+				"m_dropAmount":{
+					"Min":1,
+					"Max":1
+				}
+			},
+			{
+				"m_item":{
+					"m_durability":100,
+					"m_itemRef": "Test/Test Sword v2"
+				},
+				"m_dropChance":100,
+				"m_dropAmount":{
+					"Min":1,
+					"Max":1
+				}
+			}	
+		],
+		"m_dropChances":1
+	},
 	"m_maleNames":[
 		"Robert",
 		"Bob",

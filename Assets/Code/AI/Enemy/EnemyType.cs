@@ -13,6 +13,12 @@ public class EnemyType {
     [Tooltip("The upper starting stat bounds for this enemy type, leave blank if using default stats")]
     public List<int> m_maximumStats;
 
+    [Tooltip("The drop table used to equip this enemy")]
+    public DropTable m_equipmentTable;
+
+    [Tooltip("The drop table dropped on death, if not set, will drop the enemy's inventory")]
+    public DropTable m_dropTable;
+
     [Tooltip("All available male sprites for enemies")]
     public List<SerializableSprite> m_maleSprites;
 
@@ -34,6 +40,8 @@ public class EnemyType {
         newType.m_type = m_type;
         newType.m_minimumStats = new List<int>(m_minimumStats);
         newType.m_maximumStats = new List<int>(m_maximumStats);
+        newType.m_equipmentTable = m_equipmentTable;
+        newType.m_dropTable = m_dropTable;
         newType.m_maleSprites = new List<SerializableSprite>(m_maleSprites);
         newType.m_femaleSprites = new List<SerializableSprite>(m_femaleSprites);
         newType.m_defaultStates = new List<string>(m_defaultStates);
@@ -53,6 +61,9 @@ public class EnemyType {
             m_maximumStats.Clear();
             m_maximumStats.AddRange(type.m_maximumStats);
         }
+
+        m_equipmentTable = type.m_equipmentTable;
+        m_dropTable = type.m_dropTable;
 
         if(type.m_maleSprites.Count > 0)
             foreach(SerializableSprite sprite in type.m_maleSprites) {

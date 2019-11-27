@@ -58,7 +58,7 @@ public class InventoryLoader : MonoBehaviour {
 		for(int i = children - 1; i >= 0; --i) {
 			GameObject child = transform.GetChild(i).gameObject;
 
-            if(child != m_currencyPanel.gameObject) Destroy(child);
+            if(!m_currencyPanel || child != m_currencyPanel.gameObject) Destroy(child);
 		}
 
 		m_inventory.m_uiItems = new UIItem[0];

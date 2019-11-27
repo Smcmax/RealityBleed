@@ -96,6 +96,10 @@ public class NPCType {
 			m_maximumStats.AddRange(type.m_maximumStats);
 		}
 
+        m_currencyRange = type.m_currencyRange;
+        m_equipmentTable = type.m_equipmentTable;
+        m_dropTable = type.m_dropTable;
+
 		if(type.m_maleNames.Count > 0)
 			m_maleNames.AddRange(type.m_maleNames);
 

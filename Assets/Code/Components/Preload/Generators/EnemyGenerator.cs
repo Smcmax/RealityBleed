@@ -90,6 +90,8 @@ public class EnemyGenerator : MonoBehaviour {
         List<int> minStats = new List<int>(type.m_minimumStats);
         List<int> maxStats = new List<int>(type.m_maximumStats);
         bool male = Random.Range(0, 100) >= 50;
+        DropTable equipmentTable = new DropTable();
+        DropTable dropTable = new DropTable();
 
         if(m_useExternalTypes) type = m_combinedTypes.Find(et => et.m_type == p_type.m_type);
 
@@ -100,6 +102,9 @@ public class EnemyGenerator : MonoBehaviour {
             if(type.m_femaleSprites.Count > 0)
                 sprites.AddRange(type.m_femaleSprites);
         }
+
+        if(type.m_equipmentTable) equipmentTable = type.m_equipmentTable;
+        if(type.m_dropTable) dropTable = type.m_dropTable;
 
         enemy.Init();
 
@@ -124,6 +129,14 @@ public class EnemyGenerator : MonoBehaviour {
             controller.m_currentState = State.Get(type.m_defaultStates[Random.Range(0, type.m_defaultStates.Count)]);
             controller.Setup();
         }
+
+        if(equipmentTable && equipmentTable.m_items.Count > 0)
+            equipmentTable.DropAndEquip(enemy.m_entity.m_equipment);
+
+        if(dropTable && dropTable.m_items.Count > 0) {
+            enemy.m_entity.m_dropInventoryOnDeath = false;
+            enemy.m_entity.m_lootTable = dropTable;
+        } else enemy.m_entity.m_dropInventoryOnDeath = true;
 
         StartCoroutine(SetStats(enemy, minStats, maxStats));
     }
