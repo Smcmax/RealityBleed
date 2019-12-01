@@ -7,7 +7,9 @@ public class CollisionRelay : MonoBehaviour {
 	void Awake() { 
 		m_damageable = GetComponentInParent<IDamageable>();
 
-		if(m_damageable is Entity)
-			((Entity) m_damageable).m_collisionRelay = this;
+        if(m_damageable is Entity) {
+            ((Entity) m_damageable).m_collisionRelay = this;
+            ((Entity) m_damageable).m_colliderSize = GetComponent<BoxCollider2D>().size;
+        }
 	}
 }

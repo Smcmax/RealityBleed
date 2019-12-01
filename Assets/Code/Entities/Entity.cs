@@ -61,6 +61,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	[HideInInspector] public StateController m_ai;
 	[HideInInspector] public NPC m_npc;
 	[HideInInspector] public Color m_feedbackColor; // transparent = green/red
+    [HideInInspector] public Vector2 m_colliderSize;
 
 	public virtual void Start() {
 		m_effectsActive = new Dictionary<Effect, float>();

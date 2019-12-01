@@ -297,6 +297,8 @@ public class MenuHandler : MonoBehaviour {
 	void OnSceneLoad(Scene p_scene, LoadSceneMode p_mode) {
 		UIItem.GhostCanvas = GameObject.Find("Mouse Canvas").transform;
 		if(m_resumeEvent) m_resumeEvent.Raise();
+
+        StateController.UpdateTilemap();
 	}
 
 	public void Quit() {

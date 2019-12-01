@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
 public class StateController : MonoBehaviour {
 
-	[Tooltip("The state currently in execution in this controller")]
+    [Tooltip("The state currently in execution in this controller")]
 	public State m_currentState;
 
 	[Tooltip("Patrol waypoints")]
@@ -20,18 +21,35 @@ public class StateController : MonoBehaviour {
 	[HideInInspector] public float m_stateTimeElapsed;
 	[HideInInspector] public int m_nextWaypoint;
 	[HideInInspector] public bool m_patrolFinished;
+    [HideInInspector] public List<Point> m_path = new List<Point>();
+    [HideInInspector] public float m_lastPathfindingUpdate;
+    [HideInInspector] public int m_currentPathfindingCount;
+    [HideInInspector] public Vector2 m_tempTarget;
+    [HideInInspector] public float m_lastTempTarget;
 	[HideInInspector] public Dictionary<ShootAction, List<ShotPattern>> m_shotPatterns;
+
+    public static TileGrid m_pathfindingGrid = null;
+    public static Tilemap m_currentTilemap = null;
+
+    public static void UpdateTilemap() {
+        GameObject grid = GameObject.Find("Grid");
+
+        if(grid) {
+            m_currentTilemap = grid.transform.Find("Ground").GetComponent<Tilemap>();
+            m_pathfindingGrid = Pathfinding.GenerateGridFromTilemaps(m_currentTilemap);
+        }
+    }
 
 	public void Setup() {
 		m_entity = GetComponent<Entity>();
 		m_shotPatterns = new Dictionary<ShootAction, List<ShotPattern>>();
 		m_look = m_entity.m_look;
 		m_entity.m_ai = this;
-	}
+    }
 
 	void Update() { 
 		if(m_look && m_currentState) m_currentState.UpdateState(this);
-	}
+    }
 
 	public bool TransitionToState(string p_nextState) {
 		if(p_nextState != m_currentState.m_name) { 
@@ -81,6 +99,15 @@ public class StateController : MonoBehaviour {
 								  (Quaternion.Euler(0, 0, m_look.m_fieldOfView / 2) * transform.right)
 									.normalized * m_look.m_lookRange,
 								  Color.black);
+
+                if(m_path.Count > 0) {
+                    for(int i = 0; i < m_path.Count - 1; i++) {
+                        Vector3 start = m_path[i].ConvertToWorld(m_currentTilemap);
+                        Vector3 end = m_path[i + 1].ConvertToWorld(m_currentTilemap);
+
+                        Debug.DrawLine(start, end);
+                    }
+                }
 			}
 		}
 	}

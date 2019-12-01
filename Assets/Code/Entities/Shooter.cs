@@ -89,7 +89,7 @@ public class Shooter : MonoBehaviour {
 
 	public void StopShooting() {
 		if(m_patterns.Count > 0)
-			foreach(ShotPattern pattern in m_patterns)
+			foreach(ShotPattern pattern in new List<ShotPattern>(m_patterns))
 				StopShooting(pattern);
 	}
 

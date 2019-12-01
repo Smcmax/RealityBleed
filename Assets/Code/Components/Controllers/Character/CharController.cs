@@ -14,8 +14,9 @@ public abstract class CharController : MonoBehaviour {
 
 	[Tooltip("Percentage of max speed the character can move at in a given direction while moving in two directions")]
 	[Range(0, 1f)] public float m_diagonalSpeedPercentage = 0.75f;
-	protected Rigidbody2D m_rigidbody2D;
-	protected Vector3 m_velocity;
+
+    [HideInInspector] public Vector3 m_velocity;
+    [HideInInspector] public Rigidbody2D m_rigidbody2D;
 
 	void Awake() {
 		m_rigidbody2D = GetComponent<Rigidbody2D>();
