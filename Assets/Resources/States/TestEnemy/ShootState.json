@@ -9,7 +9,7 @@
 		{
 			"m_condition":{
 				"m_type":"TargetActive",
-				"m_canDropCombat":false
+				"m_canDropCombat":true
 			},
 			"m_trueState":"TestEnemy/ShootState",
 			"m_falseState":"TestEnemy/ScanState"

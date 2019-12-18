@@ -90,14 +90,40 @@ public class State {
             if(jsonTransitions.Contains(",")) transitions.AddRange(jsonTransitions.Split(','));
             else transitions.Add(jsonTransitions);
 
+            string currentTransition = "";
+            string currentCondition = "";
+
             foreach(string jsonTransition in transitions) {
                 if(jsonTransition.Contains("m_condition")) {
                     string jsonCondition = jsonTransition.Split(new string[] { "m_condition" }, StringSplitOptions.RemoveEmptyEntries)[1]
-                                                         .Split('{')[1].Split('}')[0];
-                    Transition transition = JsonUtility.FromJson<Transition>(jsonTransitions);
+                                                         .Split('{')[1];
+                    currentCondition = "";
+                    currentTransition = "";
 
-                    transition.m_condition = Condition.Load("{" + jsonCondition + "}");
-                    state.m_transitions.Add(transition);
+                    if(jsonTransition.Contains("}")) {
+                        jsonCondition = jsonCondition.Split('}')[0];
+
+                        Transition transition = JsonUtility.FromJson<Transition>(jsonTransition);
+
+                        transition.m_condition = Condition.Load("{" + jsonCondition + "}");
+                        state.m_transitions.Add(transition);
+                    } else {
+                        currentCondition = jsonCondition + ",";
+                        currentTransition = jsonTransition + ",";
+                    }
+                } else if(currentCondition != "") {
+                    if(jsonTransition.Contains("}")) {
+                        Transition transition = JsonUtility.FromJson<Transition>(currentTransition + jsonTransition + "}");
+
+                        transition.m_condition = Condition.Load("{" + currentCondition + jsonTransition);
+                        state.m_transitions.Add(transition);
+
+                        currentCondition = "";
+                        currentTransition = "";
+                    } else {
+                        currentCondition += jsonTransition + ",";
+                        currentTransition += jsonTransition + ",";
+                    }
                 }
             }
         }
