@@ -20,8 +20,8 @@
     "m_shots": 8,
     "m_manaPerStep": 0,
     "m_instant": false,
-    "m_loop": false,
-    "m_patternCooldown": 2,
+    "m_loop": true,
+    "m_patternCooldown": 0,
     "m_bypassShooterCooldown": false,
     "m_stepDelay": 0.25,
     "m_angleOffset": 0

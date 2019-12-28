@@ -47,7 +47,7 @@ public class StateController : MonoBehaviour {
 		m_entity.m_ai = this;
     }
 
-	void Update() { 
+	void Update() {
 		if(m_look && m_currentState) m_currentState.UpdateState(this);
     }
 

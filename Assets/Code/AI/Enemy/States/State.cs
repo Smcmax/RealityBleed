@@ -77,21 +77,42 @@ public class State {
         string jsonActions = p_json.Split(new string[]{ "m_actions" }, StringSplitOptions.RemoveEmptyEntries)[1]
                                    .Split('[')[1].Split(']')[0];
 
-        foreach(string split in jsonActions.Split('{'))
-                foreach(string jsonAction in split.Split('}'))
-                    if(jsonAction.Contains("m_type"))
-                        state.m_actions.Add(Action.Load("{" + jsonAction + "}"));
+        foreach(string split in jsonActions.Split("{", ":{")) {
+            string actionJson = "{" + split;
+
+            if(split.LastIndexOf('}') == split.LastIndexOf("},"))
+                actionJson = actionJson.Remove(split.LastIndexOf('}') + 2, 1);
+
+            state.m_actions.Add(Action.Load(actionJson));
+        }
 
         if(p_json.Contains("m_transitions")) {
             string jsonTransitions = p_json.Split(new string[]{ "m_transitions" }, StringSplitOptions.RemoveEmptyEntries)[1]
                                            .Split('[')[1].Split(']')[0];
-            List<string> transitions = new List<string>();
+
+            foreach(string split in jsonTransitions.Split("{", ":{")) {
+                string transitionJson = "{" + split;
+
+                if(split.LastIndexOf('}') == split.LastIndexOf("},"))
+                    transitionJson = transitionJson.Remove(split.LastIndexOf('}') + 1, 1);
+
+                Transition transition = JsonUtility.FromJson<Transition>(transitionJson);
+                string[] jsonConditionSplit = transitionJson.Split(new string[] { "m_condition\":" },
+                                                                   StringSplitOptions.RemoveEmptyEntries)[1]
+                                                            .Split('}');
+
+                transition.m_condition = Condition.Load(jsonConditionSplit[jsonConditionSplit.Length - 3] + "}");
+                state.m_transitions.Add(transition);
+            }
+
+            /*List<string> transitions = new List<string>();
 
             if(jsonTransitions.Contains(",")) transitions.AddRange(jsonTransitions.Split(','));
             else transitions.Add(jsonTransitions);
 
             string currentTransition = "";
             string currentCondition = "";
+            Condition condition = null;
 
             foreach(string jsonTransition in transitions) {
                 if(jsonTransition.Contains("m_condition")) {
@@ -99,33 +120,43 @@ public class State {
                                                          .Split('{')[1];
                     currentCondition = "";
                     currentTransition = "";
+                    condition = null;
 
-                    if(jsonTransition.Contains("}")) {
+                    if(jsonTransition.Contains("}")) { // no multi-field condition (split by , screws loading)
                         jsonCondition = jsonCondition.Split('}')[0];
 
                         Transition transition = JsonUtility.FromJson<Transition>(jsonTransition);
 
                         transition.m_condition = Condition.Load("{" + jsonCondition + "}");
                         state.m_transitions.Add(transition);
-                    } else {
+                    } else { // multi-field condition, start looking for condition
                         currentCondition = jsonCondition + ",";
                         currentTransition = jsonTransition + ",";
                     }
-                } else if(currentCondition != "") {
-                    if(jsonTransition.Contains("}")) {
-                        Transition transition = JsonUtility.FromJson<Transition>(currentTransition + jsonTransition + "}");
-
-                        transition.m_condition = Condition.Load("{" + currentCondition + jsonTransition);
-                        state.m_transitions.Add(transition);
-
+                } else if(currentCondition != "") { // currently looking for condition
+                    if(jsonTransition.Contains("}")) { // found end of condition, find rest of transition now
+                        condition = Condition.Load("{" + currentCondition + jsonTransition);
+                        
                         currentCondition = "";
-                        currentTransition = "";
-                    } else {
+                        currentTransition += jsonTransition + ",";
+                    } else { // condition not found, keep looking
                         currentCondition += jsonTransition + ",";
                         currentTransition += jsonTransition + ",";
                     }
+                } else { // multi-line condition present, but found, searching for rest of transition
+                    if(jsonTransition.Contains("}")) { // found the end of the transition, wrap it up
+                        Transition transition = JsonUtility.FromJson<Transition>(currentTransition + jsonTransition);
+
+                        if(condition) transition.m_condition = condition;
+
+                        state.m_transitions.Add(transition);
+
+                        currentTransition = "";
+                        condition = null;
+                    } else // end of transition not reached yet, keep going
+                        currentTransition += jsonTransition + ",";
                 }
-            }
+            }*/
         }
 
         return state;
@@ -138,13 +169,13 @@ public class State {
     }
 
     public void UpdateState(StateController p_controller) {
-		ExecuteActions(p_controller);
+        ExecuteActions(p_controller);
 		CheckTransitions(p_controller);
 	}
 
 	private void ExecuteActions(StateController p_controller) {
-		foreach(Action action in m_actions)
-			action.Execute(p_controller);
+        foreach(Action action in m_actions)
+            action.Execute(p_controller);
 	}
 
 	private void CheckTransitions(StateController p_controller) {

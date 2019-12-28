@@ -3,6 +3,23 @@
 	"m_actions":[
 		{
 			"m_type":"Chase"
+		},
+		{
+			"m_type":"Shoot",
+			"m_patternToShoot":"TestEnemy/ArrowExplosion",
+			"m_forceTarget":true,
+			"m_stopShootingOnTransition":true,
+			"m_callMultipleTimes":true
+		},
+		{
+			"m_type":"Shoot",
+			"m_patternToShoot":"TestEnemy/SlowExplodingCircle",
+			"m_forceTarget":true,
+			"m_stopShootingOnTransition":true,
+			"m_range":{
+				"Min":2,
+				"Max":6
+			}
 		}
 	],
 	"m_transitions":[

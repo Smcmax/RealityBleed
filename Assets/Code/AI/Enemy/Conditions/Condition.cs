@@ -19,6 +19,7 @@ public class Condition {
             case "scancomplete": type = typeof(ScanCompleteCondition); break;
             case "targetactive": type = typeof(TargetActiveCondition); break;
             case "targethealth": type = typeof(TargetHealthCondition); break;
+            case "targetinrange": type = typeof(TargetInRangeCondition); break;
             case "timeelapsed": type = typeof(TimeElapsedCondition); break;
         }
 
