@@ -64,8 +64,8 @@ public class ShootAction : Action {
 		if(m_forceTarget)
 			pattern.m_forcedTarget = p_controller.m_target.transform.position;
 
-		p_controller.m_entity.m_shooter.Shoot(pattern);
-	}
+		if(!p_controller.m_entity.m_shooter.Shoot(pattern)) StopShooting(p_controller, false);
+    }
 
     private void StopShooting(StateController p_controller, bool p_transition) {
         List<ShotPattern> patterns = new List<ShotPattern>();

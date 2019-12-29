@@ -57,8 +57,8 @@ public class Shooter : MonoBehaviour {
                 Time.time >= m_patternLoopTimes[p_pattern.m_name] + patternCooldown;
 	}
 
-	public void Shoot(ShotPattern p_pattern) {
-		if(!CanShoot(p_pattern)) return;
+	public bool Shoot(ShotPattern p_pattern) {
+		if(!CanShoot(p_pattern)) return false;
 
 		m_lastShot = Time.time;
 
@@ -70,6 +70,8 @@ public class Shooter : MonoBehaviour {
 		p_pattern.m_active = true;
 
 		StartCoroutine(PatternStep(p_pattern));
+
+        return true;
 	}
 
 	private IEnumerator PatternStep(ShotPattern p_pattern) {
