@@ -71,8 +71,14 @@ public class ChaseAction : Action {
 	}
 
     private bool CanMoveTowards(Vector2 p_current, Vector2 p_direction, StateController p_controller) {
-        return !Physics2D.BoxCast(p_current, new Vector2(p_controller.m_entity.m_colliderSize.x + 0.1f,
-                                                         p_controller.m_entity.m_colliderSize.y + 0.1f),
-                                  0f, p_direction, 1.5f).collider;
+        Collider2D collider = Physics2D.BoxCast(p_current, 
+                                                new Vector2(p_controller.m_entity.m_colliderSize.x + 0.1f,
+                                                            p_controller.m_entity.m_colliderSize.y + 0.1f),
+                                                0f, p_direction, 1.5f).collider;
+
+        if(!collider) return true;
+        if(collider.name == p_controller.m_target.name && collider.tag == p_controller.m_target.tag) return true;
+
+        return false;
     }
 }

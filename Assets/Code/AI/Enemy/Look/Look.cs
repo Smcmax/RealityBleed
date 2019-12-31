@@ -18,6 +18,9 @@ public class Look {
 	[Tooltip("Length of time (in seconds) before the entity stops scanning and switches states")]
 	[Range(0, 30)] public float m_scanDuration;
 
+    [Tooltip("Length of time (in seconds) before the entity stops fighting when attempting to drop combat")]
+    [Range(0, 30)] public float m_combatDropTime;
+
     public static implicit operator bool(Look p_instance) {
         return p_instance != null;
     }

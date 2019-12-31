@@ -25,7 +25,8 @@
 			"m_lookSphereRadius":1,
 			"m_fieldOfView":120,
 			"m_scanSpeed":6,
-			"m_scanDuration":6
+			"m_scanDuration":6,
+			"m_combatDropTime":5
 		}
 	],
 	"m_greetings":[

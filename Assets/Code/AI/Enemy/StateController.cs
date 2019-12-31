@@ -26,6 +26,7 @@ public class StateController : MonoBehaviour {
     [HideInInspector] public int m_currentPathfindingCount;
     [HideInInspector] public Vector2 m_tempTarget;
     [HideInInspector] public float m_lastTempTarget;
+    [HideInInspector] public float m_combatDropAttemptTime;
 	[HideInInspector] public Dictionary<ShootAction, List<ShotPattern>> m_shotPatterns;
 
     public static TileGrid m_pathfindingGrid = null;

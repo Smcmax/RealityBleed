@@ -26,7 +26,8 @@
 		{
 			"m_condition":{
 				"m_type":"TargetActive",
-				"m_canDropCombat":true
+				"m_canDropFromRange":true,
+				"m_canDropFromLOS":true
 			},
 			"m_trueState":"TestEnemy/ShootState",
 			"m_falseState":"TestEnemy/ScanState"
