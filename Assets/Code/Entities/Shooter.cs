@@ -10,17 +10,21 @@ public class Shooter : MonoBehaviour {
 	[Range(0, 2)] public float m_patternCooldown;
 	private float m_lastShot;
 
-	[Tooltip("Event called when the entity shoots.")]
+	[Tooltip("Event called every time the entity shoots")]
 	public UnityEvent m_shotEvent;
 
 	[HideInInspector] public Entity m_entity;
 	[HideInInspector] public List<ShotPattern> m_patterns;
     [HideInInspector] public Dictionary<string, float> m_patternLoopTimes;
+    [HideInInspector] public AudioSource m_audioSource;
 
 	// only if it's an entity, shooter supports non-entities
 	public void Init(Entity p_entity) {
 		m_entity = p_entity;
         m_patternLoopTimes = new Dictionary<string, float>();
+
+        m_audioSource = gameObject.AddComponent<AudioSource>();
+        Game.m_audio.AddAudioSource(m_audioSource, AudioCategories.SFX);
 	}
 
 	private float GetMana() {
@@ -32,7 +36,6 @@ public class Shooter : MonoBehaviour {
 		if(p_pattern.m_manaPerStep > 0 && GetMana() - p_pattern.m_manaPerStep < 0) return false;
 
 		m_entity.m_stats.AddModifier(Stats.MP, (int) -p_pattern.m_manaPerStep, 0);
-		m_shotEvent.Invoke();
 
 		return true;
 	}
@@ -81,13 +84,20 @@ public class Shooter : MonoBehaviour {
 			if(p_pattern.m_instant) delay = p_pattern.Instant(this);
 			else delay = p_pattern.PreStep(this);
 
-			if(delay == -1) delay = p_pattern.m_stepDelay;
+            if(delay == -1) delay = p_pattern.m_stepDelay;
 
             m_patternLoopTimes[p_pattern.m_name] = p_pattern.m_lastLoopTime;
 
-			yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(delay);
 		}
 	}
+
+    public void OnShoot(ShotPattern p_pattern) {
+        if(p_pattern.m_fireSound != null) 
+            AudioEvent.Play(p_pattern.m_fireSound, m_audioSource);
+
+        m_shotEvent.Invoke();
+    }
 
 	public void StopShooting() {
 		if(m_patterns.Count > 0)
@@ -119,4 +129,10 @@ public class Shooter : MonoBehaviour {
 		finalDamage += m_entity.m_stats.GetStatEffect((Stats) Enum.Parse(typeof(Stats), p_projectile.m_info.m_statApplied));
 		p_damageable.OnDamage(this, DamageType.Get(p_projectile.m_info.m_damageType), finalDamage, p_projectile.m_info.m_armorPiercing, false);
 	}
+
+    public void Death() {
+        if(m_patterns.Count > 0) StopShooting();
+
+        Game.m_audio.RemoveAudioSource(m_audioSource);
+    }
 }

@@ -216,7 +216,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 
 	protected virtual void Die() {
 		if(m_npc) m_npc.Die();
-		if(m_shooter && m_shooter.m_patterns.Count > 0) m_shooter.StopShooting();
+        if(m_shooter) m_shooter.Death();
 		
 		Destroy(m_ai);
 		Destroy(m_shooter);

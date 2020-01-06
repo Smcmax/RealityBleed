@@ -1,0 +1,14 @@
+{
+	"m_name":"Player/TestLeftClickFireEvent",
+	"m_clips":[
+		"Player/TestLeftClickFireSound.mp3"
+	],
+	"m_volume":{
+		"Min":0.4,
+		"Max":0.7
+	},
+	"m_pitch":{
+		"Min":0.5,
+		"Max":2
+	}
+}

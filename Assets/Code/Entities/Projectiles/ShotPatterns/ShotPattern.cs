@@ -33,7 +33,10 @@ public class ShotPattern { // currently not shooting references
 	[Tooltip("Behaviours to add to every shot projectile in the pattern")]
 	public List<string> m_behaviours;
 
-	[Tooltip("Amount of shots to include in this pattern")]
+    [Tooltip("The sound assigned to fire on every step of this shot pattern")]
+    public string m_fireSound;
+
+    [Tooltip("Amount of shots to include in this pattern")]
 	public int m_shots;
 
 	[Tooltip("Mana taken per pattern step, instant makes this a single step per loop")]
@@ -94,6 +97,7 @@ public class ShotPattern { // currently not shooting references
 					ShotPattern pattern = Load(reader.ReadToEnd());
 
                     if(pattern) m_externalPatterns.Add(pattern);
+
                     reader.Close();
                 }
 			}
@@ -171,6 +175,8 @@ public class ShotPattern { // currently not shooting references
 			return -1;
 		}
 
+        p_shooter.OnShoot(this);
+
 		for(int i = 0; i < m_shots; ++i) PreStep(p_shooter);
 
 		if(m_shotsFired == m_shots) AddLoop(p_shooter);
@@ -192,7 +198,9 @@ public class ShotPattern { // currently not shooting references
 			return -1;
 		}
 
-		Step(p_shooter);
+        if(!m_instant) p_shooter.OnShoot(this);
+
+        Step(p_shooter);
 
 		m_shotsFired++;
 
@@ -229,6 +237,7 @@ public class ShotPattern { // currently not shooting references
 		pattern.m_projectile = m_projectile;
 		pattern.m_projectileInfo = m_projectileInfo;
 		pattern.m_behaviours = m_behaviours;
+        pattern.m_fireSound = m_fireSound;
 		pattern.m_shots = m_shots;
 		pattern.m_manaPerStep = m_manaPerStep;
 		pattern.m_instant = m_instant;

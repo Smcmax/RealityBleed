@@ -83,7 +83,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4210265619985558}
   - component: {fileID: 20417958851262028}
-  - component: {fileID: 81728106358625466}
   m_Layer: 0
   m_Name: MinimapCamera
   m_TagString: Untagged
@@ -336,13 +335,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4813298, y: 0.7941785}
   m_EdgeRadius: 0
---- !u!81 &81728106358625466
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1358887435220836}
-  m_Enabled: 1
 --- !u!108 &108343679833054422
 Light:
   m_ObjectHideFlags: 1
@@ -620,6 +612,8 @@ MonoBehaviour:
   m_smoothTime: 0.03
   m_speed: 2
   m_diagonalSpeedPercentage: 0.75
+  m_velocity: {x: 0, y: 0, z: 0}
+  m_rigidbody2D: {fileID: 0}
 --- !u!114 &114071987786881558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -890,6 +884,7 @@ MonoBehaviour:
     m_fieldOfView: 0
     m_scanSpeed: 0
     m_scanDuration: 0
+    m_combatDropTime: 0
   m_inventory: {fileID: 114018483739704796}
   m_hasCorpse: 1
   m_lootTable:
@@ -915,9 +910,11 @@ MonoBehaviour:
     TrainingLevel: 1
     Holder: {fileID: 0}
   m_modifiers: {fileID: 0}
+  m_currency: 0
   m_ai: {fileID: 0}
   m_npc: {fileID: 0}
   m_feedbackColor: {r: 0, g: 0, b: 0, a: 0}
+  m_colliderSize: {x: 0, y: 0}
   m_playerId: 0
   m_playerController: {fileID: 0}
   m_mouse: {fileID: 0}
@@ -954,6 +951,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   m_entity: {fileID: 0}
   m_patterns: []
+  m_audioSource: {fileID: 0}
 --- !u!212 &212086667593845604
 SpriteRenderer:
   m_ObjectHideFlags: 1

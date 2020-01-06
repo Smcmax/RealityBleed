@@ -299,11 +299,19 @@ public class OptionsMenuHandler : MonoBehaviour {
 		AudioListener.volume = (float) p_volume / 100f;
 	}
 
-	/////////////////////////////
-	/*   Gameplay Settings     */
-	/////////////////////////////
+    public void SetMusicVolume(int p_volume) {
+        Game.m_audio.SetCategoryVolume(AudioCategories.Music, (float) p_volume / 100f);
+    }
 
-	public void SetEnemyHealthBars(bool p_toggle) { 
+    public void SetSFXVolume(int p_volume) {
+        Game.m_audio.SetCategoryVolume(AudioCategories.SFX, (float) p_volume / 100f);
+    }
+
+    /////////////////////////////
+    /*   Gameplay Settings     */
+    /////////////////////////////
+
+    public void SetEnemyHealthBars(bool p_toggle) { 
 		m_hpBarsCanvas.gameObject.SetActive(p_toggle);
 	}
 

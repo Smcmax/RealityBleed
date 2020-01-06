@@ -16,6 +16,7 @@
     "m_behaviours": [
         "Test/DefaultWave"
     ],
+    "m_fireSound":"Player/TestLeftClickFireEvent",
     "m_shots": 1,
     "m_manaPerStep": 2,
     "m_instant": true,

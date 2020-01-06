@@ -6,9 +6,11 @@ using System.Collections.Generic;
 public class AudioManager : MonoBehaviour {
 
 	private List<AudioSourceWrapper> m_audioSources;
+    private Dictionary<AudioCategories, float> m_categoryVolumes;
 
 	public void Awake() {
 		m_audioSources = new List<AudioSourceWrapper>();
+        m_categoryVolumes = new Dictionary<AudioCategories, float>();
 	}
 
 	public void AddAudioSource(AudioSource p_source, AudioCategories p_category) { 
@@ -28,6 +30,18 @@ public class AudioManager : MonoBehaviour {
 
 		return sources;
 	}
+
+    public float GetCategoryVolume(AudioCategories p_category) {
+        float value = 0;
+
+        m_categoryVolumes.TryGetValue(p_category, out value);
+
+        return value;
+    }
+
+    public void SetCategoryVolume(AudioCategories p_category, float p_volume) {
+        m_categoryVolumes[p_category] = p_volume;
+    }
 }
 
 public enum AudioCategories { Music, SFX }
