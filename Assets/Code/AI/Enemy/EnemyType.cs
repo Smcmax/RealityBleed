@@ -25,6 +25,12 @@ public class EnemyType {
     [Tooltip("All available female sprites for enemies")]
     public List<SerializableSprite> m_femaleSprites;
 
+    [Tooltip("All available male death sounds for enemies")]
+    public List<string> m_maleDeathSounds;
+
+    [Tooltip("All available female death sounds for enemies")]
+    public List<string> m_femaleDeathSounds;
+
     [Tooltip("All available default states from which one will be selected at random")]
     public List<string> m_defaultStates; // TODO: add % chance to have?
 
@@ -44,6 +50,8 @@ public class EnemyType {
         newType.m_dropTable = m_dropTable;
         newType.m_maleSprites = new List<SerializableSprite>(m_maleSprites);
         newType.m_femaleSprites = new List<SerializableSprite>(m_femaleSprites);
+        newType.m_maleDeathSounds = new List<string>(m_maleDeathSounds);
+        newType.m_femaleDeathSounds = new List<string>(m_femaleDeathSounds);
         newType.m_defaultStates = new List<string>(m_defaultStates);
         newType.m_looks = new List<Look>(m_looks);
         newType.m_greetings = new List<string>(m_greetings);
@@ -78,6 +86,12 @@ public class EnemyType {
 
                 m_maleSprites.Add(sprite);
             }
+
+        if(type.m_maleDeathSounds.Count > 0)
+            m_maleDeathSounds.AddRange(type.m_maleDeathSounds);
+
+        if(type.m_femaleDeathSounds.Count > 0)
+            m_femaleDeathSounds.AddRange(type.m_femaleDeathSounds);
 
         if(type.m_defaultStates.Count > 0) {
             m_defaultStates.Clear();

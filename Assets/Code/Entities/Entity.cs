@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -62,6 +60,8 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	[HideInInspector] public NPC m_npc;
 	[HideInInspector] public Color m_feedbackColor; // transparent = green/red
     [HideInInspector] public Vector2 m_colliderSize;
+    [HideInInspector] public AudioSource m_audioSource;
+    [HideInInspector] public string m_deathSound;
 
 	public virtual void Start() {
 		m_effectsActive = new Dictionary<Effect, float>();
@@ -79,13 +79,16 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 		if(m_inventory) m_inventory.Init(this);
 		if(m_equipment) m_equipment.Init(this);
 
-		// TODO: load abilities, skills and modifiers?
+        // TODO: load abilities, skills and modifiers?
 
-		//foreach(SkillWrapper wrapper in m_skills)
-			//if(wrapper.Skill.m_isPassive)
-                //wrapper.Skill.Use(this, wrapper.TrainingLevel);
+        //foreach(SkillWrapper wrapper in m_skills)
+        //if(wrapper.Skill.m_isPassive)
+        //wrapper.Skill.Use(this, wrapper.TrainingLevel);
 
-		InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
+        m_audioSource = gameObject.AddComponent<AudioSource>();
+        Game.m_audio.AddAudioSource(m_audioSource, AudioCategories.SFX);
+
+        InvokeRepeating("TickEffects", Constants.EFFECT_TICK_RATE, Constants.EFFECT_TICK_RATE);
 		InvokeRepeating("UpdateCharacterSpeed", Constants.CHARACTER_SPEED_UPDATE_RATE, Constants.CHARACTER_SPEED_UPDATE_RATE);
 	}
 
@@ -122,7 +125,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 
 		// effects are ticked in the repeating tick loop FIRST to sync it up with everything else
 		// otherwise you could have a 1ms delay between 2 effect ticks
-		m_effectsActive.Add(p_effect, Time.time * 1000);
+		m_effectsActive.Add(p_effect, Time.time);
 	}
 
 	public void ApplyEffects(List<Effect> p_effects) {
@@ -141,7 +144,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 
 				m_effectsActive.TryGetValue(effect, out activationTime);
 
-				if(Time.time * 1000 > activationTime + effect.m_duration * 1000)
+				if(Time.time > activationTime + effect.m_duration)
 					remove = true;
 			} else remove = true;
 
@@ -209,7 +212,11 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 
 	public void OnDeath() {
 		if(m_canDie && !m_isDead) {
-			m_isDead = true;
+            m_isDead = true;
+
+            if(!string.IsNullOrEmpty(m_deathSound))
+                AudioEvent.Play(m_deathSound, m_audioSource);
+
 			Die();
 		}
 	}

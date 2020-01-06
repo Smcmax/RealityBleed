@@ -40,7 +40,20 @@ public class AudioManager : MonoBehaviour {
     }
 
     public void SetCategoryVolume(AudioCategories p_category, float p_volume) {
+        float oldVolume = 0;
+
+        if(m_categoryVolumes.Keys.Contains(p_category)) 
+            oldVolume = GetCategoryVolume(p_category);
+
         m_categoryVolumes[p_category] = p_volume;
+
+        if(oldVolume != p_volume)
+            foreach(AudioSource existing in GetAllAudioSourcesByCategory(p_category))
+                if(existing.isPlaying) {
+                    if(p_volume == 0) existing.volume = 0;
+                    else if(oldVolume == 0) existing.volume = p_volume;
+                    else existing.volume *= oldVolume / p_volume;
+                }
     }
 }
 

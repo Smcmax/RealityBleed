@@ -4,11 +4,11 @@
 		"Player/TestLeftClickFireSound.mp3"
 	],
 	"m_volume":{
-		"Min":0.4,
-		"Max":0.7
+		"Min":0.7,
+		"Max":1.0
 	},
 	"m_pitch":{
-		"Min":0.5,
-		"Max":2
+		"Min":0.75,
+		"Max":1.5
 	}
 }

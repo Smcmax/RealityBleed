@@ -13,6 +13,7 @@ public class Player : Entity {
 	[HideInInspector] public Rewired.Player m_rewiredPlayer;
 	[HideInInspector] public PlayerCursor m_mouse;
 	[HideInInspector] public bool m_interactingWithNPC = false;
+    [HideInInspector] public AudioSource m_bgmSource;
     private float m_lastNPCInteract;
 
 	[HideInInspector] public List<Quest> m_completedQuests; // replaced with quest cause they already need to be saved for current anyways
@@ -49,7 +50,16 @@ public class Player : Entity {
 		}
 
         m_currency = 100; // TODO: also temp
-	}
+
+        // TODO: this shit is also fucking temp because there's no stages in code yet
+        m_bgmSource = gameObject.AddComponent<AudioSource>();
+        m_bgmSource.loop = true;
+        Game.m_audio.AddAudioSource(m_bgmSource, AudioCategories.Music);
+
+        AudioEvent.Play("Music/DemoBackgroundMusic.mp3", m_bgmSource);
+
+        m_deathSound = "Player/DeathSound"; // TODO: temp again
+    }
 
 	void LateUpdate() {
 		bool leftClick = true;

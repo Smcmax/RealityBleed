@@ -135,6 +135,7 @@ public class NPCGenerator : MonoBehaviour {
         List<string> quests = new List<string>();
 		List<string> names = new List<string>();
 		List<SerializableSprite> sprites = new List<SerializableSprite>();
+        List<string> deathSounds = new List<string>();
 		List<int> minStats = new List<int>();
 		List<int> maxStats = new List<int>();
         List<string> states = new List<string>();
@@ -154,6 +155,7 @@ public class NPCGenerator : MonoBehaviour {
 			if(type.m_priorityType && !priorityTypeProcessed) { 
 				names.Clear();
 				sprites.Clear();
+                deathSounds.Clear();
                 looks.Clear();
                 states.Clear();
                 equipmentTable = new DropTable();
@@ -169,13 +171,19 @@ public class NPCGenerator : MonoBehaviour {
 
 					if(type.m_maleSprites.Count > 0)
 						sprites.AddRange(type.m_maleSprites);
+
+                    if(type.m_maleDeathSounds.Count > 0)
+                        deathSounds.AddRange(type.m_maleDeathSounds);
 				} else {
 					if(type.m_femaleNames.Count > 0)
 						names.AddRange(type.m_femaleNames);
 
 					if(type.m_femaleSprites.Count > 0)
 						sprites.AddRange(type.m_femaleSprites);
-				}
+
+                    if(type.m_femaleDeathSounds.Count > 0)
+                        deathSounds.AddRange(type.m_femaleDeathSounds);
+                }
 
 				if(type.m_minimumStats != null && type.m_minimumStats.Count > 0 && 
 					type.m_maximumStats != null && type.m_maximumStats.Count > 0) {
@@ -236,6 +244,9 @@ public class NPCGenerator : MonoBehaviour {
 		SerializableSprite sprite = sprites[Random.Range(0, sprites.Count)];
 		sprite.m_name = (male ? "Male/" : "Female/") + sprite.m_name;
 		renderer.sprite = sprite.Sprite;
+
+        if(deathSounds.Count > 0)
+            npc.m_entity.m_deathSound = deathSounds[Random.Range(0, deathSounds.Count)];
 
         npc.m_questsAvailable = quests;
 		npc.m_dialog.m_dialogTemplate = GameObject.Find("UI").transform.Find("Dialogue Canvas").Find("Speech Bubble").gameObject;

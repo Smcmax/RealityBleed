@@ -87,6 +87,7 @@ public class EnemyGenerator : MonoBehaviour {
         EnemyType type = p_type;
 
         List<SerializableSprite> sprites = new List<SerializableSprite>();
+        List<string> deathSounds = new List<string>();
         List<int> minStats = new List<int>(type.m_minimumStats);
         List<int> maxStats = new List<int>(type.m_maximumStats);
         bool male = Random.Range(0, 100) >= 50;
@@ -98,9 +99,15 @@ public class EnemyGenerator : MonoBehaviour {
         if(male) {
             if(type.m_maleSprites.Count > 0)
                 sprites.AddRange(type.m_maleSprites);
+
+            if(type.m_maleDeathSounds.Count > 0)
+                deathSounds.AddRange(type.m_maleDeathSounds);
         } else {
             if(type.m_femaleSprites.Count > 0)
                 sprites.AddRange(type.m_femaleSprites);
+
+            if(type.m_femaleDeathSounds.Count > 0)
+                deathSounds.AddRange(type.m_femaleDeathSounds);
         }
 
         if(type.m_equipmentTable) equipmentTable = type.m_equipmentTable;
@@ -113,6 +120,9 @@ public class EnemyGenerator : MonoBehaviour {
         SerializableSprite sprite = sprites[Random.Range(0, sprites.Count)];
         sprite.m_name = (male ? "Male/" : "Female/") + sprite.m_name;
         renderer.sprite = sprite.Sprite;
+
+        if(deathSounds.Count > 0)
+            enemy.m_entity.m_deathSound = deathSounds[Random.Range(0, deathSounds.Count)];
 
         enemy.m_dialog.m_dialogTemplate = GameObject.Find("UI").transform.Find("Dialogue Canvas").Find("Speech Bubble").gameObject;
         enemy.m_dialog.m_currentDialog = Dialog.Get(type.m_greetings[Random.Range(0, type.m_greetings.Count)]);
