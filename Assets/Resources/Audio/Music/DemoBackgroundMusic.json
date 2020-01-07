@@ -1,0 +1,14 @@
+{
+	"m_name":"Music/DemoBackgroundMusic",
+	"m_clips":[
+		"Music/DemoBackgroundMusic.mp3"
+	],
+	"m_volume":{
+		"Min":1.0,
+		"Max":1.0
+	},
+	"m_pitch":{
+		"Min":1.0,
+		"Max":1.0
+	}
+}

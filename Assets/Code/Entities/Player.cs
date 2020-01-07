@@ -50,14 +50,6 @@ public class Player : Entity {
 		}
 
         m_currency = 100; // TODO: also temp
-
-        // TODO: this shit is also fucking temp because there's no stages in code yet
-        m_bgmSource = gameObject.AddComponent<AudioSource>();
-        m_bgmSource.loop = true;
-        Game.m_audio.AddAudioSource(m_bgmSource, AudioCategories.Music);
-
-        AudioEvent.Play("Music/DemoBackgroundMusic.mp3", m_bgmSource);
-
         m_deathSound = "Player/DeathSound"; // TODO: temp again
     }
 

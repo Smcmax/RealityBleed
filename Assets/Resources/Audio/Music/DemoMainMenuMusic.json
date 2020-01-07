@@ -1,0 +1,14 @@
+{
+	"m_name":"Music/DemoMainMenuMusic",
+	"m_clips":[
+		"Music/DemoMainMenuMusic.mp3"
+	],
+	"m_volume":{
+		"Min":1.0,
+		"Max":1.0
+	},
+	"m_pitch":{
+		"Min":1.0,
+		"Max":1.0
+	}
+}
