@@ -18,10 +18,16 @@ public class MenuHandler : MonoBehaviour {
 	[Tooltip("The game event raised when the game is resumed")]
 	public GameEvent m_resumeEvent;
 
-	[Tooltip("The game event raised when the menu changes")]
-	public GameEvent m_onMenuChangedEvent;
+	[Tooltip("The game event raised when the menu opens")]
+	public GameEvent m_onMenuOpenEvent;
 
-	[Tooltip("The game event raised when the inventory is brought up")]
+    [Tooltip("The game event raised when the menu closes")]
+    public GameEvent m_onMenuCloseEvent;
+
+    [Tooltip("The game event raised when the menu's tab changes")]
+    public GameEvent m_onMenuTabChangeEvent;
+
+    [Tooltip("The game event raised when the inventory is brought up")]
 	public GameEvent m_onInventoryEvent;
 
 	[Tooltip("The game event raised when the character screen is brought up")]
@@ -75,7 +81,7 @@ public class MenuHandler : MonoBehaviour {
 
             string openedMenuButton = GetButtonRelatedToSingleOpenMenu();
 
-			if(openedMenuButton == "" && GetButtonDown("Inventory") && !m_paused && m_onInventoryEvent) 
+            if(openedMenuButton == "" && GetButtonDown("Inventory") && !m_paused && m_onInventoryEvent)
                 m_onInventoryEvent.Raise();
 
             if(ShopWindow.m_openedWindows.Count == 0) {
@@ -169,18 +175,18 @@ public class MenuHandler : MonoBehaviour {
 	public void OpenControlMapper() {
 		if(!gameObject.activeSelf) { Instance.OpenControlMapper(); return; }
 
-        Game.m_controlMapper.Open();
-		OpenMenu(Game.m_controlMapperMenu);
-
 		foreach(Menu opened in new List<Menu>(m_openedMenus))
 			if(opened != null && opened.gameObject.name == Game.m_controlMapperMenu.m_previousMenu.gameObject.name) {
 				// we have to keep a reference to the previous menu here cause the one set in control mapper is a prefab, which isn't openable
 				m_previousControlMapperMenu = opened;
-				CloseMenu(opened);
-
 				break;
 			}
-	}
+
+        Game.m_controlMapper.Open();
+        OpenMenu(Game.m_controlMapperMenu);
+
+        FireMenuEvent(Game.m_controlMapperMenu, true);
+    }
 
 	public void CloseControlMapper() {
 		if(!gameObject.activeSelf) { Instance.CloseControlMapper(); return; }
@@ -202,8 +208,12 @@ public class MenuHandler : MonoBehaviour {
 			return;
 		}
 
+        bool fireCloseEvent = false;
+
         if(p_menu.m_singleOpenedMenu && m_openedMenus.Count > 0)
             foreach(Menu opened in new List<Menu>(m_openedMenus)) {
+                if(opened.m_previousMenu && p_menu.name == opened.m_previousMenu.name) fireCloseEvent = true;
+
                 m_openedMenus.Remove(opened);
                 opened.gameObject.SetActive(false);
             }
@@ -211,18 +221,26 @@ public class MenuHandler : MonoBehaviour {
 		p_menu.gameObject.SetActive(true);
 
 		foreach(Menu opened in new List<Menu>(m_openedMenus)) {
-			if(p_menu == opened.m_previousMenu || p_menu.m_previousMenu == opened) {
-				m_openedMenus.Remove(opened);
+			if((opened.m_previousMenu && p_menu.name == opened.m_previousMenu.name) || 
+                (p_menu.m_previousMenu && p_menu.m_previousMenu.name == opened.name)) {
+                if(opened.m_previousMenu && p_menu.name == opened.m_previousMenu.name) fireCloseEvent = true;
+
+                m_openedMenus.Remove(opened);
 				opened.gameObject.SetActive(false);
 			}
 		}
 
-		if(p_menu is TabMenu) ((TabMenu) p_menu).ResetTab();
+        if(p_menu is TabMenu && !fireCloseEvent) ((TabMenu) p_menu).ResetTab();
 
 		m_openedMenus.Add(p_menu);
-		m_onMenuChangedEvent.Raise();
 
-		if(m_handlingPlayer != null && Player.m_players.Count > 0) 
+        if(p_menu != Game.m_controlMapperMenu &&
+           p_menu != m_previousControlMapperMenu && !fireCloseEvent)
+            FireMenuEvent(p_menu, true);
+
+        if(fireCloseEvent) FireMenuEvent(p_menu, false);
+
+        if(m_handlingPlayer != null && Player.m_players.Count > 0) 
 			Player.GetPlayerFromId(m_handlingPlayer.id).m_mouse.ChangeMode(CursorModes.CURSOR, false);
 	}
 
@@ -233,7 +251,7 @@ public class MenuHandler : MonoBehaviour {
 	public void OpenTabMenu(TabMenu p_menu, string p_tabName) { 
 		OpenMenu(p_menu);
 
-		p_menu.Select(p_tabName);
+		p_menu.Select(p_tabName, false);
 	}
 
 	public void CloseMenu(Menu p_menu) {
@@ -246,19 +264,21 @@ public class MenuHandler : MonoBehaviour {
 				m_openedMenus.Remove(p_menu);
 				p_menu.gameObject.SetActive(false);
 
-				m_onMenuChangedEvent.Raise();
-			}
+                if(p_menu != Game.m_controlMapperMenu &&
+                   p_menu != m_previousControlMapperMenu)
+                    FireMenuEvent(p_menu, false);
+            }
 		}
 	}
 
 	public void ClearMenu() {
-		if(m_openedMenus.Count > 0)
-			foreach(Menu menu in new List<Menu>(m_openedMenus))
-				menu.gameObject.SetActive(false);
+        if(m_openedMenus.Count > 0)
+            foreach(Menu menu in new List<Menu>(m_openedMenus)) {
+                FireMenuEvent(menu, false);
+                menu.gameObject.SetActive(false);
+            }
 
-		if(m_openedMenus.Count > 0) m_onMenuChangedEvent.Raise();
-
-		if(m_handlingPlayer != null && Player.m_players.Count > 0) 
+        if(m_handlingPlayer != null && Player.m_players.Count > 0) 
 			Player.GetPlayerFromId(m_handlingPlayer.id).m_mouse.ChangeMode(CursorModes.LINE, false);
 
 		m_openedMenus.Clear();
@@ -278,6 +298,14 @@ public class MenuHandler : MonoBehaviour {
             if(opened.m_singleOpenedMenu) return opened.m_menuButtonName;
 
         return "";
+    }
+
+    private void FireMenuEvent(Menu p_menu, bool p_open) {
+        GameEvent open = p_menu.m_openEvent ? p_menu.m_openEvent : m_onMenuOpenEvent;
+        GameEvent close = p_menu.m_closeEvent ? p_menu.m_closeEvent : m_onMenuCloseEvent;
+
+        if(p_open) open.Raise();
+        else close.Raise();
     }
 
 	public void ChangeScenes(string scene) {

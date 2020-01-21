@@ -15,6 +15,7 @@ public class Projectile : MonoBehaviour {
 	[HideInInspector] public Vector2 m_start;
 	[HideInInspector] public Vector2 m_target;
 	[HideInInspector] public Vector2 m_direction;
+    [HideInInspector] public string m_impactSound;
 	private bool m_shot;
 
 	[HideInInspector] public SpriteRenderer m_render;
@@ -50,12 +51,13 @@ public class Projectile : MonoBehaviour {
 		m_behaviourManager.Move(this);
 	}
 
-	public void Shoot(Shooter p_shooter, Vector2 p_target, Vector2 p_direction) {
+	public void Shoot(Shooter p_shooter, Vector2 p_target, Vector2 p_direction, string p_impactSound) {
 		m_shot = true;
 		m_start = transform.position;
 		m_target = p_target;
 		m_direction = p_direction;
 		m_shooter = p_shooter;
+        m_impactSound = p_impactSound;
 
 		if(m_info.m_faceAtTarget)
 			transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(m_direction.y, m_direction.x) * Mathf.Rad2Deg - 90, Vector3.forward);
@@ -118,9 +120,15 @@ public class Projectile : MonoBehaviour {
 			}
 		}
 
-		if(m_info.m_piercing && hit && collider.transform.parent.tag == "NoProjCollision") Disable(true);
+        // not sure what NoProjCollision is supposed to be for, 
+        // leaving it commented in case I get the issue that this fixed
+		//if(m_info.m_piercing && hit && collider.transform.parent.tag == "NoProjCollision") Disable(true);
 		if(m_info.m_piercing && hit) Physics2D.IgnoreCollision(p_collision.otherCollider, collider);
-		if(collider.tag != "NoProjCollision" && (!m_info.m_piercing || !hit)) Disable(true);
+        //if(collider.tag != "NoProjCollision" && (!m_info.m_piercing || !hit)) Disable(true);
+        if(!m_info.m_piercing || !hit) {
+            AudioEvent.PlayAtPoint(m_impactSound, AudioCategories.SFX, transform.position);
+            Disable(true);
+        }
 	}
 
 	public void Disable(bool p_removeFromProjPool) {

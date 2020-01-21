@@ -1,0 +1,19 @@
+{
+	"m_name":"Player/TestLeftClick/Impact",
+	"m_clips":[
+		"Player/TestLeftClick/Impact 1.wav",
+		"Player/TestLeftClick/Impact 2.wav",
+		"Player/TestLeftClick/Impact 3.wav",
+		"Player/TestLeftClick/Impact 4.wav"
+	],
+	"m_randomizeClips":true,
+	"m_loop":false,
+	"m_volume":{
+		"Min":1.0,
+		"Max":1.0
+	},
+	"m_pitch":{
+		"Min":0.75,
+		"Max":1.5
+	}
+}

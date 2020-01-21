@@ -10,8 +10,8 @@ public class NPCType {
     [Tooltip("Percentage chance to give a quest from associated quests")]
     public float m_questPercentage;
 
-	[Tooltip("Only one priority type may be assigned to an npc, which will restrict allowed types automatically and force names/sprites to be taken from this type")]
-	public bool m_priorityType;
+    [Tooltip("Only one priority type may be assigned to an npc, which will restrict allowed types automatically and force names/sprites to be taken from this type")]
+    public bool m_priorityType;
 
 	[Tooltip("Types which cannot be associated with this npc type")]
     public List<string> m_incompatibleTypes;
@@ -49,6 +49,12 @@ public class NPCType {
     [Tooltip("All available female death sounds for npcs")]
     public List<string> m_femaleDeathSounds;
 
+    [Tooltip("All available male hurt sounds for npcs")]
+    public List<string> m_maleHurtSounds;
+
+    [Tooltip("All available female hurt sounds for npcs")]
+    public List<string> m_femaleHurtSounds;
+
     [Tooltip("All available default states from which one will be selected at random")]
     public List<string> m_defaultStates; // TODO: add % chance to have?
 
@@ -78,7 +84,9 @@ public class NPCType {
 		newType.m_maleSprites = new List<SerializableSprite>(m_maleSprites);
 		newType.m_femaleSprites = new List<SerializableSprite>(m_femaleSprites);
         newType.m_maleDeathSounds = new List<string>(m_maleDeathSounds);
-        newType.m_femaleDeathSounds = new List<string>(m_femaleDeathSounds);
+        newType.m_femaleDeathSounds = new List<string>(m_femaleDeathSounds);        
+        newType.m_maleHurtSounds = new List<string>(m_maleHurtSounds);
+        newType.m_femaleHurtSounds = new List<string>(m_femaleHurtSounds);
         newType.m_defaultStates = new List<string>(m_defaultStates);
         newType.m_looks = new List<Look>(m_looks);
 		newType.m_greetings = new List<string>(m_greetings);
@@ -133,6 +141,12 @@ public class NPCType {
 
         if(type.m_femaleDeathSounds.Count > 0)
             m_femaleDeathSounds.AddRange(type.m_femaleDeathSounds);
+
+        if(type.m_maleHurtSounds.Count > 0)
+            m_maleHurtSounds.AddRange(type.m_maleHurtSounds);
+
+        if(type.m_femaleHurtSounds.Count > 0)
+            m_femaleHurtSounds.AddRange(type.m_femaleHurtSounds);
 
         if(type.m_defaultStates.Count > 0) {
             m_defaultStates.Clear();

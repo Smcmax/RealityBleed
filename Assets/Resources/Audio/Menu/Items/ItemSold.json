@@ -1,0 +1,17 @@
+{
+	"m_name":"Menu/Items/ItemSold",
+	"m_clips":[
+		"Menu/Items/Item Sold 1.mp3",
+		"Menu/Items/Item Sold 2.mp3"
+	],
+	"m_randomizeClips":true,
+	"m_loop":false,
+	"m_volume":{
+		"Min":1.0,
+		"Max":1.0
+	},
+	"m_pitch":{
+		"Min":1.0,
+		"Max":1.0
+	}
+}

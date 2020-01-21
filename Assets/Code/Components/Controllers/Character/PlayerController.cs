@@ -21,6 +21,6 @@ public class PlayerController : MonoBehaviour {
 
 		Vector2 move = new Vector2(xMove * Time.deltaTime, yMove * Time.deltaTime);
 
-		m_controller.Move(move);
+		if(m_controller) m_controller.Move(move);
 	}
 }

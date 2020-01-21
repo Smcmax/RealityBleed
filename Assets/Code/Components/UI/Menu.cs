@@ -18,6 +18,12 @@ public class Menu : MonoBehaviour {
     [Tooltip("The name of the button required to open this menu")]
     public string m_menuButtonName;
 
+    [Tooltip("Event fired upon menu open, if null, will use generic")]
+    public GameEvent m_openEvent;
+
+    [Tooltip("Event fired upon menu close, if null, will use generic")]
+    public GameEvent m_closeEvent;
+
 	private Language m_lastUpdatedLanguage;
 
 	public void Awake() {

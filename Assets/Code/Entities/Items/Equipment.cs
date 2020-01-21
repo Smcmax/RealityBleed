@@ -55,12 +55,13 @@ public class Equipment : Inventory {
 		return offHand ? offHand.m_leftClickPattern : "";
 	}
 
-	public override void RaiseInventoryEvent(bool p_raise) {
-		base.RaiseInventoryEvent(p_raise);
-		m_entity.m_stats.UpdateGearModifiers(CalculateStatModifiers());
-	}
+    public override void RaiseEquipEvent(BaseItem p_item, bool p_equip, bool p_raise) {
+        base.RaiseEquipEvent(p_item, p_equip, p_raise);
 
-	private int[] CalculateStatModifiers() { 
+        m_entity.m_stats.UpdateGearModifiers(CalculateStatModifiers());
+    }
+
+    private int[] CalculateStatModifiers() { 
 		int[] statModifiers = new int[m_items.Length];
 
 		foreach(Item item in m_items) { 

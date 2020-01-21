@@ -1,0 +1,16 @@
+{
+	"m_name":"Menu/TabChange",
+	"m_clips":[
+		"Menu/TabChange 1.mp3"
+	],
+	"m_randomizeClips":true,
+	"m_loop":false,
+	"m_volume":{
+		"Min":0.6,
+		"Max":1.0
+	},
+	"m_pitch":{
+		"Min":1.0,
+		"Max":1.0
+	}
+}

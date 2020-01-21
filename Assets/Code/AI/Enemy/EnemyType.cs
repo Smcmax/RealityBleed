@@ -31,6 +31,12 @@ public class EnemyType {
     [Tooltip("All available female death sounds for enemies")]
     public List<string> m_femaleDeathSounds;
 
+    [Tooltip("All available male hurt sounds for npcs")]
+    public List<string> m_maleHurtSounds;
+
+    [Tooltip("All available female hurt sounds for npcs")]
+    public List<string> m_femaleHurtSounds;
+
     [Tooltip("All available default states from which one will be selected at random")]
     public List<string> m_defaultStates; // TODO: add % chance to have?
 
@@ -52,6 +58,8 @@ public class EnemyType {
         newType.m_femaleSprites = new List<SerializableSprite>(m_femaleSprites);
         newType.m_maleDeathSounds = new List<string>(m_maleDeathSounds);
         newType.m_femaleDeathSounds = new List<string>(m_femaleDeathSounds);
+        newType.m_maleHurtSounds = new List<string>(m_maleHurtSounds);
+        newType.m_femaleHurtSounds = new List<string>(m_femaleHurtSounds);
         newType.m_defaultStates = new List<string>(m_defaultStates);
         newType.m_looks = new List<Look>(m_looks);
         newType.m_greetings = new List<string>(m_greetings);
@@ -92,6 +100,12 @@ public class EnemyType {
 
         if(type.m_femaleDeathSounds.Count > 0)
             m_femaleDeathSounds.AddRange(type.m_femaleDeathSounds);
+
+        if(type.m_maleHurtSounds.Count > 0)
+            m_maleHurtSounds.AddRange(type.m_maleHurtSounds);
+
+        if(type.m_femaleHurtSounds.Count > 0)
+            m_femaleHurtSounds.AddRange(type.m_femaleHurtSounds);
 
         if(type.m_defaultStates.Count > 0) {
             m_defaultStates.Clear();

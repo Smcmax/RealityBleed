@@ -131,6 +131,15 @@ public class ShopWindow : MonoBehaviour {
             GetOtherInventory().Add(taken);
         }
 
+        if(takenCount < m_quantitySelector.m_quantity)
+            foreach(Item taken in takenItems)
+                if(taken.m_inventory == seller.m_inventory && taken.m_amount > 0)
+                    seller.m_inventory.Add(taken);
+
+
+        selected.m_inventory.RaiseTradeEvent(true);
+        GetOtherInventory().RaiseTradeEvent(false);
+
         sellPrice = selected.m_item.GetSellPrice(seller) * takenCount;
         buyer.m_currency -= sellPrice;
         seller.m_currency += sellPrice;

@@ -30,7 +30,7 @@ public class WavePattern : ShotPattern {
 		Vector2 direction = (target - (Vector2) proj.transform.position).normalized;
 
 		direction = direction.Rotate(m_angle);
-		proj.Shoot(p_shooter, target, direction);
+		proj.Shoot(p_shooter, target, direction, m_impactSound);
 
 		if(m_shots > 1) {
 			float angleStep = m_angleRange / (m_shots / 2);

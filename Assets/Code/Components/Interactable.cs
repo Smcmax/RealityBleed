@@ -28,32 +28,40 @@ public abstract class Interactable : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D p_collider) { 
-		if(p_collider.gameObject.tag == "Player") {
-			m_interactors.Add(p_collider.gameObject.GetComponent<Player>());
-
-			if(m_tooltipRenderer && !m_tooltipRenderer.enabled) 
-				m_tooltipRenderer.enabled = true;
-		}
+		if(p_collider.gameObject.tag == "Player")
+			AddInteractor(p_collider.gameObject.GetComponent<Player>());
 	}
 
 	void OnTriggerExit2D(Collider2D p_collider) { 
 		if(p_collider.gameObject.tag == "Player") {
 			Player player = p_collider.gameObject.GetComponent<Player>();
 
-			m_interactors.Remove(player);
-			if(m_tooltipRenderer && m_interactors.Count == 0 && !m_showTooltipAtAllTimes) 
-				m_tooltipRenderer.enabled = false;
-
+            RemoveInteractor(player);
 			OutOfRange(player);
 		}
 	}
 
+    private void AddInteractor(Player p_player) {
+        if(!m_interactors.Contains(p_player)) m_interactors.Add(p_player);
+
+        if(m_tooltipRenderer && !m_tooltipRenderer.enabled)
+            m_tooltipRenderer.enabled = true;
+    }
+
+    private void RemoveInteractor(Player p_player) {
+        if(m_interactors.Contains(p_player)) m_interactors.Remove(p_player);
+
+        if(m_tooltipRenderer && m_interactors.Count == 0 && !m_showTooltipAtAllTimes)
+            m_tooltipRenderer.enabled = false;
+    }
+
 	void Update() {
         if(Time.timeScale == 0f) return;
 
-		if(m_interactors.Count > 0) { 
-			foreach(Player player in new List<Player>(m_interactors))
-				if(player.m_rewiredPlayer.GetButtonDown("Interact")) {
+		if(m_interactors.Count > 0) {
+            foreach(Player player in new List<Player>(m_interactors))
+                if(!player) RemoveInteractor(player);
+				else if(player.m_rewiredPlayer.GetButtonDown("Interact")) {
 					if(m_onInteractEvent) m_onInteractEvent.Raise();
 					Interact(player);
 				}

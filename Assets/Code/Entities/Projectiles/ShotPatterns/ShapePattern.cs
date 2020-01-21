@@ -47,7 +47,7 @@ public class ShapePattern : ShotPattern {
 		}
 
 		proj.transform.position += (Vector3) m_shift;
-		proj.Shoot(p_shooter, target, direction);
+		proj.Shoot(p_shooter, target, direction, m_impactSound);
 
 		Shift(p_shooter, direction, m_shiftDistance, true);
 	}

@@ -18,7 +18,7 @@ public class CirclePattern : ShotPattern {
 		Vector2 direction = (target - (Vector2) proj.transform.position).normalized;
 
 		direction = direction.Rotate(m_angle);
-		proj.Shoot(p_shooter, target, direction);
+		proj.Shoot(p_shooter, target, direction, m_impactSound);
 
 		if(m_shots > 1) m_angle += 360f / m_shots;
 		if(m_angle >= 360 + m_angleOffset) m_angle = m_angleOffset;

@@ -12,8 +12,14 @@ public class AudioEvent {
     [Tooltip("The audio effect's name")]
     public string m_name;
 
-	[Tooltip("List of clips to play (INCLUDING FILE EXTENSION: .wav), will pick at random")]
+	[Tooltip("List of clips to play (INCLUDING FILE EXTENSION: .wav)")]
 	public string[] m_clips;
+
+    [Tooltip("Randomly pick a clip to play within the list of clips")]
+    public bool m_randomizeClips;
+
+    [Tooltip("Should the audio source's playback loop")]
+    public bool m_loop;
 
 	[Tooltip("The volume range (0.0 to 1.0) the audio clips can play at, will pick at random")]
 	public RangedFloat m_volume;
@@ -22,11 +28,18 @@ public class AudioEvent {
 	public RangedFloat m_pitch;
 
     private AudioClip[] m_loadedClips; // internal loaded m_clips array
+    private int m_playIndex = 0;
 
-    public static void Play(string p_name, AudioSource p_source) {
+    public static void Play(string p_name, AudioCategories p_category, AudioSource p_source) {
         AudioEvent audio = Get(p_name);
 
-        if(audio != null) audio.Play(p_source);
+        if(audio != null) audio.Play(p_source, p_category);
+    }
+
+    public static void PlayAtPoint(string p_name, AudioCategories p_category, Vector3 p_location) {
+        AudioEvent audio = Get(p_name);
+
+        if(audio != null) audio.PlayAtPoint(p_category, p_location);
     }
 
     public static AudioEvent Get(string p_name) {
@@ -87,13 +100,43 @@ public class AudioEvent {
         return null;
     }
 
-	public void Play(AudioSource p_source) {
-		if(m_loadedClips.Length == 0) return;
+	public void Play(AudioSource p_source, AudioCategories p_category) {
+        AudioClip clip = GetClip();
 
-		p_source.clip = m_loadedClips[Random.Range(0, m_clips.Length)];
-		p_source.volume = Game.m_audio.GetCategoryVolume(AudioCategories.SFX) * Random.Range(m_volume.Min, m_volume.Max);
+        if(!clip) return;
+
+        p_source.clip = clip;
+		p_source.volume = Game.m_audio.GetCategoryVolume(p_category) * 
+                          Random.Range(m_volume.Min, m_volume.Max);
 		p_source.pitch = Random.Range(m_pitch.Min, m_pitch.Max);
+        p_source.loop = m_loop;
 
 		p_source.Play();
 	}
+
+    public void PlayAtPoint(AudioCategories p_category, Vector3 p_location) {
+        AudioClip clip = GetClip();
+
+        if(!clip) return;
+
+        Game.m_audio.PlayClipAtPoint(clip, p_category, p_location,
+                                     Random.Range(m_volume.Min, m_volume.Max),
+                                     Random.Range(m_pitch.Min, m_pitch.Max));
+    }
+
+    private AudioClip GetClip() {
+        if(m_loadedClips.Length == 0) return null;
+
+        int clipIndex = m_playIndex;
+
+        if(m_randomizeClips) clipIndex = Random.Range(0, m_clips.Length);
+        else {
+            m_playIndex++;
+
+            if(m_playIndex >= m_loadedClips.Length)
+                m_playIndex = 0;
+        }
+
+        return m_loadedClips[clipIndex];
+    }
 }

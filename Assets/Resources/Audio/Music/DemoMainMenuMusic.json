@@ -1,11 +1,13 @@
 {
 	"m_name":"Music/DemoMainMenuMusic",
 	"m_clips":[
-		"Music/DemoMainMenuMusic.mp3"
+		"Music/DemoMainMenuMusic.wav"
 	],
+	"m_randomizeClips":false,
+	"m_loop":true,
 	"m_volume":{
-		"Min":1.0,
-		"Max":1.0
+		"Min":0.75,
+		"Max":0.75
 	},
 	"m_pitch":{
 		"Min":1.0,

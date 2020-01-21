@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,27 @@ public class TabMenu : Menu {
 
 	[HideInInspector] public string m_currentTab;
 
-	public void ResetTab() { 
+    new void OnEnable() {
+        base.OnEnable();
+
+        string current = m_currentTab;
+        if(string.IsNullOrEmpty(current)) current = m_tabs[0].Name;
+
+        EventSystem.current.SetSelectedGameObject(m_tabs.Find(th => th.Name == current)
+                                                        .TabTransitioner.gameObject);
+    }
+
+    public void ResetTab() {
 		m_currentTab = m_tabs[0].Name;
+        Select(m_currentTab, false);
 	}
 
-	public void Select(string p_tabName) { 
+	public void Select(string p_tabName, bool p_fireEvent) { 
 		if(m_tabs.Exists(th => th.Name == p_tabName)) {
 			OnClickButtonTransitioner transitioner = m_tabs.Find(th => th.Name == p_tabName).TabTransitioner;
 			EventSystem.current.SetSelectedGameObject(transitioner.gameObject);
-			transitioner.Select();
-		}
+			transitioner.Select(p_fireEvent);
+        }
 	}
 }
 

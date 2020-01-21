@@ -1,11 +1,13 @@
 {
 	"m_name":"Music/DemoBackgroundMusic",
 	"m_clips":[
-		"Music/DemoBackgroundMusic.mp3"
+		"Music/DemoBackgroundMusic.wav"
 	],
+	"m_randomizeClips":false,
+	"m_loop":true,
 	"m_volume":{
-		"Min":1.0,
-		"Max":1.0
+		"Min":0.6,
+		"Max":0.6
 	},
 	"m_pitch":{
 		"Min":1.0,

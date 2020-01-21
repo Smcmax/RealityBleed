@@ -25,5 +25,5 @@ public class Armor : BaseItem {
 }
 
 public enum ArmorType { 
-	Cloth, Leather, Mail, Plate
+	Cloth, Leather, Mail, Plate, Jewel
 }

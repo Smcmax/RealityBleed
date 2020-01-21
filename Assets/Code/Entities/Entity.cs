@@ -61,6 +61,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 	[HideInInspector] public Color m_feedbackColor; // transparent = green/red
     [HideInInspector] public Vector2 m_colliderSize;
     [HideInInspector] public AudioSource m_audioSource;
+    [HideInInspector] public string m_hurtSound;
     [HideInInspector] public string m_deathSound;
 
 	public virtual void Start() {
@@ -203,7 +204,12 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 												   m_feedbackColor, p_bypassDefense ? Constants.PURPLE : Constants.TRANSPARENT,
 												   m_feedbackPositionRandomness.x, m_feedbackPositionRandomness.y);
 
-			if(finalDamage > 0) m_health.Damage(finalDamage, p_bypassImmunityWindow);
+            if(finalDamage > 0) {
+                if(!string.IsNullOrEmpty(m_hurtSound))
+                    AudioEvent.Play(m_hurtSound, AudioCategories.SFX, m_audioSource);
+
+                m_health.Damage(finalDamage, p_bypassImmunityWindow);
+            }
 		}
 
 		// make sure the AI starts targeting its last damager (if it's an entity)
@@ -215,7 +221,7 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
             m_isDead = true;
 
             if(!string.IsNullOrEmpty(m_deathSound))
-                AudioEvent.Play(m_deathSound, m_audioSource);
+                AudioEvent.Play(m_deathSound, AudioCategories.SFX, m_audioSource);
 
 			Die();
 		}
@@ -232,8 +238,6 @@ public class Entity : MonoBehaviour, IDamageable, IEffectable {
 			Corpse corpse = gameObject.AddComponent<Corpse>();
 			corpse.Init(this, Constants.CORPSE_LIFETIME);
 		}
-
-		// fire sound effects
 
 		m_controller.Stop();
 		Destroy(m_controller);

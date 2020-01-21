@@ -28,7 +28,7 @@ public class CircleSectionPattern : ShotPattern {
 		Vector2 direction = (target - (Vector2) proj.transform.position).normalized;
 
 		direction = direction.Rotate(m_angle);
-		proj.Shoot(p_shooter, target, direction);
+		proj.Shoot(p_shooter, target, direction, m_impactSound);
 
 		if(m_shots > 1) m_angle += m_angleRange / (m_shots - 1);
 		if(m_angle > m_angleStart + m_angleRange) m_angle = m_angleStart;

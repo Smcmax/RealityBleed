@@ -49,8 +49,9 @@ public class Player : Entity {
 			hotkey++;
 		}
 
-        m_currency = 100; // TODO: also temp
-        m_deathSound = "Player/DeathSound"; // TODO: temp again
+        m_currency = 100; // TODO: temp
+        m_deathSound = "Player/Death/Death"; // TODO: temp
+        m_hurtSound = "Player/Hurt/Hurt"; // TODO: temp
     }
 
 	void LateUpdate() {
@@ -99,6 +100,12 @@ public class Player : Entity {
 			}
 		}
 	}
+
+    protected override void Die() {
+        base.Die();
+
+        Destroy(this);
+    }
 
 	public bool IsEligible(Quest p_quest) { 
 		if(m_completedQuests.Exists(q => q.m_name.Equals(p_quest.m_name)) || 

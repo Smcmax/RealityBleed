@@ -1,0 +1,16 @@
+{
+	"m_name":"Menu/Items/ItemUnequip",
+	"m_clips":[
+		"Menu/Items/ItemUnequip 1.mp3"
+	],
+	"m_randomizeClips":true,
+	"m_loop":false,
+	"m_volume":{
+		"Min":1.0,
+		"Max":1.0
+	},
+	"m_pitch":{
+		"Min":1.0,
+		"Max":1.0
+	}
+}

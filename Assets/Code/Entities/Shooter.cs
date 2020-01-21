@@ -16,15 +16,11 @@ public class Shooter : MonoBehaviour {
 	[HideInInspector] public Entity m_entity;
 	[HideInInspector] public List<ShotPattern> m_patterns;
     [HideInInspector] public Dictionary<string, float> m_patternLoopTimes;
-    [HideInInspector] public AudioSource m_audioSource;
 
 	// only if it's an entity, shooter supports non-entities
 	public void Init(Entity p_entity) {
 		m_entity = p_entity;
         m_patternLoopTimes = new Dictionary<string, float>();
-
-        m_audioSource = gameObject.AddComponent<AudioSource>();
-        Game.m_audio.AddAudioSource(m_audioSource, AudioCategories.SFX);
 	}
 
 	private float GetMana() {
@@ -93,8 +89,8 @@ public class Shooter : MonoBehaviour {
 	}
 
     public void OnShoot(ShotPattern p_pattern) {
-        if(p_pattern.m_fireSound != null) 
-            AudioEvent.Play(p_pattern.m_fireSound, m_audioSource);
+        if(p_pattern.m_fireSound != null)
+            AudioEvent.PlayAtPoint(p_pattern.m_fireSound, AudioCategories.SFX, m_entity.transform.position);
 
         m_shotEvent.Invoke();
     }
@@ -132,7 +128,5 @@ public class Shooter : MonoBehaviour {
 
     public void Death() {
         if(m_patterns.Count > 0) StopShooting();
-
-        Game.m_audio.RemoveAudioSource(m_audioSource);
     }
 }

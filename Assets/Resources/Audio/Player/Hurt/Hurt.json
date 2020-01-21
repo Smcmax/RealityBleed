@@ -1,0 +1,25 @@
+{
+	"m_name":"Player/Hurt/Hurt",
+	"m_clips":[
+		"Player/Hurt/Hurt 1.wav",
+		"Player/Hurt/Hurt 2.wav",
+		"Player/Hurt/Hurt 3.wav",
+		"Player/Hurt/Hurt 4.wav",
+		"Player/Hurt/Hurt 5.wav",
+		"Player/Hurt/Hurt 6.wav",
+		"Player/Hurt/Hurt 7.wav",
+		"Player/Hurt/Hurt 8.wav",
+		"Player/Hurt/Hurt 9.wav",
+		"Player/Hurt/Hurt 10.wav"
+	],
+	"m_randomizeClips":true,
+	"m_loop":false,
+	"m_volume":{
+		"Min":0.6,
+		"Max":1.0
+	},
+	"m_pitch":{
+		"Min":1.0,
+		"Max":1.0
+	}
+}

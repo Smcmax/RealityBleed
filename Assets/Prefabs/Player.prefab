@@ -32,6 +32,7 @@ GameObject:
   - component: {fileID: 50532337669514052}
   - component: {fileID: 61202634623878206}
   - component: {fileID: 114269843998028806}
+  - component: {fileID: 114528214747155002}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -589,10 +590,15 @@ MonoBehaviour:
     m_inventoryIndex: 0
   m_itemDestroyModal: {fileID: 0}
   m_itemTooltip: {fileID: 0}
-  m_onInventoryActionEvent: {fileID: 11400000, guid: a4f56fa06604b3b48959b37344914f6c,
+  m_onInventoryMoveEvent: {fileID: 11400000, guid: 8a8ecc2a32645c643ade1d1d47732fdd,
+    type: 2}
+  m_onItemEquipEvent: {fileID: 11400000, guid: 4dc66129a279c8d46aecc67febea9914, type: 2}
+  m_onItemUnequipEvent: {fileID: 11400000, guid: 4e8168203d88d634c90876c5095acc68,
     type: 2}
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
     type: 2}
+  m_boughtItemEvent: {fileID: 11400000, guid: 91036d2e8e0393848beac0b45dbfa727, type: 2}
+  m_soldItemEvent: {fileID: 11400000, guid: 55a16027a8b121a4794aa6753a656034, type: 2}
   m_entity: {fileID: 0}
   m_interactor: {fileID: 0}
   m_uiItems: []
@@ -718,10 +724,15 @@ MonoBehaviour:
     m_inventoryIndex: 0
   m_itemDestroyModal: {fileID: 0}
   m_itemTooltip: {fileID: 0}
-  m_onInventoryActionEvent: {fileID: 11400000, guid: a4f56fa06604b3b48959b37344914f6c,
+  m_onInventoryMoveEvent: {fileID: 11400000, guid: 8a8ecc2a32645c643ade1d1d47732fdd,
+    type: 2}
+  m_onItemEquipEvent: {fileID: 11400000, guid: 4dc66129a279c8d46aecc67febea9914, type: 2}
+  m_onItemUnequipEvent: {fileID: 11400000, guid: 4e8168203d88d634c90876c5095acc68,
     type: 2}
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
     type: 2}
+  m_boughtItemEvent: {fileID: 11400000, guid: 91036d2e8e0393848beac0b45dbfa727, type: 2}
+  m_soldItemEvent: {fileID: 11400000, guid: 55a16027a8b121a4794aa6753a656034, type: 2}
   m_entity: {fileID: 0}
   m_interactor: {fileID: 0}
   m_uiItems: []
@@ -874,7 +885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_controller: {fileID: 114043605804268206}
   m_collisionRelay: {fileID: 0}
-  m_canDie: 0
+  m_canDie: 1
   m_isDead: 0
   m_type: {fileID: 11400000, guid: 68656f8621f16944bb5a9283acb80212, type: 2}
   m_equipment: {fileID: 114071987786881558}
@@ -915,10 +926,14 @@ MonoBehaviour:
   m_npc: {fileID: 0}
   m_feedbackColor: {r: 0, g: 0, b: 0, a: 0}
   m_colliderSize: {x: 0, y: 0}
+  m_audioSource: {fileID: 0}
+  m_hurtSound: 
+  m_deathSound: 
   m_playerId: 0
   m_playerController: {fileID: 0}
   m_mouse: {fileID: 0}
   m_interactingWithNPC: 0
+  m_bgmSource: {fileID: 0}
   m_completedQuests: []
   m_currentQuests: []
 --- !u!114 &114406825266347702
@@ -932,6 +947,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcaf86420ae0634ab9be7ddb699ece4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114528214747155002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1099763796712776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75e1fb687aecbb5409708bbe77cc7077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_audioEvent: Music/DemoBackgroundMusic
+  m_category: 0
+  m_playOnStart: 1
+  m_audioSource: {fileID: 0}
 --- !u!114 &114924461057312282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -951,7 +981,6 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   m_entity: {fileID: 0}
   m_patterns: []
-  m_audioSource: {fileID: 0}
 --- !u!212 &212086667593845604
 SpriteRenderer:
   m_ObjectHideFlags: 1

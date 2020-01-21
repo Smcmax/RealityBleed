@@ -36,6 +36,9 @@ public class ShotPattern { // currently not shooting references
     [Tooltip("The sound assigned to fire on every step of this shot pattern")]
     public string m_fireSound;
 
+    [Tooltip("The sound assigned to fire on every impact")]
+    public string m_impactSound;
+
     [Tooltip("Amount of shots to include in this pattern")]
 	public int m_shots;
 
@@ -154,7 +157,7 @@ public class ShotPattern { // currently not shooting references
 		Projectile projectile = proj.GetComponent<Projectile>();
 		Projectile referenceProj = Projectile.Get(m_projectile);
 
-		proj.transform.position = m_spawnLocation == Vector3.zero ? p_shooter.transform.position : (Vector3)m_spawnLocation;
+		proj.transform.position = m_spawnLocation == Vector3.zero ? p_shooter.transform.position : (Vector3) m_spawnLocation;
 		proj.transform.rotation = referenceProj.transform.rotation;
 
 		projectile.Clone(referenceProj, m_projectileInfo, m_behaviours);
@@ -238,6 +241,7 @@ public class ShotPattern { // currently not shooting references
 		pattern.m_projectileInfo = m_projectileInfo;
 		pattern.m_behaviours = m_behaviours;
         pattern.m_fireSound = m_fireSound;
+        pattern.m_impactSound = m_impactSound;
 		pattern.m_shots = m_shots;
 		pattern.m_manaPerStep = m_manaPerStep;
 		pattern.m_instant = m_instant;

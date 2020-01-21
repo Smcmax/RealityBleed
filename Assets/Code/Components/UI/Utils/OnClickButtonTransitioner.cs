@@ -7,7 +7,10 @@ public class OnClickButtonTransitioner : MonoBehaviour {
 	[Tooltip("The button to click when transitioning")]
 	public Button m_button;
 
-	private bool m_selected;
+    [Tooltip("Event fired upon transition")]
+    public GameEvent m_eventToFire;
+
+    private bool m_selected;
 	private TabMenu m_tabMenu;
 
 	void OnEnable() {
@@ -16,18 +19,22 @@ public class OnClickButtonTransitioner : MonoBehaviour {
 	}
 
 	void Update() {
-		if(EventSystem.current.currentSelectedGameObject == gameObject && !m_selected) Select();
-		else m_selected = false;
+		if(EventSystem.current.currentSelectedGameObject == gameObject && !m_selected) Select(true);
+		else if(EventSystem.current.currentSelectedGameObject != gameObject && m_selected) 
+            m_selected = false;
 	}
 
-	public void Select() {
+	public void Select(bool p_fireEvent) {
 		m_selected = true;
-		Transition();
+
+        if(m_tabMenu != null && m_tabMenu.m_currentTab != gameObject.name) Transition(p_fireEvent);
 	}
 
-	private void Transition() { 
-		if(m_tabMenu != null) m_tabMenu.m_currentTab = gameObject.name;
+	private void Transition(bool p_fireEvent) { 
+		m_tabMenu.m_currentTab = gameObject.name;
 
-		m_button.onClick.Invoke();
+        if(m_eventToFire && p_fireEvent) m_eventToFire.Raise();
+
+        m_button.onClick.Invoke();
 	}
 }

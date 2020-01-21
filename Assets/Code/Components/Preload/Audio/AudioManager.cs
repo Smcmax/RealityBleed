@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour {
@@ -49,11 +50,37 @@ public class AudioManager : MonoBehaviour {
 
         if(oldVolume != p_volume)
             foreach(AudioSource existing in GetAllAudioSourcesByCategory(p_category))
-                if(existing.isPlaying) {
+                if(existing == null) RemoveAudioSource(existing);
+                else if(existing.isPlaying) {
                     if(p_volume == 0) existing.volume = 0;
                     else if(oldVolume == 0) existing.volume = p_volume;
-                    else existing.volume *= oldVolume / p_volume;
+                    else existing.volume *= p_volume / oldVolume;
                 }
+    }
+
+    public AudioSource PlayClipAtPoint(AudioClip p_clip, AudioCategories p_category, Vector3 p_location, 
+                                       float p_volume, float p_pitch) {
+        GameObject temp = new GameObject("TempAudio");
+        AudioSource audio = temp.AddComponent<AudioSource>();
+
+        temp.transform.position = p_location;
+        audio.clip = p_clip;
+        audio.volume = GetCategoryVolume(p_category) * p_volume;
+        audio.pitch = p_pitch;
+
+        AddAudioSource(audio, p_category);
+
+        audio.Play();
+        StartCoroutine(DestroySourceAfterTime(audio, p_clip.length));
+
+        return audio;
+    }
+
+    private IEnumerator DestroySourceAfterTime(AudioSource p_source, float p_ttl) {
+        yield return new WaitForSecondsRealtime(p_ttl);
+
+        RemoveAudioSource(p_source);
+        Destroy(p_source.gameObject);
     }
 }
 

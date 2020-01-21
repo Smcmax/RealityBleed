@@ -1,0 +1,17 @@
+{
+	"m_name":"Player/Death/Death",
+	"m_clips":[
+		"Player/Death/Death 1.wav",
+		"Player/Death/Death 2.wav"
+	],
+	"m_randomizeClips":true,
+	"m_loop":false,
+	"m_volume":{
+		"Min":1.0,
+		"Max":1.0
+	},
+	"m_pitch":{
+		"Min":1.0,
+		"Max":1.0
+	}
+}

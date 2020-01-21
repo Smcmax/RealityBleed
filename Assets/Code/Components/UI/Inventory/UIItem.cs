@@ -51,13 +51,13 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
     }
 
 	public void ShowTooltip() {
-		if(!m_item.m_item) return;
+		if(m_item == null || !m_item.m_item) return;
 
 		m_item.m_inventory.m_itemTooltip.SetItem(m_item);
 	}
 
 	public void HideTooltip() {
-		if(!m_item.m_item) return;
+		if(m_item == null || !m_item.m_item) return;
 
 		m_item.m_inventory.m_itemTooltip.Hide();
 	}
@@ -96,19 +96,23 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 		Inventory targetInventory;
 		Inventory currentInventory;
+        BaseItem movedItem = m_item.m_item;
+        bool equip = false, unequip = false;
 
 		if(!m_item.m_holder) { // from container
 			targetInventory = m_item.m_inventory.m_interactor.m_inventory; 
-			currentInventory = m_item.m_inventory; 
+			currentInventory = m_item.m_inventory;
 		} else if(m_item.m_inventory is Equipment) { // unequip
 			if(m_item.m_item is Weapon || m_item.m_item is Armor) {
 				targetInventory = m_item.m_holder.m_inventory;
 				currentInventory = m_item.m_holder.m_equipment;
+                unequip = true;
 			} else return;
 		} else { // equip
 			if(m_item.m_item is Weapon || m_item.m_item is Armor) {
 				targetInventory = m_item.m_holder.m_equipment;
 				currentInventory = m_item.m_holder.m_inventory;
+                equip = true;
 			} else return;
 		}
 
@@ -141,8 +145,10 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 			// if it didn't work, reset
 			else if(!success) { currentInventory.SetAtIndex(m_item, index); UpdateInfo(); return; }
 
-			targetInventory.RaiseInventoryEvent(true);
-			currentInventory.RaiseInventoryEvent(false);
+            if(equip || unequip) {
+                targetInventory.RaiseEquipEvent(movedItem, equip, true);
+                currentInventory.RaiseEquipEvent(movedItem, false, false);
+            } else targetInventory.RaiseInventoryMoveEvent();
 		}
 	}
 
@@ -227,6 +233,9 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 	private void Swap(UIItem p_dragged, bool p_add) {
 		if(p_add && Add(p_dragged, p_dragged.m_item.m_amount, true)) return;
 
+        Inventory targetInventory = m_item.m_inventory;
+        Inventory currentInventory = p_dragged.m_item.m_inventory;
+        BaseItem swappedItem = p_dragged.m_item.m_item;
 		bool swapSuccess = p_dragged.m_item.m_inventory.Swap(p_dragged.m_item, m_item);
 
 		if(swapSuccess) {
@@ -237,8 +246,10 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 			UpdateInfo();
 			p_dragged.UpdateInfo();
 
-			m_item.m_inventory.RaiseInventoryEvent(true);
-			p_dragged.m_item.m_inventory.RaiseInventoryEvent(false);
+            if(targetInventory is Equipment || currentInventory is Equipment) {
+                targetInventory.RaiseEquipEvent(swappedItem, targetInventory is Equipment, true);
+                currentInventory.RaiseEquipEvent(swappedItem, false, false);
+            } else targetInventory.RaiseInventoryMoveEvent();
 		}
 	}
 
@@ -267,8 +278,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 					else HeldItem.UpdateInfo();
 				}
 
-				m_item.m_inventory.RaiseInventoryEvent(true);
-				p_dragged.m_item.m_inventory.RaiseInventoryEvent(false);
+                m_item.m_inventory.RaiseInventoryMoveEvent();
 			}
 
 			return true;

@@ -14,11 +14,59 @@ public class Inventory : MonoBehaviour {
 	[Tooltip("The tooltip used by this inventory")]
 	public ItemTooltip m_itemTooltip;
 
-	[Tooltip("The event called when items are moved around/used")]
-	public GameEvent m_onInventoryActionEvent;
+	[Tooltip("The event called when items are moved around")]
+	public GameEvent m_onInventoryMoveEvent;
 
-	[Tooltip("Called when destroying an item")]
+    [Tooltip("The event called when an item is equipped")]
+    public GameEvent m_onItemEquipEvent;
+
+    [Tooltip("The event called when a cloth item is equipped")]
+    public GameEvent m_onItemClothEquipEvent;
+
+    [Tooltip("The event called when a leather item is equipped")]
+    public GameEvent m_onItemLeatherEquipEvent;
+
+    [Tooltip("The event called when a mail item is equipped")]
+    public GameEvent m_onItemMailEquipEvent;
+
+    [Tooltip("The event called when a plate item is equipped")]
+    public GameEvent m_onItemPlateEquipEvent;
+
+    [Tooltip("The event called when a jewel item is equipped")]
+    public GameEvent m_onItemJewelEquipEvent;
+
+    [Tooltip("The event called when a weapon is equipped")]
+    public GameEvent m_onItemWeaponEquipEvent;
+
+    [Tooltip("The event called when an item is unequipped")]
+    public GameEvent m_onItemUnequipEvent;
+
+    [Tooltip("The event called when a cloth item is unequipped")]
+    public GameEvent m_onItemClothUnequipEvent;
+
+    [Tooltip("The event called when a leather item is unequipped")]
+    public GameEvent m_onItemLeatherUnequipEvent;
+
+    [Tooltip("The event called when a mail item is unequipped")]
+    public GameEvent m_onItemMailUnequipEvent;
+
+    [Tooltip("The event called when a plate item is unequipped")]
+    public GameEvent m_onItemPlateUnequipEvent;
+
+    [Tooltip("The event called when a jewel item is unequipped")]
+    public GameEvent m_onItemJewelUnequipEvent;
+
+    [Tooltip("The event called when a weapon is unequipped")]
+    public GameEvent m_onItemWeaponUnequipEvent;
+
+    [Tooltip("The event called when an item is destroyed")]
 	public GameEvent m_onItemDestroyEvent;
+
+    [Tooltip("The event called when an item is purchased")]
+    public GameEvent m_boughtItemEvent;
+
+    [Tooltip("The event called when an item is sold")]
+    public GameEvent m_soldItemEvent;
 
 	[HideInInspector] public Entity m_entity;
 	[HideInInspector] public Entity m_interactor;
@@ -161,8 +209,14 @@ public class Inventory : MonoBehaviour {
 		if(firstIndex == -1 || secondIndex == -1) return false;
 
 		// check if items are compatible in their respective slots
-		if(isFirstEquipped && (p_second.m_item && !p_second.m_item.m_equipmentSlots.Contains(((EquipmentSlot) firstIndex).ToString()))) return false;
-		if(isSecondEquipped && (p_first.m_item && !p_first.m_item.m_equipmentSlots.Contains(((EquipmentSlot) secondIndex).ToString()))) return false;
+		if(isFirstEquipped && 
+            (p_second.m_item && 
+            !p_second.m_item.m_equipmentSlots.Contains(((EquipmentSlot) firstIndex).ToString()))) 
+            return false;
+		if(isSecondEquipped && 
+            (p_first.m_item && 
+            !p_first.m_item.m_equipmentSlots.Contains(((EquipmentSlot) secondIndex).ToString()))) 
+            return false;
 
 		p_first.m_inventory.RemoveAt(firstIndex);
 		p_second.m_inventory.RemoveAt(secondIndex);
@@ -231,14 +285,17 @@ public class Inventory : MonoBehaviour {
 		return itemsTaken.ToArray();
 	}
 
-	public void RemoveAt(int p_index) { 
-		if(m_items.Length - 1 >= p_index)
-			m_items[p_index] = new Item(this, p_index);
+	public void RemoveAt(int p_index) {
+        if(m_items.Length - 1 >= p_index) {
+            m_items[p_index] = new Item(this, p_index);
+            m_uiItems[p_index].m_item = m_items[p_index];
+            m_uiItems[p_index].UpdateInfo();
+        }
 	}
 
 	public void Remove(Item p_item) {
-		if(p_item.m_inventoryIndex != -1 && m_items.Length - 1 >= p_item.m_inventoryIndex)
-			m_items[p_item.m_inventoryIndex] = new Item(this, p_item.m_inventoryIndex);
+        if(p_item.m_inventoryIndex != -1 && m_items.Length - 1 >= p_item.m_inventoryIndex)
+            RemoveAt(p_item.m_inventoryIndex);
 	}
 
 	public bool RemoveAll(Item p_item) {
@@ -250,9 +307,9 @@ public class Inventory : MonoBehaviour {
 		int index = Array.FindIndex(m_items, i => i.m_item && i.m_item.m_id == p_id);
 		int removed = 0;
 
-		while(index != -1) { 
-			m_items[index] = new Item(this, index);
-			removed++;
+		while(index != -1) {
+            RemoveAt(index);
+            removed++;
 			index = Array.FindIndex(m_items, i => i.m_item && i.m_item.m_id == p_id);
 		}
 
@@ -261,8 +318,8 @@ public class Inventory : MonoBehaviour {
 
 	public void Clear() {
 		for(int i = 0; i < m_items.Length; ++i) {
-			m_items[i] = new Item(this, i);
-			SetEntity(m_items[i]);
+            RemoveAt(i);
+            SetEntity(m_items[i]);
 		}
 	}
 
@@ -287,7 +344,32 @@ public class Inventory : MonoBehaviour {
             item.UpdateInfo();
     }
 
-	public virtual void RaiseInventoryEvent(bool p_raise) { 
-		if(p_raise) m_onInventoryActionEvent.Raise();
+	public virtual void RaiseInventoryMoveEvent() { 
+		m_onInventoryMoveEvent.Raise();
 	}
+
+    public virtual void RaiseEquipEvent(BaseItem p_item, bool p_equip, bool p_raise) {
+        if(p_raise) {
+            string type = p_item is Armor ? ((Armor) p_item).m_armorType.ToLower() : 
+                                            (p_item is Weapon ? "weapon" : "");
+            GameEvent ev = p_equip ? m_onItemEquipEvent : m_onItemUnequipEvent;
+
+            switch(type) {
+                case "cloth": ev = p_equip ? m_onItemClothEquipEvent : m_onItemClothUnequipEvent; break;
+                case "leather": ev = p_equip ? m_onItemLeatherEquipEvent : m_onItemLeatherUnequipEvent; break;
+                case "mail": ev = p_equip ? m_onItemMailEquipEvent : m_onItemMailUnequipEvent; break;
+                case "plate": ev = p_equip ? m_onItemPlateEquipEvent : m_onItemPlateUnequipEvent; break;
+                case "jewel": ev = p_equip ? m_onItemJewelEquipEvent : m_onItemJewelUnequipEvent; break;
+                case "weapon": ev = p_equip ? m_onItemWeaponEquipEvent : m_onItemWeaponUnequipEvent; break;
+                default: break;
+            }
+
+            ev.Raise();
+        }
+    }
+
+    public virtual void RaiseTradeEvent(bool p_sold) {
+        if(p_sold && m_soldItemEvent) m_soldItemEvent.Raise();
+        else if(!p_sold && m_boughtItemEvent) m_boughtItemEvent.Raise();
+    }
 }

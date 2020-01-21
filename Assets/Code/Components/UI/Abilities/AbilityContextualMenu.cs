@@ -38,6 +38,8 @@ public class AbilityContextualMenu : MonoBehaviour {
     }
 
     public void SetHotkey() {
+        if(m_selectedAbility.m_ability.HotkeySlot == m_dropdown.value) return;
+
 		AbilityWrapper existingBind = m_selectedAbility.m_loader.m_entity.m_abilities.Find(a => a.HotkeySlot == m_dropdown.value);
 
 		if(existingBind != null) {

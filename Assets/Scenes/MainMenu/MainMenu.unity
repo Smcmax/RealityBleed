@@ -307,6 +307,50 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 242862368}
   m_CullTransparentMesh: 0
+--- !u!1 &494789551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 494789553}
+  - component: {fileID: 494789552}
+  m_Layer: 0
+  m_Name: BGM
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &494789552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 494789551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75e1fb687aecbb5409708bbe77cc7077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_audioEvent: Music/DemoMainMenuMusic
+  m_category: 0
+  m_playOnStart: 1
+  m_audioSource: {fileID: 0}
+--- !u!4 &494789553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 494789551}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &690027799
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +678,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_previousMenu: {fileID: 0}
   m_closeable: 0
+  m_singleOpenedMenu: 0
+  m_menuButtonName: 
 --- !u!114 &785115744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1677,6 +1723,11 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: GoBack
       objectReference: {fileID: 0}
+    - target: {fileID: 224953138669472568, guid: 1722a6d17d631c54cbc2664427b326cf,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1722a6d17d631c54cbc2664427b326cf, type: 2}
   m_IsPrefabAsset: 0
@@ -1764,12 +1815,15 @@ MonoBehaviour:
   m_containerMenu: {fileID: 0}
   m_pauseEvent: {fileID: 11400000, guid: b11738bbea5f37647a784100d7cb4868, type: 2}
   m_resumeEvent: {fileID: 11400000, guid: ed2b58e5fd2bb26418971cbd6baab096, type: 2}
-  m_onMenuChangedEvent: {fileID: 11400000, guid: ad967bbe81041e247a5a7a419fb0c30e,
+  m_onMenuOpenEvent: {fileID: 11400000, guid: 05644dde71906db41922a183449512f6, type: 2}
+  m_onMenuCloseEvent: {fileID: 11400000, guid: 16de2b7275dd16345a0f792807e075c4, type: 2}
+  m_onMenuTabChangeEvent: {fileID: 11400000, guid: f606422df0802944e8a88c393f0cd201,
     type: 2}
-  m_onInventoryEvent: {fileID: 0}
-  m_onCharacterEvent: {fileID: 0}
-  m_onSkillbookEvent: {fileID: 0}
-  m_onMapEvent: {fileID: 0}
+  m_onInventoryEvent: {fileID: 11400000, guid: 0a13bd0e3205ac748938cf2a640ba689, type: 2}
+  m_onCharacterEvent: {fileID: 11400000, guid: 97cb7356e0dbbdb44b5d846cbcd469b8, type: 2}
+  m_onSkillbookEvent: {fileID: 11400000, guid: d65f9ae0fee83784093c932cf57bcb13, type: 2}
+  m_onMapEvent: {fileID: 11400000, guid: 742fc0465701d9943bc8a4d3d11d9200, type: 2}
+  m_onQuestLogEvent: {fileID: 11400000, guid: af7a4149198c7114199057adb6f83ad2, type: 2}
   m_openedMenus: []
 --- !u!4 &1214058325
 Transform:
