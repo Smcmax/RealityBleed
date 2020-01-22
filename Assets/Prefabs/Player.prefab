@@ -593,7 +593,31 @@ MonoBehaviour:
   m_onInventoryMoveEvent: {fileID: 11400000, guid: 8a8ecc2a32645c643ade1d1d47732fdd,
     type: 2}
   m_onItemEquipEvent: {fileID: 11400000, guid: 4dc66129a279c8d46aecc67febea9914, type: 2}
+  m_onItemClothEquipEvent: {fileID: 11400000, guid: 5cfa4bed6e7a9cc4e8e2491831ca74b5,
+    type: 2}
+  m_onItemLeatherEquipEvent: {fileID: 11400000, guid: 263dd916ee2d1954ca3d833648dd2eac,
+    type: 2}
+  m_onItemMailEquipEvent: {fileID: 11400000, guid: ed1674c3657ca364e8d6b0a3a5feaa2b,
+    type: 2}
+  m_onItemPlateEquipEvent: {fileID: 11400000, guid: dfda905207302344d9425516f4ba1cfd,
+    type: 2}
+  m_onItemJewelEquipEvent: {fileID: 11400000, guid: f76754f7aad4ac746a5d290b7fba2322,
+    type: 2}
+  m_onItemWeaponEquipEvent: {fileID: 11400000, guid: 0b25dc73e965fc740b08dcd2aa4417be,
+    type: 2}
   m_onItemUnequipEvent: {fileID: 11400000, guid: 4e8168203d88d634c90876c5095acc68,
+    type: 2}
+  m_onItemClothUnequipEvent: {fileID: 11400000, guid: d81631468487b904691ed0fa1507ba95,
+    type: 2}
+  m_onItemLeatherUnequipEvent: {fileID: 11400000, guid: 2c7e16e616e3a10419eeeb59b1b9d825,
+    type: 2}
+  m_onItemMailUnequipEvent: {fileID: 11400000, guid: c10ab716190414746a70e6dcdc2f1b86,
+    type: 2}
+  m_onItemPlateUnequipEvent: {fileID: 11400000, guid: 1948f9ba11a7a824bafeae50327ce601,
+    type: 2}
+  m_onItemJewelUnequipEvent: {fileID: 11400000, guid: 19618ce8b53adb64fbe7a084f48f7c12,
+    type: 2}
+  m_onItemWeaponUnequipEvent: {fileID: 11400000, guid: f839ae23e52e356498e79885a352fc09,
     type: 2}
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
     type: 2}
@@ -727,7 +751,31 @@ MonoBehaviour:
   m_onInventoryMoveEvent: {fileID: 11400000, guid: 8a8ecc2a32645c643ade1d1d47732fdd,
     type: 2}
   m_onItemEquipEvent: {fileID: 11400000, guid: 4dc66129a279c8d46aecc67febea9914, type: 2}
+  m_onItemClothEquipEvent: {fileID: 11400000, guid: 5cfa4bed6e7a9cc4e8e2491831ca74b5,
+    type: 2}
+  m_onItemLeatherEquipEvent: {fileID: 11400000, guid: 263dd916ee2d1954ca3d833648dd2eac,
+    type: 2}
+  m_onItemMailEquipEvent: {fileID: 11400000, guid: ed1674c3657ca364e8d6b0a3a5feaa2b,
+    type: 2}
+  m_onItemPlateEquipEvent: {fileID: 11400000, guid: dfda905207302344d9425516f4ba1cfd,
+    type: 2}
+  m_onItemJewelEquipEvent: {fileID: 11400000, guid: f76754f7aad4ac746a5d290b7fba2322,
+    type: 2}
+  m_onItemWeaponEquipEvent: {fileID: 11400000, guid: 0b25dc73e965fc740b08dcd2aa4417be,
+    type: 2}
   m_onItemUnequipEvent: {fileID: 11400000, guid: 4e8168203d88d634c90876c5095acc68,
+    type: 2}
+  m_onItemClothUnequipEvent: {fileID: 11400000, guid: d81631468487b904691ed0fa1507ba95,
+    type: 2}
+  m_onItemLeatherUnequipEvent: {fileID: 11400000, guid: 2c7e16e616e3a10419eeeb59b1b9d825,
+    type: 2}
+  m_onItemMailUnequipEvent: {fileID: 11400000, guid: c10ab716190414746a70e6dcdc2f1b86,
+    type: 2}
+  m_onItemPlateUnequipEvent: {fileID: 11400000, guid: 1948f9ba11a7a824bafeae50327ce601,
+    type: 2}
+  m_onItemJewelUnequipEvent: {fileID: 11400000, guid: 19618ce8b53adb64fbe7a084f48f7c12,
+    type: 2}
+  m_onItemWeaponUnequipEvent: {fileID: 11400000, guid: f839ae23e52e356498e79885a352fc09,
     type: 2}
   m_onItemDestroyEvent: {fileID: 11400000, guid: 4d30f6d5772fdce4b8a38a6a4b5849cd,
     type: 2}

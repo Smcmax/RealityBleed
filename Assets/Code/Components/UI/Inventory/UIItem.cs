@@ -130,7 +130,7 @@ public class UIItem : ClickHandler, IBeginDragHandler, IDragHandler, IEndDragHan
 
 			// if the item needs a slot in the target inventory when adding, remove the item here, it's useless
 			if(success && add && targetIndex > -1) {
-				currentInventory.RemoveAt(index);
+				currentInventory.RemoveAt(index, true);
 				m_item = currentInventory.m_items[index];
 
 				HideInfo(false, null);

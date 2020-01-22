@@ -35,7 +35,7 @@ public class Weapon : BaseItem {
 		}
 	}
 
-	public bool IsTwoHanded() { return !String.IsNullOrEmpty(m_leftClickPattern) && !String.IsNullOrEmpty(m_rightClickPattern); }
+	public bool IsTwoHanded() { return !string.IsNullOrEmpty(m_leftClickPattern) && !string.IsNullOrEmpty(m_rightClickPattern); }
 
 	public WeaponType GetWeaponType() { 
 		WeaponType type;

@@ -218,8 +218,8 @@ public class Inventory : MonoBehaviour {
             !p_first.m_item.m_equipmentSlots.Contains(((EquipmentSlot) secondIndex).ToString()))) 
             return false;
 
-		p_first.m_inventory.RemoveAt(firstIndex);
-		p_second.m_inventory.RemoveAt(secondIndex);
+		p_first.m_inventory.RemoveAt(firstIndex, false);
+		p_second.m_inventory.RemoveAt(secondIndex, false);
 
 		Inventory firstInv = p_first.m_inventory;
 
@@ -274,7 +274,7 @@ public class Inventory : MonoBehaviour {
             item.m_amount -= takenAmount;
 
             if(item.m_amount <= 0)
-                RemoveAt(item.m_inventoryIndex);
+                RemoveAt(item.m_inventoryIndex, true);
 
             if(m_uiItems != null && m_uiItems.Length >= item.m_inventoryIndex + 1)
                 m_uiItems[item.m_inventoryIndex].UpdateInfo();
@@ -285,17 +285,21 @@ public class Inventory : MonoBehaviour {
 		return itemsTaken.ToArray();
 	}
 
-	public void RemoveAt(int p_index) {
+	public void RemoveAt(int p_index, bool p_updateUI) {
         if(m_items.Length - 1 >= p_index) {
             m_items[p_index] = new Item(this, p_index);
-            m_uiItems[p_index].m_item = m_items[p_index];
-            m_uiItems[p_index].UpdateInfo();
+
+            if(p_updateUI)
+            {
+                m_uiItems[p_index].m_item = m_items[p_index];
+                m_uiItems[p_index].UpdateInfo();
+            }
         }
 	}
 
 	public void Remove(Item p_item) {
         if(p_item.m_inventoryIndex != -1 && m_items.Length - 1 >= p_item.m_inventoryIndex)
-            RemoveAt(p_item.m_inventoryIndex);
+            RemoveAt(p_item.m_inventoryIndex, true);
 	}
 
 	public bool RemoveAll(Item p_item) {
@@ -308,7 +312,7 @@ public class Inventory : MonoBehaviour {
 		int removed = 0;
 
 		while(index != -1) {
-            RemoveAt(index);
+            RemoveAt(index, true);
             removed++;
 			index = Array.FindIndex(m_items, i => i.m_item && i.m_item.m_id == p_id);
 		}
@@ -318,7 +322,7 @@ public class Inventory : MonoBehaviour {
 
 	public void Clear() {
 		for(int i = 0; i < m_items.Length; ++i) {
-            RemoveAt(i);
+            RemoveAt(i, true);
             SetEntity(m_items[i]);
 		}
 	}
@@ -345,7 +349,7 @@ public class Inventory : MonoBehaviour {
     }
 
 	public virtual void RaiseInventoryMoveEvent() { 
-		m_onInventoryMoveEvent.Raise();
+		if(m_onInventoryMoveEvent) m_onInventoryMoveEvent.Raise();
 	}
 
     public virtual void RaiseEquipEvent(BaseItem p_item, bool p_equip, bool p_raise) {
@@ -361,7 +365,7 @@ public class Inventory : MonoBehaviour {
                 case "plate": ev = p_equip ? m_onItemPlateEquipEvent : m_onItemPlateUnequipEvent; break;
                 case "jewel": ev = p_equip ? m_onItemJewelEquipEvent : m_onItemJewelUnequipEvent; break;
                 case "weapon": ev = p_equip ? m_onItemWeaponEquipEvent : m_onItemWeaponUnequipEvent; break;
-                default: break;
+                default: ev = p_equip ? m_onItemEquipEvent : m_onItemUnequipEvent; break;
             }
 
             ev.Raise();

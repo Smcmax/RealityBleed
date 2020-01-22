@@ -37,7 +37,7 @@ public class Equipment : Inventory {
 	public Weapon GetWeaponHandlingClick(bool p_leftClick) { 
 		Weapon mainHand = Get(EquipmentSlot.MainHand).m_item as Weapon;
 
-		if(mainHand && (!String.IsNullOrEmpty(mainHand.m_rightClickPattern) || p_leftClick)) return mainHand;
+		if(mainHand && (!string.IsNullOrEmpty(mainHand.m_rightClickPattern) || p_leftClick)) return mainHand;
 
 		Weapon offHand = Get(EquipmentSlot.OffHand).m_item as Weapon;
 
@@ -48,7 +48,7 @@ public class Equipment : Inventory {
 		Weapon mainHand = Get(EquipmentSlot.MainHand).m_item as Weapon;
 
 		if(mainHand && p_leftClick) return mainHand.m_leftClickPattern;
-		if(mainHand && !String.IsNullOrEmpty(mainHand.m_rightClickPattern)) return mainHand.m_rightClickPattern;
+		if(mainHand && !string.IsNullOrEmpty(mainHand.m_rightClickPattern)) return mainHand.m_rightClickPattern;
 
 		Weapon offHand = Get(EquipmentSlot.OffHand).m_item as Weapon;
 
